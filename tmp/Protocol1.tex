@@ -1,0 +1,30 @@
+Build upon RadioHead's protocol, so RF module syncing and CRC already implementet.
+Total payload size (without RadioHead sync and header) = 16 bytes (128 bits)
+\begin{itemize}
+    \item addr - 1 byte
+    \item status - 2 byte
+    \begin{itemize}
+        \item ok (is in sync and working) - 1 bit
+        \item sync (time since last msg sent) - 15 bit
+    \end{itemize}
+    \item head - 1 byte
+    \begin{itemize}
+        \item mode - 3 bit
+        \begin{itemize}
+            \item init 
+            \item ping
+            \item request
+            \item respond
+            \item alert
+            \item ok
+            \item error
+            \item idle
+        \end{itemize}
+        \item countdown to sync - 5 bit \\
+        is maintained by the devices and is decremented with each payload.
+    \end{itemize}
+    \item msg (different structures depending on mode) - 12 byte
+\end{itemize}
+
+\bigskip
+\tikzfigure{ProtocolProposalPayload.tikz}{An illustration of the payload (16 bytes total)}{deeeerpKommerAldrigTilAtBrugeDetteLabel}

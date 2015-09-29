@@ -1,0 +1,14 @@
+\begin{tikzpicture}
+    \begin{scope}
+        \clip (0,0) circle (3);
+        \fill[red!40] (4,0) circle (3);
+    \end{scope}
+
+    \fill (0,0) circle (0.25);
+    \draw[dashed] (0,0) circle (3);
+    
+    \fill (4,0) circle (0.25);
+    \draw[dashed] (4,0) circle (3);
+    
+    \node[fill] at (2,0) {};
+\end{tikzpicture}

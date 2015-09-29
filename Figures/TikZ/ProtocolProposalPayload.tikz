@@ -1,0 +1,28 @@
+\resizebox{1\textwidth}{!}{%
+\begin{tikzpicture}[scale=\textwidth]
+\node[draw, align = center, 
+		minimum width=12mm, 
+		minimum height=10mm,
+		label=below:1 byte] 
+	(addr) at (0,0)
+	{\textbf{addr}};
+\node[draw, right = 0cm of addr,
+		minimum width=24mm, 
+		minimum height=10mm,
+		label=below:2 bytes]
+	(status)
+	{\textbf{status}};
+\node[draw, right = 0cm of status,
+		minimum width=12mm, 
+		minimum height=10mm,
+		label=below:1 byte]
+	(head)
+	{\textbf{head}};
+\node[draw, right = 0cm of head,
+		minimum width=144mm, 
+		minimum height=10mm,
+		label=below:12 bytes]
+	(msg)
+	{\textbf{msg}};
+\end{tikzpicture}
+}%

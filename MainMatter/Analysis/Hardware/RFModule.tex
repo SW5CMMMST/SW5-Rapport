@@ -1,0 +1,85 @@
+%author:        Troels
+%1st review:    Sass
+\subsection{Radio Frequency Module} \label{rfmodule}
+In order to achieve wireless communication between Arduino devices a Radio Frequency (RF) module is used.
+%kun til Arduino?
+The module used in this project communicates at 433 MHz; its datasheet specifies the range is 20 to 200 meters, depending on the input voltage, which ranges from 3.5 to 12 volts. 
+The Arduino provides 3.3 volts and 5 volts output, and the 5 volts output will be used.
+The maximum bandwidth is 4 kilobytes/secound. 
+The signal is sent using \gls{ask}.
+These values will be tested, to ensure the reliability of the information. 
+
+The RF system consists of a transmitting module (tx) and a receiving module (rx), see \ref{fig:arduino_rf}.
+Both have the possibility of connecting an antenna to it in order to increase the range of the device.
+The transmitting module have three pins to connect to it.
+The pins are VCC, meaning the power supply pin, the GND meaning ground, and DATA.
+The DATA pin is turned on by having the same difference in voltage between GND and DATA as VCC and GND. 
+The receiving module has the same pins as the transmitting module, however the DATA pins is being read from instead of transmitted to by the Arduino.
+
+\figur{arduino_rf.jpg}{0.5}{The 433MHz RF receiver (left) and transmitter (right)}{arduino_rf}
+
+% Af: Troels 
+% D. 2015-09-17
+% Review: Søren 21. 09.
+\subsection{RadioHead}\label{subsec:RadioHead}
+
+To use the RF module a library called RadioHead can be used. 
+RadioHead transmits each message, using \gls{ask}, in the following way:
+Each byte (8 bits) gets encoded as two 6 bit symbols, the 6 bit symbols will never contain 3 of the same signal in a row (high or low), this is to ensure that the receiver can decode the signal properly as it needs to differentiate the high and low signals.
+When a message for example the string \enquote{Hello}, several steps aret taken, and they are as follows:
+
+First a preamble consisting of the the binary pattern \enquote{1010} six times. 
+This is so the receiver can synchronise its timer to the timer of the sender.
+Then the pattern \enquote{111000} once, and then \enquote{101100}, and then the start symbol \enquote{101100111000}. 
+This is the start code of the message. 
+Every four bit from now is encoded as the six bit encoding mentioned before.
+The next byte (effectively 12 bits) is the message length including itself and the check-sum bytes.
+Then the message \enquote{Hello}, this doesn't need to be terminated as the length is known, has the size 5 bytes $(5 * 12 bits/byte = 60 bits)$.
+Then a check-sum to ensure the integrity of the message, consisting of 24 bits after encoding.
+
+\begin{table}[h]
+\centering
+\colorlet{shadecolor}{gray!40}
+\rowcolors{1}{white}{shadecolor}
+\caption{A table view of the content of transmitting \enquote{Hello} with RadioHead.}
+\label{table:RH}
+\resizebox{1\textwidth}{!}{
+\begin{tabular}{lllll}
+Name           & Purpose                               & Content                  & Size {[}bit{]} \\ \hline
+Preamble pt. 1 & Syncronization                        & \enquote{1010} * 6       & 24             \\
+Preamble pt. 2 & Syncronization                        & \enquote{111000}         & 6              \\
+Preamble pt. 3 & Syncronization                        & \enquote{101100}         & 6              \\
+Start symbol   & Indicate start of transmission        & \enquote{101100111000}   & 12             \\
+Message length & To indicate the length of the message & 4to6(\enquote{01101000}) & 12             \\
+Message        & The payload                           & 4to6(\enquote{Hello})    & 60             \\
+Checksum       & To verify the integrity               & 4to6(\enquote{???})      & 12             \\
+                
+\end{tabular}
+}
+\end{table}
+
+This brings the total size of the packet to 144 bit, while the message is 5 bytes or 40 bits.
+
+The recommended bit-rate for the transceiver is 2000 bit/sec, this means the message will take at least:
+\begin{equation}
+\frac{144 bit}{2000 \frac{bit}{sec}} = 0.072 sec
+\end{equation}
+
+% Af: Troels 
+% D. 2015-09-17
+%Review Søren 21. 09.
+\subsubsection{Timing} 
+After calculating the contents of the package to be sent, the Arduino needs to write it to the RF transmitter. 
+To time this the built in ``timer1'' on the Arduino is used, to trigger an interrupt with a relatively high consistency.
+Every eighth interrupt the signal is changed to the next bit and written via a digital pin. 
+On the receiving end, the signal is sampled eight times pr. period, if five or more of these eight is high then, it is declared a 0 bit, otherwise it is declared a 1 bit. % Dette er ikke en skrivefejl RH_ASK.cpp L. 619
+
+\subsubsection{Amplitude Shift Keying}
+
+As mentioned the RF module sends its signal using \gls{ask}.
+\gls{ask} is a form of modulation where the digital input is a radio wave where the digital high (also known as ``1'') is a greater amplitude than the digital low (also known as ``0'').
+This principle can also be used with light, here digital high would be a short pulse, and a digital low would be the absence of light. 
+To use \gls{ask} the devices must be synchronised meaning that the time period of a single bit must be known by the receiver, in order for it to demodulate it. 
+In \myref{fig:ask} is an example of how a radio wave would look like while using \gls{ask}, here the period for each signal is twice the peiod of the wave. \cite{ASKnFSK}
+
+\tikzfigure{ASK.tex}{\gls{ask}: Digital values are signaled by the amplitude of the radio wave.}{ask}

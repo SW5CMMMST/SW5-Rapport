@@ -1,0 +1,32 @@
+\begin{tikzpicture}[node distance = 5mm,
+    box/.style={minimum height = 10mm, minimum width = 40mm, rounded corners, draw, fill = blue!20, drop shadow},
+    label/.style={align=center, text width=3.5cm},
+    arrow/.style={-stealth, line width=1pt}
+]
+    \node[box]
+        	(code) at (0,0)
+        	{\textbf{C or C++ Code}};
+    	
+    \node[below = of code, label]
+            (compile) {Verifies that the code is correct C or C++ code, and compiles with an AVR-GCC compiler};
+            
+    \node[box, below = of compile]
+            (object) {\textbf{Object Files}};
+            
+    \node[below = of object, label]
+            (combine) {Combine with Arduino libraries};
+            
+    \node[box, below = of combine]
+            (hex) {\textbf{Hex files}};
+    
+    \node[below = of hex, label]
+            (USB) {Transfer data from hex file via USB};
+            
+    \node[box, below = of USB]
+            (Running) {\textbf{Running program}};
+            
+    \draw[arrow] (code) -- (compile) -- (object);
+    \draw[arrow] (object) -- (combine) -- (hex);
+    \draw[arrow] (hex) -- (USB) -- (Running);
+
+\end{tikzpicture}

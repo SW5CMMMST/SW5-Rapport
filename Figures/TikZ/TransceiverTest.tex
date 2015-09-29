@@ -1,0 +1,19 @@
+\begin{tikzpicture}[node distance = 10mm,
+    box/.style={minimum height = 10mm, minimum width = 40mm, rounded corners, draw, fill = blue!20, drop shadow},
+    label/.style={align=center, text width=2cm},
+    arrow/.style={-stealth, line width=2pt}
+]
+    \node[box]
+        	(Receiver) at (0,0)
+        	{\textbf{Receiver}};
+    	
+    \node[right = of Receiver, label]
+            (Distance1) {50cm * x};
+            
+    \node[box, right = of Distance1]
+            (Transmitter) {\textbf{Transmitter}};
+            
+    \draw[arrow] (Distance1) -- (Receiver);
+    \draw[arrow] (Distance1) -- (Transmitter);
+
+\end{tikzpicture}
