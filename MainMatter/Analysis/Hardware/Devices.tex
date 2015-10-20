@@ -1,100 +1,54 @@
-%author:        Claus
-%1st review:    Søren
-%2nd review:    Marc
+% Af: Troels
 
-\subsection{Devices}
+\subsection{Development Platform Selection}
+To be able to develop an embedded system a development platform is needed. 
+There are some strict requirements for this development platform (``need to have'') and some which are advantageous but not critical (``nice to have'').
+The strict requirements must be upheld for a development platform to be usable in this project and are:
+\begin{description}
+\item[a)] able to communicate using a single radio frequency, or have a way of using additional hardware to do so;
+\item[b)] the ability to debug and develop programs in a fast and reliable way;
+\item[c)] a relatively low cost, within the constrains of the budget given by the institution;
+and
+\item[d)] an ability implement a real-time aspect.
+\end{description}
 
-Before investigating how multiple devices would interact, it would be helpful to define what device best suits the purpose of its use.
-For this project a device is a lightweight development platform.
+Furthermore the following parameters would be advantageous for this project and e.g. the real world application hereof:
+\begin{description}
+\item[e)] low power consumption, and possibility for running on batteries;
+\item[f)] small form factor of the device itself;
+\item[g)] ability to minimise and customise into a production like product;
+and
+\item[h)] widespread adaptation for fuller documentation.
+\end{description}
 
-For the purpose of this project some basic requirements for the devices are 
-\begin{inparaenum}[\itshape a\upshape)]
-\item low power consumption;
-\item the ability to add various components, such as radio transmitters and receivers; 
-\item a low cost approach; 
-\item an easy way to implement programs, and debug them; and
-\item the ability to implement real-time aspects.
-\end{inparaenum}
+\todo{Virker imo lidt anti-klimatisk, vi lægger op til en masse godt og så bare vælger 1, 2, 3, vupti. Jeg var ellers med på ideen, men savner dog dybde og noget der ikke virker trivielt - Osama Bin Pepe - Forstår ikke helt hvad du mener ? - Spider Pepe}
+After exploring the market the Arduino ATmega328P based development boards seems like an ideal choice.
+Specifically the Arduino Uno, which is the most known model seems like a perfect fit.
 
-There is a few devices to choose from when looking for the best fit, among these are Raspberry Pi, Arduino, and BeagleBone. 
-These are all popular devices among hobbyists, favoured for their small size and customisability, which makes them especially useful for small projects or prototypes. 
-They are all good candidates for a project involving wireless communication through radio frequencies, as a transceiver module can be attached to all of these devices. 
-This section will examine each of the devices and compare them in order to determine the best device for this project.
-A table showing the different specifications for each device can be found on \myref{tab:controllerComparisonTable}.
+Another notable candidate is the Raspberry Pi, which features a much faster CPU, HDMI output, two USB ports etc., however it falls short on the real-time aspect in conjunction with the ability to debug them. 
+There does exist a version of the real-time operating system RTOS (Open Source Real Time Operating System) for the Raspberry Pi.
+However each Raspberry Pi costs above 200 DKK each, this would only allow the project group to buy two devices, and this would severely limit the possibilities of the project.
+An Arduino compatible board can be bought from many manufacturers for the low cost of 38 DKK, which means many Arduinoes can be obtained for the project.
 
-\paragraph{The Arduino} \hspace{-1em} board is a microcontroller-based development kit developed by the company of the same name.
-As a company, Arduino is open-source when it comes to both hardware and software, which makes it possible for anyone or any company to make their own copy of the Arduino board design.
-Thus making it possible for the consumer to acquire a Arduino-like device with all the same capabilities as the original Arduino devices for a fraction of the price.
-The Arduino uses microprocessors which can also be bought separately. %this can be used after the development is done for a production like product. Har udkommenteret denne sætning da den ikke helt giver mening
-By doing this both the size and the cost can be lowered. 
+Other notable candidates are Teensy, a Arduino compilable device in which size has been minimised.
+This features all the same in almost all categories, there is neither a clear advantage of choosing this over the Arduino. 
+Therefore it is decided that the Arudino will be the development platform for this project since it uphold the aforementioned requirements, while still being the cheapest platform.
+The Arduino platform will be more thoroughly investigated in teh follow section.
+\todo[inline]{Argumenterne ovenfor er lidt svage, måske vi skal bare skrive at vi har Arduinoerne til rådighed? Så vi kune skal købe Radio Moduler?}
 
-\figur{arduino.jpg}{0.5}{An Arduino Uno micro controller}{arduinoUno}
+\subsection{Arduino}
+Arduino is a company which designs and produces open source hardware and software.
+This means that anyone which would like to can copy their hardware design and make their own improvements or simply a copy.
+The most widely known Arduino board is the Arduino Uno.
+The software used on Arduinos will be explained in \ref{sec:software}.
 
-\paragraph{The Raspberry Pi} \hspace{-1em} is a very inexpensive single-board computer, and while preserving many features from a desktop computer, including HDMI, ethernet, and a few USB ports. 
-It does not have any internal permanent memory way to store data, but uses a SD card slot insteadfor data storage.  \todo{Her snakkes pludselig om input og memory, meget spec focused mens arudiono sectionen nævner absolut intet i denne orden - det er en meget underlig introduktion at lave når der snakkes om to vidt forskellige ting - og hvad menes der med internal permanent memory? snakker vi flash memory? - Marc}
-This way the functionality of the device could easily be exchanged by replacing the SD card. \todo{Hvilket funktionalitet er det her du ønsker at erstatte? og hvad vil du erstatte SD kortet med? - Marc}
+\todo[inline]{History of Arduino?}
+\subsubsection{Arduino Uno}
+The Arduino Uno is a ATmega328P based micro-controller board.
+It has female pins in which wires can be attached, most notably there are fourteen digital input/output pins (labeled pin 0 - 13), six analog pins (labeled A0 - A5), some of these pins have special abilities which will be explained later see \ref{subsubsec:arduino-uno-pins}.
+Code can be uploaded through a USB connection, which can also power the Arduino, and provide a debugging interface for serial communication.
+The total size of an Arduino Uno is roughly five times seven centimeters. 
 
-As this is an actual computer the Raspberry Pi also needs an operating system to run. 
-This is commonly Linux however other operating systems are available.
-
-For the following comparison both the older Raspberry Pi and the newer Raspberry Pi 2 are present as the new features probably will not be needed for this project. \todo{Så fordi at de nye features på 2'eren er irrelevante for os, så tages den med i sammenligning? det giver jo hat mening - Marc}
-
-\figur{RaspberryPi2.jpg}{0.5}{A Raspberry Pi 2 mini computer}{raspberrypi2}
-
-\paragraph{The BeagleBone} \hspace{-1em} is perhaps the least known of these platforms. It is a powerful single-board computer running Linux. 
-The BeagleBone board is produced by Texas Instruments as a competitor to the Raspberry Pi and has most of the same features like ethernet and USB port. 
-The BeagleBoard has the advantage of the layout of its pins which means that an add-on could be firmly attached over the top using the pins on both sides for stability. \todo{Her nævnes igen noget som hverken er nævnt i Pi eller Arduino afsnittet, derfor giver det heller ikke mening at nævne det som en fordel eftersom hverken pin layout er forklaret for hverken Pi eller Beagle, og billederne er slet ikke forklarende nok til at det er selvindlysende - Marc}
-
-The newest board in the BeagleBone family is the BeagleBone Black, and is chosen for the comparison not only because it is the newest with the best specifications, but also the cheapest.
-
-\figur{BeagleboneBlack.jpg}{0.5}{A Beaglebone Black mini computer}{beagleboneBlack}
-
-These boards have all proven to be valuable tools in the hands of hobbyists and makers, but for this project only a few of the specifications is relevant. \todo{Makers? Define maker - Marc} 
-These are shown in \myref{tab:controllerComparisonTable} side by side to make comparison easier. 
-
-\begin{table}[h]
-    \centering\scriptsize
-    \begin{tabular}{l | c c c c c}
-        Name            & Arduino Uno   & Raspberry Pi  & Raspberry Pi 2    & BeagleBone\\\midrule
-        Model           & R3            & Model A+      & Model B           & Black\\
-        Price (DKK)     & 165,20        & 132,42        & 231,74            & 409,25\\
-        Processor       & ATmega328P    & BCM2835 ARM   & ARM Cortex-A7     & AM3358BZCZ10\\
-        Clock Speed     & 16 MHz        & 700 MHz       & 900 MHz           & 1000 MHz\\
-        RAM             & 2 KB          & 256 MB        & 1 GB              & 512 MB\\
-        Flash           & 32 KB         & (SD card)     & (SD card)         & 4 GB + (SD card)\\
-        Digital GPIO    & 14            & 17            & 40                & 66\\
-        Analog Input    & 6             & -             & -                 & 7\\
-        PWM             & 6             & -             & -                 & 8\\
-        Open Source     & Yes           & No            & No                & Yes
-    \end{tabular}
-    \caption{Comparison between different mini computers and micro controllers.  \cite{arduino2015uno, coley2014beagle, wikipedia2015raspberry}}
-    \label{tab:controllerComparisonTable}
-\end{table}
-
-\todo[inline]{Jeg synes at der mangler fokus på nogle meget vigtige områder. Herunder hvorvidt enhenden er beregnet til udvikling. Hvordan kan gå fra udvikling til produktion? Hvordan vil man udvikle til dem? Realtime muligheder?}
-
-First is the price, the Raspberry Pi is the cheapest closely followed by the Arduino, however the open source aspect of Arduino allows it to be acquired for significantly less than a Raspberry Pi. 
-It is also worth noting that the clock speed of the Raspberry Pi is more than 40 times faster than the Arduino which could enable faster data transfer. 
-
-\todo{Clock speed =/= data transfer hastighed. Eller findes der en kilde hertil, tror nærmere begrænsningen ligger i det RF modul man benytter. - Troels - Efter at have kigget lidt rundt på nettet fandt jeg nada om at clock speed skulle have influence på data transfer så hvis en kilde ikke haves, så skal den kommentar bare væk - Marc}
-
-However the Raspberry Pi 1 \& 2 does not have any analog input pins, which means another device would be needed to translate analog to digital input. 
-Both the Arduino Uno and the Beaglebone Black comes with this functionality build-in which might make the Arduino the best option regardless of the price difference.
-
-\todo{En DAC og ADC koster ikke ret meget, og som det ser ud kommer vi ikke til at bruge analoge pins i projektet - Troels - Før problemformuleringen kan jeg godt acceptere at se analog pins som en fordel, men det er dog et meget svagt argument - Marc}
-
-In terms of data storage is the BeagleBone the winner with its 4 GB flash memory and is expandable with an additional SD card just like the Raspberry Pies, and the it is possible to by SD cards with up to 512 GB of storage. 
-The Arduino is the weaker in regards to storage with only 32 KB of flash memory and no options for expansion. 
-This means that the BeagleBone and Raspberry Pies would be the better device for handling a lot of data.
-
-\todo{Er en stor mænge storage brugbart i forhold til vores projekt, hvis nødvendigt kan man udvide en arduino med et SD-kort shield (findes også ofte i Ethernet shields) - Troels - Enig, dette argument kan vendes til vores fordel om nødvendigt idet vi ikke behøver flere GB memory, og det blot ville øge mængden af tid der skulle søges i mem for at finde target mem - Marc}
-
-One last thing to note is that all the devices, except Arduino, is built to run some sort of operating system. \todo{Faktisk så kan man godt køre bare metal på RPi, måske også beagle. http://www.valvers.com/open-software/raspberry-pi/step01-bare-metal-programming-in-cpt1/ - Troels }
-This means that while their CPUs have a much greater clock speed, and much more memory, the actual performance increase will be less because of multitasking and OS overhead.
-
-\medskip
-
-So the conclusion is that Arduino is the best device for this type of project as it has the analog pins while still being cheap. 
-It does not have the most impressive specs in storage, memory, or clock speed compared to the other devices, but it makes up for this by giving the user full control over the device.
-The Arduino platform will be expanded upon in the next section. 
-\todo{Konklusionen holder ikke helt stik med hvad der bliver skrevet tidligere, Pi blev nævnt som billigere(har smidt ind at kopi arudiono er cheaper but still), hele analysen lægger stor vægt på jo højere specs jo bedre og argumentet for analog pins bærer meget lidt vægt + Beagle har også analog pins - fokus af analysen burde rejusteres væk fra irrelevante specs som clock speed og storage over i mere product targeting - eksempelvis er det en relativ simpel opgave at sende et RF signal, så hvorfor bruge en reel computer frem for et lille embedded system(Arduiono!). Desuden er de tre introduktioner til platformene alt andet end overensstemmende, Arduino fokuserer på pris, Pi på specs og fokuser på uforklaret pin locations  - Marc}
+The processor of the Ardunio is the ATmega328P.
+It has 32 KB of flash memory, 2 KB of SRAM, and 1 KB of EEPROM, and clock speed of 16 MHz.
+\todo[inline]{Pic?}
