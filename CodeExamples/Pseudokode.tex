@@ -1,0 +1,173 @@
+// What interupt? Timer0 is used by milli() and VirtualWire 
+// uses another there should be one left but is that one useable? 
+// Or should we expand on VirtualWire's timer?
+Interrupt()
+    // How do we do this?
+    turn <- GetTurn()
+    if turn is mine then
+        SendData()
+    else
+        ReadData()
+    end if
+
+ReadData()
+    // packageRecieved is set by underlaying libray
+    if packageRecieved is true then
+        switch package.type
+            case Broadcast:
+                ReciveBroadcast(package.body as Broadcast)
+                break;
+            case Path:
+                RecivePath(package.body as Path)
+                break;
+        end switch
+        packageRecieved <- false
+    end if
+    
+ReciveBroadcast(broadcast : Broadcast)
+    // Ignore this if this broadcast has already been to this device
+    for each id in broadcast.path do
+        if id is mine then
+            return
+        end if
+    end for
+
+    broadcast.path.add(this)
+    SetForTransmit(broadcast);
+    
+    ReciveMessage(broadcast.message)
+
+RecivePath(path : Path)
+    if path.next is me then        
+        if path.last is me then
+            ReciveMessage(path.message)
+        else
+            path.removeNext()
+            SetForTransmit(path)
+        end if
+    end if
+     
+SetForTransmit(package : Package)
+    if setForTrasmitting is not true then 
+        transmitPackage <- package
+        setForTrasmitting <- true
+    else
+        // What do we do here?
+        // 
+    end if
+    
+SendData()
+    if setForTrasmitting is true
+        // Transmit via libray
+    else
+        // Send alive signal
+    end if
+    
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+#define UNUSED          0xFF
+#define ERROR           0xFE
+#define BROADCAST       0xA0
+
+#define COMPLETED       0x01
+#define CHANGING        0x02
+
+#define ID              0x10
+#define MAXSLOTS        0xA0
+#define MAXMESSAGESIZE  0x80
+#define TIMESLOT        1665
+
+uint8_t _sslot;
+uint8_t _slots[MAXSLOTS];
+uint8_t _slot;
+uint8_t _status;
+
+int FindSlot(int id){
+    int slot;
+    for(slot = 0; slot < MAXSLOTS; slot++){
+        if(_slots[i] == id) {
+            return slot;
+        }
+    }
+    return FAIL;
+}
+
+int SelectSSlot() {
+    int sslot;
+    do {
+        sslot = random(MAXSLOTS);
+    } while(_slots[sslot] != UNUSED);
+    _sslot[sslot] = ID;
+    return sslot;
+}
+
+int Transmit(){
+    uint8_t *message = calloc(MAXMESSAGESIZE, sizeof(uint8_t));
+    uint16_t length = 2;
+    message[0] = _sslot;
+    message[1] = ID;
+    uint8_t i;
+    for(i = 0x00; i < 0x100; i++) {
+        if(_slots[i] != UNUSED) {
+            message[length + 1] = i;
+            message[length] = _slots[i];
+            length += 2;
+            if(_slots[i] == ERROR){
+                _slots[i] = UNUSED;
+            }
+        }
+    }
+    // Should only return FAIL if message is NULL
+    return send_string(BROADCAST, message, length);
+}
+
+int Recieve(uint8_t length, uint8_t *payload) {
+    // Update sslot to most recent value
+    _sslot = payload[1];
+    // Check payload and store any changes
+    uint8_t i;
+    for(i = 0; i < length; i += 2){
+        if(payload[i] != _slots[payload[i+1]]) {
+            _status = CHANGING;
+            // Reset old slot
+            int old = FindSlot(payload[i]);
+            if(old != -1){
+                _slots[old] = UNUSED;
+            }
+            // Assign new slot
+            if(payload[i] == ID){
+                SelectSSlot();
+            }
+        }
+    }
+}
+
+void IncementSlot() {
+    _slot += 1;
+    if(_slot == MAXSLOTS) {
+        _slot = 0;
+    } 
+}
+
+int Initialize() {
+    set_reciver(Recieve);
+    _sslot = SelectSSlot();
+    // Run read and write until no new changes is found
+    do(_status != COMPLETED) {
+        _status = COMPLETED;
+        int time = millis();
+        // Transmit if it is our turn
+        if(_slot == _sslot) {
+            Transmit();
+        } else {
+            // ..otherwise listen
+            if(recive(TIMESLOT) == NAK) {
+                sslots[_slot] = ERROR;
+                _status = CHANGING;
+            }
+        }
+        // Make sure that the time for the timeslot has passed
+        while(millis()-time<TIMESLOT) { }
+        IncementSlot();
+    } while(_status != COMPLETED);
+}

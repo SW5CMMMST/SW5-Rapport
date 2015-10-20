@@ -1,0 +1,62 @@
+deviceOn()
+    if(network) then:
+        checkTimeSlot()                                                 //sets the flag myTimeSlot                                                            How2Check this???
+        if(myTimeSlot) then:                                            //flag check
+            myTurn()                                                    //Runs all operations that should be run on a devices turn
+        else then:
+            listen()
+    else then:
+        if(seekNetwork()) then:                                         //Waits for ping in a period of time determined by the protocol
+            if(network) then:
+                interrupt()                                             //Reset device such that line 2 is run again                                        
+
+
+myTurn()                                                         
+    broadCastTurn()                                                     //One possible way for others to keep track of time slots????
+    startClock()
+    echoMsg()                                                           //Echo any messages that needed an intermediary device should be rebroadcast         How2Store theses??
+    compute()                                                           //Depends on what we are doing, sensor checks etc. - may only run for n Cycles
+    endTurn()                                                           //Transmits w/e data is relevant, should interrupt compute() if clock demands it     WhatIfWeDontFinish??
+
+
+listen()
+    if(sync)
+        switch(address)                                                 //checks whether the this device is part of the msg.
+        {
+        case 'alert':                                                   //Possibly this part should be handled by mode/status and not in address
+            storeMsg();
+            break;
+        case 'myID':
+            resolveMsg();
+            break;
+        case 'mediateMSG' :                                             //Possibly this part should be evident in mode/status and not in address
+            storeMsg();
+            break;
+        default :
+            break;
+        }    
+
+
+seekNetwork()
+    listenForPing(5000)
+    establishNetwork()                                                  //Starts pinging looking for other networks
+
+
+establishNetwork()
+    createTimeFrame()                                                   //Starts a timeFrame - possibly with itself as master
+    ping()                                                              //Starts pinging for units seeking network
+
+
+listenForPing(int timeInMS)
+    listen()
+
+ping(int timeInMS)
+    if(transmit(---pingSequence---)) then:                              //transmits ping according to protocol(new units should respond with ID) - ping should have no. of time slots in time frame
+        newUnitFound()                                                  //appropriately alters the Time Frame for the new unit
+        transmit(newTimeSlot)                                           //transmits the time slot to the new unit
+
+storeMsg()
+
+echoMsg()
+
+newUnitFound()

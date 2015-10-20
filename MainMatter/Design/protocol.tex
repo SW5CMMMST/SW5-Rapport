@@ -1,9 +1,10 @@
-%Author; Marc  - Dette passer nok bedre ind i design end analyse
+%Author; Marc 
+\section{Protocol}
 The development of a protocol, and the decisions to be made for said protocol are influenced by the purpose of that protocol.
 Certain design decisions of a protocol influence different aspects of the protocol, these aspects may be in conflict, and as such the purpose of the protocol becomes the immediate concern.
 For the protocol documented in this paper, the primary objective is to allow for a dynamic multi-device network of Arduinos i.e. a network of Arduinos able communicate with an arbitrary number of devices and allowing devices to join or leave without any manual input.
 As this has been chosen as the primary concern of the protocol, certain aspects of the protocol design become more important than others.
-Allowing for some sort of handshaking or acknowledgment between the units, rather than just sending out data packages and hoping for the best is one of the choices made.
+Allowing for some sort of handshaking or acknowledgement between the units, rather than just sending out data packages and hoping for the best is one of the choices made.
 While this increases the reliability by allowing the units to confirm that they indeed can communicate, this also increases the latency as they use a part of their time frame to do this.
 Alternately had the primary focus been guaranteeing that a message had a low deadline, say 250 milliseconds, it may have been better going with no form of handshaking or acknowledgment, and then adding a constraint on the devices' distance from each other, to decrease the odds of packages lost.
 Concerns such as this will be described further and in more detail in the following sections pertaining to each such choice.

@@ -1,0 +1,17 @@
+%Author: Marc
+\subsection{Adding devices to the network}
+As it is wished for the network to be dynamic in size, the network must be able to add new devices to the network without manual interference.
+For this to happen first a network must be aware that a device, that is currently not part of the network, has come in range of the network.
+To discover this new device two possible approaches are available; either the network should ping out searching for devices, or a new device should ping the network in an attempt to join.
+Each approach has its merits and its downsides which will be analysed in this section such that an informed choice can be made in the design phase.
+In the case that the network handles the detection of new devices within its range, this would have to be part of the frame.
+
+\bigskip
+\noindent While there is an infinite way of defining how this frame may look, the basic concept is that a device should either ping for new devices on each time-slot, which is quite the overhead; ping on every Nth frame which increases worst time scenarios by an entire frame or maybe an entirely different alternative.
+What is worth noticing here is that no matter what way this is done, it increases worst time scenarios.
+On the other hand this also means there should be no complications appending the new device to the frame, assuming free time-slots are known by all units in the network.
+Furthermore it removes the possibility of a device that is not part of the network creating noise for a device in the network.
+
+Alternatively having the lone device ping the network is the opposite; by removing the management from the network the worst time scenarios are lower as the responsibility of joining the network lies with the outside device.
+This also creates the issue of knowing when a device can ping the network without interfering with the communication in said network; as such a way of figuring out when a free time-slot lies, and how to inform the network that a new device has joined, is imperative for this to work without complications.
+Depending on further analysis of the different aspects of the protocol a choice as well as further consideration and development of said choice is made in section <insert reference to design of this in design section here>.\todo{read text in brackets}

@@ -25,6 +25,10 @@
 \usetikzlibrary{shapes.multipart, arrows, matrix, automata, positioning, shadows}
 \usepackage{float}
 \usepackage{auto-pst-pdf}
+\usepackage{wrapfig}
+\usepackage{tcolorbox}
+\usepackage{colortbl}
+\usepackage{enumitem}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Page Layout
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -63,28 +67,17 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage[nottoc]{tocbibind}
 \usepackage{paralist}
-\usepackage{wrapfig}
+
 \usepackage{xargs}
 \usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
-
-%obeyDraft
-%\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
-
 \usepackage{csquotes}
-\usepackage{tcolorbox}
-
-%
-\usepackage{colortbl}
 
 \usepackage{booktabs}
-
-
-
-
-
-%myref stuff  - Added by Morten(tm)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MyRef
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage[english]{cleveref}
-\crefname{exa}{eksempel}{eksempler}
+\crefname{exa}{example}{examples}
 \newcommand{\myref}[1]{\Cref{#1}}
 \newcommand{\Myref}[1]{\Cref{#1}}
 \newcommand{\lowercaseref}[1]{\cref{#1}}
