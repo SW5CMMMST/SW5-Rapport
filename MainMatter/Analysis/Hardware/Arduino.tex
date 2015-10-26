@@ -1,8 +1,19 @@
 %author:        Michno
 %1st review:    Troels
-\subsection{Arduino}
 
-As Arduino has been chosen as the platform for the project, the platform will be further researched in this subsection.
+\subsection{Arduino}
+Arduino is a company which designs and produces open source hardware and software.
+This means that anyone which would like to can copy their hardware design and make their own improvements or simply a copy.
+The software used on Arduinos will be explained in \ref{sec:software}.
+
+\subsubsection{Arduino Uno}
+The Arduino Uno is a ATmega328P based micro-controller board.
+It has female pins in which wires can be attached, most notably there are fourteen digital input/output pins (labelled pin 0 - 13), six analog pins (labeled A0 - A5), some of these pins have special abilities which will be explained later see \ref{subsubsec:arduino-uno-pins}.
+Code can be uploaded through a USB connection, which can also power the Arduino, and provide a debugging interface for serial communication.
+The total size of an Arduino Uno is roughly five times seven centimetres. 
+
+The processor of the Ardunio is the ATmega328P.
+It has 32 KB of flash memory, 2 KB of SRAM, and 1 KB of EEPROM, and clock speed of 16 MHz.
 
 \begin{tcolorbox}[floatplacement=b,float,colback=white!5,colframe=aaublue!50,title=The Birth of the Arduino]
 In 2005 a group of students, at the Interaction Design Institute Ivrea in Italy, developed the Arduino board as a project, so there would be a cheaper alternative to the ``BASIC Stamp`` (another microcontroller-based development kit), used by the institute at the time, which roughly cost \$100. \cite{birthofarduino}
@@ -17,6 +28,5 @@ These constraints are in great contrast to the majority of today's programming p
 A core concept of the Arduino and the environment around it, is the ability to extend and interact with the hardware through so called shields and modules.
 These shields and modules can be input or output devices which interacts with the microcontroller on the Arduino though the digital or analogue headers on the Arduino board.
 These headers can however be used for other purposes e.g. powering a LED or reading analogue and digital input such as button presses or various sensor.
+Examples uses for shields are LCD, Ethernet, SDCard, motor control, and relay control (see \cite{ArduinoShields} for more).
 \figur{arduino_shields.jpg}{0.5}{An Arduino UNO with a stack of two shields on top}{arduino_uno_shields}
-
-\todo{Something about what shields and modules are available? - Claus}
