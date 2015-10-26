@@ -1,0 +1,19 @@
+\begin{tikzpicture} [
+        node distance = 5 cm, 
+        font=\scriptsize, 
+        vertex/.style = {circle, draw, fill=blue!10}, 
+        edge/.style = {draw, -stealth, shorten >= 1pt},
+        label/.style={fill=white}
+    ]
+
+    \node[vertex](1){$v_1$};
+    \node[vertex, right of=1](2){$v_2$};
+    \node[vertex, below of=1](3){$v_3$};
+    \node[vertex, below of=2](4){$v_4$};
+    
+    \path[edge] (1) edge node[label] {0.39} (3);
+    \path[edge] (2) edge node[label] {0.32} (3) edge[bend left=15] node[label] {0.50} (4) edge node[label] {0.79} (1);
+    \path[edge] (3) edge node[label] {0.74} (4);
+    \path[edge] (4) edge[bend left=15] node[label] {0.47} (2);
+    
+\end{tikzpicture}

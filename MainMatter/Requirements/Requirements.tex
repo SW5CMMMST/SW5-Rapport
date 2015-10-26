@@ -1,0 +1,33 @@
+\section{System Requirements}\label{requirements}
+Requirements for a system are the descriptions of what a system should be able to do, and also the constraints the system faces.
+In general there exists two kinds of software requirements, functional requirements and non-functional requirements. 
+Functional requirements can be simplified to how a system should react when given certain input, or how it should react in certain situations.
+Non-functional requirements can be simplified to being the constraints on the system, e.g. timing constraints or constraints created because of hardware.
+This definition is based on the work by \citet[see][chapter 4]{SEBook} in his book \textit{Software Engineering}. 
+%For more information about these type of requirements  \citet{SEBook}.
+
+For this project the functional requirements will then be the requirements which deal with how the system reacts to the messages being sent from device to device, and other functions like this.
+The non-functional requirements are the requirements which deal with hardware constraints, eg. packet losses, and reliability.
+Functional requirements according to the information gathered in the analysis in \myref{Analysis} can be expressed as the following: 
+
+
+\begin{description}
+    \item[a)] Being the first device in the network, this device should create the network so new devices can connect to the network in a time slot available to new devices.
+    \item[b)] A device should be able to join the network, so the other devices in the network also knows it is connected.
+    \item[c)] A device should be able to transmit messages in its specific time slot.
+    \item[d)] A device should be able to receive messages when it is not the device's turn to transmit messages.
+    \item[e)] A device should be able to execute user code so that it can use its actuators to perform certain tasks.
+    \item[f)] Devices should be able to tell when a device has been removed from the network.
+    \item[g)] The devices should be able to handle packet loss.
+    \item[h)] The devices should be able to repeat a messages from other devices when the it is the device repeating a message's turn to transmit.
+\end{description} \todo{der skal lige formateres noget her så teksten på hver linje har samme startpunkt}
+\bigskip
+The non-functional requirements from the analysis can be further described as follows:
+\todo[inline]{Måske skal disse have navne som er unikke ifht. de andre krav? - Troels}
+\begin{description}
+    \item[i)] The devices should not have a packet loss higher than 5\%.
+    \item[j)] A device should not transmit when the current time slot is not that device's dedicated time slot. 
+\end{description}\todo{Ved ikke om der er flere...}
+
+These requirements can all be tested when the project has reached its end, to see whether what was desired has been achieved, and if so how. 
+In the next section the development plan for the project is specified.
