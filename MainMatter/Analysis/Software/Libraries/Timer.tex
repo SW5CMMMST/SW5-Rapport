@@ -1,2 +1,21 @@
 \subsubsection{Timer}
-\todo[inline]{Skriv om Timer.h til Arduino}
+The library Timer is used to perform repeated actions in a given period.
+There are functions to call a function repeatedly, to wait a given period and then call a function, to toggle the state of a pin repeatedly and finally to pulse a pin repeatedly. 
+This can be useful as i.e. pulsing an LED can be performed without a call to the delay function and halting other functions of the program.
+The library works by creating internal objects which will be updated every time a call to update is performed. 
+Therefore it is necessary to call the update function often, for this to work. 
+To stop an event one must save the id returned when the event was started and use this to call the stop method. 
+
+The function prototypes used in this library is:
+\begin{lstlisting}[style=customc]
+  int8_t every(unsigned long period, void (*callback)(void));
+  int8_t every(unsigned long period, void (*callback)(void), int repeatCount);
+  int8_t after(unsigned long duration, void (*callback)(void));
+  int8_t oscillate(uint8_t pin, unsigned long period, uint8_t startingValue);
+  int8_t oscillate(uint8_t pin, unsigned long period, uint8_t startingValue, int repeatCount);
+  int8_t pulse(uint8_t pin, unsigned long period, uint8_t startingValue);
+  int8_t pulseImmediate(uint8_t pin, unsigned long period, uint8_t pulseValue);
+  void stop(int8_t id);
+  void update(void);
+  void update(unsigned long now);
+\end{lstlisting}

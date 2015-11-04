@@ -1,7 +1,7 @@
 %author:        Michno
 %1st review:    Troels
 
-\subsection{Arduino}
+\section{Arduino}
 Arduino is a company which designs and produces open source hardware and software.
 This means that anyone which would like to can copy their hardware design and make their own improvements or simply a copy.
 The software used on Arduinos will be explained in \ref{sec:software}.
@@ -15,15 +15,18 @@ The total size of an Arduino Uno is roughly five times seven centimetres.
 The processor of the Ardunio is the ATmega328P.
 It has 32 KB of flash memory, 2 KB of SRAM, and 1 KB of EEPROM, and clock speed of 16 MHz.
 
+EEPROM is a small memory section which functions like a small harddrive in the sense that data are saved thereon even when the devices are turned off, more on this can be found on \cite{EEPROM}.
+
 \begin{tcolorbox}[floatplacement=b,float,colback=white!5,colframe=aaublue!50,title=The Birth of the Arduino]
 In 2005 a group of students, at the Interaction Design Institute Ivrea in Italy, developed the Arduino board as a project, so there would be a cheaper alternative to the ``BASIC Stamp`` (another microcontroller-based development kit), used by the institute at the time, which roughly cost \$100. \cite{birthofarduino}
 \end{tcolorbox}
 
 \subsubsection{Resources}
-When using the Arduino and another microcontroller there are some rather serious constraints on its memory and speed.
+When using the Arduinoes and similar microcontrollers there are some rather serious constraints on memory and speed.
 One of the most popular Arduino boards the ``Arduino Uno'' has 32 KB of flash memory and a mere 2 KB of SRAM, and the frequency of the microcontroller is only 16 MHz.
+
 These constraints are in great contrast to the majority of today's programming practises where e.g. memory is seen more or less as in abundance. 
-\todo[inline]{Forklaring af at EEPROM er permanent memory som vi kan bruge på tværs af kode upload? -- Troels}
+
 \subsubsection{Shields and modules}
 A core concept of the Arduino and the environment around it, is the ability to extend and interact with the hardware through so called shields and modules.
 These shields and modules can be input or output devices which interacts with the microcontroller on the Arduino though the digital or analogue headers on the Arduino board.

@@ -21,26 +21,28 @@ We will test three different antennas
 \begin{description}
     \item[a)] 0 cm (No external antenna);
     \item[b)] 12 cm (An arbitrary length);
-    \item[c)] 17.3 cm $(\frac{c}{433 Mhz * 4} = 17.3 cm)$
+    \item[c)] 17.3 cm (Using \myref{QMA})
 \end{description}
 Each will be used on both the receiver and the transmitter. 
 This yields six combinations which will be tested. 
 Multiple receivers can receive the same message, therefore all receivers can be tested at the same time. 
 We have tested with distances from 2 metres to 28 metres, except for the test with a 0 cm antenna on the transmitter where a high package loss was occurring even at ranges of 14 metres.
 The transmitter was placed on a table 1 meter above the ground, and a graphical circuit diagram of an Arduino fitted with a transmitter can be seen on \myref{fig:Transmitter}.
+As is shown on the figure an LED was also connected to the Arduino.
+This LED was used as a visual aid blinking every time a package was send, this has no real influence on the test and was used as a convenience for those who tested.
 
-\figur{Fritzing/Transmitter.pdf}{1}{Graphical circuit diagram of an Arduino with a transmitter.}{Transmitter}
-
-The receivers were placed on a table 1 meter above the ground, each 15 cm away from the others, and a graphical circuit diagram of this setup can be seen on \myref{fig:Receiver}.
+\figur{Fritzing/Transmitter.pdf}{1}{Graphical circuit diagram of an Arduino with a transmitter. }{Transmitter}
+\noindent The receivers were placed on a table 1 meter above the ground, each 15 cm away from the others, and a graphical circuit diagram of this setup can be seen on \myref{fig:Receiver}.
+Similarly to the transmitter an LED was applied here blinking whenever a package was received.
 
 \figur{Fritzing/Receiver.pdf}{1}{Graphical circuit diagram of an Arduino with a receiver.}{Receiver}
-First the transmitters and receivers were 2 meters from each-other then a test with 100 packets containing 16 bytes was sent, the contents of a single message was the index of the packages being sent. 
+\noindent First the transmitters and receivers were 2 meters from each-other then a test with 100 packets containing 16 bytes was sent, the contents of a single message was the index of the packages being sent. 
 The receivers counted the messages received and wrote the final result to the computer over USB. 
 This was repeated every 2 metres. 
 The code run on the Arduinos can be found in \myref{app:PkgLossRxCode} and \myref{app:PkgLossTxCode}.
 
 \subsection{Results}
-The results of the test has been plotted in three separate graphs, this approach has been chosen so that it is easier to focus on the difference in antenna length on the receiving end.
+The results of the test have been plotted in three separate graphs, this approach has been chosen so that it is easier to focus on the difference in antenna length on the receiving end.
 \figur{Graphs/0cm_ant.pdf}{0.9}{Package loss percentage at different distances with no antenna on the transmitter.}{0cm_ant}
 \figur{Graphs/12cm_ant.pdf}{0.9}{Package loss percentage at different distances with 12 cm antenna on the transmitter.}{12cm_ant}
 \figur{Graphs/17cm_ant.pdf}{0.9}{Package loss percentage at different distances with 17.3 cm antenna on the transmitter.}{17cm_ant}
@@ -51,7 +53,7 @@ The only place where the results are different to distinguish from each other is
 This could indicate that the transmitter and its antenna has a significant impact on the reliability of the transmission of data.
 In fact the package loss of the receiver not fitted with any external antenna is indistinguishable from the receiver with 17.3 cm external antenna.
 
-Furthermore the three graphs indicates that the antenna length of 12 cm on the receiver does not help the reception, on the contrary it worsens the ability to receive messages.
+Furthermore the three graphs indicate that the antenna length of 12 cm on the receiver does not help the reception, on the contrary it worsens the ability to receive messages.
 However the antenna length of 12 cm does not affect the reliability as negatively when it is fitted on the transmitter (see \myref{fig:12cm_ant}), this could be due to an error in the test setup, or just the fact that the transmitter is able to sent a much stronger signal as soon as an external antenna is introduced.
 
 \begin{table}[ht]
@@ -70,7 +72,7 @@ However the antenna length of 12 cm does not affect the reliability as negativel
 In \myref{fig:0cm_ant} it is strongly indicated that the transmitter and whether it has an external antenna highly affects the reliability of the transmitted signal as we can observe that the lack of an external antenna on the transmitter produces a high package loss percentage on the receiving end.
 
 An average of the results from the graphs has been calculated and omitted into a table which can be found on \myref{tbl:packageloss}. 
-This shows that using antennas of the length 17.3 cm will cause the transmissions to have a package loss of ~1%.
+This shows that using antennas of the length 17.3 cm will cause the transmissions to have a package loss of ~1 \%.
 The results will be further concluded upon later.
 
 \subsection{Sources of error}
@@ -80,7 +82,7 @@ The most significant and the ones that are most likely to occur are as follows:
     \item[Objects placed in the way of the signal] \hfill \\
     In order for the results to represent real world scenarios one could test the package loss with various different objects in between the transmitter and receiver. 
     E.g. humans, construction objects, furniture.
-    However as this test were looking for quantitative data the results were gathered with no object in the way of the signal, so that the conditions and data of the tests would be comparable.
+    However as this test was     looking for quantitative data the results were gathered with no object in the way of the signal, so that the conditions and data of the tests would be comparable.
     \item[Signal interference] \hfill \\
     This category of errors is one of the most remarkable since any form of signal interference potentially could invalidate the data and even produce false positives.
     To avoid as much signal interference as possible, the test was conducted in a basement with relatively thick concrete walls, and equipment that uses the same frequency e.i. 433 MHz was kept away from the test setup.
@@ -90,8 +92,11 @@ The most significant and the ones that are most likely to occur are as follows:
     Such varying in antenna length would have drastic consequences due to the antenna length's dependence upon the wavelength of the signal.
     However the antennas used in this test were carefully measured to specification of 12 and 17.3 cm.
     It is however noteworthy that the internal antennas of both the transmitter and receiver modules may affect the results.
+    \item[Difference in RF modules] \hfill \\
+    To be able to compare the results of the different antennas, one must assure that the difference in results is not induced by differences in the RF modules.
+    However by testing all the used RF modules in \myref{sec:RFMD}, this source of error is to be considered close to non existent, since all the RF modules used in this test, showed less package loss than 2 \%.
+    This source of errors is hereby deemed insignificant for the results of this test.
 \end{description}
-\info[inline]{More}
 
 \subsection{Conclusion}
 The 17.3 cm antenna on the transmitter has the biggest impact on the package loss rate.
