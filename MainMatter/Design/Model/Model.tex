@@ -1,0 +1,88 @@
+\subsection{The Model}
+This section will showcase the model made to express the protocol, and while doing so explain the details of the model, how they work, and how it is implemented.
+
+\subsubsection{Introduction}
+A model in UPPAAL consists of templates and some code for these templates, i.e. local and global variables etc.
+
+\figur{Model/Files.PNG}{0.3}{Files for the UPPAAL model, containing two templates (Device and Clock), and four files with code.}{UPPAAL_Files}
+
+\myref{fig:UPPAAL_Files} shows which files the UPPAAL project contains. 
+Every template has its own Declarations, which will be local variables, the outer most Declarations file is global variables, while the System declaration is where instances of the templates will be created.
+This project contains two templates, a Device and a Clock.
+The code for every Declaration file can be seen in \myref{app:UPPAALCode}
+
+\subsubsection{A connected Network}
+\figur{Model/Device_NoAdd.pdf}{1}{UPPAAL model of the simple protocol, where no new devices can be added to the network}{Device_NoAdd}
+
+\myref{fig:Device_NoAdd} is a timed automata made in UPPAAL.
+It has three states, \textbf{Idle}, \textbf{Transmitting}, and \textbf{Receiving}, where \textbf{Idle} is the initial state.
+The automata has been tested with three instances of itself, and in order to synchronise all three instances, every edge or transition uses synchronisation.
+This can be seen by noticing that all edges contain \textbf{tick?}. 
+tick is a variable in UPPAAL called a channel, which is used to synchronise multiple automatas.
+\textbf{tick?} means that the transition can only be performed if another transition is made containing the following \textbf{synchronisation} \textbf{tick!}.
+If a transition containing \textbf{tick!} is performed all automatas available to perform a transition with \textbf{tick?} has to make that transition.
+Another automata has therefore been made to perform these transitions with a \textbf{tick!}, and can be seen on \myref{fig:model_clock}.
+
+\figur{Model/Clock.pdf}{0.4}{UPPAAL model of the Clock, which synchronises the automatas.}{model_clock}
+
+Whenever the Clock performs a transition, it has the \textbf{tick!}, which means that all the devices must perform transitions at the same time, creating the synchronised automatas.
+The Clock also has other properties on its transition, the green property \textbf{x >= minS} is what is called a guard, and makes sure the transition can only be made when a certain property is true (NB all guards are coloured green in UPPAAL).
+In this case \textbf{x} is a variable of type clock, which is a special type in UPPAAL that is continuously incremented.
+In the Clock model it is used so that when it reaches the value \textbf{minS} or larger the transition can be performed.
+\textbf{minS} is an integer corresponding to the minimum time a time-slot will take in the protocol.
+When the transition is made, \textbf{x} is reset to 0, using the \textbf{update} property on a transition, which is \textbf{x:=0} written in blue, to indicate a new time-slot has begun.
+Now one last introduction of properties is the \textbf{invariant} which is not on a transition but instead on a state. 
+On \myref{fig:model_clock} the invariant is written in pink, and indicates that the automata has to stay in the state as long as this property is true.
+This results in the automata only performing a transition when \textbf{x} is larger than \textbf{maxS} which is the maximum time a time-slot can take.
+
+\subsubsection{Adding a New Device}
+
+Now that the terminology has been introduced take another look at \myref{fig:Device_NoAdd}.
+Each Automata has an \textbf{id}, and a local variable \textbf{i} which indicates which time-slot the frame is currently in, and the network has a global value \textbf{N} indicating the number of devices in the network plus one.
+When \textbf{i} is equal to the \textbf{id} of the automata as seen on the guard of the transition, the automata performs the transition to the state \textbf{Transmitting} from the state \textbf{Idle}, and the other automatas will make the transition to \textbf{Receiving}, since the value of i will not be equal to their id.
+When the automatas leave the states \textbf{Transmitting} or \textbf{Receiving} they increment \textbf{i} and make sure it is not greater than the number of devices in the network.
+\figur{Model/Device.pdf}{1}{UPPAAL model of the devices including the addition of new devices.}{Device_Add}
+
+\myref{fig:Device_NoAdd} was the first iteration of the model for the protocol, a further iteration have been made introducing the addition of devices to the model, which can be seen on \myref{fig:Device_Add}.
+
+Another two states have been added: \textbf{Announce} which is used when a new device tells the network it wants to connect, and \textbf{EmptySlot} which is used when the network is listening for new devices trying to connect to the network.
+
+Now the guards check if \textbf{i} is equal to \textbf{N} which is the number of devices in the network plus one, which means that when \textbf{i} is equal to \textbf{N}, the last time-slot of the frame has been reached which is the time-slot where new devices can announce themselves.
+If a device is not connected it goes the the \textbf{Announce} state, otherwise they transition to the \textbf{EmptySlot} state.
+The new device will then increment \textbf{N}, and change its connected status to \textbf{true}, and reset \textbf{i} to zero, which is also done for the other devices in the network, and after these transition a frame has finished.
+
+
+
+The model shown in this section will now make sure only a single device will be transmitting at once, and making sure all other devices are listening, even if they are not connected to the network yet.
+The model will also make sure that new devices will be added to the network, and then initialise the network so another new device can be added afterwards.
+
+\subsection{Verifying the model}
+
+As previously mentioned it is possible to perform queries on the model to verify whether certain properties hold true for the model or not.
+For performing these queries three instances of the model seen on \myref{fig:Device_Add} has been made named, Dev0, Dev1, and Dev2, where Dev0 and Dev1 is connected, and Dev2 is not connected. 
+
+Another two queries have been made for the model, first a query which checks if there is only one of the three devices in the network in the state \textbf{Transmitting} at one time.
+The query is as follows:\texttt{A[] (not (Dev0.Transmitting \&\& (Dev1.Transmitting || Dev2.Transmitting))) \&\& (not(Dev1.Transmitting \&\& Dev2.Transmitting))}
+
+This will result in true, which means that if Dev0 is transmitting then Dev1 or Dev2 is not transmitting, and also that Dev1 and Dev2 is never transmitting at the same time.
+
+Another query is as follows: \texttt{A<> Dev0.connected == true \&\& Dev1.connected == true \&\& Dev2.connected == true}.
+This query asks if for all paths will it at some point be true that all devices will be connected, which will then result in true.
+
+The last query asks if it is false that there exists a path so that if Dev2 is announcing itself, then Dev0 or Dev1 is not in the state \textbf{Emptyslot}.
+The query is as follows: \texttt{E<> not (Dev2.Announce \&\& ( not (Dev1.EmptySlot || Dev0.EmptySlot)))}
+
+These queries verify that if a network is established only one device will be transmitting at once, making sure that no collisions will be made, and also that if a new device has been turned on it will eventually be connected to the network while the already connected devices will be listening for new devices.
+\myref{fig:Queries} shows the tests for the queries and their results.
+
+\figur{Model/Queries.PNG}{1}{List of the queries and their result. The green colour represents a true value.}{Queries}
+\bigskip
+
+The result of making this model is that a protocol can be designed and implemented in a programming language, from the specifications of the model.
+If this is done correctly the model has been verified by the queries to uphold that a device will eventually connect and only one device will be transmitting at the same time, avoiding any possible collisions.
+
+One of the bigger issues is that the model expects all devices to be perfectly synchronised which can be problematic to implement, but if this can be approximately achieved, a protocol could be implemented.
+
+
+
+

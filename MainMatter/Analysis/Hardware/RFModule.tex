@@ -1,6 +1,6 @@
 %author:        Troels
 %1st review:    Sass
-\subsection{Radio Frequency Module} \label{rfmodule}
+\section{Radio Frequency Module} \label{rfmodule}
 In order to achieve wireless communication between Arduino devices a Radio Frequency (RF) module is used.
 %kun til Arduino?
 The module used in this project communicates at 433 MHz; its datasheet specifies the range is 20 to 200 meters, depending on the input voltage, which ranges from 3.5 to 12 volts. 
@@ -26,10 +26,19 @@ In \myref{fig:arduino_rf} these are visible; one in the upper left corner on the
 
 A wire acts like a monopole antenna, which works by acting like an open resonator for the signal, it's length can greatly affect its effect. 
 Candidates for the length of this can be calculated based on the frequency of the signal, for the RF modules this is 433 MHz.
-The formula for a quarter-monopole antenna is: $(l = \frac{c}{f * 4})$; where c is the speed of light, and f is the frequency of the wave.
-Similarly the formula for a half-monopole antenna is: $(l = \frac{c}{f * 2})$.
+The formula for a quarter-monopole antenna is: 
+\begin{equation} \label{QMA}
+l = \frac{c}{f * 4}
+\end{equation}
+where c is the speed of light, and f is the frequency of the wave.
+Similarly the formula for a half-monopole antenna is: 
+
+\begin{equation}
+l = \frac{c}{f * 2}
+\end{equation}
+
 Using the frequency, 433 MHz, the quarter- and half-monopole antenna lengths are 17.3 cm and 34.6 cm respectively.
-\todo{source på formel}  
+\cite{AntennaLength}
 
 The efficiency of using such antennas will be tested in \myref{subsec:RFMT}.
 

@@ -1,0 +1,35 @@
+%Author: Marc
+\subsection{Payload}
+When developing for an Arduino one thing to always keep in mind is the limited amount of memory one has to work with.
+Due to the limited amount of memory one would typically like to reduce the amount of memory used on data.
+One workaround that can reduce at least the storing of some variables, is to include them into the payload.
+This would in turn make the payload larger, another thing we would prefer to keep as small as possible.
+We want to keep the payload small as With a bigger payload you increase the chances of packages being lost, as well as the time it takes to transmit the payload. 
+Thus a balance between storing on the device or transmitting the data is sought after, one may however be more important than the in some cases.
+
+\bigskip \noindent
+The amount data useful in the payload largely depends on the complexity of the network itself, and the devices that make up the network.
+In a simpler network where all devices serve the same purpose and the network is strongly connected, one payload may suit the entire network where no variables are irrelevant.
+An example would be some sort of sensory network which observe one thing, like a fire alarm.
+The only variable required here, aside from those part of the communication, is whether or not there is a fire.
+
+This however only works if all devices serve the same purpose, as in the case of the fire alarm.
+While such a solution may suffice for the previous case, if one intend on using the protocol for more complex networks, the payloads must be more general.
+
+\bigskip \noindent
+In the case of a network with a variety of devices both observers and actuators, these may require some data that is only relevant for their type of device.
+Consider the case in which one wishes to turn on the light, depending on some sensory input.
+When the sensor is triggered the payload should contain a command and an address of which device is to perform said command.
+
+While this is needed in the mentioned scenario, the variables will also serve as garbage in payloads where no commands or specific target is required.
+The more generally the payload is outfitted, the more garbage data will be contained in some amount of messages.
+
+\bigskip \noindent
+In an effort to remove garbage data several different payloads can be created.
+Each payload should consist of the basic data required for communication such as who is sending, current slot and slot count.
+Furthermore a variable, mode, determines the content of the rest of the payload.
+The rest of the payload will differ depending on each configuration of mode.
+This way no garbage data exists in the universal data that all payloads share, and with the mode variable all devices will know what data follows.
+
+As an example if the mode is a command, all devices will know to expect a target and a command in the rest of the payload.
+This also allows devices that may not be able to execute commands to ignore the remainder of the payload.

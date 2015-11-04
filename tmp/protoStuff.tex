@@ -1,0 +1,78 @@
+typedef struct {
+    //Current Payload
+    uint8_t  slot;      // Current slot also doubles as count down to the empty slot
+    uint8_t  slotCount; // Number of slots in the frame
+    uint8_t  addr;      // Unique address of the sender
+    uint8_t  msga[12];  // Other content --- I find this utterly pointless
+    //Possible content
+    uint8_t exeTime;    //This would transmit how much time this time slot has set aside for computation - this means that other devices wont have to store this data for all devices(better as stored data uniform)
+    uint8_t mode;       //Allows the network to know the purpose of the msg before reeading msg, this would include such things as ping, alert, ack etc.
+    uint8_t target;     //In the case where the network isn't strongly connected, or that not all devices serve the same purpose, a target for the payload can be added, this allows for more complex network constructions
+    uint8_t sync;       //Dno if this is needed nor how it should be done, but we should probably consider
+    uint8_t header;     //Some header to know how long the msg is? er givet af rh
+    uint8_t neighbours; //For non-strongly connected networks this would include all addresses i receive from directly removing the need for storing a tree of the network
+    uint8_t cmd;        //If devices have multiple operations(Autonomous homes) this could also just be part of msg
+} payload_type; 
+
+typedef struct {
+    //Universal data
+    uint8_t slot;
+    uint8_t slotCnt;
+    uint8_t addr;
+    uint8_t mode : 4;       //enum with different mode that has different data following this point
+    //Expanding content
+    uint8_t neighbours;     //For non-strongly connected networks
+} uniStruct;
+
+
+typedef struct { 
+    //Universal data
+    uniStruct data;
+    //Unique Data      
+    uint8_t sync : 4;       //Troels had some idea, transmit time, know how long to receive and sync with that + time?????
+} payload_sync
+
+typedef struct { 
+    //Universal data
+    uniStruct data;
+    //Unique Data  
+    uint8_t devType : 4;    //Some sort of ID that refers to the type of device(sensor, lightswitch etc.)        
+    //Expanded version
+    uint8_t exeTime;        //Relevant for Dynamic time slot ideas
+} payload_ping 
+
+typedef struct { 
+    //Universal data
+    uniStruct data;
+    //Unique Data 
+    uint8_t cmd : 4;        //cmd to be executed by target - structure of what cmds each target can exe may be required
+    uint8_t target;         //address of device(s) to exe cmd
+} payload_cmd
+
+typedef struct { 
+    //Universal data
+    uniStruct data;
+    //Unique Data 
+    uint8_t alertType : 4;  //In case we have several kinds of alert and not simply panic
+} payload_alert
+
+typedef struct { 
+    //Universal data
+    uniStruct data;
+    //Unique Data 
+    uint8_t status : 4;    //sensory data (Alive, OK, !OK) perhaps this overlaps with cmd? if !OK we'd send cmd 
+} payload_status
+
+typedef struct { 
+    //Universal data
+    uniStruct data;
+    //Unique Data 
+    uint8_t response : 4;  //Ack that cmd was handled
+} payload_respond
+
+typedef struct { 
+    //Universal data
+    uniStruct data;
+    //Unique Data 
+    uint8_t missedDev[];  //An array of devices i did not hear for N frames(N>1)
+} payload_error

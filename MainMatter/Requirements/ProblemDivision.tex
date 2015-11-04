@@ -1,20 +1,21 @@
-\section{Development Plan}\todo{Title is not final. Forslag: ``Problem Defined as Graphs'' - Troels}
+\section{Development Plan \& Problem Exploration}
 
 \noindent The requirements as stated in the previous section can be modelled as a graph problem where the weighted directed graph $G = (V, E)$ describes the network. 
 The vertices in $V$ are the devices and the edges $E$ is the communication paths between the devices. 
 The weights $W(v1, v2)$ are the probability of the message from v1 successfully being received by v2.
 An example of this can be seen on Figure \ref{fig:network}.
 Zero probabillity edges are removed from the example graph for simplicity. 
-For this project only  connected networks\todo{Hvad menes der med connected networks? Altså et netværk med enhender som alle er forbundne? Måske der skal uddybes lidt. - Troels - tror blot det  er et oversight at der ikke står strongly/weakly i det her afsnit, så er der dog noget senere der også lige skal omskrives - Marc} will be considered, and as such only  connected graphs, as a disconnected\todo{disconnected network?} network could be divided into two or more individually connected graphs. 
-In \myref{fig:network} is an example of a connected network which can be described as: $E \subseteq V \times [0,1] \times V$ where for any $v_i, v_j$ there exists a path from $v_i$ to $v_j$, where all edges weighted zero are removed for simplicity.\todo{det virker som om at den sidste del `all edges weighted...' er en del af den formelle matematiske forklaring, men det er det vel ikke, det er snarere en kommentar til modellen - Marc} 
+For this project only networks which can be depicted as a tree will be considered as a forest is essentially two separate networks.
+In \myref{fig:network} is an example of a connected network which can be described as: $E \subseteq V \times [0,1] \times V$ where for any $v_i, v_j$ there exists a path from $v_i$ to $v_j$.
+All edges weighted zero are removed for simplicity.
 
 \tikzfigure{NetworkGraph.tex}{A weakly connected network with probabilities.}{network}
 
 \noindent This is a complex problem to solve as many issues will become apparent throughout analysis of the problem.
 So in order to simplify the problem some assumptions can be made about the system.
-Because the range of the devices are around 200 meters we can assume that all devices are connected, thus making the network strongly connected. 
-For the graph this means that all vertices on the graph have a non-zero edge between them.\todo{Vi har ikke selv testet om de er 200 meter, hvad kan vi gøre? - Søren}
-Secondly during development of the system, the system could be set up to give a 100 \% probability of successfully receiving the message, by wiring the different Arduinos together, which gives more room for working on the parts of the solution not considering the unreliability of the radio frequency modules. \todo{Vi kan ikke forvente 100 \% modtagelse, der er alt for meget som kan gå galt. - Troels}
+We assume that the devices will always be in range of each other when they are not farther than 22 meters apart, since they were able to transmit in the test in  \myref{subsec:RFMT}.
+So if all devices are not farther than 22 metres apart this means that all vertices on the graph have a non-zero edge between all other vertices on the graph.
+Secondly during development of the system, the system could be set up to give ~100 \% probability of successfully receiving the message, by wiring the different Arduinos together, which gives more room for working on the parts of the solution not considering the unreliability of the radio frequency modules. 
 This creates the two sub problems where the set of edges on the graph can be described as: 
 
 \begin{enumerate}
@@ -26,11 +27,12 @@ Number 1 describes how all the vertices are connected with each other, creating 
 
 Number 2 describes how all the vertices are connected but now there is not a 100 \% chance the transmission will be received, but all vertices are still in range of each-other.
 
-The last possibility is that some of the vertices are not connected other vertices, which means that the weight is now 0 on some of the edges, which means according to our previous rule that the edges are removed from the graph.
+\bigskip \noindent
+The last possibility, which was also the original problem, is that some of the vertices are not connected other vertices, which means that the weight is now 0 on some of the edges, which means according to our previous rule that the edges are removed from the graph.
 
 \begin{enumerate}
 \setcounter{enumi}{2}
-\item $E \subseteq V \times [0,1] \times V$ \todo{det her virker til at være med i beskrivelsen af subproblemer(hvori der står der kun er 2!) men er jo faktisk beskrivelsen det oprindelige problem nævnt tidligere - Marc}
+\item $E \subseteq V \times [0,1] \times V$ 
 \end{enumerate}
 
 In order to simplify the development of the project, each of these tasks will be handled in order.
