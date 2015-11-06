@@ -15,12 +15,13 @@ All edges weighted zero are removed for simplicity.
 So in order to simplify the problem some assumptions can be made about the system.
 We assume that the devices will always be in range of each other when they are not farther than 22 meters apart, since they were able to transmit in the test in  \myref{subsec:RFMT}.
 So if all devices are not farther than 22 metres apart this means that all vertices on the graph have a non-zero edge between all other vertices on the graph.
-Secondly during development of the system, the system could be set up to give ~100 \% probability of successfully receiving the message, by wiring the different Arduinos together, which gives more room for working on the parts of the solution not considering the unreliability of the radio frequency modules. 
-This creates the two sub problems where the set of edges on the graph can be described as: 
+Secondly during development of the system, the system could be set up to give ~100 \% probability of successfully receiving the message, by wiring the different Arduinos together, which gives more room for working on the parts of the solution not considering the unreliability of the radio frequency modules.
+Furthermore the networks can be set up as either fully connected graphs or strongly connected graphs.
+This creates the four sub problems which can be described as:  %where the set of edges on the graph can be described as: 
 
 \begin{enumerate}
-\item $E \subseteq V \times [1,1] \times V$
-\item $E \subseteq V \times ]0,1] \times V$. 
+    \item $E \subseteq V \times [1,1] \times V$
+    \item $E \subseteq V \times ]0,1] \times V$. 
 \end{enumerate}
 
 Number 1 describes how all the vertices are connected with each other, creating a strongly connected graph, and all the weights of the edges are also 1, which means that all transmissions will be received.
