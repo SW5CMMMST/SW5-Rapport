@@ -19,7 +19,7 @@ In an effort to allow for such a variety in networks designing a base payload wh
 
 \bigskip \noindent
 \lstset{style=customc}
-\begin{lstlisting}[caption={Possible way the baseStruct could look for the payload},frame=tlrb,label={baseStruct},numbers=none]
+\begin{lstlisting}[style=customc,caption={Possible way the baseStruct could look for the payload},label={baseStruct}]
 typedef struct {
     //Universal data - arbitrary data needed by the protocol
     uint8_t slot;
@@ -38,8 +38,7 @@ One struct may be an alert, another may require a certain device to perform some
 Each of such scenario would have their own payload struct, similar to the one in listing \myref{cmdStruct}.
 
 \bigskip \noindent
-\lstset{style=customc}
-\begin{lstlisting}[caption={A possible way a struct for designating commands could look in the payload},frame=tlrb,label={cmdStruct},numbers=none]
+\begin{lstlisting}[style=customc,caption={A possible way a struct for designating commands could look in the payload},label={cmdStruct}]
 typedef struct { 
     //Universal data
     baseStruct data;
