@@ -1,9 +1,9 @@
-\section{RadioHead Time Sent Test}\label{subsec:RHTST}
+\section*{RadioHead Time Sent Test}\label{subsec:RHTST}
 The purpose of this test is to determine how long it takes to send a message of a given length.
 This information is useful at later points during a real-time analysis.
 The result is therefor a formulae which given the message length outputs the time it takes to send said message. 
 
-\subsection{Theory}
+\subsection*{Theory}
 As described in \myref{subsubsec:RadioHead} there is an overhead of 104 bits for each message, along with the 4-to-6 bit conversion.
 The bit-rate is 2000 bits pr. second, which gives the theoretical minimum time it takes to send a message:
 \begin{align*}
@@ -17,11 +17,11 @@ t(30 byte, 0.01 second) = 0.242 second\\
 t(40 byte, 0.01 second) = 0.302 second
 \end{align*}
 
-\subsection{Test Setup}
+\subsection*{Test Setup}
 The hardware setup used in this test is the same as the one used in the test presented in \myref{subsec:RFMT}.
 However this test was only performed at the distance of 1 metre, but this should not affect the time it takes to send a message, as this is determined by the timer on the Arduino.
 
-\subsubsection{Software used in the test}
+\subsubsection*{Software used in the test}
 The software used on the Arduinos for this test was different than the other test in \myref{subsec:RFMT}. 
 The full source code is in \myref{app:t2receiver} and \myref{app:t2transmitter}.
 In the software the message lengths of 1 to 60 bytes was set as the range to be tested. This can be seen in the core of the transmitter code, which is as follows:
@@ -59,7 +59,7 @@ void loop()
 The \texttt{millis} function returns the time in milliseconds since the Arduino was powered on. 
 This code prints the length of a package received and the time, in milliseconds, since the last package was received.
 
-\subsection{Results}
+\subsection*{Results}
 \vspace {10 mm}
 \figur{Graphs/time_length.pdf}{0.9}{Result of running the test.}{time_length}
 These results are gathered over 800 data points, so each point is the worst-case of at least 10 samples. 
@@ -68,7 +68,7 @@ The worst-case value for 1 byte is 171 milliseconds, and for 60 bytes it its 526
 Linear regression was performed on the data collected which yielded the formulae $f(x)=6.0101 * x + 165.7826$ with $R^2 = 1$. 
 The time it takes so send a message of length x bytes is therefore $f(x)=6.0101 * x + 65.7826$, when the 100 millisecond delay is removed.
 
-\subsection{Conclusion}
+\subsection*{Conclusion}
 This test shows that minimising the message length has a linear impact on the time it takes to send a message. 
 Furthermore the time it takes to send such a message can be estimated in milliseconds, using the formulae $f(x)=6.0101 * x + 65.7826$, where x is the length of the message in bytes. 
 This result will impact the timing of the system as a whole.
