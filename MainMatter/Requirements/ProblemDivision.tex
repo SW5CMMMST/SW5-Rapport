@@ -3,14 +3,12 @@ This chapter will investigate how the protocol can be viewed mathematically as a
 
 \noindent The requirements as stated in the previous chapter can be modelled as a graph problem where the weighted directed graph $G = (V, E)$ describes the network. 
 The vertices in $V$ are the devices and the edges $E$ is the communication paths between the devices. 
-The weights $W(v1, v2)$ are the probability of the message from v1 successfully being received by v2.
-An example of this can be seen on Figure \ref{fig:network}.
-Zero probabillity edges are removed from the example graph for simplicity. 
-For this project only networks which can be depicted as a tree will be considered as a forest is essentially two separate networks.
-In \myref{fig:network} is an example of a connected network which can be described as: $E \subseteq V \times [0,1] \times V$ where for any $v_i, v_j$ there exists a path from $v_i$ to $v_j$.
-All edges weighted zero are removed for simplicity.
+The weights $W(v_1, v_2)$ are the probability of the message from $v_1$ successfully being received by $v_2$.
+An example of this can be seen on \myref{fig:network}.
+For this project only networks which can be depicted as a tree will be considered as a forest is essentially separate networks.
+In \myref{fig:network} is an example of a strongly connected network which can be described as: $E \subseteq V \times [0,1] \times V$ where for any $v_i, v_j$ there exists a path from $v_i$ to $v_j$.
 
-\tikzfigure{NetworkGraph.tex}{A weakly connected network with probabilities.}{network}
+\tikzfigure{NetworkGraph.tex}{An example of a strongly connected unreliable network with probabilities.}{network}
 
 \noindent This is a complex problem to solve as many issues will become apparent throughout analysis of the problem.
 So in order to simplify the problem some assumptions can be made about the system.
