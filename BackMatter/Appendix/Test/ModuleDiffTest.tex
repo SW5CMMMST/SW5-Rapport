@@ -1,10 +1,10 @@
 \chapter{Hardware Tests}
 This appendix contains all the tests which have been done for the project to test the specifics of the Arudinos.
-\section{Radio Frequency Module Difference Test}\label{sec:RFMD}
+\section*{Radio Frequency Module Difference Test}\label{sec:RFMD}
 In tests using the RF Modules the difference in build quality and performance between the modules is a significant factor, and could be a source of error.
 Consequently a test must be performed, which investigates these differences, so that the other test results can be validated.
 
-\subsection{Test setup}
+\subsection*{Test setup}
 To test all RF modules available to the group two Arduinos are used; one as receiver and the other as transmitter.
 The RF modules are then switched in and out of breadboards connected to said Arduinos, so that both receiver and tranmitter modules can be tested independently.
 Furthermore a third Arduino is used to verify the results of each module.
@@ -13,13 +13,13 @@ Firstly modules is randomly tested to find a transmitter that shows very little 
 The same thing is done to test the transmitters, i.e. a \enquote*{good} receiver is used.
 This approach is then repeated multiple times with different \enquote*{good} receivers and transmitters, to ensure a more fair test environment, with multiple combinations of modules.
 
-\subsection{Results}
+\subsection*{Results}
 The results have been plotted on two bar charts: one with the results of the different transmitters; 
 \figur{Graphs/trans_diff.pdf}{0.9}{The average package loss inflicted by the transmitters.}{trans_diff}
 and one with the results of the different receivers.
 \figur{Graphs/recv_diff.pdf}{0.9}{The average package loss inflicted by the receivers.}{recv_diff}
 
-\subsection{Conclusion}
+\subsection*{Conclusion}
 %This test is a simple test, but it serves a great purpose; and yields results which indicates that the conclusions of the two previous tests (in \myref{subsec:RFMT} and \myref{subsec:RHTST}) are valid.
 When looking at the results of this test, it is clear that some of the modules were significantly worse at respectively transmitting and receiving data.
 Transmitter \textsf{F} inflicted an average package loss over 20 \%, and receiver \textsf{H} failed to receive more than 2 \% of the packages on average.
