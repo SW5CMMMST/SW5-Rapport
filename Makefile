@@ -17,6 +17,7 @@ pdflatex: master.tex
 	pdflatex --shell-escape --synctex=1 master.tex
 	pdflatex --shell-escape --synctex=1 master.tex
 clean:
+	git add -A
 	git clean -x -f -e master.pdf
 
 fast: master.tex
