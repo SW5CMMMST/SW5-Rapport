@@ -1,2 +1,81 @@
 \section{Pseudocode Description}
-\todo[inline]{fill this}
+This pseudo-code will show how our TDMA protocol works.
+
+First the main loop of the protocol will be shown, this is the state where devices are connected to the network, and no new members are trying to join.
+\bigskip
+
+\noindent
+\textbf{Variables:} 
+\begin{description}[labelindent=\parindent]
+    \item[$\alpha$] Timeslots per frame
+    \item[$\beta$] Units in network
+    \item[$\kappa$] The current unit's timeslot id in frame
+    \item[$\lambda$] The current timeslot in the frame
+    \item[$\rho$] Time of a timeslot
+\end{description}
+\bigskip
+
+\noindent
+\textbf{Description:}
+\begin{itemize}
+    \item Each unit gets a timeslot in the frame, this is given by their join time, meaning that the first device will have the first timeslot in each frame, and so on.
+    \item There is an empty timeslot in the end of each frame which can be used by new devices to join the network.
+    \item Devices currently in the network should alter their current state to adapt to the new device.
+    \item In your own timeslot you transmit a message to the other devices
+    \item In other devices' timeslots you receive their transmission and act upon them if applicable. Otherwise you use the time to do some preemptable execution of a calculation
+\end{itemize}
+
+\begin{lstlisting}[style=customc,mathescape=true]
+startup() // This is called at startup
+  network = listenForNetwork(timeout) // Listen for and return active network, otherwise stops after timeout.
+  if(network != null) // If there already exists a network...
+    connectToNetwork(network)
+  else                // If no existing network is found...
+    createNetwork()
+  while(true)
+    mainLoop()
+  
+createNetwork()
+  $\alpha$ = 2
+  $\beta$ = 1
+  $\kappa$ = 1
+  $\lambda$ = 1
+  $\rho$ = THIS_UNIT_WORST_CASE_EXEC_TIME
+  
+connectToNetwork(network)
+  $\alpha$ = network.$\alpha$
+  $\beta$ = network.$\beta$
+  $\kappa$ = network.$\alpha$ // This is the empty slot.
+  $\lambda$ = network.$\lambda$ + 1 mod $\alpha$
+  $\rho$ = max(THIS_UNIT_WORST_CASE_EXEC_TIME, network.$\rho$)
+  transmitPayload(CreateAnnouncePacket())
+
+mainLoop() // This is repeated forever after startup
+  if($\lambda$ == $\kappa$) // This device's turn to transmit
+  	tx_payload = makePayload() // Returns a payload with appropriate variables set.
+  	transmitPayload(tx_payload)
+  else // This device should receive
+  	timer = startTimer($\rho$) // Starts a timer that shows time left of timeslot
+  	rx_payload = receive($\rho$) // $\rho$ is max timeout to wait. 
+  	if(rx_payload != null) // If a payload is received...
+  	    processPayload(rx_payload)
+  	while(timer.timeLeft > 0 ) // While the timeslot still has some time left
+  	    executeTask(timer.timeLeft)   // Do some preemptable task for the remainder of the timeslot
+  	$\lambda$ = $\lambda$ + 1 mod $\alpha$
+
+processPayload(rx_payload)
+  syncDevice(rx_payload) // Use information in payload to re-synchronise
+  switch(rx_payload.type)
+    case PING:
+      return
+    case ANNOUNCEMENT:
+      $\beta$ += 1
+      $\alpha$ += 1
+      if(rx_payload.Worst_Case > $\rho$)
+        $\rho$ = rx_payload.Worst_Case
+      return
+    case ACTION:
+      if(rx_payload.target == $\kappa$)
+        execute(rx_payload.instruction)
+      return
+\end{lstlisting}
