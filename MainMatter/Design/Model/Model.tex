@@ -18,7 +18,7 @@ The code for every Declaration file can be seen in \myref{app:UPPAALCode}
 It has three states, \textbf{Idle}, \textbf{Transmitting}, and \textbf{Receiving}, where \textbf{Idle} is the initial state.
 The automata has been tested with three instances of itself, and in order to synchronise all three instances, every edge or transition uses synchronisation.
 This can be seen by noticing that all edges contain \textbf{tick?}. 
-tick is a variable in UPPAAL called a channel, which is used to synchronise multiple automatas.
+Tick is a variable in UPPAAL called a channel, which is used to synchronise multiple automatas.
 \textbf{tick?} means that the transition can only be performed if another transition is made containing the following \textbf{synchronisation} \textbf{tick!}.
 If a transition containing \textbf{tick!} is performed all automatas available to perform a transition with \textbf{tick?} has to make that transition.
 Another automata has therefore been made to perform these transitions with a \textbf{tick!}, and can be seen on \myref{fig:model_clock}.
