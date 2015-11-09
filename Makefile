@@ -35,3 +35,5 @@ hax: master.tex
 	pdflatex --synctex=1 -interaction scrollmode master.tex
 	pdflatex --synctex=1 -interaction scrollmode master.tex
 	
+live: clean
+	latexmk -pvc -pdflatex='pdflatex -file-line-error -synctex=1' -pdf master.tex
