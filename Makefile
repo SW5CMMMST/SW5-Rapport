@@ -9,29 +9,29 @@
 TEX:=$(shell ls *.tex)
 OTHER = *~ *.aux *.dvi *.toc *.bbl *.blg *.gz *.out *.thm *.ps *.idx *.ilg *.ind *.tdo *.cb *.cb2 *.lot *.soc *
 
-pdflatex: main.tex
-	pdflatex  --shell-escape --synctex=1 main.tex
-	makeglossaries main
-	bibtex main
-	pdflatex --shell-escape --synctex=1 main.tex
-	pdflatex --shell-escape --synctex=1 main.tex
-	pdflatex --shell-escape --synctex=1 main.tex
+pdflatex: master.tex
+	pdflatex  --shell-escape --synctex=1 master.tex
+	makeglossaries master
+	bibtex master
+	pdflatex --shell-escape --synctex=1 master.tex
+	pdflatex --shell-escape --synctex=1 master.tex
+	pdflatex --shell-escape --synctex=1 master.tex
 clean:
-	git clean -x -f -e main.pdf
+	git clean -x -f -e master.pdf
 
-fast: main.tex
-	pdflatex --synctex=1 -interaction batchmode main.tex
-	makeglossaries main
-	bibtex main
-	pdflatex --synctex=1 -interaction batchmode main.tex
-	pdflatex --synctex=1 -interaction batchmode main.tex
-	pdflatex --synctex=1 -interaction batchmode main.tex
+fast: master.tex
+	pdflatex --synctex=1 -interaction batchmode master.tex
+	makeglossaries master
+	bibtex master
+	pdflatex --synctex=1 -interaction batchmode master.tex
+	pdflatex --synctex=1 -interaction batchmode master.tex
+	pdflatex --synctex=1 -interaction batchmode master.tex
 	
-hax: main.tex
-	pdflatex --synctex=1 -interaction scrollmode main.tex
-	makeglossaries main
-	bibtex main
-	pdflatex --synctex=1 -interaction scrollmode main.tex
-	pdflatex --synctex=1 -interaction scrollmode main.tex
-	pdflatex --synctex=1 -interaction scrollmode main.tex
+hax: master.tex
+	pdflatex --synctex=1 -interaction scrollmode master.tex
+	makeglossaries master
+	bibtex master
+	pdflatex --synctex=1 -interaction scrollmode master.tex
+	pdflatex --synctex=1 -interaction scrollmode master.tex
+	pdflatex --synctex=1 -interaction scrollmode master.tex
 	
