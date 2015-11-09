@@ -13,30 +13,40 @@ All edges weighted zero are removed for simplicity.
 
 \noindent This is a complex problem to solve as many issues will become apparent throughout analysis of the problem.
 So in order to simplify the problem some assumptions can be made about the system.
-We assume that the devices will always be in range of each other when they are not farther than 22 meters apart, since they were able to transmit in the test in  \myref{subsec:RFMT}.
+We assume that the devices will always be in range of each other when they are not farther than 22 meters apart, since they were able to transmit in the test in  \myref{subsec:RFMT}.\todo{write something else than 22 meters}
 So if all devices are not farther than 22 metres apart this means that all vertices on the graph have a non-zero edge between all other vertices on the graph.
 Secondly during development of the system, the system could be set up to give ~100 \% probability of successfully receiving the message, by wiring the different Arduinos together, which gives more room for working on the parts of the solution not considering the unreliability of the radio frequency modules.
 Furthermore the networks can be set up as either fully connected graphs or strongly connected graphs.
 This creates the four sub problems which can be described as:  %where the set of edges on the graph can be described as: 
 
 \begin{enumerate}
-    \item $E \subseteq V \times [1,1] \times V$
-    \item $E \subseteq V \times ]0,1] \times V$. 
+    \item Completely connected reliable communication graph
+    
+    iff $\forall v, u \in V \exists (v,1,u)\in E$
+    \item Completely connected communication graph
+    
+    iff $\forall v, u \in V \exists (v,r,u)\in E\: \backslash \; r>0$
+    \item Strongly connected reliable communication graph
+    
+    iff $\forall v, u \in V $ there is a directed path form $v$ to $u$ using only non-zero edges.
+    
+    \item General communication graph
 \end{enumerate}
 
-Number 1 describes how all the vertices are connected with each other, creating a strongly connected graph, and all the weights of the edges are also 1, which means that all transmissions will be received.
+Number 1 describes how all the vertices are connected with each other, creating a complete connected graph, and all the weights of the edges are also 1, which means that all transmissions will be received.
 
 Number 2 describes how all the vertices are connected but now there is not a 100 \% chance the transmission will be received, but all vertices are still in range of each-other.
 
+Number 3 describes how all the vertices are not connected to each other, but there still exists paths from every node to every other node travelling through other nodes.
+
+Number 4 describes a general communication graph.
+
 \bigskip \noindent
-The last possibility, which was also the original problem, is that some of the vertices are not connected other vertices, which means that the weight is now 0 on some of the edges, which means according to our previous rule that the edges are removed from the graph.
-
-\begin{enumerate}
-\setcounter{enumi}{2}
-\item $E \subseteq V \times [0,1] \times V$ 
-\end{enumerate}
-
 In order to simplify the development of the project, each of these tasks will be handled in order.
-This means that first problem, will be the to be solved, then the second problem, and finally the third problem.
-To refer back to the requirements from \myref{requirements}, the first problem handles function requirements \textbf{a)}-\textbf{f)}, while requirement \textbf{g)} is not handled until the second problem.
-Finally requirement \textbf{h)} is not handled until the third installation of the problem, so if all three problems are solved, all three functional problems will be upheld.
+This means that first problem, will be the to be solved, then the second problem, the third problem, and finally the forth problem.
+Thus the solution will go form a specific solution to a more broad and general solution for every iteration.
+And this approach increases the probability of having a working solution at the end of this project.
+
+%Dont know if wee need this
+%To refer back to the requirements from \myref{requirements}, the first problem handles function requirements \textbf{a)}-\textbf{f)}, while requirement \textbf{g)} is not handled until the second problem.
+%Finally requirement \textbf{h)} is not handled until the third installation of the problem, so if all three problems are solved, all three functional problems will be upheld.
