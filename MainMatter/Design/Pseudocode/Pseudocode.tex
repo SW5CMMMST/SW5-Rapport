@@ -27,18 +27,50 @@ Furthermore the following should be true in all cases:
 Generally the devices should be executing an infinite loop, which transmits and receives payloads.
 This loop should only be stopped, when the network needs to be reconfigured.
 However said reconfiguration and how to initiate a network are special cases and will be described in \myref{sub:special_cases}.
- 
+\todo[inline]{Informal description of main loop and payload processing} 
+\todo[inline]{Flowchart of main loop}  
+
+\begin{lstlisting}[style=customc,mathescape=true,caption={Pseudocode example of the main loop}]  
+mainLoop() // This is repeated forever after startup
+  if($\lambda$ == $\kappa$) // This device's turn to transmit
+  	tx_payload = makePayload() // Returns a payload with appropriate variables set.
+  	transmitPayload(tx_payload)
+  else // This device should receive
+  	timer = startTimer($\rho$) // Starts a timer that shows time left of timeslot
+  	rx_payload = receive($\rho$) // $\rho$ is max timeout to wait. 
+  	if(rx_payload != null) // If a payload is received...
+  	    processPayload(rx_payload)
+  	while(timer.timeLeft > 0 ) // While the timeslot still has some time left
+  	    executeTask(timer.timeLeft)   // Do some preemptable task for the remainder of the timeslot
+  	$\lambda$ = $\lambda$ + 1 mod $\alpha$   
+\end{lstlisting}  
+
+\begin{lstlisting}[style=customc,mathescape=true,caption={Pseudocode example of the method that processes the payload}]  
+processPayload(rx_payload)
+  syncDevice(rx_payload) // Use information in payload to re-synchronise
+  switch(rx_payload.type)
+    case PING:
+      return
+    case ANNOUNCEMENT:
+      $\beta$ += 1
+      $\alpha$ += 1
+      if(rx_payload.Worst_Case > $\rho$)
+        $\rho$ = rx_payload.Worst_Case
+      return
+    case ACTION:
+      if(rx_payload.target == $\kappa$)
+        execute(rx_payload.instruction)
+      return         
+\end{lstlisting}
 % subsection general_case (end)   
 
 \subsection{Special Cases} % (fold)
 \label{sub:special_cases} 
-
-% subsection special_cases (end) 
-
-First the main loop of the protocol will be shown, this is the state where devices are connected to the network, and no new members are trying to join.
+\todo[inline]{Informal description of special cases maybe some kind of list that can be referenced?}  
 
 
-\begin{lstlisting}[style=customc,mathescape=true]
+\todo[inline]{Split of this into smaller part maybe}
+\begin{lstlisting}[style=customc,mathescape=true,caption={Pseudocode example of special case functions}]
 startup() // This is called at startup                                           
   network = listenForNetwork(timeout) // Listen for and return active network, otherwise stops after timeout.
   if(network != null) // If there already exists a network...
@@ -62,33 +94,5 @@ connectToNetwork(network)
   $\lambda$ = network.$\lambda$ + 1 mod $\alpha$
   $\rho$ = max(THIS_UNIT_WORST_CASE_EXEC_TIME, network.$\rho$)
   transmitPayload(CreateAnnouncePacket())
-
-mainLoop() // This is repeated forever after startup
-  if($\lambda$ == $\kappa$) // This device's turn to transmit
-  	tx_payload = makePayload() // Returns a payload with appropriate variables set.
-  	transmitPayload(tx_payload)
-  else // This device should receive
-  	timer = startTimer($\rho$) // Starts a timer that shows time left of timeslot
-  	rx_payload = receive($\rho$) // $\rho$ is max timeout to wait. 
-  	if(rx_payload != null) // If a payload is received...
-  	    processPayload(rx_payload)
-  	while(timer.timeLeft > 0 ) // While the timeslot still has some time left
-  	    executeTask(timer.timeLeft)   // Do some preemptable task for the remainder of the timeslot
-  	$\lambda$ = $\lambda$ + 1 mod $\alpha$
-
-processPayload(rx_payload)
-  syncDevice(rx_payload) // Use information in payload to re-synchronise
-  switch(rx_payload.type)
-    case PING:
-      return
-    case ANNOUNCEMENT:
-      $\beta$ += 1
-      $\alpha$ += 1
-      if(rx_payload.Worst_Case > $\rho$)
-        $\rho$ = rx_payload.Worst_Case
-      return
-    case ACTION:
-      if(rx_payload.target == $\kappa$)
-        execute(rx_payload.instruction)
-      return
-\end{lstlisting}
+\end{lstlisting}   
+% subsection special_cases (end)         
