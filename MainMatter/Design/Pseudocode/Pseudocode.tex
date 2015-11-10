@@ -18,8 +18,8 @@ Furthermore the following should be true in all cases:
     \item Each unit gets a time slot in the frame, this is given by their join time, meaning that the first device will have the first time slot in each frame, and so on.
     \item There is an empty time slot in the end of each frame which can be used by new devices to join the network.
     \item Devices currently in the network should alter their current state to adapt to the new device.
-    \item In your own time slot you may transmit a message to the other devices
-    \item In other devices' time slots you receive their transmission and act upon them if applicable. Otherwise you use the time to do some preemptable execution of a calculation
+    \item In a devices own time slot it may transmit a message to the other devices.
+    \item In other devices' time slots the device receive their transmission and act upon them if applicable. Otherwise the device use the time to do some preemptable execution of a calculation.
 \end{enumerate}
                     
 \subsection{General Case} % (fold)
@@ -94,5 +94,6 @@ connectToNetwork(network)
   $\lambda$ = network.$\lambda$ + 1 mod $\alpha$
   $\rho$ = max(THIS_UNIT_WORST_CASE_EXEC_TIME, network.$\rho$)
   transmitPayload(CreateAnnouncePacket())
+  // TODO: Check if unit is connected to network, if not use exponential backoff to assure that it will in finite time.
 \end{lstlisting}   
 % subsection special_cases (end)         
