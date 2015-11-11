@@ -32,17 +32,17 @@ However said reconfiguration and how to initiate a network are special cases and
 
 \begin{lstlisting}[style=customc,mathescape=true,caption={Pseudocode example of the main loop}]  
 mainLoop() // This is repeated forever after startup
+  timer = startTimer($\rho$) // Starts a timer that shows time left of timeslot
   if($\lambda$ == $\kappa$) // This device's turn to transmit
   	tx_payload = makePayload() // Returns a payload with appropriate variables set.
   	transmitPayload(tx_payload)
   else // This device should receive
-  	timer = startTimer($\rho$) // Starts a timer that shows time left of timeslot
   	rx_payload = receive($\rho$) // $\rho$ is max timeout to wait. 
   	if(rx_payload != null) // If a payload is received...
-  	    processPayload(rx_payload)
-  	while(timer.timeLeft > 0 ) // While the timeslot still has some time left
-  	    executeTask(timer.timeLeft)   // Do some preemptable task for the remainder of the timeslot
-  	$\lambda$ = $\lambda$ + 1 mod $\alpha$   
+  	  processPayload(rx_payload)
+  while(timer.timeLeft > 0 ) // While the timeslot still has some time left
+    executeTask(timer.timeLeft)   // Do some preemptable task for the remainder of the timeslot
+  $\lambda$ = $\lambda$ + 1 mod $\alpha$   
 \end{lstlisting}  
 
 \begin{lstlisting}[style=customc,mathescape=true,caption={Pseudocode example of the method that processes the payload}]  
