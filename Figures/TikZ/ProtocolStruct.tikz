@@ -38,9 +38,9 @@
 	{\textbf{Command}};
 \draw [decoration={brace, amplitude=+20pt}, decorate]
     (slot.north west) -- (mode.north east) node [black,midway,above=+22pt] 
-    {\textbf{Base Struct}};
+    {\textbf{Base Payload}};
 \draw [decoration={brace, amplitude=+80pt}, decorate]
     (slot.north west) -- (cmd.north east) node [black,midway,above=+82pt] 
-    {\textbf{Payload}};	
+    {\textbf{Specific Payload}};	
 \end{tikzpicture}
 }%
