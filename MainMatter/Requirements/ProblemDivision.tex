@@ -18,17 +18,13 @@ Secondly during development of the system, the system could be set up to give ~1
 Furthermore the networks can be set up as either fully connected graphs or strongly connected graphs.
 This creates the four sub problems which can be described as:  %where the set of edges on the graph can be described as: 
 
-\begin{enumerate}
-    \item Completely connected reliable communication graph
-    
-    iff $\forall v, u \in V \exists (v,1,u)\in E$
-    \item Completely connected communication graph
-    
-    iff $\forall v, u \in V \exists (v,r,u)\in E\: \backslash \; r>0$
-    \item Strongly connected reliable communication graph
-    
-    iff $\forall v, u \in V $ there is a directed path form $v$ to $u$ using only non-zero edges.
-    
+\begin{enumerate}[label=\itshape \arabic*\upshape)]
+    \item Completely connected reliable communication graph \\   
+    iff $\forall\, v, u \in V \, \exists (v,1,u)\in E$
+    \item Completely connected communication graph \\
+    iff $\forall\, v, u \in V \, \exists (v,r,u)\in E\ \backslash \; r>0$
+    \item Strongly connected reliable communication graph \\  
+    iff $\forall\, v, u \in V $ there is a directed path form $v$ to $u$ using only non-zero edges.    
     \item General communication graph
 \end{enumerate}
 

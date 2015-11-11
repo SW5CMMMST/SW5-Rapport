@@ -3,14 +3,14 @@
 When developing for an Arduino one thing to always keep in mind is the limited amount of memory one has to work with.
 Due to the limited amount of memory one would typically like to reduce the amount of memory used on data.
 One workaround that can reduce at least the storing of some variables, is to include them into the payload.
-This would in turn make the payload larger, another thing we would prefer to keep as small as possible.
-We want to keep the payload small as with a bigger payload you increase the chances of packages being lost, as well as the time it takes to transmit the payload. 
+This would in turn make the payload larger, which we would also prefer to keep as small as possible.
+We want to keep the payload small as with a bigger payload you increase the chances of packages being lost, as well as the time it takes to transmit the payload.
 Thus a balance between storing on the device or transmitting the data is sought after, one may however be more important than the in some cases.
 
 \bigskip \noindent
 The amount data useful in the payload largely depends on the complexity of the network itself, and the devices that make up the network.
-In a simpler network where all devices serve the same purpose and the network is strongly connected, one payload may suit the entire network where no variables are irrelevant.
-An example would be some sort of sensory network which observe one thing, like a fire alarm.
+In a simpler network where all devices serve the same purpose and the network is strongly\todo{complete? -morten} connected, one payload may suit the entire network where no variables are irrelevant.
+An example would be a sensory network which observe one thing, like a fire alarm.
 The only variable required here, aside from those part of the communication, is whether or not there is a fire.
 
 This however only works if all devices serve the same purpose, as in the case of the fire alarm.
@@ -27,9 +27,11 @@ typedef struct {
     uint8_t addr;
     uint8_t mode;
 } baseStruct;
-\end{lstlisting}
-\bigskip \noindent
+\end{lstlisting} 
 
+\tikzfigure{ProtocolStruct.tikz}{TikZ it biatch}{payload_struct}  
+\bigskip \noindent
+\info[inline]{burde dette kode ikke være psuedo? - morten}
 The key field in the base struct is mode.
 This defines what other information may be required, which is not part of the base struct.
 Through using this it becomes possible to cater the payload to apply to a wider range of uses, without the payload having some garbage data which may not be required for one implementation, but is for another.
@@ -50,6 +52,6 @@ typedef struct {
 \bigskip \noindent
 
 In the case of a network with a variety of devices both observers and actuators, these may require some data that is only relevant for their type of device.
-Consider the case in which one wishes to turn on the light, depending on some sensory input.
+Consider the case in which one wishes to turn on a light, depending on some sensory input.
 When the sensor is triggered the payload should contain a command and an address of which device is to perform said command.
 This scenario is different from the fire alarm scenario, and with the proposed design of the payload both scenarios would be feasible without having any garbage data in the payload.
