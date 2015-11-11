@@ -6,11 +6,11 @@ The general case is what will be happening most of the time, whereas special cas
 
 From here on a set of frequently used variables will be referenced using the following greek letters: 
 \begin{description}[labelindent=\parindent]
-    \item[$\alpha$] The number of time slots per frame
-    \item[$\beta$] The total number of units in the network
-    \item[$\kappa$] The current unit's time slot id in the frame
-    \item[$\lambda$] The current time slot in the frame
-    \item[$\rho$] The length of a time slot
+    \item[$n$] The number of time slots per frame
+    \item[$d$] The total number of devices in the network
+    \item[$k$] The current device's time slot id in the frame
+    \item[$i$] The current time slot in the frame
+    \item[$\delta$] The length of a time slot
 \end{description}  
 \noindent
 Furthermore the following should be true in all cases: 
@@ -32,17 +32,17 @@ However said reconfiguration and how to initiate a network are special cases and
 
 \begin{lstlisting}[style=customc,mathescape=true,caption={Pseudocode example of the main loop}]  
 mainLoop() // This is repeated forever after startup
-  timer = startTimer($\rho$) // Starts a timer that shows time left of timeslot
-  if($\lambda$ == $\kappa$) // This device's turn to transmit
+  timer = startTimer($\delta$) // Starts a timer that shows time left of timeslot
+  if($i$ == $k$) // This device's turn to transmit
   	tx_payload = makePayload() // Returns a payload with appropriate variables set.
   	transmitPayload(tx_payload)
   else // This device should receive
-  	rx_payload = receive($\rho$) // $\rho$ is max timeout to wait. 
+  	rx_payload = receive($\delta$) // $\rho$ is max timeout to wait. 
   	if(rx_payload != null) // If a payload is received...
   	  processPayload(rx_payload)
   while(timer.timeLeft > 0 ) // While the timeslot still has some time left
     executeTask(timer.timeLeft)   // Do some preemptable task for the remainder of the timeslot
-  $\lambda$ = $\lambda$ + 1 mod $\alpha$   
+  $i$ = $i$ + 1 mod $n$   
 \end{lstlisting}  
 
 \begin{lstlisting}[style=customc,mathescape=true,caption={Pseudocode example of the method that processes the payload}]  
@@ -52,13 +52,13 @@ processPayload(rx_payload)
     case PING:
       return
     case ANNOUNCEMENT:
-      $\beta$ += 1
-      $\alpha$ += 1
-      if(rx_payload.Worst_Case > $\rho$)
-        $\rho$ = rx_payload.Worst_Case
+      $d$ += 1
+      $n$ += 1
+      if(rx_payload.Worst_Case > $\delta$)
+        $\delta$ = rx_payload.Worst_Case
       return
     case ACTION:
-      if(rx_payload.target == $\kappa$)
+      if(rx_payload.target == $k$)
         execute(rx_payload.instruction)
       return         
 \end{lstlisting}
@@ -81,18 +81,18 @@ startup() // This is called at startup
     mainLoop()
   
 createNetwork()
-  $\alpha$ = 2
-  $\beta$ = 1
-  $\kappa$ = 1
-  $\lambda$ = 1
-  $\rho$ = THIS_UNIT_WORST_CASE_EXEC_TIME
+  $n$ = 2
+  $d$ = 1
+  $k$ = 1
+  $i$ = 1
+  $\delta$ = THIS_UNIT_WORST_CASE_EXEC_TIME
   
 connectToNetwork(network)
-  $\alpha$ = network.$\alpha$
-  $\beta$ = network.$\beta$
-  $\kappa$ = network.$\alpha$ // This is the empty slot.
-  $\lambda$ = network.$\lambda$ + 1 mod $\alpha$
-  $\rho$ = max(THIS_UNIT_WORST_CASE_EXEC_TIME, network.$\rho$)
+  $n$ = network.$n$
+  $d$ = network.$d$
+  $k$ = network.$n$ // This is the empty slot.
+  $i$ = network.$i$ + 1 mod $i$
+  $\delta$ = max(THIS_UNIT_WORST_CASE_EXEC_TIME, network.$\delta$)
   transmitPayload(CreateAnnouncePacket())
   // TODO: Check if unit is connected to network, if not use exponential backoff to assure that it will in finite time.
 \end{lstlisting}   
