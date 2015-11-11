@@ -21,26 +21,8 @@
 \node[draw, right = 0cm of addr,
 		minimum width=0.25\textwidth, 
 		minimum height=10mm,
-		label=below:1 byte]
+		label=below:x bytes]
 	(mode)
-	{\textbf{Mode}};
-\node[draw, right = 0cm of mode,
-		minimum width=0.25\textwidth, 
-		minimum height=10mm,
-		label=below:1 byte]
-	(target)
-	{\textbf{Target}};
-\node[draw, right = 0cm of target,
-		minimum width=0.25\textwidth, 
-		minimum height=10mm,
-		label=below:1 byte]
-	(cmd)
-	{\textbf{Command}};
-\draw [decoration={brace, amplitude=+20pt}, decorate]
-    (slot.north west) -- (mode.north east) node [black,midway,above=+22pt] 
-    {\textbf{Base Payload}};
-\draw [decoration={brace, amplitude=+80pt}, decorate]
-    (slot.north west) -- (cmd.north east) node [black,midway,above=+82pt] 
-    {\textbf{Specific Payload}};	
+	{\textbf{Data}};
 \end{tikzpicture}
 }%
