@@ -1,56 +1,30 @@
 %Author: Marc
 \subsection{Payload}
-When developing for an Arduino one thing to always keep in mind is the limited amount of memory one has to work with.
-Due to the limited amount of memory one would typically like to reduce the amount of memory used on data.
-One workaround that can reduce at least the storing of some variables, is to include them into the payload.
-This would in turn make the payload larger, which we would also prefer to keep as small as possible.
-We want to keep the payload small as with a bigger payload you increase the chances of packages being lost, as well as the time it takes to transmit the payload.
-Thus a balance between storing on the device or transmitting the data is sought after, one may however be more important than the in some cases.
+The first matter to discuss will be the data to be send between Arduinos i.e. the payload.
+When developing for an Arduino it is important to design for the limited resources available.
+Threfore it is advised to keep the amount of resources used small.
+Another reason to keep the payload small is that with a bigger payload you increase the risk of packet loss, as well as the time it takes to transmit the payload.
+Thus a balance between the size of the payload, the speed of transmission and the reliability of transmissions should be met.
 
-\bigskip \noindent
-The amount data useful in the payload largely depends on the complexity of the network itself, and the devices that make up the network.
-In a simpler network where all devices serve the same purpose and the network is strongly\todo{complete? -morten} connected, one payload may suit the entire network where no variables are irrelevant.
+\bigskip 
+The amount of data in the payload largely depends on the complexity of the network itself, and the devices that make up the network.
+In a simpler network where all devices serve the same purpose and the network is completely connected, one payload may suit the entire network where no variables are irrelevant to any of the devices.
 An example would be a sensory network which observe one thing, like a fire alarm.
-The only variable required here, aside from those part of the communication, is whether or not there is a fire.
+The only variable required here, aside from those used for communicating, is whether or not a fire has started.
 
-This however only works if all devices serve the same purpose, as in the case of the fire alarm.
-While such a solution may suffice for the previous case, if one intends to use the protocol for more complex networks which require more than simply determining whether there is a fire or not, the payloads must be more general.
-In an effort to allow for such a variety in networks designing a base payload which only contains data of interest to the wireless communication has been designed, an initial idea of such a struct is shown in \myref{baseStruct}.
+While such a solution may suffice for the previous case, if one intends to use the protocol for more complex networks which require more than simply determining whether there is a fire or not, the payloads must be more generalised.
+In an effort to allow for such a variety in networks designing a Base Payload which only contains data of interest to the wireless communication has been designed.
+This Base Payload can be seen embedded in a Specific Payload on \myref{fig:payload_struct}.
 
+\tikzfigure{ProtocolStruct.tikz}{Base Payload embedded in a Specific Payload containg a target device and a command for said device.}{payload_struct}  
 \bigskip \noindent
-\lstset{style=customc}
-\begin{lstlisting}[style=customc,caption={Possible way the baseStruct could look for the payload},label={baseStruct}]
-typedef struct {
-    //Universal data - arbitrary data needed by the protocol
-    uint8_t slot;
-    uint8_t slotCnt;
-    uint8_t addr;
-    uint8_t mode;
-} baseStruct;
-\end{lstlisting} 
-
-\tikzfigure{ProtocolStruct.tikz}{TikZ it biatch}{payload_struct}  
-\bigskip \noindent
-\info[inline]{burde dette kode ikke være psuedo? - morten}
-The key field in the base struct is mode.
-This defines what other information may be required, which is not part of the base struct.
+The key field in the Base Payload is mode, which defines what other information may be required.
 Through using this it becomes possible to cater the payload to apply to a wider range of uses, without the payload having some garbage data which may not be required for one implementation, but is for another.
-This base struct serves as a field in a variety of other structs, each with their own purpose.
-One struct may be an alert, another may require a certain device to perform some command.
-Each of such scenario would have their own payload struct, similar to the one in listing \myref{cmdStruct}.
+This Base Payload serves as a field in a variety of other payloads, each with their own purpose.
+One Specific Payload may be an alert, another may require a certain device to perform some command.
+Each of such scenarioes would have their own payload, similar to the example surrounding the Base Payload in \myref{fig:payload_struct}.
 
-\bigskip \noindent
-\begin{lstlisting}[style=customc,caption={A possible way a struct for designating commands could look in the payload},label={cmdStruct}]
-typedef struct { 
-    //Universal data
-    baseStruct data;
-    //Unique Data required for sending commands
-    uint8_t target;
-    uint8_t cmd;
-} payload_cmd
-\end{lstlisting}
-\bigskip \noindent
-
+\bigskip
 In the case of a network with a variety of devices both observers and actuators, these may require some data that is only relevant for their type of device.
 Consider the case in which one wishes to turn on a light, depending on some sensory input.
 When the sensor is triggered the payload should contain a command and an address of which device is to perform said command.

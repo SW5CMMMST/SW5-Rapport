@@ -1,10 +1,8 @@
 %Author: Morten Madmad Pedersen
 \subsection{Creating a network}
-When first turning on a device which should be part of the network, the first task of the device must be to try to connect to an existing network, if this does not succeed it is assumed that the device is the first and should therefor self set up a new network.
-In the following text the design of creating a network will be further described.
+When first turning on a device, which should be part of the network, the first task of the device must be to try to connect to an existing network.
+First the device will be set to listening for any signal for a given time period. 
+If the device does not pick up any transmission during this period the device will start initialising its own network.
 
-First the device will be set to listening for any signal in twenty seconds. 
-If the device does not pick up any transmission during this period the device will start initialising it's own network, which other devices then can connect themselves to.
-
-When device starts to create a network, the device will start a network with two times slots, one for the device itself and one empty slot which allows another device to connect to the network.
-The device will the send a message signalling an ok status, if it has nothing else to send, so other devices can see the network.   
+When a device creates a network, the network contains two times slots; one for the device itself and one empty slot, which allows another device to connect to the network.
+When the frame is in the device's own time slot it will transmit so new devices can detect said network, when they are listening in their startup period.   
