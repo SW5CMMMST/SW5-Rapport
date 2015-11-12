@@ -1,5 +1,5 @@
 \section{Pseudocode Description}
-This section presents key components of the designed TDMA protocol. 
+This section presents key components of the designed TDMA-based protocol. 
 First an informal description is given followed by relevant flowcharts and pseudocode examples. 
 The model of the protocol is divided into the two phases - the setup phase and the loop phase. 
 
@@ -9,19 +9,19 @@ That device can only know its local variables and what it receives via the \enqu
 \begin{table}[H]
 	\begin{tabularx}{\textwidth}{l l X l}
 		\toprule
-		Name		& Type		& Description & Definition\\
+		Name		& Type		& Description & Constraint \\
 		\midrule
-		$n$			& integer	& The number of slots in the network & $n < 1$\\
-		$k$			& integer	& The slot claimed by this device & $k \leq n - 1$\\
-		$i$			& integer	& The current slot & $i \leq n$\\
+		$n$			& integer	& The number of slots in the network 						& $2 \leq n \leq 256$\\
+		$k$			& integer	& The slot claimed by this device 							& $1 \leq k \leq n - 1$\\
+		$i$			& integer	& The current slot 											& $1 \leq i \leq n$\\
+		$\delta$ 	& integer	& The duration of a time slot 								& $0 < \delta$\\
+		$\rho$		& integer	& The duration of a time slot reserved for communication 	& $0 < \rho < \delta$ \\
 		$x$			& clock		& A clock used for timing\\
-		$\delta$ 	& integer	& The duration of a time slot & $\delta > 0$\\
-		$\rho$		& integer	& The duration of a time slot reserved for kommunication & $\rho > \delta$ and $\rho \leq 0$\\
 		\bottomrule
 	\end{tabularx}
 	\caption{The local variables every device has access to.}
 	\label{tab:locals}
-\end{table}\todo{This is not a definition, maybe constraint invariant restriction}
+\end{table}
 
 The local variables are as defined in \myref{tab:locals} and must follow the following global invariants:
 \begin{itemize}
