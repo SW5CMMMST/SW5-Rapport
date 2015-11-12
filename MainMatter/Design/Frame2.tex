@@ -1,13 +1,13 @@
 %Author: Marc
 \subsection{Frames}
-While the concept of TDMA is widespread a general implementation is not; which is partly why so many variations of TDMA exist.
+While the concept of TDMA is widespread, a general implementation is not; which is partly why so many variations of TDMA exist.
 For this section we will focus on the design and requirements set by the frame as well as an individual time slot.
 The design of the frame itself refers to the relative location of each occupied time slot including one or more unused slots which new devices would seize.
 The specifics of adding and removing devices from the network and how those actions affect the frame will be discussed in sections referring to those individual problems.
 This section will focus on the design of the frame and not how events in the network may alter it.
 Depending on which of the model from \myref{chp:Problems} we take root in, different problems are worth considering.
-For the base example, completely connected and reliable communication, the only real concern when to place the open slot.
-In a larger network it will take longer for a device to join allowing for possible more devices to be activated thus resulting in several devices attempting to join.
+For the base example, completely connected and reliable communication, the only real concern is when to place the open slot.
+In a larger network it will take longer for a device to join allowing for possible more devices to be activated within a single frame, thus resulting in several devices attempting to join.
 However if we once again return to the example of a fire alarm, several devices turning on within seconds of each other in a large network seems an unlikely scenario for other than an initial setup of the network.
 Also since the only effect is a slight delay in joining the network, and this would rarely occur outside of the startup network, it is insignificant; as such the design will only contain one empty slot at a time as portrayed on \myref{fig:CCFrame}.
 \tikzfigure{SimpleFrame.tikz}{A visual representation of the frame with 5 time slots where of one is empty}{CCFrame} 
@@ -16,7 +16,7 @@ Also since the only effect is a slight delay in joining the network, and this wo
 As the figure also shows each device will have one slot per frame, in the case where the network is not completely connected but strongly connected one may consider changing this.
 In such a network it there is likely to be leaf vertices as well as vertices with many edges, one might consider that the vertices with many edges, particularly a universal vertex, should have more than one slot per frame in the case where echoing data is relevant.
 For that specification of the protocol the frame may look more like \myref{fig:StronglyCCFrame}.
-\tikzfigure{StronglyCCFrame.tikz}{A visual representation of the frame with 7 time slots where of one is empty. Notice one device occupies two slots this represents a universal vertex}{StronglyCCFrame} 
+\tikzfigure{StronglyCCFrame.tikz}{A visual representation of the frame with 7 time slots where of one is empty. Notice device 0x33 occupies two slots, this represents a universal vertex}{StronglyCCFrame} 
 
 \subsubsection*{Time Slot}
 For each time slot only one device may transmit, as such it is important that the time slot provides enough time for a device to transmit data, and equally as important that any computations can be executed before the next transmission is scheduled to be.
