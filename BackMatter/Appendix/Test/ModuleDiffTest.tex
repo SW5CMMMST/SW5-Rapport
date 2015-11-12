@@ -7,7 +7,7 @@ Consequently a test must be performed, which investigates these differences, so 
 To test all RF modules available to the group two Arduinos are used; one as receiver and the other as transmitter.
 The RF modules are then switched in and out of breadboards connected to said Arduinos, so that both receiver and tranmitter modules can be tested independently.
 Furthermore a third Arduino is used to verify the results of each module.
-The software on the Arduinos is the same as in the test in \myref{subsec:RFMT}, i.e. a transmitting part which sends 100 unique packages and a receiving part which registers any package loss. 
+The software on the Arduinos is the same as in the test in \myref{cha:radio_frequency_module_reception_test}, i.e. a transmitting part which sends 100 unique packages and a receiving part which registers any package loss. 
 Firstly modules is randomly tested to find a transmitter that shows very little to no package loss, thereafter every receiver is tested using the \enquote*{good} transmitter; with \enquote*{good} meaning a package loss very close to 0 \%, maximum 2 \%.
 The same thing is done to test the transmitters, i.e. a \enquote*{good} receiver is used.
 This approach is then repeated multiple times with different \enquote*{good} receivers and transmitters, to ensure a more fair test environment, with multiple combinations of modules.

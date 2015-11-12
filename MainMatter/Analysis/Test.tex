@@ -3,8 +3,8 @@
 \label{sec:hardware_tests}
 In order to get knowledge of and experience with the hardware three tests have been devised.
 The first test is conducted to validate the results of the following tests, and it scrutinizes the hardware of the same type for inconsistencies.
-The following tests examines for the speed of the devices and the reliability with varying antenna lengths.
-The tests can be seen in \myref{cha:radio_frequency_module_difference_test}, \myref{cha:radio_frequency_module_reception_test} and \myref{cha:radiohead_time_sent_test}; this section will present the results of the tests, and explore what it means for the project.
+The following tests examines for the speed of the devices and the reliability with antennas attached to the RF-modules of different lengths.
+The full tests is documented in \myref{cha:radio_frequency_module_difference_test}, \myref{cha:radio_frequency_module_reception_test} and \myref{cha:radiohead_time_sent_test}; this section will present the results of the tests, and explore its implication on the project.
 
 \paragraph{Radio Frequency Module Difference Test (full test in \myref{cha:radio_frequency_module_difference_test})}% (fold)
 \label{par:radio_frequency_module_difference_test}\hfill\\
@@ -30,7 +30,7 @@ In the test the distances that were tested ranged from 2 to 28 metres between th
     \item[17.3 cm] A quarter-monopole antenna (at 433 MHz)
 \end{description} 
 \noindent
-The results of this test (see \myref{subsec:RFMT}) shows that the theory which states that the quarter-monopole antenna at 433 MHz should be 17.3 cm holds up in practice.
+The results of this test shows that the theory, which states that the quarter-monopole antenna at 433 MHz should be 17.3 cm, holds up in practice.
 At all distances the antenna length of 17.3 cm gives a significantly lower package loss percent.
 In fact, when the transmitter is fitted with a 17.3 cm antenna even the receiver with no external antenna has a relatively low package loss percent.
 However all the tests also shows that the arbitrary antenna length does not work well and actually introduces package loss in comparison to no external antenna and the 17.3 cm antenna.
@@ -44,7 +44,7 @@ This will give the most reliable transmissions and receptions between devices us
 The last hardware test will assess the speed at which a message of $n$ bytes can be sent using the communication library for Arduino called RadioHead.
 This test is performed to extract a formulae, which can be used to calculate said speed; as it is advantageous to know when a given message was sent, in order to better synchronise devices.   
 
-The results of the test shows that the time it takes to send a message is linearly proportional with the number of bytes in the message.
+The results of the test shows that the time it takes to send a message is linearly proportional with size of the message in bytes.
 Moreover the following equation can be derived from the results:
 \begin{equation}
 f(n)=6.0101 * n + 65.7826
