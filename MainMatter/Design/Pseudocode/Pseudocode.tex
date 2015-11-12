@@ -32,70 +32,45 @@ This loop should only be stopped, when the network needs to be reconfigured.
 However said reconfiguration and how to initiate a network are special cases and will be described in \myref{sub:special_cases}.
 \todo[inline]{Informal description of main loop and payload processing} 
 
-\begin{lstlisting}[style=customc,mathescape=true,caption={Pseudocode example of the main loop}]  
-mainLoop() // This is repeated forever after startup
-  timer = startTimer($\delta$) // Starts a timer that shows time left of timeslot
-  if($i$ == $k$) // This device's turn to transmit
-  	tx_payload = makePayload() // Returns a payload with appropriate variables set.
-  	transmitPayload(tx_payload)
-  else // This device should receive
-  	rx_payload = receive($\delta$) // $\rho$ is max timeout to wait. 
-  	if(rx_payload != null) // If a payload is received...
-  	  processPayload(rx_payload)
-  while(timer.timeLeft > 0 ) // While the timeslot still has some time left
-    executeTask(timer.timeLeft)   // Do some preemptable task for the remainder of the timeslot
-  $i$ = $i$ + 1 mod $n$   
+\begin{lstlisting}[style=pseudocode,mathescape=true,caption={Pseudocode example of the main loop}] 
+Device$_{id} =$ local $n, i, k, \delta, \rho, \text{clock } x$ 
+procedure mainLoop()
+	while true do
+		wait until $x \geq \delta$
+		$x \leftarrow 0$
+		$i \leftarrow (i \text{ mod } n) + 1$		// Update current slot
+		if $i = k$ then
+			$Update()$				// Updates the data to be sendt
+			$transmit(i, n, id, data)$
+		else 
+			while $x \leq \rho$ do
+				if $recived(i', n', id', data')$ then
+					$remember(id', data')$
+					goto process
+				end
+			end
+		end
+		process:
+		$doWork()$	// Must take less time than $\delta - \rho$	
+	end
 \end{lstlisting}  
 
-\begin{lstlisting}[style=customc,mathescape=true,caption={Pseudocode example of the method that processes the payload}]  
-processPayload(rx_payload)
-  syncDevice(rx_payload) // Use information in payload to re-synchronise
-  switch(rx_payload.type)
-    case PING:
-      return
-    case ANNOUNCEMENT:
-      $d$ += 1
-      $n$ += 1
-      if(rx_payload.Worst_Case > $\delta$)
-        $\delta$ = rx_payload.Worst_Case
-      return
-    case ACTION:
-      if(rx_payload.target == $k$)
-        execute(rx_payload.instruction)
-      return         
-\end{lstlisting}
+%\begin{lstlisting}[style=customc,mathescape=true,caption={Pseudocode example of the method that processes the payload}]  
+%processPayload(rx_payload)
+%  syncDevice(rx_payload) // Use information in payload to re-synchronise
+%  switch(rx_payload.type)
+%    case PING:
+%      return
+%    case ANNOUNCEMENT:
+%      $d$ += 1
+%      $n$ += 1
+%      if(rx_payload.Worst_Case > $\delta$)
+%        $\delta$ = rx_payload.Worst_Case
+%      return
+%    case ACTION:
+%      if(rx_payload.target == $k$)
+%        execute(rx_payload.instruction)
+%      return         
+%\end{lstlisting}
 % subsection general_case (end)   
-
-\subsection{Special Cases} % (fold)
-\label{sub:special_cases} 
-\todo[inline]{Informal description of special cases maybe some kind of list that can be referenced?}  
-
-
-\todo[inline]{Split of this into smaller part maybe}
-\begin{lstlisting}[style=customc,mathescape=true,caption={Pseudocode example of special case functions}]
-startup() // This is called at startup                                           
-  network = listenForNetwork(timeout) // Listen for and return active network, otherwise stops after timeout.
-  if(network != null) // If there already exists a network...
-    connectToNetwork(network)
-  else                // If no existing network is found...
-    createNetwork()
-  while(true)
-    mainLoop()
-  
-createNetwork()
-  $n$ = 2
-  $d$ = 1
-  $k$ = 1
-  $i$ = 1
-  $\delta$ = THIS_UNIT_WORST_CASE_EXEC_TIME
-  
-connectToNetwork(network)
-  $n$ = network.$n$
-  $d$ = network.$d$
-  $k$ = network.$n$ // This is the empty slot.
-  $i$ = network.$i$ + 1 mod $i$
-  $\delta$ = max(THIS_UNIT_WORST_CASE_EXEC_TIME, network.$\delta$)
-  transmitPayload(CreateAnnouncePacket())
-  // TODO: Check if unit is connected to network, if not use exponential backoff to assure that it will in finite time.
-\end{lstlisting}   
-% subsection special_cases (end)         
+            
