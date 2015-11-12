@@ -40,18 +40,18 @@ procedure mainLoop()
 		$x \leftarrow 0$
 		$i \leftarrow (i \text{ mod } n) + 1$		// Update current slot
 		if $i = k$ then
-			Update()		// Updates the data to be sendt
-			transmit$(i, n, id, data)$
+			$Update()$				// Updates the data to be sendt
+			$transmit(i, n, id, data)$
 		else 
 			while $x \leq \rho$ do
 				if $recived(i', n', id', data')$ then
-					remember$(i', n', id', data')$
+					$remember(id', data')$
 					goto process
 				end
 			end
 		end
 		process:
-		doWork()	// Must take less time than $\delta - \rho$	
+		$doWork()$	// Must take less time than $\delta - \rho$	
 	end
 \end{lstlisting}  
 
@@ -73,29 +73,4 @@ procedure mainLoop()
 %      return         
 %\end{lstlisting}
 % subsection general_case (end)   
-
-\subsection{Setup} % (fold)
-\label{sub:setup} 
-\todo[inline]{Informal description of special cases maybe some kind of list that can be referenced?}  
-
-\begin{lstlisting}[style=pseudocode,mathescape=true,caption={Pseudocode example of special case functions}]
-Device$_{id} =$ local $n, i, k, timeout, \text{clock } x$
-procedure startup()
-	$x \leftarrow 0$
-	while $x \leq timeout$ do
-		if $recived(i', n', id', data')$ then
-			// Join network
-			$n \leftarrow n' + 1$	// Increment number of slots
-			$k \leftarrow n'$		// Claim empty slot
-			$i \leftarrow i'$		// Get current slot
-			goto loopstart
-		end
-	end
-	// Create new network
-	$n \leftarrow 2$					// Two slots; one for this device and one empty
-	$k \leftarrow 1$					// Claim the first slot
-	$i \leftarrow 1$					// Set turn to mine
-	loopstart:
-	mainLoop()
-\end{lstlisting}   
-% subsection special_cases (end)         
+            
