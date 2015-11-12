@@ -1,0 +1,29 @@
+\resizebox{1\textwidth}{!}{%
+\begin{tikzpicture}[scale=\textwidth]
+\node[draw, align = center, 
+		minimum width=0.15\textwidth, 
+		minimum height=10mm] 
+	(slot) at (0,0)
+	{\textbf{Slot}};
+\node[draw, right = 0cm of slot,
+		minimum width=0.15\textwidth, 
+		minimum height=10mm]
+	(slotcnt)
+	{\textbf{Slot Count}};
+\node[draw, right = 0cm of slotcnt,
+		minimum width=0.15\textwidth, 
+		minimum height=10mm]
+	(addr)
+	{\textbf{Address}};
+\node[draw, right = 0cm of addr,
+		minimum width=0.15\textwidth, 
+		minimum height=10mm]
+	(time)
+	{\textbf{Timestamp}};
+\node[draw, right = 0cm of time,
+		minimum width=0.40\textwidth, 
+		minimum height=10mm]
+	(mode)
+	{\textbf{Data}};
+\end{tikzpicture}
+}%

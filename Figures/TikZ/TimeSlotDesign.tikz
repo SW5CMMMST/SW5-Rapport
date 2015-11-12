@@ -1,0 +1,20 @@
+\resizebox{1\textwidth}{!}{%
+\begin{tikzpicture}[scale=\textwidth]
+\node[draw, align = center, 
+		minimum width=0.45\textwidth, 
+		minimum height=10mm,
+		label=below:$\delta_{Communication}$] 
+	(communicating) at (0,0)
+	{\textbf{Communication phase}};
+\node[draw, right = 0cm of communicating,
+		minimum width=0.45\textwidth, 
+		minimum height=10mm,
+		label=below:$\delta_{Process}$]
+	(processing)
+	{\textbf{Processing phase}};
+
+\draw [decoration={brace, amplitude=+40pt}, decorate]
+    (communicating.north west) -- (processing.north east) node [black,midway,above=+42pt] 
+    {\textbf{Time Slot}};	
+\end{tikzpicture}
+}%

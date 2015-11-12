@@ -1,55 +1,29 @@
-%Author: Marc
 \subsection{Payload}
-When developing for an Arduino one thing to always keep in mind is the limited amount of memory one has to work with.
-Due to the limited amount of memory one would typically like to reduce the amount of memory used on data.
-One workaround that can reduce at least the storing of some variables, is to include them into the payload.
-This would in turn make the payload larger, another thing we would prefer to keep as small as possible.
-We want to keep the payload small as with a bigger payload you increase the chances of packages being lost, as well as the time it takes to transmit the payload. 
-Thus a balance between storing on the device or transmitting the data is sought after, one may however be more important than the in some cases.
+The first matter to discuss will be the data to be sent between Arduinos i.e. the payload.
+When developing for an Arduino it is important to design for the limited resources available.
+Therefore it is advised to keep the amount of resources used small.
+Additionally the transmission time increases as the size of the payload increases, this will further escalate the risk of packet loss. 
+Thus a balance between the size of the payload, the speed of transmission and the reliability of transmissions should be met. 
 
-\bigskip \noindent
-The amount data useful in the payload largely depends on the complexity of the network itself, and the devices that make up the network.
-In a simpler network where all devices serve the same purpose and the network is strongly connected, one payload may suit the entire network where no variables are irrelevant.
-An example would be some sort of sensory network which observe one thing, like a fire alarm.
-The only variable required here, aside from those part of the communication, is whether or not there is a fire.
+\bigskip 
+The amount of data in the payload largely depends on the complexity of the network itself, and the devices that make up the network.
+An example would be a sensory network which observe one thing, e.g. a fire alarm. 
+The only variable required here, aside from those used for communicating, is whether or not a fire has started, which would result in very little data transmission.
 
-This however only works if all devices serve the same purpose, as in the case of the fire alarm.
-While such a solution may suffice for the previous case, if one intends to use the protocol for more complex networks which require more than simply determining whether there is a fire or not, the payloads must be more general.
-In an effort to allow for such a variety in networks designing a base payload which only contains data of interest to the wireless communication has been designed, an initial idea of such a struct is shown in \myref{baseStruct}.
+This is one use case, however more complex networks should also be supported. 
+In an effort to allow for such a variety in networks an abstraction of the data will be made, and as such the only consistent data being sent in a transmission will be the information needed for communicating on the network.
+A figure showing the design of the payload can be seen on \myref{fig:payload_struct}.
 
-\bigskip \noindent
-\lstset{style=customc}
-\begin{lstlisting}[style=customc,caption={Possible way the baseStruct could look for the payload},label={baseStruct}]
-typedef struct {
-    //Universal data - arbitrary data needed by the protocol
-    uint8_t slot;
-    uint8_t slotCnt;
-    uint8_t addr;
-    uint8_t mode;
-} baseStruct;
-\end{lstlisting}
-\bigskip \noindent
+\tikzfigure{ProtocolStruct.tikz}{Payload with information needed to communicate on the network, along with some data to be used by the Arduinos in the user code.}{payload_struct}
+\bigskip
 
-The key field in the base struct is mode.
-This defines what other information may be required, which is not part of the base struct.
-Through using this it becomes possible to cater the payload to apply to a wider range of uses, without the payload having some garbage data which may not be required for one implementation, but is for another.
-This base struct serves as a field in a variety of other structs, each with their own purpose.
-One struct may be an alert, another may require a certain device to perform some command.
-Each of such scenario would have their own payload struct, similar to the one in listing \myref{cmdStruct}.
-
-\bigskip \noindent
-\begin{lstlisting}[style=customc,caption={A possible way a struct for designating commands could look in the payload},label={cmdStruct}]
-typedef struct { 
-    //Universal data
-    baseStruct data;
-    //Unique Data required for sending commands
-    uint8_t target;
-    uint8_t cmd;
-} payload_cmd
-\end{lstlisting}
-\bigskip \noindent
-
-In the case of a network with a variety of devices both observers and actuators, these may require some data that is only relevant for their type of device.
-Consider the case in which one wishes to turn on the light, depending on some sensory input.
-When the sensor is triggered the payload should contain a command and an address of which device is to perform said command.
-This scenario is different from the fire alarm scenario, and with the proposed design of the payload both scenarios would be feasible without having any garbage data in the payload.
+The payload has the four variables: slot, slot count, address and timestamp, which is to be used to communicate in the network.
+The slot is used to indicate which slot the frame is currently in, while slot count is the total number of slots.
+The payload allows the protocol to abstract from what data is being sent, and as such any data can be send as long as it is of reasonable size. 
+Examples of data could be sending a message to turn on some LED or maybe requesting other devices for their sensor outputs.
+Address is much like a mac address and is unique for all Arduinos, and is used to differentiate between Arduinos to tell them apart.
+This could instead be included in the Data as some implementations with the protocol might not need to differentiate between the Arduinos, however this is a more general solution for the protocol.
+Since the size of the address is finite, and will most likely be implemented as a 1 byte unsigned integer. 
+A 1 byte address would allow 256 addresses, however a few may be reserved for special uses.
+The timestamp is used to synchronize the units.
+This payload is reasonably small, and the size of the data field will depend on the user code on the device.
