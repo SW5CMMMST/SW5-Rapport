@@ -2,9 +2,12 @@
 In this section key components of the designed TDMA protocol will be presented.
 Firstly an informal description will be given, followed by relevant flowcharts and pseudocode examples.
 The protocol presentation have been separated into two sections - general case and special cases. 
-The general case is what will be happening most of the time, whereas special cases are scenarios which rarely happen. 
+The general case is what will be happening most of the time, whereas special cases are scenarios which rarely happen.
+On \myref{fig:psuedo_flow} it can be seen the flow of how a device acts when turned on and either connects to a network or create it's own network.
 
-From here on a set of frequently used variables will be referenced using the following greek letters: 
+\tikzfigure{PsuedoFlowDiagram}{Flow diagram showing how a device act when turned on and trying to connect to a network}{psuedo_flow}
+
+From here on a set of frequently used variables will be referenced using the following letters: 
 \begin{description}[labelindent=\parindent]
     \item[$n$] The number of time slots per frame
     \item[$d$] The total number of devices in the network
@@ -28,7 +31,6 @@ Generally the devices should be executing an infinite loop, which transmits and 
 This loop should only be stopped, when the network needs to be reconfigured.
 However said reconfiguration and how to initiate a network are special cases and will be described in \myref{sub:special_cases}.
 \todo[inline]{Informal description of main loop and payload processing} 
-\todo[inline]{Flowchart of main loop}  
 
 \begin{lstlisting}[style=customc,mathescape=true,caption={Pseudocode example of the main loop}]  
 mainLoop() // This is repeated forever after startup
