@@ -13,7 +13,7 @@
     \node [block, below of=equal] (rx) {Recieve};
     \node [block, right of=equal] (make) {Make payload};
     \node [block, below of=make] (tx) {Transmit};
-    \node [block, below of=rx] (compute) {Compute};
+    \node [block, below of=rx, node distance=2cm] (compute) {Compute};
 
     % Draw edges
     \path [line] (start) -- (wait);
