@@ -16,14 +16,15 @@ That device can only know its local variables and what it receives via the \enqu
 		$i$			& integer	& The current slot 											& $1 \leq i \leq n$\\
 		$\delta$ 	& integer	& The duration of a time slot 								& $0 < \delta$\\
 		$\rho$		& integer	& The duration of a time slot reserved for communication 	& $0 < \rho < \delta$ \\
-		$x$			& clock		& A clock used for timing\\
+		$y$			& integer	& The minimum time to determine if a network exists			& $3 \times \delta \leq y$ \\
+		$x$			& clock		& A clock used for timing, and always running\\
 		\bottomrule
 	\end{tabularx}
 	\caption{The local variables every device has access to.}
 	\label{tab:locals}
 \end{table}
 
-The local variables are as defined in \myref{tab:locals} and must follow the following global invariants:
+The local variables are as defined in \myref{tab:locals} and must follow the following global invariants once they are connected:
 \begin{itemize}
 \item For all device pairs ${d_1, d_2}$ in the network, $d_1.k \neq d_2.k$
 \item For all device pairs ${d_1, d_2}$ in the network, $d_1.n = d_2.n$
@@ -31,11 +32,11 @@ The local variables are as defined in \myref{tab:locals} and must follow the fol
 \item For every device $d$ in the network $d.k \neq n$
 \end{itemize}
 
-The invariants are necessary to make sure that no jamming occurs. 
+The invariants are necessary to make sure that no two devices transmit at the same time. 
 This is accomplished by having the devices agree on the number of slots and current slot while no devices have the same slot. 
 Finally, no device should occupy the last slot as this is used by new devices to connect to the network.
 
-The devices is assumed to have an implementation of the \enquote{received} and \enquote{transmit} function.
+The devices are assumed to have an implementation of the \enquote{receive} and \enquote{transmit} function.
 The \enquote{transmit} function is simple, it sends a message over radio waves containing the parameters parsed into it.
 The \enquote{received} function is harder, it takes some parameters which are set to the received values if any was received. 
 It then returns true if a message was received; otherwise false.
