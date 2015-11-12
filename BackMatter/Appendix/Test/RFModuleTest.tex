@@ -1,22 +1,11 @@
-% Hvorfor har vi lavet en test?
-% Hvad har vi testet?
-% Hvordan er testen udført? 
-% Kan den test som er udført udlede det vi havde i tankerne?
-% Hvilke fejlkilder er der i vores test?
-% Var der noget som virkede overraskende i testen?
-%  - Er resultatet som vi fik sansynligt?
-
-
-% Af: Troels && Sass
-% Erstatter Test.tex
-% Major Add By Sass 11/10
-\section*{Radio Frequency Module Reception Test}\label{subsec:RFMT}
+\chapter{Radio Frequency Module Reception Test} % (fold)
+\label{cha:radio_frequency_module_reception_test}
 In order to test how the Radio Frequency Modules (RFM) works, a test have been devised. 
 The purpose of this test is to test the range of the RFM's with different antennas and across different ranges. 
 The test will use the RadioHead libary as described in \ref{subsubsec:RadioHead}. 
 Built into RadioHead is a CRC check, this insures the integrity of the message received. 
 
-\subsection*{Test setup}
+\section*{Test setup}
 We will test three different antennas 
 \begin{enumerate}[label=\itshape \alph*\upshape)]
     \item 0 cm (No external antenna);
@@ -31,8 +20,9 @@ The transmitter was placed on a table 1 meter above the ground, and a graphical 
 As is shown on the figure an LED was also connected to the Arduino.
 This LED was used as a visual aid blinking every time a package was send, this has no real influence on the test and was used as a convenience for those who tested.
 
-\figur{Fritzing/Transmitter.pdf}{1}{Graphical circuit diagram of an Arduino with a transmitter. }{Transmitter}
-\noindent The receivers were placed on a table 1 meter above the ground, each 15 cm away from the others, and a graphical circuit diagram of this setup can be seen on \myref{fig:Receiver}.
+\figur{Fritzing/Transmitter.pdf}{1}{Graphical circuit diagram of an Arduino with a transmitter.}{Transmitter}
+\noindent 
+The receivers were placed on a table 1 meter above the ground, each 15 cm away from the others, and a graphical circuit diagram of this setup can be seen on \myref{fig:Receiver}.
 Similarly to the transmitter an LED was applied here blinking whenever a package was received.
 
 \figur{Fritzing/Receiver.pdf}{1}{Graphical circuit diagram of an Arduino with a receiver.}{Receiver}
@@ -41,13 +31,13 @@ The receivers counted the messages received and wrote the final result to the co
 This was repeated every 2 metres. 
 The code run on the Arduinos can be found in \myref{app:PkgLossRxCode} and \myref{app:PkgLossTxCode}.
 
-\subsection*{Results}
+\section*{Results}
 The results of the test have been plotted in three separate graphs, this approach has been chosen so that it is easier to focus on the difference in antenna length on the receiving end.
 \figur{Graphs/0cm_ant.pdf}{0.9}{Package loss percentage at different distances with no antenna on the transmitter.}{0cm_ant}
 \figur{Graphs/12cm_ant.pdf}{0.9}{Package loss percentage at different distances with 12 cm antenna on the transmitter.}{12cm_ant}
 \figur{Graphs/17cm_ant.pdf}{0.9}{Package loss percentage at different distances with 17.3 cm antenna on the transmitter.}{17cm_ant}
 
-\subsection*{Analysis}
+\section*{Analysis}
 Across all three graphs the plots representing the receiver with an antenna length of 17.3 cm consistently shows the lowest package loss. 
 The only place where the results are different to distinguish from each other is in the graph where the transmitter has an antenna length of 17.3 cm (see \myref{fig:17cm_ant}); here all the different lengths of receiver antennas demonstrates a low package loss percentage compared to the other graphs.
 This could indicate that the transmitter and its antenna has a significant impact on the reliability of the transmission of data.
@@ -75,7 +65,7 @@ An average of the results from the graphs has been calculated and omitted into a
 This shows that using antennas of the length 17.3 cm will cause the transmissions to have a package loss of ~1 \%.
 The results will be further concluded upon later.
 
-\subsection*{Sources of error}
+\section*{Sources of error}
 There are multiple possible source of error within the test, which all needs to be considered in order to conclude upon the results.
 The most significant and the ones that are most likely to occur are as follows:
 \begin{description}
@@ -94,14 +84,15 @@ The most significant and the ones that are most likely to occur are as follows:
     It is however noteworthy that the internal antennas of both the transmitter and receiver modules may affect the results.
     \item[Difference in RF modules] \hfill \\
     To be able to compare the results of the different antennas, one must assure that the difference in results is not induced by differences in the RF modules.
-    However by testing all the used RF modules in \myref{sec:RFMD}, this source of error is to be considered close to non existent, since all the RF modules used in this test, showed less package loss than 2 \%.
+    However by testing all the used RF modules in \myref{cha:radio_frequency_module_difference_test}, this source of error is to be considered close to non existent, since all the RF modules used in this test, showed less package loss than 2 \%.
     This source of errors is hereby deemed insignificant for the results of this test.
 \end{description}
 
-\subsection*{Conclusion}
+\section*{Conclusion}
 The 17.3 cm antenna on the transmitter has the biggest impact on the package loss rate.
 This is in line with the theory of using a quarter-wave monopole antenna.
 This implies that using a 17.3 cm antenna on both the receiver and transmitter will greatly benefit the connection, both for range, and reliability.
 The only downside is the size will increase, however this trade-off is very well worth it for the project at whole.
 The amount of package loss still occurring with the 17.3 cm antennas shows that it is not certain that a message being transmitted will be received.
 For the project this means that the technique used to control the communication between the Arduinos needs to take into account that a transmission might not be received.
+% chapter radio_frequency_module_reception_test (end) 
