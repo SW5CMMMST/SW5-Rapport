@@ -1,0 +1,30 @@
+\section{UPPAAL Models}
+This section will specify what an UPPAAL model consists of, how it is constructed and how it works.
+
+An UPPAAL model consists of one or more templates, which are timed automatas, all templates can have local code, while it is also possible to create global code available to all templates, which are simply called declarations in the UPPAAL GUI.
+Both the global and the local code, which is written in a language made for UPPAAL, can have variables and functions which can be called by instances of their respective templates.
+The UPPAAL modelling language has certain special types like \texttt{clock} and \texttt{channels}.
+A clock is what makes the automatas timed, and is a variable which can consist of natural numbers, and it is continuously incremented to indicate that time is passing.
+A channel is used to synchronise instances of templates so edges fire at the same time.
+Instances of the templates are created in a different section called system declarations, which is used to setup the system for testing.
+The templates all have an initial state like other automatas.
+All states and edges can have certain properties to control the transitions in the automata which is how the model for the protocol can be checked.
+The states in UPPAAL templates are often called locations instead of states.
+
+The properties of a state are the following: 
+
+\begin{itemize}
+	\item \textbf{Name} - These are used to refer to certain states from either the code for the model, or in the verification aspect of UPPAAL. It is also useful for documentation of the model. The color of names are dark red in all UPPAAL models.
+	\item \textbf{Invariants} - Are used to keep a template in the state until an expression no longer holds true. The invariants often make use of the clock type available in UPPAAL to make sure a template will leave a state after a certain time has passed. The color of invariants are a pink-ish color in all UPPAAL models.
+\end{itemize}
+
+Edges can have the following properties:
+
+\begin{itemize}
+	\item \textbf{Select} is used to non-deterministically give an identifier a value in a range, and is shown with a green-yellow color.
+	\item \textbf{Guard} is used to make sure an edge can be used unless a certain expression is upheld. Guards are shown in a green color.
+	\item \textbf{Sync} is used with the channel variables to make sure an edge is fired in all available templates. If an edge with the sync \texttt{chan!} is fired all templates which are in a state with a legal transition \texttt{chan?} has to be fired. This makes sure all templates make a transition when available to. Syncs are shown in a light-blue color.
+	\item \textbf{Update} is used to change variables when an edge is fired, either to give them a certain value or maybe to increment or decrement variables. Updates are shown in a purple color.
+\end{itemize}
+
+Now that UPPAAL has been introduced, it is time to look at the model of the protocol, so the protocol can be verified to uphold the requirements from \myref{requirements}
