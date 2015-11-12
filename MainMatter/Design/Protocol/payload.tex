@@ -18,12 +18,13 @@ A figure showing the design of the payload can be seen on \myref{fig:payload_str
 \tikzfigure{ProtocolStruct.tikz}{Payload with information needed to communicate on the network, along with some data to be used by the Arduinos in the user code.}{payload_struct}
 \bigskip
 
-The payload has the three variables: Slot, Slot Count, and Address, which is to be used to communicate in the network.
-The slot is used to indicate which slot the frame is currently in, while Slot Count is the total number of slots.
+The payload has the four variables: slot, slot count, address and timestamp, which is to be used to communicate in the network.
+The slot is used to indicate which slot the frame is currently in, while slot count is the total number of slots.
 The payload allows the protocol to abstract from what data is being sent, and as such any data can be send as long as it is of reasonable size. 
 Examples of data could be sending a message to turn on some LED or maybe requesting other devices for their sensor outputs.
 Address is much like a mac address and is unique for all Arduinos, and is used to differentiate between Arduinos to tell them apart.
 This could instead be included in the Data as some implementations with the protocol might not need to differentiate between the Arduinos, however this is a more general solution for the protocol.
 Since the size of the address is finite, and will most likely be implemented as a 1 byte unsigned integer. 
 A 1 byte address would allow 256 addresses, however a few may be reserved for special uses.
+The timestamp is used to synchronize the units.
 This payload is reasonably small, and the size of the data field will depend on the user code on the device.
