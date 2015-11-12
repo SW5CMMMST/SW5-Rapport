@@ -7,31 +7,34 @@ This procedure is run when a device is turned on, reset or for some other reason
 \tikzfigure{PsuedoFlowDiagram}{Flow diagram showing how a device acts during the setup process}{psuedo_flow}}
  
 \bigskip \noindent
-In \myref{lst:setup} a new local variable is introduced, \textit{timeout}, this constant decides when the device should give up listening for a network and instead establish a network.
-For the completely connected reliable communication case represented in \myref{chp:Problems} \textit{timeout} has to be at least the length of $2 \times \delta + \delta_{Communication}$, however it being slightly longer taking guard time and the chance of a slight desync into consideration $3 \times \delta$ will be considered the minimum.
+In \myref{lst:setup} a new local variable is introduced, $t_0$, this constant decides when the device should give up listening for a network and instead establish a network.
+For the completely connected reliable communication case represented in \myref{chp:Problems} $t_0$ has to be at least the length of $2 \times \delta + \delta_{com}$, however it being slightly longer taking guard time and the chance of a slight miss synchronization into consideration $3 \times \delta$ will be considered the minimum.
 The minimum is calculated from the case where the device is turned on after the $n-1$'th slot has started, but not yet ended.
 It is worth noting here that this minimum is only true for this case, both strongly connected and non-reliable communication present their own reasons for this not being true for those cases.
 
 If a network is found prior to \textit{x} exceeding \textit{timeout} the device will process the data and use this to properly attain a slot in the network as is seen on lines 7 - 9 in \myref{lst:setup}.
 Should it occur that no network is found the device will start its own network with the initial configuration that lines 14 - 16 in \myref{lst:setup} shows.
+
+\begin{minipage}{\linewidth} %minpage to avoid page break
 \begin{lstlisting}[label=lst:setup,style=pseudocode,mathescape=true,caption={Pseudocode example of the special case procedure startup()},basicstyle=\ttfamily]
-Device$_{id} =$ local $n, i, k, timeout, \text{clock } x$
+Device$_{id} =$ local $n, i, k, t_0, \text{clock } x$
 procedure startup()
-	$x \leftarrow 0$
-	while $x \leq timeout$ do
-		if $recived(i', n', id', data')$ then
-			// Join network
-			$n \leftarrow n' + 1$	// Increment number of slots
-			$k \leftarrow n'$		// Claim empty slot
-			$i \leftarrow i'$		// Get current slot
-			goto loopstart
-		end
-	end
-	// Create new network
-	$n \leftarrow 2$					// Two slots; one for this device and one empty
-	$k \leftarrow 1$					// Claim the first slot
-	$i \leftarrow 1$					// Set turn to mine
-	loopstart:
-	mainLoop()
+    $x \leftarrow 0$
+    while $x \leq t_0$ do
+        if $recived(i', n', id', data')$ then
+            // Join network
+            $n \leftarrow n' + 1$   // Increment number of slots
+            $k \leftarrow n'$       // Claim empty slot
+            $i \leftarrow i'$       // Get current slot
+            goto loopstart
+        end
+    end
+    // Create new network
+    $n \leftarrow 2$                    // Two slots; one for this device and one empty
+    $k \leftarrow 1$                    // Claim the first slot
+    $i \leftarrow 1$                    // Set turn to mine
+    loopstart:
+    mainLoop()
 \end{lstlisting}   
+\end{minipage}
 % subsection special_cases (end)
