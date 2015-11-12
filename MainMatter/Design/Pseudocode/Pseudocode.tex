@@ -25,10 +25,10 @@ That device can only know its local variables and what it receives via the \enqu
 
 The local variables are as defined in \myref{tab:locals} and must follow the following global invariants:
 \begin{itemize}
-\item For all device pairs ${d_1, d_2}$ in the network, $d_1.k != d_2.k$
+\item For all device pairs ${d_1, d_2}$ in the network, $d_1.k \neq d_2.k$
 \item For all device pairs ${d_1, d_2}$ in the network, $d_1.n = d_2.n$
 \item For all device pairs ${d_1, d_2}$ in the network, $d_1.i = d_2.i$
-\item For every device $d$ in the network $d.k != n$
+\item For every device $d$ in the network $d.k \neq n$
 \end{itemize}
 
 The invariants are necessary to make sure that no jamming occurs. 
