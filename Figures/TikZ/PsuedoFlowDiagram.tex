@@ -1,51 +1,31 @@
-\begin{tikzpicture}[node distance = 5mm,
-    box/.style={minimum height = 10mm, minimum width = 40mm, rounded corners, draw, fill = blue!20, drop shadow},
-    label/.style={align=center, text width=3.5cm},
-    arrow/.style={-stealth, line width=1pt},
-]
-    \node[box]
-        	(off) at (0,0)
-        	{Device off};
-    	
-    \node[below = of off, label]
-            (on) {Turning device on};
-            
-    \node[box, below = of on]
-            (seek) {Seeking network};
-            
-    \node[below = of seek, label]
-            (found) {Network found};
-            
-    \node[box, below = of found]
-            (wait) {Waiting for empty slot};
-    
-    \node[below = of wait, label]
-            (announce) {Announce};
-            
-    \node[box, below = of announce]
-            (connect) {Connecting to network};
+\tikzstyle{decision} = [diamond, draw, fill=yellow!20, 
+    text width=4.5em, text badly centered, node distance=3cm, inner sep=3pt]
+\tikzstyle{block} = [rectangle, draw, fill=green!40, 
+    text width=5em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
+    minimum height=2em]
+\begin{tikzpicture}[node distance = 2.8cm, auto]
+    % Place nodes
+    \node [cloud] (start) {Start};
+    \node [block, below of=start, node distance=1.4cm] (search) {Search for network};
+    \node [decision, below of=search, node distance=2.4cm] (found) {Found network?};
+    \node [block, below of=found] (init) {Initialize network};
+    \node [cloud, below of=init, node distance=1.4cm] (end) {End};
+    \node [block, right of=found, node distance=3.5cm] (listen) {Listen while waiting for empty slot};
+    \node [block, right of=listen] (announce) {Announce};
+    \node [block, right of=announce] (verify) {Verify connection};
+    \node [decision, below of=verify, node distance=2.4cm] (connected) {Connected? };
 
-    \node[right = of seek, label]
-            (noFound) {No network found};
-
-    \node[box, right = of noFound]
-           (init) {Initializing network};
-
-    \node[right = of connect, label]
-            (update) {Update network};
-
-    \node[box, right = of update, fill = purple!40]
-           (running) {Connected to network};
-
-    \node[below = of init, label]
-            (broadcast) {Broadcast};
-
-    \draw[arrow] (off) -- (on) -- (seek);
-    \draw[arrow] (seek) -- (found) -- (wait);
-    \draw[arrow] (wait) -- (announce) -- (connect);
-    \draw[arrow] (seek) -- (noFound) -- (init);
-    \draw[arrow] (connect) -- (update) -- (running);
-    \draw[arrow] (init) -- (broadcast) -- (running);
-
-
+    % Draw edges
+    \path [line] (start) -- (search);
+    \path [line] (search) -- (found);
+    \path [line] (found) -- node {no} (init);
+    \path [line] (found) -- node {yes} (listen);
+    \path [line] (init) -- (end);
+    \path [line] (listen) -- (announce);
+    \path [line] (announce) -- (verify);
+    \path [line] (verify) -- (connected);
+    \path [line] (connected) -| node [near start] {no} (listen);
+    \path [line] (connected) |- node [near start] {yes} (end);
 \end{tikzpicture}
