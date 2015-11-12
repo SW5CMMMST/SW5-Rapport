@@ -1,0 +1,27 @@
+\tikzstyle{decision} = [diamond, draw, fill=yellow!20, 
+    text width=4.5em, text badly centered, node distance=3cm, inner sep=3pt]
+\tikzstyle{block} = [rectangle, draw, fill=green!40, 
+    text width=5em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
+    minimum height=2em]
+\begin{tikzpicture}[node distance = 2.8cm, auto]
+    % Place nodes
+    \node [cloud] (start) {Start};
+    \node [block, below of=start, node distance=1.4cm] (wait) {Wait for next timeslot};
+    \node [decision, right of=wait, node distance=2.4cm] (equal) {i == k?};
+    \node [block, below of=equal] (rx) {Recieve};
+    \node [block, right of=equal] (make) {Make payload};
+    \node [block, below of=make] (tx) {Transmit};
+    \node [block, below of=rx] (compute) {Compute};
+
+    % Draw edges
+    \path [line] (start) -- (wait);
+    \path [line] (wait) -- (equal);
+    \path [line] (equal) -- node {no} (rx);
+    \path [line] (equal) -- node {yes} (make);
+    \path [line] (make) -- (tx);
+    \path [line] (tx) |- (compute);
+    \path [line] (compute) -| (wait);
+    \path [line] (rx) -- (compute);
+\end{tikzpicture}
