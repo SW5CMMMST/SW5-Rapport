@@ -8,10 +8,10 @@ When a device creates a network, the network contains two times slots; one for t
 When the frame is in the device's own time slot it will transmit so new devices can detect said network, when they are listening in their startup period.  
 A flow diagram of this setup can be seeon in \myref{fig:psuedo_flow}
 
-\tikzfigure{PsuedoFlowDiagram}{Flow diagram showing how a device acts during the setup process}{psuedo_flow}
+\tikzfigure{PsuedoFlowDiagram}{Flow diagram showing how a device acts during the Initialization phase}{psuedo_flow}
  
 \bigskip \noindent
-\texttt{Inistialize()} which is the function on \myref{lst:setup}performs the initial setup of the device.
+\texttt{Inistialize()} which is the function on \myref{lst:setup}performs the initialization of the device.
 This includes searching for a network or establishing its own network if no network can be detected.
 \myref{lst:setup} introduces are new local variable $t_0$, this constant decides when the device should give up listening for a network and instead establish a network.
 For the completely connected reliable communication case represented in \myref{chp:Problems} $t_0$ has to be at least the length of $2 \times \delta + \delta_{com}$, however it being slightly longer taking guard time and the chance of a slight miss synchronization into consideration $3 \times \delta$ will be considered the minimum.
@@ -22,7 +22,7 @@ If a network is found prior to \textit{x} exceeding $t_0$ the device will proces
 Should it occur that no network is found the device will start its own network with the initial configuration that lines 14 - 16 in \myref{lst:setup} shows.
 
 \begin{minipage}{\linewidth} %minpage to avoid page break
-\begin{lstlisting}[label=lst:setup,style=pseudocode,mathescape=true,caption={Pseudocode example of the special case procedure startup()},basicstyle=\ttfamily]
+\begin{lstlisting}[label=lst:setup,style=pseudocode,mathescape=true,caption={Pseudocode example of the special case procedure Initialize()},basicstyle=\ttfamily]
 Device$_{id} =$ local $n, i, k, t_0, \text{clock } x$
 procedure Initialize()
     $x \leftarrow 0$
