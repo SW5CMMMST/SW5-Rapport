@@ -1,29 +1,44 @@
 \section{Pseudocode Description}
-In this section key components of the designed TDMA protocol will be presented.
-Firstly an informal description will be given, followed by relevant flowcharts and pseudocode examples.
-The protocol presentation have been separated into two sections - general case and special cases. 
-The general case is what will be happening most of the time, whereas special cases are scenarios which rarely happen.
-On \myref{fig:psuedo_flow} it can be seen the flow of how a device acts when turned on and either connects to a network or create it's own network.
+This section presents key components of the designed TDMA protocol. 
+First an informal description is given followed by relevant flowcharts and pseudocode examples. 
+The model of the protocol is divided into the two phases - the setup phase and the loop phase. 
 
-\tikzfigure{PsuedoFlowDiagram}{Flow diagram showing how a device act when turned on and trying to connect to a network}{psuedo_flow}
+These phases will be described in the following subsections using the same model for a general device. 
+That device can only know its local variables and what it receives via the \enquote{received} function.
 
-From here on a set of frequently used variables will be referenced using the following letters: 
-\begin{description}[labelindent=\parindent]
-    \item[$n$] The number of time slots per frame
-    \item[$d$] The total number of devices in the network
-    \item[$k$] The current device's time slot id in the frame
-    \item[$i$] The current time slot in the frame
-    \item[$\delta$] The length of a time slot
-\end{description}  
-\noindent
-Furthermore the following should be true in all cases: 
-\begin{enumerate}[label=\itshape \alph*\upshape)]
-    \item Each unit gets a time slot in the frame, this is given by their join time, meaning that the first device will have the first time slot in each frame, and so on.
-    \item There is an empty time slot in the end of each frame which can be used by new devices to join the network.
-    \item Devices currently in the network should alter their current state to adapt to the new device.
-    \item In a device's own time slot it may transmit a message to the other devices.
-    \item In other devices' time slots the device receive their transmission and act upon them if applicable. Otherwise the device use the time to do some preemptable execution of a calculation.
-\end{enumerate}
+\begin{table}[H]
+	\begin{tabularx}{\textwidth}{l l X l}
+		\toprule
+		Name		& Type		& Description & Definition\\
+		\midrule
+		$n$			& integer	& The number of slots in the network & $n < 1$\\
+		$k$			& integer	& The slot claimed by this device & $k \leq n - 1$\\
+		$i$			& integer	& The current slot & $i \leq n$\\
+		$x$			& clock		& A clock used for timing\\
+		$\delta$ 	& integer	& The duration of a time slot & $\delta > 0$\\
+		$\rho$		& integer	& The duration of a time slot reserved for kommunication & $\rho > \delta$ and $\rho \leq 0$\\
+		\bottomrule
+	\end{tabularx}
+	\caption{The local variables every device has access to.}
+	\label{tab:locals}
+\end{table}
+
+The local variables are as defined in \myref{tab:locals} and must follow the following global invariants:
+\begin{itemize}
+\item For all device pairs ${d_1, d_2}$ in the network, $d_1.k != d_2.k$
+\item For all device pairs ${d_1, d_2}$ in the network, $d_1.n = d_2.n$
+\item For all device pairs ${d_1, d_2}$ in the network, $d_1.i = d_2.i$
+\item For every device $d$ in the network $d.k != n$
+\end{itemize}
+
+The invariants are necessary to make sure that no jamming occurs. 
+This is accomplished by having the devices agree on the number of slots and current slot while no devices have the same slot. 
+Finally, no device should occupy the last slot as this is used by new devices to connect to the network.
+
+The devices is assumed to have an implementation of the \enquote{received} and \enquote{transmit} function.
+The \enquote{transmit} function is simple, it sends a message over radio waves containing the parameters parsed into it.
+The \enquote{received} function is harder, it takes some parameters which are set to the received values if any was received. 
+It then returns true if a message was received; otherwise false.
                     
 \subsection{General Case} % (fold)
 \label{sub:general_case}
