@@ -7,21 +7,22 @@ These phases will be described in the following subsections using the same model
 That device can only know its local variables and what it receives via the \enquote{received} function.
 
 \begin{table}[H]
-	\begin{tabularx}{\textwidth}{l|l|X|l}
-		\toprule
-		Name		& Type		& Description & Constraint \\
-		\midrule
-		$n$			& integer	& The number of slots in the network 						& $2 \leq n \leq 256$\\
-		$k$			& integer	& The slot claimed by this device 							& $1 \leq k \leq n - 1$\\
-		$i$			& integer	& The current slot 											& $1 \leq i \leq n$\\
-		$\delta$ 	& integer	& The duration of a time slot 								& $0 < \delta$\\
-		$\rho$		& integer	& The duration of a time slot reserved for communication 	& $0 < \rho < \delta$ \\
-		$y$			& integer	& The minimum time to determine if a network exists			& $3 \times \delta \leq y$ \\
-		$x$			& clock		& A clock used for timing, and always running\\
-		\bottomrule
-	\end{tabularx}
-	\caption{The local variables every device has access to.}
-	\label{tab:locals}
+    \begin{tabularx}{\textwidth}{l|l|X|l}
+        \toprule
+        Name                & Type      & Description & Constraint \\
+        \midrule
+        $n$                 & integer   & The number of slots in the network                        & $2 \leq n \leq 256$\\
+        $k$                 & integer   & The slot claimed by this device                           & $1 \leq k \leq n - 1$\\
+        $i$                 & integer   & The current slot                                          & $1 \leq i \leq n$\\
+        $\delta$            & integer   & The duration of a time slot                               & $\delta = \delta_{com} + \delta_{proc}$\\
+        $\delta_{com}$      & integer   & The duration of a time slot reserved for communication    & $0 < \delta_{com}$ \\
+        $\delta_{proc}$     & integer   & The duration of a time slot reserved for processing       & $0 < \delta_{proc}$ \\
+        $t_0$               & integer   & The minimum time to determine if a network exists         & $3 \times \delta \leq t_0$ \\
+        $x$                 & clock     & A clock used for timing, and always running\\
+        \bottomrule
+    \end{tabularx}
+    \caption{The local variables every device has access to.}
+    \label{tab:locals}
 \end{table}
 
 The local variables are as defined in \myref{tab:locals} and must follow the following global invariants once they are connected:
@@ -49,30 +50,31 @@ This loop should only be stopped, when the network needs to be reconfigured.
 However said reconfiguration and how to initiate a network are special cases and will be described in \myref{sub:setup}.
 
 
+\begin{minipage}{\linewidth} %minpage to avoid page break
 
 \begin{lstlisting}[style=pseudocode,mathescape=true,caption={Pseudocode example of the main loop}] 
-Device$_{id} =$ local $n, i, k, \delta, \rho, \text{clock } x$ 
+Device$_{id} =$ local $n, i, k, \delta, \delta_{com}, \text{clock } x$ 
 procedure mainLoop()
-	while true do
-		wait until $x \geq \delta$
-		$x \leftarrow 0$
-		$i \leftarrow (i \text{ mod } n) + 1$		// Update current slot
-		if $i = k$ then
-			$Update()$				// Updates the data to be sendt
-			$transmit(i, n, id, data)$
-		else 
-			while $x \leq \rho$ do
-				if $recived(i', n', id', data')$ then
-					$remember(id', data')$
-					goto process
-				end
-			end
-		end
-		process:
-		$doWork()$	// Must take less time than $\delta - \rho$	
-	end
+    while true do
+        wait until $x \geq \delta$
+        $x \leftarrow 0$
+        $i \leftarrow (i \text{ mod } n) + 1$       // Update current slot
+        if $i = k$ then
+            $Update()$              // Updates the data to be sendt
+            $transmit(i, n, id, data)$
+        else 
+            while $x \leq \delta_{com}$ do
+                if $recived(i', n', id', data')$ then
+                    $remember(id', data')$
+                    goto process
+                end
+            end
+        end
+        process:
+        $doWork()$  // Must take less time than $\delta - \delta_{com}$ which is $\delta_{proc}$    
+    end
 \end{lstlisting}  
-
+\end{minipage}
 %\begin{lstlisting}[style=customc,mathescape=true,caption={Pseudocode example of the method that processes the payload}]  
 %processPayload(rx_payload)
 %  syncDevice(rx_payload) // Use information in payload to re-synchronise
