@@ -9,7 +9,7 @@ That device can only know its local variables and what it receives via the \enqu
 \begin{table}[H]
 	\begin{tabularx}{\textwidth}{l l X l}
 		\toprule
-		Name		& Type		& Description & Definition\todo{This is not a definition, maybe constraint/invariant/restriction}\\
+		Name		& Type		& Description & Definition\\
 		\midrule
 		$n$			& integer	& The number of slots in the network & $n < 1$\\
 		$k$			& integer	& The slot claimed by this device & $k \leq n - 1$\\
@@ -21,7 +21,7 @@ That device can only know its local variables and what it receives via the \enqu
 	\end{tabularx}
 	\caption{The local variables every device has access to.}
 	\label{tab:locals}
-\end{table}\todo{This is not a definition}
+\end{table}\todo{This is not a definition, maybe constraint invariant restriction}
 
 The local variables are as defined in \myref{tab:locals} and must follow the following global invariants:
 \begin{itemize}
