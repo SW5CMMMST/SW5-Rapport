@@ -1,0 +1,51 @@
+\begin{tikzpicture}[node distance = 5mm,
+    box/.style={minimum height = 10mm, minimum width = 40mm, rounded corners, draw, fill = blue!20, drop shadow},
+    label/.style={align=center, text width=3.5cm},
+    arrow/.style={-stealth, line width=1pt},
+]
+    \node[box]
+        	(off) at (0,0)
+        	{Device off};
+    	
+    \node[below = of off, label]
+            (on) {Turning device on};
+            
+    \node[box, below = of on]
+            (seek) {Seeking network};
+            
+    \node[below = of seek, label]
+            (found) {Network found};
+            
+    \node[box, below = of found]
+            (wait) {Waiting for empty slot};
+    
+    \node[below = of wait, label]
+            (announce) {Announce};
+            
+    \node[box, below = of announce]
+            (connect) {Connecting to network};
+
+    \node[right = of seek, label]
+            (noFound) {No network found};
+
+    \node[box, right = of noFound]
+           (init) {Initializing network};
+
+    \node[right = of connect, label]
+            (update) {Update network};
+
+    \node[box, right = of update, fill = purple!40]
+           (running) {Connected to network};
+
+    \node[below = of init, label]
+            (broadcast) {Broadcast};
+
+    \draw[arrow] (off) -- (on) -- (seek);
+    \draw[arrow] (seek) -- (found) -- (wait);
+    \draw[arrow] (wait) -- (announce) -- (connect);
+    \draw[arrow] (seek) -- (noFound) -- (init);
+    \draw[arrow] (connect) -- (update) -- (running);
+    \draw[arrow] (init) -- (broadcast) -- (running);
+
+
+\end{tikzpicture}
