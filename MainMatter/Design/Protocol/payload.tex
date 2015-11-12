@@ -3,7 +3,7 @@
 The first matter to discuss will be the data to be send between Arduinos i.e. the payload.
 When developing for an Arduino it is important to design for the limited resources available.
 Therefore it is advised to keep the amount of resources used small.
-Additionally the transmission time increases as the size of the payload increases, this further can increase the risk of packet loss. 
+Additionally the transmission time increases as the size of the payload increases, this will further escalate the risk of packet loss. 
 Thus a balance between the size of the payload, the speed of transmission and the reliability of transmissions should be met. 
 
 \bigskip 
@@ -25,5 +25,5 @@ Examples of data could be sending a message to turn on some LED or maybe request
 Address is much like a mac address and is unique for all Arduinos, and is used to differentiate between Arduinos to tell them apart.
 This could instead be included in the Data as some implementations with the protocol might not need to differentiate between the Arduinos, however this is a more general solution for the protocol.
 Since the size of the address is finite, and will most likely be implemented as a 1 byte unsigned integer. 
-A 1 byte address would allow 256 addresses, however a few may be reserved for uses such as broadcast.
-This payload is reasonably small, the size of the data field will depend on the user code on the device.
+A 1 byte address would allow 256 addresses, however a few may be reserved for special uses.
+This payload is reasonably small, and the size of the data field will depend on the user code on the device.
