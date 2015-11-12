@@ -1,46 +1,24 @@
 \resizebox{1\textwidth}{!}{%
 \begin{tikzpicture}[scale=\textwidth]
 \node[draw, align = center, 
-		minimum width=0.25\textwidth, 
-		minimum height=10mm,
-		label=below:1 byte] 
+		minimum width=0.15\textwidth, 
+		minimum height=10mm] 
 	(slot) at (0,0)
 	{\textbf{Slot}};
 \node[draw, right = 0cm of slot,
-		minimum width=0.25\textwidth, 
-		minimum height=10mm,
-		label=below:1 byte]
+		minimum width=0.15\textwidth, 
+		minimum height=10mm]
 	(slotcnt)
 	{\textbf{Slot Count}};
 \node[draw, right = 0cm of slotcnt,
-		minimum width=0.25\textwidth, 
-		minimum height=10mm,
-		label=below:1 byte]
+		minimum width=0.15\textwidth, 
+		minimum height=10mm]
 	(addr)
 	{\textbf{Address}};
 \node[draw, right = 0cm of addr,
-		minimum width=0.25\textwidth, 
-		minimum height=10mm,
-		label=below:1 byte]
+		minimum width=0.55\textwidth, 
+		minimum height=10mm]
 	(mode)
-	{\textbf{Mode}};
-\node[draw, right = 0cm of mode,
-		minimum width=0.25\textwidth, 
-		minimum height=10mm,
-		label=below:1 byte]
-	(target)
-	{\textbf{Target}};
-\node[draw, right = 0cm of target,
-		minimum width=0.25\textwidth, 
-		minimum height=10mm,
-		label=below:1 byte]
-	(cmd)
-	{\textbf{Command}};
-\draw [decoration={brace, amplitude=+20pt}, decorate]
-    (slot.north west) -- (mode.north east) node [black,midway,above=+22pt] 
-    {\textbf{Base Payload}};
-\draw [decoration={brace, amplitude=+80pt}, decorate]
-    (slot.north west) -- (cmd.north east) node [black,midway,above=+82pt] 
-    {\textbf{Specific Payload}};	
+	{\textbf{Data}};
 \end{tikzpicture}
 }%
