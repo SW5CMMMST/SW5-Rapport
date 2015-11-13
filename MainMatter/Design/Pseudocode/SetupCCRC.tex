@@ -6,10 +6,10 @@ If the device does not pick up any transmission during this period the device wi
 
 When a device creates a network, the network contains two times slots; one for the device itself and one empty slot, which allows another device to connect to the network.
 When the frame is in the device's own time slot it will transmit so new devices can detect said network, when they are listening in their startup period.  
-A flow diagram of this setup can be seeon in \myref{fig:psuedo_flowCCRC}
+A flow diagram of this setup can be seeon in \myref{fig:psuedo_flowRC}
 
 \todo{Flowdiagram som passer med reliable communication(ingen verify) skal være her, er udkommenteret i rapporten men klar til creation}
-%\tikzfigure{PsuedoFlowDiagramCCRC}{Flow diagram showing how a device acts during the Initialization phase}{psuedo_flowCCRC}
+%\tikzfigure{PsuedoFlowDiagramRC}{Flow diagram showing how a device acts during the Initialization phase}{psuedo_flowRC}
  
 \bigskip \noindent
 \texttt{Initialize()}, the function in \myref{lst:setupCCRC}, performs the initialization of the device.
