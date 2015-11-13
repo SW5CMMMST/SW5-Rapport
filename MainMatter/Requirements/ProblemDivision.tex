@@ -28,13 +28,13 @@ This creates the four sub problems which can be modelled as graphs:  %where the 
     \item Strongly connected unreliable communication problem (SCUCP)
 \end{enumerate}
 
-Number 1 describes how all the vertices are connected with each other, creating a complete connected graph, and all the weights of the edges are also 1, which means that all transmissions will be received.
+CCRCP describes how all the vertices are connected with each other, creating a complete connected graph, and all the weights of the edges are also 1, which means that all transmissions will be received.
 
-Number 2 describes how all the vertices are connected but now there is not a 100 \% chance the transmission will be received, but all vertices are still in range of each-other.
+CCUCP describes how all the vertices are connected but now there is not a 100 \% chance the transmission will be received, but all vertices are still in range of each-other.
 
-Number 3 describes how all the vertices are not connected to each other, but there still exists paths from every node to every other node travelling through other nodes.
+SCRCP describes how all the vertices are not connected to each other, but there still exists paths from every node to every other node travelling through other nodes.
 
-Number 4 describes a general communication graph.
+SCUCP describes a general communication graph limited only by the definition of being strongly connected applying no other assumptions.
 
 \bigskip \noindent
 In order to simplify the development of the project, each of these tasks will be handled in order.
