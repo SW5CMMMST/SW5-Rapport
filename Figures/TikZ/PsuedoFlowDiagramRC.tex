@@ -11,11 +11,11 @@
     \node [block, below of=start, node distance=1.4cm] (search) {Search for network};
     \node [decision, below of=search, node distance=2.4cm] (found) {Found network?};
     \node [block, below of=found] (init) {Initialize network};
-    \node [cloud, below of=init, node distance=1.4cm] (end) {End};
+    \node [cloud, below of=init, node distance=1.4cm] (end) {Enter main loop};
     \node [block, right of=found, node distance=3.5cm] (listen) {Listen while waiting for empty slot};
     \node [block, right of=listen] (announce) {Announce};
-    \node [block, right of=announce] (verify) {Verify connection};
-    \node [decision, below of=verify, node distance=2.4cm] (connected) {Connected? };
+    %\node [block, right of=announce] (verify) {Verify connection};
+    \node [decision, below of=announce, node distance=2.4cm] (connected) {Connected? };
 
     % Draw edges
     \path [line] (start) -- (search);
@@ -24,8 +24,8 @@
     \path [line] (found) -- node {yes} (listen);
     \path [line] (init) -- (end);
     \path [line] (listen) -- (announce);
-    \path [line] (announce) -- (verify);
-    \path [line] (verify) -- (connected);
+    \path [line] (announce) -- (connected);
+    %\path [line] (verify) -- (connected);
     \path [line] (connected) -| node [near start] {no} (listen);
     \path [line] (connected) |- node [near start] {yes} (end);
 \end{tikzpicture}
