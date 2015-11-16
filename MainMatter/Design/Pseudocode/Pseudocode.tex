@@ -25,15 +25,23 @@ That device can only know its local variables and what it receives via the \enqu
     \label{tab:locals}
 \end{table}
 
-The local variables are as defined in \myref{tab:locals} and must follow the following global invariants once they are connected:
-\begin{itemize}
-\item For all device pairs ${d_1, d_2}$ in the network, $d_1.k \neq d_2.k$
-\item For all device pairs ${d_1, d_2}$ in the network, $d_1.n = d_2.n$
-\item For all device pairs ${d_1, d_2}$ in the network, $d_1.i = d_2.i$
-\item For every device $d$ in the network $d.k \neq n$
-\end{itemize}
+The devices store their knowledge in their local variables as seen in \myref{tab:locals}. 
+The aim of the network should be to manipulate those values while running, to satisfy the equations stated in \myref{tab:invariants}. 
+This should ensure that two devices will not send messages at the same time.
 
-The invariants are necessary to make sure that no two devices transmit at the same time. 
+\begin{table}[H]
+	\centering
+	$\begin{array}{l l l}
+		(a)&\forall\ \{d_a, d_b\} \subset Network: & d_a.k \neq d_b.k \\
+		(b)&\forall\ \{d_a, d_b\} \subset Network: & d_a.n = d_b.n \\
+		(c)&\forall\ \{d_a, d_b\} \subset Network: & d_a.i = d_b.i \\[1ex]
+		(d)&\forall\ d \in Network: & d.k \neq n \\[1ex]
+		(e)&\forall\ i \in \mathbb{N}_{<n}: & \exists!\ d \in Network: d.i = i 
+	\end{array}$
+	\caption{The requested situation where $Network$ is the set of devices currently connected in a network.}
+    \label{tab:invariants}
+\end{table}
+
 This is accomplished by having the devices agree on the number of slots and current slot while no devices have the same slot. 
 Finally, no device should occupy the last slot as this is used by new devices to connect to the network.
 
@@ -45,10 +53,10 @@ It then returns true if a message was received; otherwise false.
 \subsection{General Case} % (fold)
 \label{sub:general_case}
 Generally the devices should be executing an infinite loop, which transmits and receives payloads, an overview of this flow can be seen in \myref{fig:main_psuedo_flow}.
-\todo{Add explanatory text for this}
+\info[inline]{Add explanatory text for this}
 \tikzfigure{PsuedoMainFlowDiagram}{Flow diagram showing how a device acts when connected to a network}{main_psuedo_flow}
 This loop should only be stopped, when the network needs to be reconfigured.
-However said reconfiguration and how to initiate a network are special cases and will be described in \myref{sub:setup}.
+However said reconfiguration and how to initiate a network are special cases and will be described in \myref{sub:setupCCRC}.
 
 
 \begin{minipage}{\linewidth} %minpage to avoid page break
