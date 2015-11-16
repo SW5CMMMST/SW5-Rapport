@@ -4,7 +4,7 @@
 		minimum width=0.15\textwidth, 
 		minimum height=10mm] 
 	(slot) at (0,0)
-	{\textbf{Slot}};
+	{\textbf{Current slot}};
 \node[draw, right = 0cm of slot,
 		minimum width=0.15\textwidth, 
 		minimum height=10mm]
@@ -19,7 +19,7 @@
 		minimum width=0.15\textwidth, 
 		minimum height=10mm]
 	(time)
-	{\textbf{Timestamp}};
+	{\textbf{$\delta_{trans}$}};
 \node[draw, right = 0cm of time,
 		minimum width=0.40\textwidth, 
 		minimum height=10mm]
