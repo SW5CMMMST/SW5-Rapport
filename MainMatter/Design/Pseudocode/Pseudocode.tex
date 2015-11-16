@@ -33,8 +33,8 @@ This should ensure that two devices will not send messages at the same time.
 	\centering
 	$\begin{array}{l l l}
 		(a)&\forall\ \{d_a, d_b\} \subset Network: & d_a.k \neq d_b.k \\
-		(b)&& d_a.n = d_b.n \\
-		(c)&& d_a.i = d_b.i \\[1ex]
+		(b)&\forall\ \{d_a, d_b\} \subset Network: & d_a.n = d_b.n \\
+		(c)&\forall\ \{d_a, d_b\} \subset Network: & d_a.i = d_b.i \\[1ex]
 		(d)&\forall\ d \in Network: & d.k \neq n \\[1ex]
 		(e)&\forall\ i \in \mathbb{N}_{<n}: & \exists!\ d \in Network: d.i = i 
 	\end{array}$
@@ -53,10 +53,10 @@ It then returns true if a message was received; otherwise false.
 \subsection{General Case} % (fold)
 \label{sub:general_case}
 Generally the devices should be executing an infinite loop, which transmits and receives payloads, an overview of this flow can be seen in \myref{fig:main_psuedo_flow}.
-\todo{Add explanatory text for this}
+\info[inline]{Add explanatory text for this}
 \tikzfigure{PsuedoMainFlowDiagram}{Flow diagram showing how a device acts when connected to a network}{main_psuedo_flow}
 This loop should only be stopped, when the network needs to be reconfigured.
-However said reconfiguration and how to initiate a network are special cases and will be described in \myref{sub:setup}.
+However said reconfiguration and how to initiate a network are special cases and will be described in \myref{sub:setupCCRC}.
 
 
 \begin{minipage}{\linewidth} %minpage to avoid page break
