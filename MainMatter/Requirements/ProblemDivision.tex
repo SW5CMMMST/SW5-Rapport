@@ -1,45 +1,51 @@
 \chapter{Development Plan \& Problem Exploration}\label{chp:Problems}
-This chapter will investigate how the protocol can be viewed mathematically as a graph, and how it can be seperated into simpler subproblems which can be solved in interations.
+This chapter will investigate how the protocol can be perceived mathematically as a graph, and how it can be divided into simpler subproblems which can be solved iteratively.
 
-\noindent The requirements as stated in the previous chapter can be modelled as a graph problem where the weighted directed graph $G = (V, E)$ describes the network. 
+The requirements stated in the previous chapter, can be modelled as a graph problem where a weighted directed graph $G = (V, E)$ describes the network. 
 The vertices, $V$, are the devices and the edges, $E$, are the communication paths between the devices. 
-The weights, $W(v_1, v_2)$, are the probability of the message from $v_1$ successfully being received by $v_2$.
+The weight, $W(v_1, v_2)$, is the probability of a message from $v_1$ successfully being received by $v_2$.
 An example of this can be seen on \myref{fig:network}.
-For this project only networks which can be depicted as a tree will be considered as a forest is essentially separate networks.
-In \myref{fig:network} is an example of a strongly connected network which can be described as: $E \subseteq V \times [0,1] \times V$ where for any $v_i, v_j$ there exists a path from $v_i$ to $v_j$ with the reliability $r$ which is a number in the index $[0,1]$.
+For this project only networks which can be depicted as a tree will be considered, since a forest essentially describes at least two separate networks.
+\myref{fig:network} is an example of a strongly connected network which can be described as: $E \subseteq V \times ]0,1] \times V$ where for any $v_i, v_j$ there exists a path from $v_i$ to $v_j$ with the reliability $r$ which is a number in the range $]0,1]$.
 
 \tikzfigure{NetworkGraph.tex}{An example of a strongly connected unreliable network with probabilities modelled as a graph.}{network}
 
-\noindent This is a complex problem to solve as many issues will become apparent throughout analysis of the problem.
+\noindent This is a complex problem to solve and many issues will become apparent throughout analysis of the problem.
 In order to simplify the problem some assumptions are made about the network.
-We assume that the devices will always be in range of each other.
-This means that all vertices on the graph have a non-zero edge between all other vertices on the graph.
-Secondly during development of the system, the system could be set up to give ~100 \% probability of successfully receiving the message, by wiring the different Arduinos together; which gives more room to work on the baseline communication issues without having to consider the unreliability of the radio frequency modules.
+We assume that the devices will always be in range of each other; this means that all vertices on the graph have a non-zero edge between all other vertices on the graph.
+Secondly during development of the system, the system could be set up to give \textasciitilde100 \% probability of successfully receiving the message, by wiring the Arduinos together in stead of using radio communication; this gives more room to work on the baseline communication issues without having to consider the unreliability of the radio frequency modules.
 Furthermore the networks can be set up as either fully connected graphs or strongly connected graphs.
 This creates the four sub problems which can be modelled as graphs:  %where the set of edges on the graph can be described as: 
 
-\begin{enumerate}[label=\itshape \arabic*\upshape)]
-    \item Completely connected reliable communication problem (CCRC-problem) \\   
-    iff $\forall\, v_i, v_j \in V \, \exists (v_i,r,v_j)\in E\ | \; r = 1$
-    \item Completely connected unreliable communication problem (CCUC-problem) \\
-    iff $\forall\, v_i, v_j \in V \, \exists (v_i,r,v_j)\in E\ | \; 0 < r \leq 1$
-    \item Strongly connected reliable communication problem (SCRC-problem) \\  
-    iff $\forall\, v_i, v_j \in V $ there is a directed path from $v_i$ to $v_j \land \forall\, e \in E\; | W(v_q, v_r) = 1$.    
-    \item Strongly connected unreliable communication problem (SCUC-problem) \\
-    iff $\forall\, v_i, v_j \in V $ there is a directed path from $v_i$ to $v_j \land \forall\, e \in E\; | 0 < W(v_q, v_r) \leq 1$.
-\end{enumerate}
-\bigskip \noindent
-The CCRC-problem describes how all vertices are directly connected with each other, creating a completely connected graph, and all the weights of the edges are also 1, which means that all transmissions will be received.
-
-\bigskip \noindent
-The CCUC-problem describes a completely connected graph however in this scenario there is not a 100\% chance the transmission will be received; all vertices are still in range of each-other.
-
-\bigskip \noindent
-The SCRC-problem describes a strongly connected network meaning at least one vertex has an indirect connection to another rather than a direct connection, i.e. there still exists a path from every vertex to every other vertex but at least one pair of vertices requires one or more mediating vertices. In this example communication is once again reliable such that all transmissions will be received.
-
-\bigskip \noindent
-The SCUC-problem describes the most realistic scenario, a strongly connected network with a chance of not receiving transmissions.
-
+\begin{description}[itemsep=2em]
+    \item[CCRC-problem:] Completely connected reliable communication problem   
+    \begin{equation}
+    \text{iff } \forall\, v_i, v_j \in V \, \exists (v_i,r,v_j)\in E\; |\; r = 1    
+    \end{equation}
+    The CCRC-problem describes how all vertices are directly connected with each other, creating a completely connected graph, and all the weights of the edges are also 1, which means that all transmissions will be received. 
+    
+    \item[CCUC-problem:] Completely connected unreliable communication problem
+    \begin{equation}
+    \text{iff } \forall\, v_i, v_j \in V \, \exists (v_i,r,v_j)\in E\; |\; 0 < r \leq 1
+    \end{equation}
+    The CCUC-problem describes a completely connected graph however in this scenario there is not a 100\% chance the transmission will be received; all vertices are still in range of each-other. 
+    
+    \item[SCRC-problem:] Strongly connected reliable communication problem
+    \begin{equation}
+    \begin{gathered}
+    \text{iff } \forall\, v_i, v_j \in V \text{ there is a directed path from } v_i \text{ to } v_j\; \land \\ \forall\, e \in E\; |\; W(v_q, v_r) = 1
+    \end{gathered}  
+    \end{equation}   
+    The SCRC-problem describes a strongly connected network meaning at least one vertex has an indirect connection to another rather than a direct connection, i.e. there still exists a path from every vertex to every other vertex but at least one pair of vertices requires one or more mediating vertices. In this example communication is once again reliable such that all transmissions will be received. 
+    
+    \item[SCUC-problem:] Strongly connected unreliable communication problem
+    \begin{equation}
+    \begin{gathered}
+    \text{iff } \forall\, v_i, v_j \in V \text{ there is a directed path from } v_i \text{ to } v_j\; \land \\ \forall\, e \in E\; |\; 0 < W(v_q, v_r) \leq 1
+    \end{gathered}  
+    \end{equation}    
+    The SCUC-problem describes the most realistic scenario, a strongly connected network with a chance of not receiving transmissions. 
+\end{description}
 \bigskip \noindent
 In order to simplify the development of the project, the problems will be handled seperately and in order.
 This means starting with the CCRC-problem and working towards solving the SCUC-problem.
