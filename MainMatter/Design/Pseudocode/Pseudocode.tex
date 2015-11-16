@@ -62,44 +62,27 @@ However said reconfiguration and how to initiate a network are special cases and
 \begin{minipage}{\linewidth} %minpage to avoid page break
 
 \begin{lstlisting}[style=pseudocode,mathescape=true,caption={Pseudocode example of the main loop}] 
-Device$_{id} =$ local $n, i, k, \delta, \delta_{com}, \text{clock } x$ 
+Device$_{id} =$ local $n$, $i$, $k$, $\delta$, $\delta_{com}$, clock $x$ 
 procedure mainLoop()
     while true do
         wait until $x \geq \delta$
         $x \leftarrow 0$
-        $i \leftarrow (i \text{ mod } n) + 1$       // Update current slot
+        $i \leftarrow (i \text{ mod } n) + 1$ // Update current slot
         if $i = k$ then
-            $Update()$              // Updates the data to be sendt
-            $transmit(i, n, id, data)$
+            update() // Updates the data to be sendt
+            transmit($i$, $n$, $id$, $data$)
         else 
             while $x \leq \delta_{com}$ do
-                if $recived(i', n', id', data')$ then
-                    $remember(id', data')$
+                if received($i'$, $n'$, $id'$, $data'$) then
+                    remember($id'$, $data'$)
                     goto process
                 end
             end
         end
         process:
-        $doWork()$  // Must take less time than $\delta - \delta_{com}$ which is $\delta_{proc}$    
+        doWork() // Must take less time than $\textcolor{green!50!black}{\delta - \delta_{com}}$ which is $\textcolor{green!50!black}{\delta_{proc}}$    
     end
 \end{lstlisting}  
 \end{minipage}
-%\begin{lstlisting}[style=customc,mathescape=true,caption={Pseudocode example of the method that processes the payload}]  
-%processPayload(rx_payload)
-%  syncDevice(rx_payload) // Use information in payload to re-synchronise
-%  switch(rx_payload.type)
-%    case PING:
-%      return
-%    case ANNOUNCEMENT:
-%      $d$ += 1
-%      $n$ += 1
-%      if(rx_payload.Worst_Case > $\delta$)
-%        $\delta$ = rx_payload.Worst_Case
-%      return
-%    case ACTION:
-%      if(rx_payload.target == $k$)
-%        execute(rx_payload.instruction)
-%      return         
-%\end{lstlisting}
 % subsection general_case (end)   
             
