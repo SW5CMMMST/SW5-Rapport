@@ -1,0 +1,8 @@
+%Author: Morten Madmad Pedersen
+\subsection{Creating a network}
+When first turning on a device, which should be part of the network, the first task of the device must be to try to connect to an existing network.
+First the device will be set to listening for any signal for a given time period. 
+If the device does not pick up any transmission during this period the device will start initialising its own network.
+
+When a device creates a network, the network contains two times slots; one for the device itself and one empty slot, which allows another device to connect to the network.
+When the frame is in the device's own time slot it will transmit so new devices can detect said network, when they are listening in their startup period.   

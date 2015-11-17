@@ -44,9 +44,8 @@
 *.mtc1
 master.pdf
 *.out
-*.synctex.gz
+*.synctex.gz*
 *.fdb_latexmk
-
 master.thm
 
 *.cb

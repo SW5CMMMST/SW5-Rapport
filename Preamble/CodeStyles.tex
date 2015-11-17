@@ -4,16 +4,33 @@
   captionpos=b,
   frame=single,
   keepspaces=true,
-  %xleftmargin=\parindent,
   language=C,
   showstringspaces=false,
   basicstyle=\footnotesize\ttfamily,
   keywordstyle=\bfseries\color{blue},
   commentstyle=\color{green!50!black},
-  %identifierstyle=\color{blue},
   stringstyle=\color{orange},
   numberstyle=\tiny\color{gray},
   numbers=left,
   numbersep=5pt,
   tabsize=1
+}
+
+\lstdefinestyle{pseudocode}{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  captionpos=b,
+  frame=tb,
+  keepspaces=true,
+  showstringspaces=false,
+  basicstyle=\footnotesize\normalfont,
+  identifierstyle=\small\color{black}\normalfont, 
+  keywordstyle=\bfseries\color{black},
+  keywords = { if, then, else, end, while, do, local, procedure, goto, switch, case, break, continue, return, and, or, xor, clock, wait, until, run },
+  comment=[l]{//},
+  commentstyle=\color{green!50!black}\normalfont,
+  numberstyle=\tiny\color{gray},
+  numbers=left,
+  numbersep=5pt,
+  tabsize=2
 }

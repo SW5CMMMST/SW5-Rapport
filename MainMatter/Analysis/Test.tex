@@ -1,0 +1,56 @@
+\clearpage
+\section{Hardware Tests} % (fold)
+\label{sec:hardware_tests}
+In order to get knowledge of and experience with the hardware three tests have been devised.
+The first test is conducted to validate the results of the following tests, and it scrutinizes the hardware of the same type for inconsistencies.
+The following tests examines for the speed of the devices and the reliability with antennas attached to the RF-modules of different lengths.
+The full tests is documented in \myref{cha:radio_frequency_module_difference_test}, \myref{cha:radio_frequency_module_reception_test} and \myref{cha:radiohead_time_sent_test}; this section will present the results of the tests, and explore its implication on the project.
+
+\paragraph{Radio Frequency Module Difference Test (full test in \myref{cha:radio_frequency_module_difference_test})}% (fold)
+\label{par:radio_frequency_module_difference_test}\hfill\\
+As previously stated this test is used to validate all other tests involving the radio frequency modules.
+Because seemingly identical hardware can act very different in practice, due to minuscule differences introduced in the manufacturing process, it is necessary to be able to provide some guarantee that the differences does not effect the use of the devices to significantly.
+In other words to be able to compare results gathered with different radio frequency modules, one must be confident that a given result can be reproduced by any of the RF modules.
+There is of course a margin of error which must be accepted, or else none of the modules would be declared suited for use in further testing.
+
+The results of this test shows that there are three modules, which has a significant amount of package loss.
+These three modules are two receivers and one transmitter, and will be excluded from any other tests.
+Because of this exclusion the project group can guarantee that other test results are not significantly influenced by differences in the radio frequency modules. 
+% paragraph radio_frequency_module_difference_test (end) 
+
+\paragraph{Radio Frequency Module Reception Test (full test in \myref{cha:radio_frequency_module_reception_test})} % (fold)
+\label{par:radio_frequency_module_reception_test}\hfill\\
+To provide better reliability in reception of the messages sent with the radio frequency modules, different antennas is tested at different distances.
+The goal is to find the optimal antenna length i.e. the antenna length that causes the least package loss.
+Both transmitters and receivers are fitted with varying lengths of antennas, in a way so all combinations of antenna lengths are tested. 
+In the test the distances that were tested ranged from 2 to 28 metres between the transmitter and the receiver, and the varying antenna lengths were:
+\begin{description}[labelindent=\parindent]
+    \item[0 cm] No external antenna
+    \item[12 cm] An arbitrary antenna length
+    \item[17.3 cm] A quarter-monopole antenna (at 433 MHz)
+\end{description} 
+\noindent
+The results of this test shows that the theory, which states that the quarter-monopole antenna at 433 MHz should be 17.3 cm, holds up in practice.
+At all distances the antenna length of 17.3 cm gives a significantly lower package loss percent.
+In fact, when the transmitter is fitted with a 17.3 cm antenna even the receiver with no external antenna has a relatively low package loss percent.
+However all the tests also shows that the arbitrary antenna length does not work well and actually introduces package loss in comparison to no external antenna and the 17.3 cm antenna.
+
+Because of these results all radio frequency modules will be fitted with antennas of 17.3 cm length.
+This will give the most reliable transmissions and receptions between devices using said modules.
+% paragraph radio_frequency_module_reception_test (end)
+
+\paragraph{RadioHead Time Sent Test (full test in \myref{cha:radiohead_time_sent_test})} % (fold)
+\label{par:radiohead_time_sent_test}\hfill\\
+The last hardware test will assess the speed at which a message of $n$ bytes can be sent using the communication library for Arduino called RadioHead.
+This test is performed to extract a formulae, which can be used to calculate said speed; as it is advantageous to know when a given message was sent, in order to better synchronise devices.   
+
+The results of the test shows that the time it takes to send a message is linearly proportional with size of the message in bytes.
+Moreover the following equation can be derived from the results:
+\begin{equation}
+f(n)=6.0101 * n + 65.7826
+\end{equation}
+Where $n$ is the number of bytes in the message and $f(n)$ is the time it takes to send the message in milliseconds.
+This equation shows that any transmission has an overhead of 65.7826 milliseconds, and that for every byte it takes an aditional 6.0101 milliseconds.    
+% paragraph radiohead_time_sent_test (end)
+
+% section hardware_tests (end)
