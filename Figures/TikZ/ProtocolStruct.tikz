@@ -16,12 +16,7 @@
 	(addr)
 	{\textbf{Address}};
 \node[draw, right = 0cm of addr,
-		minimum width=0.15\textwidth, 
-		minimum height=10mm]
-	(time)
-	{\textbf{$\delta_{trans}$}};
-\node[draw, right = 0cm of time,
-		minimum width=0.40\textwidth, 
+		minimum width=0.55\textwidth, 
 		minimum height=10mm]
 	(mode)
 	{\textbf{Data}};

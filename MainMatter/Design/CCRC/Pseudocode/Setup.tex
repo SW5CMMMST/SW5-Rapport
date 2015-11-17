@@ -29,18 +29,19 @@ procedure Initialize()
     $x \leftarrow 0$
     while $x \leq t_0$ do
         if received($i'$, $n'$, $id'$, $data'$) then
-            // Join network
+            $x \leftarrow 0$ //Reset the clock to synchronize
+            //Prepare variables for transmit in emptyslot
             $n \leftarrow n' + 1$ // Increment number of slots
             $k \leftarrow n'$ // Claim empty slot
             $i \leftarrow i'$ // Get current slot
-            goto loopstart
+            mainLoop()
         end
     end
     // Create new network
     $n \leftarrow 2$ // Two slots; one for this device and one empty
     $k \leftarrow 1$ // Claim the first slot
-    $i \leftarrow 1$ // Set turn to mine
-    loopstart:
+    $i \leftarrow 0$ // Set current timeslot to one before me
+    $x \leftarrow 0$ // Reset clock
     mainLoop()
 \end{lstlisting}   
 \end{minipage}
