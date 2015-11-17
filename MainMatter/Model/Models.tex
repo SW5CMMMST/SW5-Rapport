@@ -11,20 +11,25 @@ The templates all have an initial state like other automatas.
 All states and edges can have certain properties to control the transitions in the automata which is how the model for the protocol can be checked.
 The states in UPPAAL templates are often called locations instead of states.
 
+\bigskip\noindent
 The properties of a state are the following: 
 
-\begin{itemize}
-	\item \textbf{Name} - These are used to refer to certain states from either the code for the model, or in the verification aspect of UPPAAL. It is also useful for documentation of the model. The color of names are dark red in all UPPAAL models.
-	\item \textbf{Invariants} - Are used to keep a template in the state until an expression no longer holds true. The invariants often make use of the clock type available in UPPAAL to make sure a template will leave a state after a certain time has passed. The color of invariants are a pink-ish color in all UPPAAL models.
-\end{itemize}
+\begin{description}[labelindent=\parindent]
+    \item[Name]\hfill\\
+    These are used to refer to certain states from either the code for the model, or in the verification aspect of UPPAAL. It is also useful for documentation of the model. The color of names are dark red in all UPPAAL models.
+    \item[Invariants]\hfill\\
+    Are used to keep a template in the state until an expression no longer holds true. The invariants often make use of the clock type available in UPPAAL to make sure a template will leave a state after a certain time has passed. The color of invariants are a pink-ish color in all UPPAAL models.
+\end{description}
 
+\noindent
 Edges can have the following properties:
 
-\begin{itemize}
-	\item \textbf{Select} is used to non-deterministically give an identifier a value in a range, and is shown with a green-yellow color.
-	\item \textbf{Guard} is used to make sure an edge can be used unless a certain expression is upheld. Guards are shown in a green color.
-	\item \textbf{Sync} is used with the channel variables to make sure an edge is fired in all available templates. If an edge with the sync \texttt{chan!} is fired all templates which are in a state with a legal transition \texttt{chan?} has to be fired. This makes sure all templates make a transition when available to. Syncs are shown in a light-blue color.
-	\item \textbf{Update} is used to change variables when an edge is fired, either to give them a certain value or maybe to increment or decrement variables. Updates are shown in a purple color.
-\end{itemize}
+\begin{description}[labelindent=\parindent,labelsep=1ex]
+    \item[Select] is used to non-deterministically give an identifier a value in a range, and is shown with a green-yellow color.
+    \item[Guard] is used to make sure an edge can be used unless a certain expression is upheld. Guards are shown in a green color.
+    \item[Sync] is used with the channel variables to make sure an edge is fired in all available templates. If an edge with the sync \texttt{chan!} is fired all templates which are in a state with a legal transition \texttt{chan?} has to be fired. This makes sure all templates make a transition when available to. Syncs are shown in a light-blue color.
+    \item[Update] is used to change variables when an edge is fired, either to give them a certain value or maybe to increment or decrement variables. Updates are shown in a purple color.
+\end{description}
 
+\noindent
 Now that UPPAAL has been introduced, it is time to look at the model of the protocol, so the protocol can be verified to uphold the requirements from \myref{requirements}
