@@ -1,12 +1,13 @@
+    \tikzstyle{box} = [rectangle, draw, fill=green!40, 
+    text width=10em, text centered, rounded corners, minimum height=4em]
 \begin{tikzpicture}[node distance = 5mm,
-    box/.style={minimum height = 10mm, minimum width = 40mm, rounded corners, draw, fill = blue!20, drop shadow},
-    label/.style={align=center, text width=3.5cm},
+    label/.style={align=center, text width=7.5cm},
     arrow/.style={-stealth, line width=1pt}
 ]
     \node[box]
-        	(code) at (0,0)
-        	{\textbf{C or C++ Code}};
-    	
+            (code) at (0,0)
+            {\textbf{C or C++ Code}};
+        
     \node[below = of code, label]
             (compile) {Verifies that the code is correct C or C++ code, and compiles with an AVR-GCC compiler};
             
