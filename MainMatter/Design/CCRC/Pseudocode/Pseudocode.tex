@@ -74,15 +74,17 @@ These processes is described in \myref{sub:setupCCRC}.
 procedure mainLoop()
 	while true do
 		run usercode until $x \geq \delta$
-		$x \leftarrow 0$
 		$i \leftarrow (i \text{ mod } n) + 1$ // Update current slot
 		if $i = k$ then
 			makePayload() // Updates the data to be sendt
 			transmit($i$, $n$, $id$, $data$)
+			$x \leftarrow 0$
 		else 
 			while $x \leq \delta_{com}$ do
 				if received($i'$, $n'$, $id'$, $data'$) then
-					$i \leftarrow i'$	// Sync current slot
+					if $i \neq i'$
+						reSync($i'$)
+					$x \leftarrow 0$
 					processMessage($id'$, $data'$)
 					break
 				end
