@@ -17,29 +17,30 @@
 %Because the \gls{arduino} \todo{måske skulle dette referere til RF modulet i stedet?} does not have the luxury of multi-frequency communication the predecessors to \gls{tdma} does not have any advantages as many of them are based on distributing the communication over multiple frequencies. \todo{Måske skulle der skrives: In this project a single frequency RF module will be used ... ? -T}
 
 %\glsreset{tdma}
-\gls{tdma} is a method of sharing the same radio frequency between two or more devices.
+\gls{tdma} is a method of communicating while sharing the same radio frequency between two or more devices.
 
 This method was first used in practice in 1991, see \cite{networkencyclopedia2013time}, for use in the cellular telephones, to increase the number of concurrent users on the telephone network.
 
-This method is a great starting point when designing the network of this report.
+This method is a great starting point when designing the network of this paper.
 In the following section a further explanation of \gls{tdma} is given.
 
 \section{How TDMA works}
 
-If multiple radios transmit on the same frequency at the same time while in range of eachother, then interference occurs as can be seen on \myref{fig:rangediagram}. 
-On the figure the square-device is in range of both circle-devices, so if they broadcast on the same frequency at the same time then the square-device will most likely not be able to decode either of the signals.\cite{networkencyclopedia2013time, networkencyclopedia2013advanced}
+If multiple radio-transmitters transmit on the same frequency at the same time while in range of each other, then interference occurs as can be seen on \myref{fig:rangediagram}. 
+On the figure the device denoted by a square is in range of both the devices denoted by circles, so if they broadcast on the same frequency at the same time then the square-device will most likely not be able to decode either of the signals.\cite{networkencyclopedia2013time, networkencyclopedia2013advanced}
 
 %\gls{tdma} devices using the same frequency which signals would otherwise intersect as seen in figure \ref{fig:rangediagram}, which would result in the signals from either of the senders being unreadable, because they interfere with each other. \todo{Denne sætning virker lidt ufuldendt, der står: "[...] works by making devices [... bisætning]" ingen konklusion, menes der at det gør dem i stand til at kommunikere selv om alle sender og modtager på samme frekvens. ? -T}
 
 \tikzfigure{RangeDiagram.tex}{The two devices (circles) communicate on the same frequency making the receiver (square) unable to read either signal.}{rangediagram}
 %label: fig:rangediagram
 
-This is solved by having the transmitters taking turns transmitting their message in smaller time slots as seen on \myref{fig:tdmaoverview}.
+This is solved by having the transmitters take turns transmitting their message in smaller time slots as seen on \myref{fig:tdmaoverview}.
 The figure shows five devices which share the same frequency, and to do this they get a timeslot each in the frame.
 A frame is the complete cycle of these timeslots.
 
 \tikzfigure{TDMAOverview.tex}{An example of a time slot allocation for five devices on a single frequency by using \gls{tdma}}{tdmaoverview} %label: fig:tdmaoverview 
 
+\noindent
 Just like frames are divided into time slots; the following five parts are what the individual time slots consists of:
 
 \begin{description}
@@ -60,7 +61,6 @@ The main data of the signal.
 The \gls{crc} is an error detecting code. It is there to make sure that the correct message was received. 
 \end{description}
 \bigskip
+\noindent
 
-The aim of this division is to ensure that the signals does not intersect, the message being sent is isolated, and that the data is received as intended.
-\todo[inline]{What is the purpose of the code below? - Troels}
-\code{Test}
+The aim of this division is to ensure that the signals do not intersect, the message being sent is isolated and that the data is received as intended.
