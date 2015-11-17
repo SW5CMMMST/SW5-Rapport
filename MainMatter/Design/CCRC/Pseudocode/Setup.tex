@@ -40,7 +40,8 @@ procedure Initialize()
     // Create new network
     $n \leftarrow 2$ // Two slots; one for this device and one empty
     $k \leftarrow 1$ // Claim the first slot
-    $i \leftarrow 1$ // Set turn to mine
+    $i \leftarrow 0$ // Set current timeslot to one before me
+    $x \leftarrow 0$ // Reset clock
     mainLoop()
 \end{lstlisting}   
 \end{minipage}
