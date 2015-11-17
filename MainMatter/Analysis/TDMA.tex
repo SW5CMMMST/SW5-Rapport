@@ -1,7 +1,7 @@
 %author         Claus 
 %1st review     Søren
 %2nd review     Troels
-\chapter{Time Division Multiple Access}\label{TDMA}\todo{Tilpas så det passer som kapitel 2}
+\chapter{Time Division Multiple Access}\label{TDMA}
 % Placeres efter afsnittet om aduino radio modulet
 %Radio modules for \gls{arduino} are often locked to a specific frequency \todo{Revider efter der er skrevet om RF modulet} which limits the possible communication as multiple signals on the same frequency would interfere with each other.
 
@@ -19,9 +19,12 @@
 %\glsreset{tdma}
 \gls{tdma} is a method of sharing the same radio frequency between two or more devices.
 
-This method was first used in practice in 1991 for use in the cellular telephones, to increase the number of concurrent users on the telephone network.\cite{networkencyclopedia2013time}
+This method was first used in practice in 1991, see \cite{networkencyclopedia2013time}, for use in the cellular telephones, to increase the number of concurrent users on the telephone network.
 
-\subsection{How TDMA works}
+This method is a great starting point when designing the network of this report.
+In the following section a further explanation of \gls{tdma} is given.
+
+\section{How TDMA works}
 
 If multiple radios transmit on the same frequency at the same time while in range of eachother, then interference occurs as can be seen on \myref{fig:rangediagram}. 
 On the figure the square-device is in range of both circle-devices, so if they broadcast on the same frequency at the same time then the square-device will most likely not be able to decode either of the signals.\cite{networkencyclopedia2013time, networkencyclopedia2013advanced}
