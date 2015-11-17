@@ -62,7 +62,6 @@ As seen in \myref{fig:main_psuedo_flow} the flow of the code is a straightforwar
 \enquote{Process message} then receives one of such packages and unpacks it. 
 Unpacking would usually involve storing the data on the device.
 
-\info[inline]{Add explanatory text for this}
 \tikzfigure{PsuedoMainFlowDiagram}{Flow diagram showing how a device acts when connected to a network}{main_psuedo_flow}
 
 This loop should only be stopped when the network is reconfigured. 
@@ -73,6 +72,7 @@ These processes is described in \myref{sub:setupCCRC}.
 \begin{lstlisting}[style=pseudocode,mathescape=true, label={lst:general_case}, caption={Pseudocode example of the main loop}] 
 procedure mainLoop()
 	while true do
+		loopstart:
 		run userCode() until $x \geq \delta_{proc}$
 		$i \leftarrow (i \text{ mod } n) + 1$ // Update current slot
 		if $i = k$ then
@@ -84,9 +84,10 @@ procedure mainLoop()
 				if received($i'$, $n'$, $id'$, $data'$) then
 					$x \leftarrow 0$ //Reset the clock to synchronize
 					processMessage($id'$, $data'$)
-					break
+					goto loopstart
 				end
 			end
+			$x \leftarrow 0$ //Reset the clock to synchronize
 		end 
 	end
 \end{lstlisting}  
@@ -95,6 +96,15 @@ procedure mainLoop()
 The full pseudocode for the general case can be seen in \myref{lst:general_case}. 
 In the code, there are a few extra details but the main structure is the same. 
 The code describes how a device knows whether it is its turn or not. 
+
+What is worth noting is the clock $x$ which controls the timing. 
+It is reset at three different places in the code; on line 9, 13, and 18. 
+The first two resets on line 9 and 13 are just before sending and just after receiving a message. 
+This is the closest point in the program we can synchronize to. 
+
+The last reset on line 13 is when no message was received in the timeslot. 
+In this case, the device should reset after the calculated $\delta_{com}$ duration. 
+In a completely reliable network, this should only occur in the empty slot.
 
 % subsection general_case (end)   
             
