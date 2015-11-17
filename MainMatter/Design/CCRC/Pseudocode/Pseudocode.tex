@@ -36,7 +36,7 @@ This should ensure that two devices will not send messages at the same time.
 		(b)&\forall\ \{d_a, d_b\} \subset Network: & d_a.n = d_b.n \\
 		(c)&\forall\ \{d_a, d_b\} \subset Network: & d_a.i = d_b.i \\[1ex]
 		(d)&\forall\ d \in Network: & d.k \neq n \\[1ex]
-		(e)&\forall\ i \in \mathbb{N}_{<n}: & \exists!\ d \in Network: d.i = i 
+		(e)&\forall\ k \in \mathbb{N}_{<n}: & \exists!\ d \in Network: d.k = k 
 	\end{array}$
 	\caption{The requested situation where $Network$ is the set of devices currently connected in a network.}
     \label{tab:invariants}
@@ -52,37 +52,50 @@ It then returns true if a message was received; otherwise false.
                     
 \subsection{General Case} % (fold)
 \label{sub:general_case}
-Generally the devices should be executing an infinite loop, which transmits and receives payloads, an overview of this flow can be seen in \myref{fig:main_psuedo_flow}.
+
+During the lifetime of the devices, they should spend most of their time in this general case or in the user code. 
+This code determines whose turn it is, synchronises devices, and handles communication.
+
+As seen in \myref{fig:main_psuedo_flow} the flow of the code is a straightforward loop with a few logical checks. 
+\enquote{Make payload} and \enquote{Process message} are the only complicated processes. 
+\enquote{Make payload} collects the known data into a package, that is ready to send. 
+\enquote{Process message} then receives one of such packages and unpacks it. 
+Unpacking would usually involve storing the data on the device.
+
 \info[inline]{Add explanatory text for this}
 \tikzfigure{PsuedoMainFlowDiagram}{Flow diagram showing how a device acts when connected to a network}{main_psuedo_flow}
-This loop should only be stopped, when the network needs to be reconfigured.
-However said reconfiguration and how to initiate a network are special cases and will be described in \myref{sub:setupCCRC}.
 
+This loop should only be stopped when the network is reconfigured. 
+Reconfiguration of the network involves setting up and connecting to a network. 
+These processes is described in \myref{sub:setupCCRC}.
 
 \begin{minipage}{\linewidth} %minpage to avoid page break
-
 \begin{lstlisting}[style=pseudocode,mathescape=true,caption={Pseudocode example of the main loop}] 
-Device$_{id} =$ local $n$, $i$, $k$, $\delta$, $\delta_{com}$, clock $x$ 
 procedure mainLoop()
-    while true do
-        wait until $x \geq \delta$
-        $x \leftarrow 0$
-        $i \leftarrow (i \text{ mod } n) + 1$ // Update current slot
-        if $i = k$ then
-            update() // Updates the data to be sendt
-            transmit($i$, $n$, $id$, $data$)
-        else 
-            while $x \leq \delta_{com}$ do
-                if received($i'$, $n'$, $id'$, $data'$) then
-                    remember($id'$, $data'$)
-                    goto process
-                end
-            end
-        end
-        process:
-        doWork() // Must take less time than $\textcolor{green!50!black}{\delta - \delta_{com}}$ which is $\textcolor{green!50!black}{\delta_{proc}}$    
-    end
+	while true do
+		run usercode until $x \geq \delta$
+		$i \leftarrow (i \text{ mod } n) + 1$ // Update current slot
+		if $i = k$ then
+			makePayload() // Updates the data to be sendt
+			transmit($i$, $n$, $id$, $data$)
+			$x \leftarrow 0$
+		else 
+			while $x \leq \delta_{com}$ do
+				if received($i'$, $n'$, $id'$, $data'$) then
+					if $i \neq i'$
+						reSync($i'$)
+					$x \leftarrow 0$
+					processMessage($id'$, $data'$)
+					break
+				end
+			end
+		end 
+	end
 \end{lstlisting}  
 \end{minipage}
+
+The full pseudocode for the general case can be seen in 
+
+
 % subsection general_case (end)   
             
