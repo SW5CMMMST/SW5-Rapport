@@ -70,7 +70,7 @@ Reconfiguration of the network involves setting up and connecting to a network.
 These processes is described in \myref{sub:setupCCRC}.
 
 \begin{minipage}{\linewidth} %minpage to avoid page break
-\begin{lstlisting}[style=pseudocode,mathescape=true,caption={Pseudocode example of the main loop}] 
+\begin{lstlisting}[style=pseudocode,mathescape=true, label={lst:general_case}, caption={Pseudocode example of the main loop}] 
 procedure mainLoop()
 	while true do
 		run usercode until $x \geq \delta$
@@ -92,8 +92,9 @@ procedure mainLoop()
 \end{lstlisting}  
 \end{minipage}
 
-The full pseudocode for the general case can be seen in 
-
+The full pseudocode for the general case can be seen in \myref{lst:general_case}. 
+In the code, there are a few extra details but the main structure is the same. 
+The code describes how a device knows whether it is its turn or not. 
 
 % subsection general_case (end)   
             
