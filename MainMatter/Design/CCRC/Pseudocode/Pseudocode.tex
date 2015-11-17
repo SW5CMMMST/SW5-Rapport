@@ -1,0 +1,99 @@
+\section{Pseudocode Description}
+This section presents key components of the designed TDMA-based protocol. 
+First an informal description is given followed by relevant flowcharts and pseudocode examples. 
+The model of the protocol is divided into the two phases - the initilization phase and the loop phase. 
+
+These phases will be described in the following subsections using the same model for a general device. 
+That device can only know its local variables and what it receives via the \enquote{received} function.
+
+\begin{table}[H]
+    \begin{tabularx}{\textwidth}{l|l|X|l}
+        \toprule
+        Name                & Type      & Description & Constraint \\
+        \midrule
+        $n$                 & integer   & The number of slots in the network                        & $2 \leq n \leq 256$\\
+        $k$                 & integer   & The slot claimed by this device                           & $1 \leq k \leq n - 1$\\
+        $i$                 & integer   & The current slot                                          & $1 \leq i \leq n$\\
+        $\delta$            & integer   & The duration of a time slot                               & $\delta = \delta_{com} + \delta_{proc}$\\
+        $\delta_{com}$      & integer   & The duration of a time slot reserved for communication    & $0 < \delta_{com}$ \\
+        $\delta_{proc}$     & integer   & The duration of a time slot reserved for processing       & $0 < \delta_{proc}$ \\
+        $t_0$               & integer   & The minimum time to determine if a network exists         & $3 \times \delta \leq t_0$ \\
+        $x$                 & clock     & A clock used for timing, and always running\\
+        \bottomrule
+    \end{tabularx}
+    \caption{The local variables every device has access to.}
+    \label{tab:locals}
+\end{table}
+
+The devices store their knowledge in their local variables as seen in \myref{tab:locals}. 
+The aim of the network should be to manipulate those values while running, to satisfy the equations stated in \myref{tab:invariants}. 
+This should ensure that two devices will not send messages at the same time.
+
+\begin{table}[H]
+	\centering
+	$\begin{array}{l l l}
+		(a)&\forall\ \{d_a, d_b\} \subset Network: & d_a.k \neq d_b.k \\
+		(b)&\forall\ \{d_a, d_b\} \subset Network: & d_a.n = d_b.n \\
+		(c)&\forall\ \{d_a, d_b\} \subset Network: & d_a.i = d_b.i \\[1ex]
+		(d)&\forall\ d \in Network: & d.k \neq n \\[1ex]
+		(e)&\forall\ k \in \mathbb{N}_{<n}: & \exists!\ d \in Network: d.k = k 
+	\end{array}$
+	\caption{The requested situation where $Network$ is the set of devices currently connected in a network.}
+    \label{tab:invariants}
+\end{table}
+
+This is accomplished by having the devices agree on the number of slots and current slot while no devices have the same slot. 
+Finally, no device should occupy the last slot as this is used by new devices to connect to the network.
+
+The devices are assumed to have an implementation of the \enquote{receive} and \enquote{transmit} function.
+The \enquote{transmit} function is simple, it sends a message over radio waves containing the parameters parsed into it.
+The \enquote{received} function is harder, it takes some parameters which are set to the received values if any was received. 
+It then returns true if a message was received; otherwise false.
+                    
+\subsection{General Case} % (fold)
+\label{sub:general_case}
+
+During the lifetime of the devices, they should spend most of their time in this general case or in the user code. 
+This code determines whose turn it is, synchronises devices, and handles communication.
+
+As seen in \myref{fig:main_psuedo_flow} the flow of the code is a straightforward loop with a few logical checks. 
+\enquote{Make payload} and \enquote{Process message} are the only complicated processes. 
+\enquote{Make payload} collects the known data into a package, that is ready to send. 
+\enquote{Process message} then receives one of such packages and unpacks it. 
+Unpacking would usually involve storing the data on the device.
+
+\info[inline]{Add explanatory text for this}
+\tikzfigure{PsuedoMainFlowDiagram}{Flow diagram showing how a device acts when connected to a network}{main_psuedo_flow}
+
+This loop should only be stopped when the network is reconfigured. 
+Reconfiguration of the network involves setting up and connecting to a network. 
+These processes is described in \myref{sub:setupCCRC}.
+
+\begin{minipage}{\linewidth} %minpage to avoid page break
+\begin{lstlisting}[style=pseudocode,mathescape=true,caption={Pseudocode example of the main loop}] 
+procedure mainLoop()
+	while true do
+		run userCode() until $x \geq \delta_{proc}$
+		$i \leftarrow (i \text{ mod } n) + 1$ // Update current slot
+		if $i = k$ then
+			makePayload() // Updates the data to be sendt
+			transmit($i$, $n$, $id$, $data$)
+			$x \leftarrow 0$ //Reset the clock to synchronize
+		else 
+			while $x \leq \delta$ do
+				if received($i'$, $n'$, $id'$, $data'$) then
+					$x \leftarrow 0$ //Reset the clock to synchronize
+					processMessage($id'$, $data'$)
+					break
+				end
+			end
+		end 
+	end
+\end{lstlisting}  
+\end{minipage}
+
+The full pseudocode for the general case can be seen in 
+
+
+% subsection general_case (end)   
+            

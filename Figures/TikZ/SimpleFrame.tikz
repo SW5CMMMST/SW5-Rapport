@@ -1,0 +1,40 @@
+\resizebox{1\textwidth}{!}{%
+\begin{tikzpicture}[scale=\textwidth]
+\node[draw, align = center, 
+		minimum width=0.22\textwidth, 
+		minimum height=10mm,
+		label=below:Occupied] 
+	(slot0) at (0,0)
+	{\textbf{Slot 1 ; Device 0x31}};
+\node[draw, right = 0cm of slot0,
+		minimum width=0.22\textwidth, 
+		minimum height=10mm,
+		label=below:Occupied]
+	(slot1)
+	{\textbf{Slot 2 ; Device 0x02}};
+\node[draw, right = 0cm of slot1,
+		minimum width=0.22\textwidth, 
+		minimum height=10mm,
+		label=below:Occupied]
+	(slot2)
+	{\textbf{Slot 3 ; Device 0x33}};
+\node[draw, right = 0cm of slot2,
+		minimum width=0.22\textwidth, 
+		minimum height=10mm,
+		label=below:Occupied]
+	(slot3)
+	{\textbf{Slot 4 ; Device 0xA4}};
+\node[draw, right = 0cm of slot3,
+		minimum width=0.22\textwidth, 
+		minimum height=10mm,
+		label=below:Empty]
+	(slot4)
+	{\textbf{Slot 5 ; \textit{Empty}}};
+\draw [decoration={brace, amplitude=+20pt}, decorate]
+    (slot2.north west) -- (slot2.north east) node [black,midway,above=+22pt] 
+    {\textbf{Time slot}};
+\draw [decoration={brace, amplitude=+80pt}, decorate]
+    (slot0.north west) -- (slot4.north east) node [black,midway,above=+82pt] 
+    {\textbf{Frame}};	
+\end{tikzpicture}
+}%
