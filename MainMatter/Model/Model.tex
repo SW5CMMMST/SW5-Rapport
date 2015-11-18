@@ -12,10 +12,10 @@ The first part to be shown will be the initialization, which can be seen on \myr
 \end{figure}
 
 The initial state has a clock \texttt{startup}, which makes sure that only one of the devices will be leaving the initial state at the same time.
-When one of the devices leave this state the clock will reset, and another will leave the state when the \texttt{startup} once again reaches the desired time.
-It has to be mentioned that this wait time for startup has to be increased with the number of devices connecting to the network. 
-When the frame is larger, this startup wait time has to be increased to make sure that only one device will try to connect in the empty slot.
-With the current values creating a network with six devices is doable.
+When one of the devices leave this state, \texttt{startup} will reset, and another will leave the state when the \texttt{startup} once again reaches the desired time.
+It has to be mentioned that this \texttt{Startup_Time} has to be increased as the number of devices in the system increases.
+This is because when the frame of the network becomes larger, \texttt{Startup_Time} has to be increased to make sure that only one device has been released at a time for when en empty time-slot occurs.
+With the current values in the model creating a network with six devices is doable.
 While the other devices are waiting to be released, the device which was the first to leave will listen for a network, as there is obviously no network yet the device will fire the edge towards the \texttt{Creating\_Network} state.
 The device will setup the initial values for the network, change its boolean \texttt{Connected} to true, and start the main loop.
 When the next device leaves the initial stage, it will when it is listening for a network be successful as a network has just been created, which means that the device will move towards the committed state \texttt{Network\_Found} and reset the clock \texttt{x} to zero.
