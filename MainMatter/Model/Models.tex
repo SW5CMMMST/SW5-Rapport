@@ -24,9 +24,9 @@ The properties of a state are the following:
 Other types of properties for states are toggled variables which change how a state is computed:
 
 \begin{description}
-	\item [Initial] - A state Automata has to have an Initial state, which is the state in which the template will start in. This is marked by a double circle on the state.
-	\item [Urgent] - An urgent location freeze time for the template, which means that all clocks for a template in an urgent state will not change. This is marked by a U on the state.
-	\item [Committed] - A committed state also freezes time, but it does so for the entire system, as if any template is in a commited state, the next edge to be fired has to be an edge from a committed state. This is marked by a C on the state.
+	\item [Initial] states indicates where the template will start, and works just like in other state Automata which has to have an Initial state. This is marked by a double circle on the state.
+	\item [Urgent] states freeze time for the template, which means that all clocks for a template in an urgent state will not change. This is marked by a U on the state.
+	\item [Committed] states also freeze time, but it does so for the entire system, as if any template is in a commited state, the next edge to be fired has to be an edge from a committed state. This is marked by a C on the state.
 \end{description}
 
 \noindent
