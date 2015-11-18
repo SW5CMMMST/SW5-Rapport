@@ -33,7 +33,7 @@ This creates the four sub problems which can be modelled as graphs:  %where the 
     \item[SCRC-problem:] Strongly connected reliable communication problem
     \begin{equation}
     \begin{gathered}
-    \text{iff } \forall\, \{v_i, v_j\} \subset V: \text{ there is a directed path from } v_i \text{ to } v_j\; \land \\ \forall\, \{v_q, v_r\} \subset E : W(v_q, v_r) = 1
+    \text{iff } \forall\, \{v_i, v_j\} \subset V: \text{ there is a directed path from } v_i \text{ to } v_j\; \land \\ \forall\, (v_q, r, v_r) \in E : r = 1
     \end{gathered}  
     \end{equation}   
     The SCRC-problem describes a strongly connected network meaning at least one vertex has an indirect connection to another rather than a direct connection, i.e. there still exists a path from every vertex to every other vertex but at least one pair of vertices requires one or more mediating vertices. In this example communication is once again reliable such that all transmissions will be received. 
@@ -41,7 +41,7 @@ This creates the four sub problems which can be modelled as graphs:  %where the 
     \item[SCUC-problem:] Strongly connected unreliable communication problem
     \begin{equation}
     \begin{gathered}
-    \text{iff } \forall\, \{v_i, v_j\} \subset V: \text{ there is a directed path from } v_i \text{ to } v_j\; \land \\ \forall\, \{v_q, v_r\} \subset E : W(v_q, v_r) \in (0, 1]
+    \text{iff } \forall\, \{v_i, v_j\} \subset V: \text{ there is a directed path from } v_i \text{ to } v_j\; \land \\ \forall\, (v_q, r, v_r) \in E : r \in (0, 1]
     \end{gathered}  
     \end{equation}    
     The SCUC-problem describes the most realistic scenario, a strongly connected network with a chance of not receiving transmissions. 
