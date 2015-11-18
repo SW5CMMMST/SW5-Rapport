@@ -24,7 +24,6 @@ Should it occur that no network is found the device will start its own network w
 
 \begin{minipage}{\linewidth} %minpage to avoid page break
 \begin{lstlisting}[label=lst:setupCCRC,style=pseudocode,mathescape=true,caption={Pseudocode example of the special case procedure Initialize()},basicstyle=\ttfamily]
-Device$_{id} =$ local $n$, $i$, $k$, $t_0$, clock $x$
 procedure Initialize()
     $x \leftarrow 0$
     while $x \leq t_0$ do
@@ -40,7 +39,8 @@ procedure Initialize()
     // Create new network
     $n \leftarrow 2$ // Two slots; one for this device and one empty
     $k \leftarrow 1$ // Claim the first slot
-    $i \leftarrow 1$ // Set turn to mine
+    $i \leftarrow 0$ // Set current timeslot to one before me
+    $x \leftarrow 0$ // Reset clock
     mainLoop()
 \end{lstlisting}   
 \end{minipage}
