@@ -21,7 +21,16 @@ The properties of a state are the following:
     Are used to keep a template in the state until an expression no longer holds true. The invariants often make use of the clock type available in UPPAAL to make sure a template will leave a state after a certain time has passed. The color of invariants are a pink-ish color in all UPPAAL models.
 \end{description}
 
+Other types of properties for states are toggled variables which change how a state is computed:
+
+\begin{description}
+	\item [Initial] states indicates where the template will start, and works just like in other state Automata which has to have an Initial state. This is marked by a double circle on the state.
+	\item [Urgent] states freeze time for the template, which means that all clocks for a template in an urgent state will not change. This is marked by a U on the state.
+	\item [Committed] states also freeze time, but it does so for the entire system, as if any template is in a commited state, the next edge to be fired has to be an edge from a committed state. This is marked by a C on the state.
+\end{description}
+
 \noindent
+
 Edges can have the following properties:
 
 \begin{description}[labelindent=\parindent,labelsep=1ex]

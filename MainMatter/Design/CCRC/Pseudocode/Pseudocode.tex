@@ -1,4 +1,4 @@
-\section{Pseudocode Description}
+\section{Pseudocode Description}\label{sec:Pseudo}
 This section presents key components of the designed TDMA-based protocol. 
 First an informal description is given followed by relevant flowcharts and pseudocode examples. 
 The model of the protocol is divided into the two phases - the initilization phase and the loop phase. 
@@ -26,7 +26,7 @@ That device can only know its local variables and what it receives via the \enqu
 \end{table}
 
 The devices store their knowledge in their local variables as seen in \myref{tab:locals}. 
-The aim of the network should be to manipulate those values while running, to satisfy the equations stated in \myref{tab:invariants}. 
+The aim of the network should be to manipulate those values while running, to satisfy the statements seen in \myref{tab:invariants}. 
 This should ensure that two devices will not send messages at the same time.
 
 \begin{table}[H]
