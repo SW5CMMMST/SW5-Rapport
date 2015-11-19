@@ -8,7 +8,6 @@ When a device creates a network, the network contains two times slots; one for t
 When the frame is in the device's own time slot it will transmit so new devices can detect said network, when they are listening in their startup period.  
 A flow diagram of this setup can be seen on \myref{fig:psuedo_flowCCRC}
 
-\todo{Flowdiagram som passer med reliable communication(ingen verify) skal være her, er udkommenteret i rapporten men klar til creation}
 \tikzfigure{PsuedoFlowDiagramRC}{Flow diagram showing how a device acts during the Initialization phase}{psuedo_flowCCRC}
  
 \bigskip \noindent
@@ -24,7 +23,6 @@ Should it occur that no network is found the device will start its own network w
 
 \begin{minipage}{\linewidth} %minpage to avoid page break
 \begin{lstlisting}[label=lst:setupCCRC,style=pseudocode,mathescape=true,caption={Pseudocode example of the special case procedure Initialize()},basicstyle=\ttfamily]
-Device$_{id} =$ local $n$, $i$, $k$, $t_0$, clock $x$
 procedure Initialize()
     $x \leftarrow 0$
     while $x \leq t_0$ do
