@@ -26,3 +26,6 @@ clean:
 
 live: clean
 	latexmk -pvc -pdflatex='pdflatex -file-line-error -synctex=1' -pdf master.tex
+	
+test: clean
+	latexmk -pv -silent -pdflatex='pdflatex' -pdf master.tex
