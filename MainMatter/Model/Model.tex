@@ -65,8 +65,8 @@ caption={Queries for the UPPAAL Model}]
 9. A<> forall(i : id_t)  Device(i).k < n and Device(i).k > 0
 \end{lstlisting}
 
-All of these queries will yield a true result when run with 6 devices on the model which has been shown.
-More queries have been added to verify the model, an example is query 2.
+All of these queries will yield a true result when run with 6 devices on the model presented in this chapter.
+Note that queries have been added to verify the model beyond the ones derived from the statements in \myref{sec:Pseudo}, an example is query 2.
 A brief explanation of each query will be given below. 
 
 \begin{description}
@@ -74,13 +74,13 @@ A brief explanation of each query will be given below.
 	\item [Query 2.] asks if there are no deadlocks in the model.
 	\item [Query 3.] determines whether two different devices can be in the state \texttt{transmitting} at the same time.
 	\item [Query 4.] will decide whether the devices local number of i, is the same when they are all in the state \texttt{User\_Code}.
-	\item [Query 5.] asks if all devices has the same value of n in the local variable n.
-	\item [Query 6.] asks if it false that any device has taken the empty time-slot as their own time-slot.
+	\item [Query 5.] asks if all devices have the same value of n in the local variable n.
+	\item [Query 6.] asks if it is false that any device has taken the empty time-slot as their own time-slot.
 	\item [Query 7.] asks if any two devices have taken the same time-slot k.
 	\item [Query 8.] asks if at some point is it always true that the number of time slots in the network is one larger than the number of devices in the system.
 	\item [Query 9.] asks if all the time-slots in the network are less than n and larger than 0.
 \end{description}
 
-The queries 7-9 together make up the statement (e) from \myref{subsec:uppaal}, since if no devices have the same time-slot k and if the number of devices is one less than the number of time-slots and all time-slots are in the range [1,n-1] all number in this range must be a time-slot in the network.
+The queries 7-9 together make up the statement (e) from \myref{subsec:uppaal}, since if no devices have the same time-slot k and if the number of devices is one less than the number of time-slots and all time-slots in the range [1,n-1] corresponds to an occupied time-slot in the network.
 
 Since all of these statements hold true, it is concluded that the model does indeed do what it was designed to do, and an implementation according to the specification should theoretically work and be possible to create.
