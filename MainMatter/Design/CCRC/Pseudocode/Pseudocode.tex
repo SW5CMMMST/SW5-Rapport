@@ -14,8 +14,8 @@ That device can only know its local variables and what it receives via the \enqu
         $n$                 & integer   & The number of slots in the network                        & $2 \leq n \leq 256$\\
         $k$                 & integer   & The slot claimed by this device                           & $1 \leq k \leq n - 1$\\
         $i$                 & integer   & The current slot                                          & $1 \leq i \leq n$\\
-        $\delta$            & integer   & The duration of a time slot                               & $\delta = \delta_{com} + \delta_{proc}$\\
-        $\delta_{com}$      & integer   & The duration of a time slot reserved for communication    & $0 < \delta_{com}$ \\
+        $\delta$            & integer   & The duration of a time slot                               & $\delta = \delta_{comm} + \delta_{proc}$\\
+        $\delta_{comm}$      & integer   & The duration of a time slot reserved for communication    & $0 < \delta_{comm}$ \\
         $\delta_{proc}$     & integer   & The duration of a time slot reserved for processing       & $0 < \delta_{proc}$ \\
         $t_0$               & integer   & The minimum time to determine if a network exists         & $3 \times \delta \leq t_0$ \\
         $x$                 & clock     & A clock used for timing, and always running\\
@@ -103,7 +103,7 @@ The first two resets on line 9 and 13 are just before sending and just after rec
 This is the closest point in the program we can synchronize to. 
 
 The last reset on line 13 is when no message was received in the timeslot. 
-In this case, the device should reset after the calculated $\delta_{com}$ duration. 
+In this case, the device should reset after the calculated $\delta_{comm}$ duration. 
 In a completely reliable network, this should only occur in the empty slot.
 
 % subsection general_case (end)   

@@ -14,7 +14,7 @@ A flow diagram of this setup can be seen on \myref{fig:psuedo_flowCCRC}
 \texttt{Initialize()}, the function in \myref{lst:setupCCRC}, performs the initialization of the device.
 This includes searching for a network or establishing its own network if no network can be detected.
 \myref{lst:setupCCRC} introduces are new local variable $t_0$, this constant decides when the device should give up listening for a network and instead establish a network.
-For the completely connected reliable communication case represented in \myref{chp:Problems} $t_0$ has to be at least the length of $2 \times \delta + \delta_{com}$, however it being slightly longer taking guard time and the chance of a slight miss synchronization into consideration $3 \times \delta$ will be considered the minimum.
+For the completely connected reliable communication case represented in \myref{chp:Problems} $t_0$ has to be at least the length of $2 \times \delta + \delta_{comm}$, however it being slightly longer taking guard time and the chance of a slight miss synchronization into consideration $3 \times \delta$ will be considered the minimum.
 The minimum is calculated from the case where the device is turned on after the $n-1$'th slot has started, but not yet ended.
 It is worth noting here that this minimum is only true for this case, both strongly connected and non-reliable communication present their own reasons for this not being true for those cases.
 

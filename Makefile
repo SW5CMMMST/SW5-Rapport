@@ -17,8 +17,8 @@ pdflatex: master.tex
 	pdflatex --shell-escape --synctex=1 master.tex
 	pdflatex --shell-escape --synctex=1 master.tex
 
-fast:  
-	latexmk -pdflatex='pdflatex -file-line-error -synctex=1' -pdf master.tex    
+fast:
+	latexmk -pdflatex='pdflatex -file-line-error -synctex=1' -pdf master.tex
 
 clean:
 	git add -A
@@ -26,3 +26,10 @@ clean:
 
 live: clean
 	latexmk -pvc -pdflatex='pdflatex -file-line-error -synctex=1' -pdf master.tex
+
+test: clean
+	latexmk -pv -silent -pdflatex='pdflatex' -pdf master.tex
+
+
+rubber:
+	rubber-info master
