@@ -14,7 +14,7 @@ The first part to be shown will be the initialization, which can be seen on \myr
 The initial state has a clock \texttt{startup}, which makes sure that only one of the devices will be leaving the initial state at the same time.
 When one of the devices leave this state, \texttt{startup} will reset, and another will leave the state when the \texttt{startup} once again reaches the desired time.
 It has to be mentioned that this \texttt{Startup\_Time} has to be increased as the number of devices in the system increases.
-This is because when the frame of the network becomes larger, \texttt{Startup\_Time} has to be increased to make sure that only one device has been released at a time for when en empty time-slot occurs.
+This is because when the frame of the network becomes larger, \texttt{Startup\_Time} has to be increased to make sure that only one device has been released at a time for when an empty time-slot occurs.
 
 With the current values in the model creating a network with six devices is doable.
 While the other devices are waiting to be released, the device which was the first to leave will listen for a network, as there is obviously no network yet the device will fire the edge towards the \texttt{Creating\_Network} state.
