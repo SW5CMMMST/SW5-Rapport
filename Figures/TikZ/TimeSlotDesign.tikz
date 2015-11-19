@@ -3,7 +3,7 @@
 \node[draw, align = center, 
 		minimum width=0.45\textwidth, 
 		minimum height=10mm,
-		label=below:$\delta_{com}$] 
+		label=below:$\delta_{comm}$] 
 	(communicating) at (0,0)
 	{\textbf{Communication phase}};
 \node[draw, right = 0cm of communicating,
