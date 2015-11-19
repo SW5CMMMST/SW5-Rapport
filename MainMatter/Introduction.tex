@@ -2,11 +2,11 @@
 %Author: Søren/Claus
 \chapter{Introduction}
 \vspace{-20pt}
-Wired communication is considered the fastest and  most reliably mean of digital communication.
+Wired communication is considered the fastest and  most reliable mean of digital communication.
 Wireless communication allows for a wider field of use cases, this is a trade-off between reliability and speed on the one side and flexibility on the other. \cite{wirelessTradeoffs}
 
-Devices which utilise wireless communication have heavily influenced the world in the last couple of years, with smart phones becoming more and more common to most people in the western world. \cite{2013-SmartPhoneUse}
-However, there exists many more uses for wireless technology than just being used in mobile phones, tablets and laptops, it can also be implemented in smaller embedded systems\footnote{In this project \enquote{embedded systems} is used to describe a category of computational units, which have limited resources and are relatively small in size. } in every day use.
+Devices which use wireless communication have influenced the world in the last couple of years, with smart phones becoming more and more common to most people in the western world. \cite{2013-SmartPhoneUse}
+However there exist many more uses for wireless technology than just being used in mobile phones, tablets, and laptops, it can also be implemented in smaller embedded systems\footnote{In this project \enquote{embedded systems} is used to describe a category of computational units, which have limited resources and are relatively small in size. } in everyday use.
 
 %An example of these smaller embedded systems could be wireless temperature sensors or other sensors, which need a placement unsuitable for a wired connection.
 
@@ -16,21 +16,14 @@ However, there exists many more uses for wireless technology than just being use
 %To account for the corruption a system can implement error detection and correction.
 %A compromise would make the data transfer more reliable for a trade off in speed.
 
-An example of these smaller embedded systems could be modern fire alarms for larger buildings.
-Currently a connected fire alarm system such as those found in office buildings, require wire to run between the individual units.
-This could be a problem for older buildings where places to hide wires for this system was not though into the design of the building.
-
-That is where a system of wireless devices could be useful. 
-However such a system is in competition with its predecessor, and the wired technology has the edge of being very reliable and fast once it is set up. 
-
-The main problem of a wired network is the setup of the network and later addition of new devices. 
-New wires have to be installed into the building and the network must be updated in order to know about the new unit(s).
-For devices such as fire alarms this is less of a problem but for other uses, such as home automation, where new devices might enter and leave the network at any time this can pose as a hurdle.
+An example of these smaller embedded systems could be modern fire alarms for larger buildings where the signal of a fire in one wing of a building would need to be transmitted throughout the entire building.
+If this system was developed with a wired network, it requires a lot of setup to begin with, and adding more alarms to the network, will be a much bigger hurdle than a wired solution. 
+For devices such as fire alarms this is less of a problem as new units probably do not come often, but other uses, such as home automation, where new devices might enter and leave the network at any time this problem might arise more often and thus pose a bigger obstacle.
 
 This could be solved by using Wi-Fi networks.
 Wi-Fi provides decades of research in communications which allows them to transfer lots of data reasonably fast.
 For embedded systems this might be excessive depending on the system in question.
-The fire alarm for instance would only need to send a few bits of data, so a Wi-Fi soltion would require more power but still only use a fraction of the features available.
+The fire alarm, for instance, would only need to send a few bits of data, so a Wi-Fi solution would require more power but still only use a fraction of the features available.
 
 %This sort of setup and forget nature of the wired solution must be replicated in the wireless successor, so that the 
 
@@ -48,10 +41,10 @@ The fire alarm for instance would only need to send a few bits of data, so a Wi-
 
 \section{Problem Statement}\label{sec:problemStatement}
 
-In this project the focus is going to be on a solution which can be modified for a number of usecases, while being just enough to solve the problem.
-In other words; a cost efficient solution to the problem, and we think that there might be enough power in radio frequencies modules that even when using only one frequency a communications network can be established and maintained.
+For this project the focus is going to be on a solution which can be modified for a number of usecases, while being just enough to solve the problem.
+In other words; a cost efficient solution to the problem, and it is believed that there might be enough power in radio frequencies modules that even when using only one frequency, a communications network can still be established and maintained.
 
-This gives the problem that will be worked on in this report.
+This can be described as the following problem which will be explored throughout this paper.
 
 %\myref{Analysis} has sought to analyse and discover what devices to use for communicating via radio frequencies, and also how these work.
 %The choice of device fell upon the Arduino, not because it has any clear advantages compared to any other Atmega based micro controller, but because they were easily obtainable for the project.
