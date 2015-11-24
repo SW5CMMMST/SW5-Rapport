@@ -4,12 +4,12 @@ This simple application allows one Arduino to turn on LEDs on the other Arduinos
 This is to demonstrate that the protocol works, and can transmit information besides the header used in the protocol. 
 
 First the data structures used for the implementation will be described, then the mechanism for joining and creating a network, and lastly the core loop which is run while connected to a network.
-In the code examples some code used for debugging or testing have been remove to simplify for the explaination, however the full code is available in \myref{}. 
+In the code examples some code used for debugging or testing have been remove to simplify for the explaination, however the full code is available in \myref{app:CCRC_CODE}. 
 \subsection{Data Structures}
-We have grouped the payload the network sends into two parts, the first part is the header necessary for the network to work, and the second is the data which the application can send.
+The payload is grouped into two parts, the first part is the header necessary for the network to work, and the second is the data which the application can send.
 The structs for \texttt{payload} and \texttt{payloadHead} are shown on \myref{lst:ccrc:payload} and \myref{lst:ccrc:payloadHead} respectively.
 The devices must transmit the header in its own time-slot, but the data is optional.
-This means that the transmission time can be shorter than the maximum. 
+This means that the transmission time can be shorter than the maximum time given.
 
 \begin{lstlisting}[style=customc,caption={The payload the network uses.},label={lst:ccrc:payload}]
 struct payload {
@@ -39,7 +39,7 @@ struct networkStatus {
 \end{lstlisting}
 
 \subsection{Timing on the Arduino}
-To have an relative time on Arduino we use the following: A global variable, a reset function and a get function. 
+To have a relative time on Arduino the following constructs are used: A global variable, a reset function and a get function. 
 Using this construction we can accurately time the length of timeslots and its constituents. 
 \begin{lstlisting}[style=customc,caption={The variable and functions used to implement timing.},label={lst:ccrc:timing}]
 unsigned long x = 0;
@@ -59,7 +59,7 @@ void resetClock(unsigned long * x_0) {
 \subsection{Upstart: Creating or Joining a Network.}
 When each Arduino starts it must first find out if there is already a network in progress and join it. 
 If it cannot find a network then it should create its own network, so that others can join it. 
-The worst case time it should take to get a packet from a CCRC network is $3 \times \delta \leq t_0$, where $t_0$ is the maximum time, this is called \texttt{INIT\_WAIT} in the code. 
+The worst case time need to scan for a network from a CCRC network is $3 \times \delta \leq t_0$, where $t_0$ is the maximum time, this is called \texttt{INIT\_WAIT} in the code. 
 This sets the limit for how long an Arduino listens before creating its own network. 
 In \myref{lst:ccrc:startup} the startup code is shown. 
 
@@ -96,28 +96,19 @@ resetClock(&x);
 
 \subsection{Main loop: Normal network operation}
 Firstly in the main loop the user code is run for a maximum of $\delta_{proc}$ time, known as \texttt{DELTA\_PROC} in the code.
-In because of the previously mentioned application in the code this contains the code which turns on an appropriate LED if the incoming payload tells it to. 
-The data format for the application is simple: In the data array, the first byte should be an address of a device, and the next byte should be equal to 1 if the LED should turn on, and 0 if it should turn off. 
+Because of the previously mentioned application in the code, this contains the code which turns on an appropriate LED if the incoming payload tells it to. 
 
-\begin{lstlisting}[style=customc,caption={The usercode for the application. },label={lst:ccrc:usercode}]
+\begin{lstlisting}[style=customc,caption={While-loop with application code.},label={lst:ccrc:usercode}]
 bool runOnce = false;
 while(getClock(&x) <= DELTA_PROC) {
-    // Here usercoce is executed.
-    if(!runOnce) {
-        for(int i = 0; i < sizeof(inPayload.data); i++) {
-            if(inPayload.data[i] == address) {
-                digitalWrite(3, inPayload.data[i + 1] == 1 ? HIGH : LOW);
-            } 
-        }
-        runOnce = true;
-    }
+    // LED-APPLICATION-CODE
 }
 \end{lstlisting}
 
 Next in the loop, each device should either transmit or receive. 
-If the current timeslot belongs to a device then it should transmit, else it should receive, note that there is no special case for the empty slot in which new device can join the network. 
+If the current timeslot belongs to a device then it should transmit, else it should receive, note that there is no special case for the empty slot in which new devices can join the network. 
 
-\begin{lstlisting}[style=customc,caption={The usercode for the application. },label={lst:ccrc:rxortx}]
+\begin{lstlisting}[style=customc,caption={Main loop deciding whether to transmit or receive.},label={lst:ccrc:rxortx}]
 nextSlot(); // Increment the timeslot
 if(netStat.i == netStat.k) {
     // Guard time
@@ -150,7 +141,8 @@ if(netStat.i == netStat.k) {
 
 The \texttt{tx()}-function prepares the data and sends it.
 Then it resets the clock on the device and the main loop starts over.
-The \texttt{rx()}-function asks Radiohead weather a full package have been received. 
-If a full package have been received then it copies it to \texttt{inPayload} which is a global variable instance of the \texttt{payload} struct, described earlier, and then the function returns true.
-Then the while-loop, on line 21 in \myref{lst:ccrc:rxortx}, breaks, the cock is reset and the main loop starts over. 
-This means that the current timeslot is over after the transmission is complete, but since it happens at the same time for both the transmitting device and the receiving device(s) then it still works, this is based on the assumptions of CCRC. 
+The \texttt{rx()}-function asks Radiohead whether a full package has been received. 
+If a full package has been received then it copies it to \texttt{inPayload} which is a global variable instance of the \texttt{payload} struct described earlier, and then the function returns true.
+The while-loop, on line 21 in \myref{lst:ccrc:rxortx}, breaks, the clock is reset and the main loop starts over. 
+This means that the current timeslot is over after the transmission is complete.
+Since it happens at the same time for both the transmitting device and the receiving device(s) then a synchronization of the clocks is obtained, this is based on the assumptions of CCRC. 
