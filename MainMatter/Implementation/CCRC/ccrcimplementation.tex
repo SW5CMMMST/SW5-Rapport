@@ -113,19 +113,7 @@ nextSlot(); // Increment the timeslot
 if(netStat.i == netStat.k) {
     // Guard time
     delay(GUARD_TIME_BEFORE_TX);
-    if(address == 0xAD) { 
-        uint8_t data[PAYLOAD_MAX_SIZE - sizeof(payloadHead)];
-        uint8_t dataSize = 0;
-        
-        data[dataSize++] = 0x13;
-        data[dataSize++] = !digitalRead(2);
-
-        data[dataSize++] = 0x89;
-        data[dataSize++] = !digitalRead(3);
-        tx(data, dataSize);
-    } else {
-        tx(NULL, 0);
-    }
+    tx(NULL, 0);
     resetClock(&x);
 } else {
     foundNetwork = false
