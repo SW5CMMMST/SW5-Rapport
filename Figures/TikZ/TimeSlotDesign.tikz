@@ -15,6 +15,10 @@
 
 \draw [decoration={brace, amplitude=+40pt}, decorate]
     (communicating.north west) -- (processing.north east) node [black,midway,above=+42pt] 
+    (linename)
     {\textbf{Time Slot}};	
+
+    \node[align=center,black,anchor=south] at (linename.north) {$\delta$};
+
 \end{tikzpicture}
 }%
