@@ -3,41 +3,8 @@ The implementation contains some code to help the test and a simple application.
 This simple application allows one Arduino to turn on LEDs connected to other Arduinos. 
 This is to demonstrate that the protocol works, and can transmit information besides the header used in the protocol. 
 
-First the data structures used for the implementation will be described followed by the mechanism for joining and creating a network and lastly the core loop which is run while connected to a network.
+Firstly how a clock has been imitated will be described followed by the mechanism for joining and creating a network and lastly the core loop which is run while connected to a network.
 In the code examples some code used for debugging or testing have been removed as it is irrelevant for the working protocol, however the full code is available in \myref{app:CCRC_CODE}. 
-\subsection{Data Structures}
-The payload is grouped into two parts, the first part is the header necessary for the network to work, and the second is the data which the application can send.
-The structs for \texttt{payload} and \texttt{payloadHead} are shown on \myref{lst:ccrc:payload} and \myref{lst:ccrc:payloadHead} respectively.
-The devices must transmit the header in its own time-slot, but the data is optional.
-This means that the transmission time can be shorter than the maximum time given.
-
-\begin{lstlisting}[style=customc,caption={The payload the network uses.},label={lst:ccrc:payload}]
-struct payload {
-    struct payloadHead header;
-    uint8_t data[13]; // So total size is 16 byte
-};
-\end{lstlisting}
-
-\begin{lstlisting}[style=customc,caption={The header of the payload which the network uses.},label={lst:ccrc:payloadHead}]
-struct payloadHead {
-    uint8_t currentSlot;
-    uint8_t slotCount;
-    uint8_t address;
-};
-\end{lstlisting}
-
-\noindent
-The last important data structure used is the \texttt{networkStatus} struct, shown in \myref{lst:ccrc:networkStatus}.
-This data structure is responsible for locally containing the status of the network. 
-Note that the names used are the same as in \myref{sec:Pseudo}.
-
-\begin{lstlisting}[style=customc,caption={The \texttt{networkStatus} struct, containing the status of the network locally.},label={lst:ccrc:networkStatus}]
-struct networkStatus {
-    uint8_t n; // number of timeslots
-    uint8_t k; // the timeslot of this device
-    uint8_t i; // the timeslot currently in progress
-};
-\end{lstlisting}
 
 \subsection{Timing on the Arduino}
 To acquire relative time on Arduino the following constructs are used: A global variable, a reset function and a get function. 
@@ -125,7 +92,7 @@ if(netStat.i == netStat.k) {
 The \texttt{tx()}-function prepares and transmits the data.
 It then resets the clock on the device and the main loop starts over.
 The \texttt{rx()}-function asks Radiohead whether a full package has been received. 
-If a full package has been received the package is then copied to \texttt{inPayload}, which is a global variable instance of the \texttt{payload} struct described earlier, lastly the function returns true.
+If a full package has been received the package is then copied to \texttt{inPayload} and then returns true.
 Following \texttt{rx()} the while-loop on line 16 in \myref{lst:ccrc:rxortx} will break, causing the clock to reset and run the second part of the main loop.
 This means that the communication part of the current timeslot is over after the transmission is complete.
 Since it happens at the same time for both the transmitting device and the receiving device(s) then a synchronization of the clocks is obtained, this is based on the assumptions of CCRC. 
