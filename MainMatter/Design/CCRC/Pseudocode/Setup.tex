@@ -24,23 +24,53 @@ Should it occur that no network is found the device will start its own network w
 \begin{minipage}{\linewidth} %minpage to avoid page break
 \begin{lstlisting}[label=lst:setupCCRC,style=pseudocode,mathescape=true,caption={Pseudocode example of the special case procedure Initialize()},basicstyle=\ttfamily]
 procedure Initialize()
-    $x \leftarrow 0$
-    while $x \leq t_0$ do
-        if received($i'$, $n'$, $id'$, $data'$) then
-            $x \leftarrow 0$ //Reset the clock to synchronize
-            //Prepare variables for transmit in emptyslot
-            $n \leftarrow n' + 1$ // Increment number of slots
-            $k \leftarrow n'$ // Claim empty slot
-            $i \leftarrow i'$ // Get current slot
-            mainLoop()
-        end
-    end
-    // Create new network
-    $n \leftarrow 2$ // Two slots; one for this device and one empty
-    $k \leftarrow 1$ // Claim the first slot
-    $i \leftarrow 0$ // Set current timeslot to one before me
-    $x \leftarrow 0$ // Reset clock
-    mainLoop()
+	$x \leftarrow 0$
+	$found \leftarrow \bot$
+	// Search for network
+	while $x \leq t_0$ do
+		if received($i', n', id', data'$) then
+			$x \leftarrow 0$
+			$n \leftarrow n' + 1$
+			$k \leftarrow n'$
+			$i \leftarrow i'$
+			$found \leftarrow \top$
+		end
+	end	
+	if $found = \top$ then
+		$joincount \leftarrow 0$
+		do
+			$i \leftarrow (i \text{ mod } (n - 1)) + 1$
+			if i = k then
+				if $joincount > n - 1$ then
+					transmit($i, n, id, JoinMessage$)
+					break
+				else 
+					transmit($i, n - 1, id, GettingReadyToJoinMessage$)
+				end
+				wait until $x \leq \delta$ 
+			else
+				while $x \leq \delta$ do
+					if received($i', n', id', data'$) then
+						if n' = n then
+							$n \leftarrow n + 1$
+						end
+						if joiningDevice$(data') = id$ then
+							$joincount \leftarrow joincount + 1$
+						else
+							$joincount \leftarrow 0$
+						end
+					end
+				end
+			end
+			$x \leftarrow 0$
+		while $joincount \leq n - 1$
+	else
+		$x \leftarrow 0$
+		$n \leftarrow 2$
+		$k \leftarrow 1$
+		$i \leftarrow 0$
+	end
+	mainLoop()
 \end{lstlisting}   
 \end{minipage}
 % subsection special_cases (end)
