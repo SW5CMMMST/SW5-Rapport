@@ -23,14 +23,13 @@ The properties of a locations are the following:
 \noindent
 Other types of properties for locations are toggled variables which change how a location is computed:
 
-\begin{description}
-	\item [Initial] locations indicate where the template will start, and works just like in other location automata which has to have an Initial location. This is marked by a double circle on the location.
-	\item [Urgent] locations freeze time for the template, which means that all clocks for a template in an urgent location will not change. This is marked by a U on the location.
-	\item [Committed] locations also freeze time, but it does so for the entire system, as if any template is in a commited location, the next edge to be fired has to be an edge from a committed location. This is marked by a C on the location.
+\begin{description}[labelindent=\parindent]
+	\item [Initial] states indicate where the template will start, and works just like in other state automata which has to have an Initial state. This is marked by a double circle on the state.
+	\item [Urgent] states freeze time for the template, which means that all clocks for a template in an urgent state will not change. This is marked by a U on the state.
+	\item [Committed] states also freeze time, but it does so for the entire system, as if any template is in a commited state, the next edge to be fired has to be an edge from a committed state. This is marked by a C on the state.
 \end{description}
 
 \noindent
-
 Edges can have the following properties:
 
 \begin{description}[labelindent=\parindent,labelsep=1ex]

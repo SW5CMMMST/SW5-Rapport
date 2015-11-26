@@ -43,21 +43,21 @@ A frame is the complete cycle of these timeslots.
 \noindent
 Just like frames are divided into time slots; the following five parts are what the individual time slots consists of:
 
-\begin{description}
-\item[Guard time] \hfill \\ 
+\begin{description}[labelindent=\parindent]
+\item[Guard time]\hfill\\ 
 A period where no important data is sent.
 This is here to make sure that devices not properly synced to the loop is less likely to corrupt the signal of other senders.
 
-\item[Synch] \hfill \\ 
+\item[Synch]\hfill\\ 
 A possible additional delay before the signal depending on the distance to the receiver.
 
-\item[Control] \hfill \\
+\item[Control]\hfill\\
 One or more control values which determines the nature of the signal.
 
-\item[Data] \hfill \\
+\item[Data]\hfill\\
 The main data of the signal.
 
-\item[CRC check] \hfill \\
+\item[CRC check]\hfill\\
 The \gls{crc} is an error detecting code. It is there to make sure that the correct message was received. 
 \end{description}
 \bigskip
