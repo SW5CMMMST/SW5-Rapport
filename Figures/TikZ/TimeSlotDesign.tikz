@@ -1,12 +1,12 @@
 \resizebox{1\textwidth}{!}{%
 \begin{tikzpicture}[scale=\textwidth]
 \node[draw, align = center, 
-		minimum width=0.45\textwidth, 
+		minimum width=0.55\textwidth, 
 		minimum height=10mm] 
 	(communicating) at (0,0)
 	{\textbf{Communication phase}};
 \node[draw, right = 0cm of communicating,
-		minimum width=0.45\textwidth, 
+		minimum width=0.35\textwidth, 
 		minimum height=10mm,
 		label=below:$\delta_{proc}$]
 	(processing)
