@@ -133,32 +133,32 @@ frameround=fftt, frame=shadowbox, rulesepcolor=\color{gray}, title={This means t
 
 \begin{lstlisting}[language={[GUI]Uppaal}, % use GUI flavor
 columns={[l]flexible},
-frameround=fftt, frame=shadowbox, rulesepcolor=\color{gray}, title={The query asks if there is no deadlock in the system.}]
+frameround=fftt, frame=shadowbox, rulesepcolor=\color{gray}, title={The query requires that there is no deadlock in the system.}]
 2. A[] not deadlock
 \end{lstlisting}
 
 \begin{lstlisting}[language={[GUI]Uppaal}, % use GUI flavor
 columns={[l]flexible},
-frameround=fftt, frame=shadowbox, rulesepcolor=\color{gray}, title={This asks if a device \texttt{i}, and a device \texttt{j} are both transmitting, does it then mean they are the same.}]
+frameround=fftt, frame=shadowbox, rulesepcolor=\color{gray}, title={This requires that if a device \texttt{i}, and a device \texttt{j} are both transmitting, it mean they are the same.}]
 3. A[] forall(i : id_t) forall(j : id_t)  Device(i).Transmitting and
 		 Device(j).Transmitting imply i == j
 \end{lstlisting}
 \begin{lstlisting}[language={[GUI]Uppaal}, % use GUI flavor
 columns={[l]flexible},
-frameround=fftt, frame=shadowbox, rulesepcolor=\color{gray}, title={This query asks if two devices are both in the location \texttt{User\_Code} do they then have the same value of their \texttt{local\_i}}]
+frameround=fftt, frame=shadowbox, rulesepcolor=\color{gray}, title={This query requires that if two devices are both in the location \texttt{User\_Code} they then have the same value of their \texttt{local\_i}}]
 4. A[] forall(i : id_t) forall(j : id_t) Device(i).User_Code and 
 		Device(j).User_Code imply Device(i).local_i == Device(j).local_i
 \end{lstlisting}
 \begin{lstlisting}[language={[GUI]Uppaal}, % use GUI flavor
 columns={[l]flexible},
-frameround=fftt, frame=shadowbox, rulesepcolor=\color{gray}, title={This query asks if a device i and a device j is both connected, do they then have the same value of their \texttt{local\_n}. If they were different it would mean that they are not in the same network, and as such would have different numbers of time-slots in their networks. But the system model makes sure that this is not the case.}]
+frameround=fftt, frame=shadowbox, rulesepcolor=\color{gray}, title={This query requires that if a device \texttt{i} and a device \texttt{j} is both connected, they then have the same value of their \texttt{local\_n}. If they were different it would mean that they are not in the same network, and as such would have different numbers of time-slots in their networks. But the system model makes sure that this is not the case.}]
 5. A[] forall(i : id_t) forall(j : id_t) Device(i).Connected and 
 		Device(j).Connected imply Device(i).local_n == Device(j).local_n
 \end{lstlisting}
 
 \begin{lstlisting}[language={[GUI]Uppaal}, % use GUI flavor
 columns={[l]flexible},
-frameround=fftt, frame=shadowbox, rulesepcolor=\color{gray}, title={This query asks if it always true that all devices never has the the time-slot which one of the devices has locally as the empty-slot. If any device did have this, it would mean that a device was out of sync, since it did not know which time-slot would be the empty one. }]
+frameround=fftt, frame=shadowbox, rulesepcolor=\color{gray}, title={This query requires that if it is always true that all devices never has the the time-slot which one of the devices has locally as the empty-slot. If any device did have this, it would mean that a device was out of sync, since it did not know which time-slot would be the empty one. }]
 6. A[] forall(i : id_t) forall(j :id_t) Device(i).k != Device(j).local_n
 \end{lstlisting}
 
@@ -171,7 +171,7 @@ frameround=fftt, frame=shadowbox, rulesepcolor=\color{gray}, title={This query s
 
 \begin{lstlisting}[language={[GUI]Uppaal}, % use GUI flavor
 columns={[l]flexible},
-frameround=fftt, frame=shadowbox, rulesepcolor=\color{gray}, title={The query asks if a device is connected, is it then true that the number of devices connected to a network is equal to one less the number of time-slots in the frame of a network. }]
+frameround=fftt, frame=shadowbox, rulesepcolor=\color{gray}, title={The query requires that if a device is connected, is it then true that the number of devices connected to a network is equal to one less the number of time-slots in the frame of a network. }]
 8. A[]  forall(i: id_t) Device(i).Connected imply Connected_Counter == n-1
 \end{lstlisting}
 
