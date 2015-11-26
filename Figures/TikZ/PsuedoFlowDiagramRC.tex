@@ -15,7 +15,7 @@
     \node [block, right of=found, node distance=3.5cm] (listen) {Listen while waiting for empty slot};
     \node [block, right of=listen] (announce) {Announce};
     %\node [block, right of=announce] (verify) {Verify connection};
-    \node [decision, below of=announce, node distance=2.4cm] (connected) {Connected? };
+    %\node [decision, below of=announce, node distance=2.4cm] (connected) {Connected? };
 
     % Draw edges
     \path [line] (start) -- (search);
@@ -24,8 +24,9 @@
     \path [line] (found) -- node {yes} (listen);
     \path [line] (init) -- (end);
     \path [line] (listen) -- (announce);
-    \path [line] (announce) -- (connected);
+    %\path [line] (announce) -- (connected);
     %\path [line] (verify) -- (connected);
-    \path [line] (connected) -| node [near start] {no} (listen);
-    \path [line] (connected) |- node [near start] {yes} (end);
+    %\path [line] (connected) -| node [near start] {no} (listen);
+    %\path [line] (connected) |- node [near start] {yes} (end);
+	\path [line] (announce) |- (end);
 \end{tikzpicture}

@@ -29,10 +29,9 @@ procedure Initialize()
 	// Search for network
 	while $x \leq t_0$ do
 		if received($i', n', id', data'$) then
-			$x \leftarrow 0$
 			protocolMaintance($i', n'$)
 			$found \leftarrow \top$
-			break
+			wait until $x \geq \delta$
 		end
 	end	
 	if $found = \top$ then
@@ -41,7 +40,6 @@ procedure Initialize()
 			$i \leftarrow (i \text{ mod } n) + 1$
 			while $x \leq \delta$ do
 				if received($i', n', id', data'$) then
-					$x \leftarrow 0$
 					protocolMaintance($i', n'$)
 				end
 			end

@@ -77,15 +77,16 @@ procedure mainLoop()
 		if $i = k$ then
 			makePayload() // Updates the data to be sendt
 			transmit($i$, $n$, $id$, $data$)
-			wait until $x \leq \delta$
 		else
 			while $x \leq \delta$ do
 				if received($i'$, $n'$, $id'$, $data'$) then
 					protocolMaintance($i'$, $n'$)
 					userRecieve($id'$, $data'$)
+					resynchronize($|data'|$)
 				end
 			end
 		end
+		wait until $x \geq \delta$
 		$x \leftarrow 0$ 
 	end
 \end{lstlisting}  
@@ -93,16 +94,16 @@ procedure mainLoop()
 
 The full pseudocode for the general case can be seen in \myref{lst:general_case}. 
 In the code, there are a few extra details but the main structure is the same. 
-The code describes how a device knows whether it is its turn or not. 
+The code describes how a device knows whether it is its turn or not.  
 
-What is worth noting is the clock $x$ which controls the timing. 
-It is reset at three different places in the code; on line 9, 13, and 18. 
-The first two resets on line 9 and 13 are just before sending and just after receiving a message. 
-This is the closest point in the program we can synchronize to. 
-
-The last reset on line 13 is when no message was received in the timeslot. 
-In this case, the device should reset after the calculated $\delta_{comm}$ duration. 
-In a completely reliable network, this should only occur in the empty slot.
+Another thing to realize is because the timing is static, the clock $x$ needs to be reset only after the duration of a full timeslot; $\delta$. 
+In the real world, the devices could go out of sync. 
+So the  device must handle this by some means of resynchronization. 
+By using the knowledge discovered in the tests in \myref{par:radiohead_time_sent_test}. 
+The time it takes to send a given message can be calculated using \myref{eq:timeToSendFormular}. 
+This result subtracted from the clock x gives  start time of the time slot. 
+The device can use this value to resynchronize.
+This is handled in the protocolMaintance procedure.
 
 % subsection general_case (end)   
             
