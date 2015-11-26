@@ -71,25 +71,23 @@ These processes is described in \myref{sub:setupCCRC}.
 \begin{minipage}{\linewidth} %minpage to avoid page break
 \begin{lstlisting}[style=pseudocode,mathescape=true, label={lst:general_case}, caption={Pseudocode example of the main loop}] 
 procedure mainLoop()
-    while true do
-        loopstart:
-        run userCode() until $x \geq \delta_{proc}$
-        $i \leftarrow (i \text{ mod } n) + 1$ // Update current slot
-        if $i = k$ then
-            makePayload() // Updates the data to be sendt
-            transmit($i$, $n$, $id$, $data$)
-            $x \leftarrow 0$ //Reset the clock to synchronize
-        else
-            while $x \leq \delta$ do
-                if received($i'$, $n'$, $id'$, $data'$) then
-                    $x \leftarrow 0$ //Reset the clock to synchronize
-                    processMessage($id'$, $data'$)
-                    goto loopstart
-                end
-            end
-            $x \leftarrow 0$ //Reset the clock to synchronize
-        end
-    end
+	loop forever
+		run userCode() until $x \geq \delta_{proc}$
+		$i \leftarrow (i \text{ mod } n) + 1$ // Update current slot
+		if $i = k$ then
+			makePayload() // Updates the data to be sendt
+			transmit($i$, $n$, $id$, $data$)
+			wait until $x \leq \delta$
+		else
+			while $x \leq \delta$ do
+				if received($i'$, $n'$, $id'$, $data'$) then
+					protocolMaintance($i'$, $n'$)
+					userRecieve($id'$, $data'$)
+				end
+			end
+		end
+		$x \leftarrow 0$ 
+	end
 \end{lstlisting}  
 \end{minipage}
 
