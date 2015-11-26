@@ -1,0 +1,96 @@
+\begin{tikzpicture}
+\begin{axis}[
+    xbar stacked,
+    legend style={
+    legend columns=5,
+        at={(xticklabel cs:0.5)},
+        anchor=north,
+        draw=none
+    },
+    ytick=data,
+    axis y line*=none,
+    axis x line*=bottom,
+    tick label style={font=\footnotesize},
+    legend style={font=\footnotesize},
+    label style={font=\footnotesize},
+    %xtick={0,100,200,300,400,500,600},
+    width=.9\textwidth,
+    bar width=6mm,
+    %xlabel={Time in ms},
+    yticklabels={D(1), D(2), C, D, E, F},
+    xmin=0,
+    %xmax=auto,
+    area legend,
+    y=8mm,
+    enlarge y limits={abs=0.625},
+]
+
+\legend{\strut Offline, \strut Connecting, \strut Usercode, \strut Tx, \strut Rx, \strut EmptySlot}
+\addplot[Offline,fill=Offline] coordinates
+{(0,0) (0,1)};
+\addplot[Connecting,fill=Connecting] coordinates
+{(0,0) (0,1)};
+\addplot[usercode,fill=usercode] coordinates
+{(0,0) (0,1)};
+\addplot[Tx,fill=Tx] coordinates
+{(0,0) (0,1)};
+\addplot[Rx,fill=Rx] coordinates
+{(0,0) (0,1)};
+%\addplot[BuzyWaiting,fill=BuzyWaiting] coordinates
+%{(0,0) (0,1) (0,2)};
+\addplot[EmptySlot,fill=EmptySlot] coordinates
+{(0,0) (0,1)};
+
+\addplot[usercode,fill=usercode] coordinates
+{(10,0) (0,1)};
+\addplot[Tx,fill=Tx] coordinates
+{(10,0) (0,1)};
+\addplot[usercode,fill=usercode] coordinates
+{(10,0) (0,1)};
+\addplot[EmptySlot,fill=EmptySlot] coordinates
+{(10,0) (0,1)};
+\addplot[usercode,fill=usercode] coordinates
+{(10,0) (0,1)};
+\addplot[Tx,fill=Tx] coordinates
+{(10,0) (0,1)};
+\addplot[usercode,fill=usercode] coordinates
+{(10,0) (0,1)};
+\addplot[EmptySlot,fill=EmptySlot] coordinates
+{(10,0) (0,1)};
+\addplot[usercode,fill=usercode] coordinates
+{(10,0) (0,1)};
+\addplot[Tx,fill=Tx] coordinates
+{(10,0) (0,1)};
+\addplot[usercode,fill=usercode] coordinates
+{(10,0) (0,1)};
+\addplot[Rx,fill=Rx] coordinates
+{(10,0) (0,1)};
+\addplot[usercode,fill=usercode] coordinates
+{(10,0) (0,1)};
+\addplot[EmptySlot,fill=EmptySlot] coordinates
+{(10,0) (0,1)};
+
+
+\addplot[Offline,fill=Offline] coordinates
+{(0,0) (15,1)};
+\addplot[Connecting,fill=Connecting] coordinates
+{(0,0) (45,1)};
+\addplot[usercode,fill=usercode] coordinates
+{(0,0) (10,1)};
+\addplot[Tx,fill=Tx] coordinates
+{(0,0) (10,1)};
+\addplot[usercode,fill=usercode] coordinates
+{(0,0) (10,1)};
+\addplot[Rx,fill=Rx] coordinates
+{(0,0) (10,1)};
+\addplot[usercode,fill=usercode] coordinates
+{(0,0) (10,1)};
+\addplot[Tx,fill=Tx] coordinates
+{(0,0) (10,1)};
+\addplot[usercode,fill=usercode] coordinates
+{(0,0) (10,1)};
+\addplot[EmptySlot,fill=EmptySlot] coordinates
+{(0,0) (10,1)};
+
+\end{axis}  
+\end{tikzpicture}
