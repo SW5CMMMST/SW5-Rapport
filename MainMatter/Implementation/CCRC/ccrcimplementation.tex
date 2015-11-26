@@ -9,6 +9,7 @@ In the code examples some code used for debugging or testing have been removed a
 \subsection{Timing on the Arduino}
 To acquire relative time on Arduino the following constructs are used: A global variable, a reset function and a get function. 
 This construction can accurately time the length of time-slots and its constituents. 
+\begin{figure}
 \begin{lstlisting}[style=customc,caption={The variable and functions used to implement timing.},label={lst:ccrc:timing}]
 unsigned long x = 0;
 
@@ -23,14 +24,14 @@ void resetClock(unsigned long * x_0) {
     *x_0 = millis();
 }
 \end{lstlisting}
-
+\end{figure}
 \subsection{Upstart: Creating or Joining a Network.}
 When each Arduino starts it determine if there is a network in progress and join it. 
 If it cannot find a network then it should create its own network, so that others can join it. 
 The worst case time required to determine whether a network exists is roughly $3 \times \delta \leq t_0$ for the CCRC-problem, as determined in \myref{sub:setupCCRC}, where $t_0$ is the maximum time. 
 This is referred to as \texttt{INIT\_WAIT} in the code and sets the limit for how long an Arduino listens before creating its own network. 
 In \myref{lst:ccrc:startup} the startup code is shown. 
-
+\begin{figure}
 \begin{lstlisting}[style=customc,caption={Startup, if a network is found join it, if not create one.},label={lst:ccrc:startup}]
 resetClock(&x);
 
@@ -61,7 +62,7 @@ if(!foundNetwork) {
 resetClock(&x);
 // Main loop begins now.
 \end{lstlisting}
-
+\end{figure}
 \subsection{Main Loop: Normal Network Operation}
 The main loop executes both the processing phase and the communication phase.
 Firstly each device should either transmit or receive depending on the current timeslot. 
@@ -93,16 +94,6 @@ The \texttt{tx()}-function prepares and transmits the data.
 It then resets the clock on the device and the main loop starts over.
 The \texttt{rx()}-function asks Radiohead whether a full package has been received. 
 If a full package has been received the package is then copied to \texttt{inPayload} and then returns true.
-Following \texttt{rx()} the while-loop on line 16 in \myref{lst:ccrc:rxortx} will break, causing the clock to reset and run the second part of the main loop.
+Following \texttt{rx()} the while-loop on line 16 in \myref{lst:ccrc:rxortx} will break, causing the clock to reset and run the second part of the main loop which runs user code.
 This means that the communication part of the current timeslot is over after the transmission is complete.
 Since it happens at the same time for both the transmitting device and the receiving device(s) then a synchronization of the clocks is obtained, this is based on the assumptions of CCRC. 
- 
-In the main loop user code is run for a maximum of $\delta_{proc}$ time, known as \texttt{DELTA\_PROC} in the code.
-As aforementioned this example allows one Arduino to turn on an LED on another Arduino. 
-
-\begin{lstlisting}[style=customc,caption={While-loop with application code.},label={lst:ccrc:usercode}]
-bool runOnce = false;
-while(getClock(&x) <= DELTA_PROC) {
-    // LED-APPLICATION-CODE
-}
-\end{lstlisting}
