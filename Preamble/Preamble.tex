@@ -13,6 +13,7 @@
 \definecolor{aaublue}{RGB}{33,26,82}
 \definecolor{OliveGreen}{rgb}{0,0.6,0}
 \usepackage{graphicx}
+\usepackage{subcaption}
 \usepackage{caption}
 \captionsetup{  font=footnotesize, 
                 labelfont=bf}
@@ -32,6 +33,7 @@
 \usepackage{tcolorbox}
 \usepackage{colortbl}
 \usepackage{enumitem}
+\SetLabelAlign{parright}{\parbox[t]{\labelwidth}{\raggedleft#1}}
 \usepackage{moreenum}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Page Layout
@@ -119,3 +121,4 @@ literate={{−>}{{$\leadsto$} }2 {−−>}{{$\longrightarrow$} }2
 
 \headheight 15pt
 \usepackage{microtype}
+\overfullrule=2cm
