@@ -82,7 +82,7 @@ procedure mainLoop()
 				if received($i'$, $n'$, $id'$, $data'$) then
 					protocolMaintance($i'$, $n'$)
 					userRecieve($id'$, $data'$)
-					resynchronize($|data'|$)
+					resynchronize($i', n', |data'|$)
 				end
 			end
 		end
