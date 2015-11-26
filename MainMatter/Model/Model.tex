@@ -64,7 +64,7 @@ broadcast chan transmit;	const int N = 4;
 \end{lstlisting}
 
 Finally to instantiate the system, a system declaration is needed which can be seen on \myref{UPPAAL_System_Dcl}.
-This creates N devices each with a unique ID from 1- N because of the code seen on \myref{uppaal_Global}, at the comment Device Creation.
+This creates $n$ devices each with a unique ID from $1-n$ because of the code seen on \myref{uppaal_Global}, at the comment Device Creation.
 
 \begin{lstlisting}[language={[GUI]Uppaal}, % use GUI flavor
 columns={[l]flexible},
@@ -126,7 +126,7 @@ The queries described here have been tested with a system consisting of up to 6 
 The queries for the system will be given one by one with along with a description of what they represent.
 \begin{lstlisting}[language={[GUI]Uppaal}, % use GUI flavor
 columns={[l]flexible},
-frameround=fftt, frame=shadowbox, rulesepcolor=\color{gray}, title={This means that eventually it will be true that all devices are connected, and if two devices have the same time-slot k for as their own, it means it is the same device. }]
+frameround=fftt, frame=shadowbox, rulesepcolor=\color{gray}, title={This means that eventually it will be true that all devices are connected, and if two devices have the same time-slot \texttt{k} for as their own, it means it is the same device. }]
 1. A<> forall(i: id_t) forall(j: id_t) Device(i).Connected and
 		 Device(j).Connected and Device(i).k == Device(j).k imply i == j
 \end{lstlisting}
@@ -139,7 +139,7 @@ frameround=fftt, frame=shadowbox, rulesepcolor=\color{gray}, title={The query as
 
 \begin{lstlisting}[language={[GUI]Uppaal}, % use GUI flavor
 columns={[l]flexible},
-frameround=fftt, frame=shadowbox, rulesepcolor=\color{gray}, title={This asks if a device i, and a device j are both transmitting, does it then mean they are the same.}]
+frameround=fftt, frame=shadowbox, rulesepcolor=\color{gray}, title={This asks if a device \texttt{i}, and a device \texttt{j} are both transmitting, does it then mean they are the same.}]
 3. A[] forall(i : id_t) forall(j : id_t)  Device(i).Transmitting and
 		 Device(j).Transmitting imply i == j
 \end{lstlisting}
@@ -164,7 +164,7 @@ frameround=fftt, frame=shadowbox, rulesepcolor=\color{gray}, title={This query a
 
 \begin{lstlisting}[language={[GUI]Uppaal}, % use GUI flavor
 columns={[l]flexible},
-frameround=fftt, frame=shadowbox, rulesepcolor=\color{gray}, title={This query says that if a device is connected it has a k value between 0 and n, which is the number of time-slots in the frame}]
+frameround=fftt, frame=shadowbox, rulesepcolor=\color{gray}, title={This query says that if a device is connected it has a \texttt{k} value between \texttt{0} and \texttt{n}, which is the number of time-slots in the frame}]
 7. A[] forall(i : id_t) Device(i).Connected and 
 	 	Device(j).Connected imply Device(i).k < n and Device(i).k > 0
 \end{lstlisting}
