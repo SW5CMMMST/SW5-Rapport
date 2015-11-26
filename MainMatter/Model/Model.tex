@@ -1,7 +1,79 @@
 \section{The Model}\label{sec:themodel}
 This section will showcase the model made to express the design from \myref{cha:Design}.
 For simplicity the the model in this chapter has been split into two parts, an initializing phase and the main loop.
-The complete model can be seen in \myref{app:UPPAAL} along with the code for the global and local declarations, including the functions used throughout the model.
+The complete model can be seen in \myref{app:UPPAAL}.
+Before the template is shown the code for the system will be presented.
+The template has local code which can be seen on \myref{device_local}.
+This code contains functions which capsulate many updates from the template, which would otherwise clutter the template with too many specifics.
+
+\begin{lstlisting}[language={[GUI]Uppaal}, % use GUI flavor
+columns={[l]flexible},
+frameround=fftt, frame=shadowbox, rulesepcolor=\color{gray},
+caption={Local code for Device.}, label={device_local}]
+// Place local declarations here.
+clock x;
+clock transmit_time;
+int k = -1;               		//Timeslot
+bool Connected = false;
+
+// Local copies of globals
+int local_n = 0;          		// Number of devices connected
+int local_i = 0;          		// Current time slot in the frame
+
+void increment_Slot(){					void receive(){
+local_i = (local_i % local_n)+1;			local_i = i;
+}											local_n = n;
+										}
+
+void join_Network(){					void create_Network(){
+k=n;										i = 1;
+i = 1;										n = 2;
+local_i = 1;								k = 1;
+n = n+1;									local_i = 1;
+local_n = local_n+1;						local_n = 2;
+}										}
+
+void make_Payload(){
+i = local_i;
+n = local_n;
+}
+\end{lstlisting}
+
+The global code for the system can be seen on \myref{uppaal_Global}.
+This is where the system sends information from one device to another, when one device transmit it will change the global values, while the receiving devices will get the global values and put them locally.
+Another important thing to note is the broadcast channel transmit, which will be used as descibred in \myref{UPPAAL_Models}.
+
+\begin{lstlisting}[language={[GUI]Uppaal}, % use GUI flavor
+columns={[l]flexible},
+frameround=fftt, frame=shadowbox, rulesepcolor=\color{gray},
+caption={Code for the global declarations.}, label={uppaal_Global}]
+// Place global declarations here.
+int n = 0;                      // Number of Timeslots connected
+int i = 0;                      // Current time slot in the frame
+int ConnectedCounter = 0;       //Global Counter for Connected Devices
+const int Delta = 80;           //Timeslot Length
+const int Delta_Proc = Delta/2;
+const int Real_Transmit_Time = Delta/3;
+const int Initial_Wait_Time = Delta*3;
+int Startup_Time = Initial_Wait_Time*2;
+clock startup;
+
+//Channel					//Device Creation
+broadcast chan transmit;	const int N = 4;
+							typedef int[1,N] id_t;
+\end{lstlisting}
+
+Finally to instantiate the system, a system declaration is needed which can be seen on \myref{UPPAAL_System_Dcl}.
+This creates $n$ devices each with a unique ID from $1-n$ because of the code seen on \myref{uppaal_Global}, at the comment Device Creation.
+
+\begin{lstlisting}[language={[GUI]Uppaal}, % use GUI flavor
+columns={[l]flexible},
+frameround=fftt, frame=shadowbox, rulesepcolor=\color{gray},
+caption={Code for system declarations.}, label={UPPAAL_System_Dcl}]
+// Place template instantiations here.
+// List one or more processes to be composed into a system.
+system Device;
+\end{lstlisting}
 
 \begin{figure}
   \includegraphics[width=1\textwidth]{Figures/Model/Device_Connecting.pdf} 
@@ -10,24 +82,24 @@ The complete model can be seen in \myref{app:UPPAAL} along with the code for the
 \end{figure}
 
 \bigskip \noindent
-The first part to be presented will be the initialization, which can be seen on \myref{fig:UPPAAL_Intitialization}.
-The initial state has a clock \texttt{startup}, which makes sure that devices will leave the initial state one at a time.
-When one of the devices leave this state, \texttt{startup} will reset, and another will leave the state when \texttt{startup} once again reaches the desired time.
+The first part to be presented of the template will be the initialization, which can be seen on \myref{fig:UPPAAL_Intitialization}.
+The initial location has a clock \texttt{startup}, which makes sure that devices will leave the initial location one at a time.
+When one of the devices leave this state, \texttt{startup} will reset, and another will leave the location when \texttt{startup} once again reaches the desired time.
 It should be mentioned that this \texttt{Startup\_Time} is proportional with the number of devices in the system.
 This is because when the frame of the network grows, \texttt{Startup\_Time} must match the increase in frame length such that only one device can be released per frame.
 
 With the current values in the model creating a network with six devices is doable.
 While the other devices are waiting to be released, the device which was the first to leave will listen for a network, as there is obviously no network yet the device will fire the edge towards the \texttt{Creating\_Network} state.
 The device will setup the initial values for the network, change its boolean \texttt{Connected} to true, and start the main loop.
-When the next device leaves the initial stage it will successfully find a network as one was just created; in doing so the device will move towards the committed state \texttt{Network\_Found} and reset the clock \texttt{x} to zero.
-This state is committed as its purpose is simply context switching between receiving and performing user code.
-When it has just received a transmission, the device which just transmitted will according to \myref{cha:Design} be performing user code, and so should the device trying to connect.
+When the next device leaves the initial stage it will successfully find a network as one was just created; in doing so the device will move towards the committed location \texttt{Network\_Found} and reset the clock \texttt{x} to zero.
+This location is committed as its purpose is simply context switching between receiving and waiting for the next time-slot.
+When it has just received a transmission, the device which just transmitted will according to \myref{cha:Design} be performing user code, and therefore the device trying to connect should be waiting for the next time-slot so the other devices are ready to receive again.
 
 \bigskip \noindent
-When \texttt{x} is equal to \texttt{Delta\_Proc}, the time designated to perform user code, the device will change to the state \texttt{Network\_Found} once again.
-In this state when \texttt{x} is not zero, the device checks whether \texttt{i}, the current time-slot, is the empty-time slot, if it is the device will transmit and ultimately connect to the network increasing the number of time-slots in the network according to the specifications in \myref{cha:Design}.
-If the empty slot was not the current time-slot, the device will instead go to the state \texttt{Receiving\_Not\_Connected} where it will receive the other devices' transmissions, once again reset \texttt{x} to zero and perform user code until eventually the empty-slot occurs, where it will connect to the network.
-The committed state \texttt{Connected\_To\_Network} has three edges leaving it, one for receiving, one for transmitting, and one for executing user code.
+When \texttt{x} is equal to \texttt{Delta\_Proc}, the time designated to perform user code, the device will change to the location \texttt{Network\_Found} once again.
+In this location when \texttt{x} is not zero, the device checks whether \texttt{i}, the current time-slot, is the empty-time slot, if it is the device will transmit and ultimately connect to the network increasing the number of time-slots in the network according to the specifications in \myref{cha:Design}.
+If the empty slot was not the current time-slot, the device will instead go to the location \texttt{Receiving\_Not\_Connected} where it will receive the other devices' transmissions, once again reset \texttt{x} to zero and wait until eventually the empty-slot occurs, where it will connect to the network.
+The committed location \texttt{Connected\_To\_Network} has three edges leaving it, one for receiving, one for transmitting, and one for waiting.
 The model can be seen on \myref{fig:UPPAAL_Connected}.
 
 \begin{figure}
@@ -36,51 +108,76 @@ The model can be seen on \myref{fig:UPPAAL_Connected}.
 \label{fig:UPPAAL_Connected}
 \end{figure}
 
-\texttt{Connected\_To\_Network} works roughly the same as \texttt{Network\_Found}, except the guard checking whether it is the empty time-slot instead checks whether it is the device's time-slot.
-Another change is when the device is in the state \texttt{Receiving}, if nothing has been transmitted and the clock \texttt{x} is equal to \texttt{Delta} the device will go increment its \texttt{i\_local} value and go perform user code. 
+When a device has been connected to a network it will instantly move to the location main loop, where it will perform the actions as described in the pseudocode of \myref{cha:Design}.
+
+\texttt{Main\_Loop} works roughly the same as \texttt{Network\_Found}.
+First it moves to a location \texttt{User\_Code} where it will perform user code until the the clock \texttt{x} is equal to \texttt{Delta\_Proc}.
+As soon as this is the case the device will move on to a committed location where it will choose to either transmit or receive depending on whether or not the current time-slot belongs to the device or not.
+When a device has transmitted a transmission, it will move to a waiting state where it will wait until the time-slot has officially ended, which is when the clock \texttt{x} is equal to \texttt{Delta}, reset the clock \texttt{x} and then it will execute the main loop once again.
+Another change is when the device is in the location \texttt{Receiving}, if nothing has been transmitted and the clock \texttt{x} is equal to \texttt{Delta} the device will go increment its \texttt{i\_local} value reset the clock \texttt{x} and restart the main loop. 
 This case happens whenever the empty slot is the current time-slot and no new device is trying to connect to the network.
-For a specification of all the functions being used in this model, please have a look in \myref{app:UPPAAL}.
 
 \section{Verifying the Model}
 
 As mentioned in \myref{subsec:uppaal} it is possible to make queries to verify that some given properties are true.
 \myref{sec:Pseudo} contains statements which should be true for a correctly connected network.
 These statements can be written as queries in UPPAAL, which the tool will then determine to be correct or not. 
-The queries in UPPAAL can be seen on \myref{lst:UPPAAL_Queries}.
+The queries described here have been tested with a system consisting of up to 6 devices, but it is recomended to go no higher than 4 in one system as the queries computation time increase dramatically.
+The queries for the system will be given one by one with along with a description of what they represent.
+\begin{lstlisting}[language={[GUI]Uppaal}, % use GUI flavor
+columns={[l]flexible},
+frameround=fftt, frame=shadowbox, rulesepcolor=\color{gray}, title={This means that eventually it will be true that all devices are connected, and if two devices have the same time-slot \texttt{k} for as their own, it means it is the same device. }]
+1. A<> forall(i: id_t) forall(j: id_t) Device(i).Connected and
+		 Device(j).Connected and Device(i).k == Device(j).k imply i == j
+\end{lstlisting}
 
 \begin{lstlisting}[language={[GUI]Uppaal}, % use GUI flavor
 columns={[l]flexible},
-frameround=fftt, frame=shadowbox, rulesepcolor=\color{gray},label=lst:UPPAAL_Queries,
-caption={Queries for the UPPAAL Model}]
-1. A<> forall(i: id_t) Device(i).Connected
+frameround=fftt, frame=shadowbox, rulesepcolor=\color{gray}, title={The query requires that there is no deadlock in the system.}]
 2. A[] not deadlock
-3. A[] forall(i : id_t) forall(j : id_t)  Device(i).Transmitting and 
-		Device(j).Transmitting imply i == j
-4. A<> forall(i : id_t) forall(j : id_t) (Device(i).User_Code and 
-		Device(j).User_Code and Device(i).local_i == Device(j).local_i)
-5. A<> forall(i : id_t) forall(j : id_t) Device(i).local_n == Device(j).local_n
-6. A<> forall(i : id_t) forall(j :id_t) Device(i).k != Device(j).local_n
-7. A<> forall(i : id_t) forall(j : id_t) Device(i).k == Device(j).k imply i == j
-8. A<> n == N+1
-9. A<> forall(i : id_t)  Device(i).k < n and Device(i).k > 0
+\end{lstlisting}
+
+\begin{lstlisting}[language={[GUI]Uppaal}, % use GUI flavor
+columns={[l]flexible},
+frameround=fftt, frame=shadowbox, rulesepcolor=\color{gray}, title={This requires that if a device \texttt{i}, and a device \texttt{j} are both transmitting, it mean they are the same.}]
+3. A[] forall(i : id_t) forall(j : id_t)  Device(i).Transmitting and
+		 Device(j).Transmitting imply i == j
+\end{lstlisting}
+\begin{lstlisting}[language={[GUI]Uppaal}, % use GUI flavor
+columns={[l]flexible},
+frameround=fftt, frame=shadowbox, rulesepcolor=\color{gray}, title={This query requires that if two devices are both in the location \texttt{User\_Code} they then have the same value of their \texttt{local\_i}}]
+4. A[] forall(i : id_t) forall(j : id_t) Device(i).User_Code and 
+		Device(j).User_Code imply Device(i).local_i == Device(j).local_i
+\end{lstlisting}
+\begin{lstlisting}[language={[GUI]Uppaal}, % use GUI flavor
+columns={[l]flexible},
+frameround=fftt, frame=shadowbox, rulesepcolor=\color{gray}, title={This query requires that if a device \texttt{i} and a device \texttt{j} is both connected, they then have the same value of their \texttt{local\_n}. If they were different it would mean that they are not in the same network, and as such would have different numbers of time-slots in their networks. But the system model makes sure that this is not the case.}]
+5. A[] forall(i : id_t) forall(j : id_t) Device(i).Connected and 
+		Device(j).Connected imply Device(i).local_n == Device(j).local_n
+\end{lstlisting}
+
+\begin{lstlisting}[language={[GUI]Uppaal}, % use GUI flavor
+columns={[l]flexible},
+frameround=fftt, frame=shadowbox, rulesepcolor=\color{gray}, title={This query requires that if it is always true that all devices never has the the time-slot which one of the devices has locally as the empty-slot. If any device did have this, it would mean that a device was out of sync, since it did not know which time-slot would be the empty one. }]
+6. A[] forall(i : id_t) forall(j :id_t) Device(i).k != Device(j).local_n
+\end{lstlisting}
+
+\begin{lstlisting}[language={[GUI]Uppaal}, % use GUI flavor
+columns={[l]flexible},
+frameround=fftt, frame=shadowbox, rulesepcolor=\color{gray}, title={This query says that if a device is connected it has a \texttt{k} value between \texttt{0} and \texttt{n}, which is the number of time-slots in the frame}]
+7. A[] forall(i : id_t) Device(i).Connected and 
+	 	Device(j).Connected imply Device(i).k < n and Device(i).k > 0
+\end{lstlisting}
+
+\begin{lstlisting}[language={[GUI]Uppaal}, % use GUI flavor
+columns={[l]flexible},
+frameround=fftt, frame=shadowbox, rulesepcolor=\color{gray}, title={The query requires that if a device is connected, is it then true that the number of devices connected to a network is equal to one less the number of time-slots in the frame of a network. }]
+8. A[]  forall(i: id_t) Device(i).Connected imply Connected_Counter == n-1
 \end{lstlisting}
 
 All of these queries will yield a true result when run with 6 devices on the model presented in this chapter.
 Note that queries have been added to verify the model beyond the ones derived from the statements in \myref{sec:Pseudo}, an example is query 2.
-A brief explanation of each query will be given below. 
 
-\begin{description}
-	\item [Query 1.] asks if for all possible state transitions, will it at some point be true that all devices in the system will be connected.
-	\item [Query 2.] asks if there are no deadlocks in the model.
-	\item [Query 3.] determines whether two different devices can be in the state \texttt{transmitting} at the same time.
-	\item [Query 4.] will decide whether the devices local number of i, is the same when they are all in the state \texttt{User\_Code}.
-	\item [Query 5.] asks if all devices have the same value of n in the local variable n.
-	\item [Query 6.] asks if it is false that any device has taken the empty time-slot as their own time-slot.
-	\item [Query 7.] asks if any two devices have taken the same time-slot k.
-	\item [Query 8.] asks if at some point is it always true that the number of time slots in the network is one larger than the number of devices in the system.
-	\item [Query 9.] asks if all the time-slots in the network are less than n and larger than 0.
-\end{description}
-
-The queries 7-9 together make up the statement (e) from \myref{sec:Pseudo}, since if no devices have the same time-slot k and if the number of devices is one less than the number of time-slots and all time-slots in the range [1,n-1] corresponds to an occupied time-slot in the network.
+The queries 1, 7 and 8 together make up the statement (e) from \myref{sec:Pseudo}, since if no devices have the same time-slot k and if the number of devices is one less than the number of time-slots and all time-slots in the range [1,n-1] corresponds to an occupied time-slot in the network.
 
 Since all of these statements hold true, it is concluded that the model does indeed do what it was designed to do, and an implementation according to the specification should theoretically work and be possible to create.
