@@ -68,8 +68,8 @@ This loop should only be stopped when the network is reconfigured.
 Reconfiguration of the network involves setting up and connecting to a network. 
 These processes is described in \myref{sub:setupCCRC}.
 
-\begin{minipage}{\linewidth} %minpage to avoid page break
-\begin{lstlisting}[style=pseudocode,mathescape=true, label={lst:general_case}, caption={Pseudocode example of the main loop}] 
+\begin{lstlisting}[style=pseudocode,mathescape=true,float,floatplacement=H,
+    label={lst:general_case}, caption={Pseudocode example of the main loop}] 
 procedure mainLoop()
     while true do
         loopstart:
@@ -91,7 +91,6 @@ procedure mainLoop()
         end
     end
 \end{lstlisting}  
-\end{minipage}
 
 The full pseudocode for the general case can be seen in \myref{lst:general_case}. 
 In the code, there are a few extra details but the main structure is the same. 
