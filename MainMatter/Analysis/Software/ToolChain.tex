@@ -11,25 +11,38 @@ This toolchain is also shown on \myref{fig:arduino_flow}.\cite{2015ArduinoToolch
 
 \tikzfigure{ArduinoFlowDiagram}{Flow diagram showing the flow of the source files onto the Arduino}{arduino_flow}
 
+\noindent
 To show how to upload code to an Arduino, some screenshots have been taken to show how this is done through the Arduino IDE.
-First to upload any code to the Arduino, the kind of Arduino being used has to be specified, and how to do this can be seen on \myref{tab:ArduinoScreenshots} (a).
-\begin{figure}
-\begin{tabular}{cc}
-  \includegraphics[width=0.48\textwidth]{Figures/ChooseArduino.png} &   \includegraphics[width=0.48\textwidth]{Figures/ChoosePort.png} \\
-(a) Choose Arduino & (b) Choose Port \\[6pt]
+First to upload any code to the Arduino, the kind of Arduino being used has to be specified, and how to do this can be seen on \myref{fig:choose_arduino}.
 
-\multicolumn{2}{c}{\includegraphics[width=0.7\textwidth]{Figures/SerialMonitor}} \\
-\multicolumn{2}{c}{(c) Serial monitor after uploading code}
-\end{tabular}
+\begin{figure}
+\begin{subfigure}{0.47\linewidth}
+\centering
+\includegraphics[width=\linewidth]{Figures/ChooseArduino.png}
+\caption{Choose Arduino}
+\label{fig:choose_arduino}
+\end{subfigure}\hfill
+\begin{subfigure}{0.47\linewidth}
+\centering
+\includegraphics[width=\linewidth]{Figures/ChoosePort.png}
+\caption{Choose Port}
+\label{fig:choose_port}
+\end{subfigure}\\[1ex]
+\begin{subfigure}{\linewidth}
+\centering
+\includegraphics[width=0.7\linewidth]{Figures/SerialMonitor}
+\caption{Serial monitor after uploading code}
+\label{fig:serial_monitor}
+\end{subfigure}
 \caption{Screenshots from the Arduino IDE.}
-\label{tab:ArduinoScreenshots}
+\label{fig:ArduinoScreenshots}
 \end{figure}
 
 
-Secondly the Port where the Arudino being uploaded to is plugged in needs to be specified, and a screenshot of this can be seen on figure \myref{tab:ArduinoScreenshots} (b).
+Secondly the Port where the Arudino being uploaded to is plugged in needs to be specified, and a screenshot of this can be seen on figure \myref{fig:choose_port}.
 
 When the code is ready to be uploaded to the Arduino a simple press of the arrow in the top of the IDE will upload and run the code. 
-This can be seen on figure \myref{tab:ArduinoScreenshots} (c), the code being run on this screenshot is a simple program which turns on an LED on pin 13 of the Arduino with a varying delay, which is also printed to the serial monitor.
+This can be seen on figure \myref{fig:serial_monitor}, the code being run on this screenshot is a simple program which turns on an LED on pin 13 of the Arduino with a varying delay, which is also printed to the serial monitor.
 The serial monitor is of great use when debugging with the Arduino as it makes it possible to know what values different variables of the program have at run-time.
 
 The code is split into three parts.
