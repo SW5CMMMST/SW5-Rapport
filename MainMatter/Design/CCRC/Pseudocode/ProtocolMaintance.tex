@@ -1,12 +1,12 @@
-\section{Protocol Maintanaince}
+\subsection{Protocol Maintanaince}
 During the last few code examples, the 'protocolMaintaince' procedure managed the local variables. 
+This procedure synchronizes the current slot $i$ between devices, and if there are any new devices then synchronize the increase in total amount of devices.
 
-
-In the real world, the devices could go out of sync. 
+Lastly the procedure handles the resynchronization of clocks because in the real world, the devices could go out of sync. 
 So the  device must handle this by some means of resynchronization. 
 By using the knowledge discovered in the tests in \myref{par:radiohead_time_sent_test}. 
 The time it takes to send a given message can be calculated using \myref{eq:timeToSendFormular}. 
-This result subtracted from the clock x gives start time of the time slot as seen in line 9 in \myref{lst:maintaniance}. 
+This result subtracted from the clock $x$ gives start time of the time slot as seen in line 9 in \myref{lst:maintaniance}. 
 The device can use this value to resynchronize.
 
 \begin{minipage}{\linewidth} %minpage to avoid page break
