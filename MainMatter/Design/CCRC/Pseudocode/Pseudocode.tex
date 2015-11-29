@@ -80,9 +80,8 @@ procedure mainLoop()
 		else
 			while $x \leq \delta$ do
 				if received($i'$, $n'$, $id'$, $data'$) then
-					protocolMaintance($i'$, $n'$)
+					protocolMaintance($i'$, $n'$, $|data'|$)
 					userRecieve($id'$, $data'$)
-					resynchronize($i', n', |data'|$)
 				end
 			end
 		end
@@ -96,14 +95,7 @@ The full pseudocode for the general case can be seen in \myref{lst:general_case}
 In the code, there are a few extra details but the main structure is the same. 
 The code describes how a device knows whether it is its turn or not.  
 
-Another thing to realize is because the timing is static, the clock $x$ needs to be reset only after the duration of a full timeslot; $\delta$. 
-In the real world, the devices could go out of sync. 
-So the  device must handle this by some means of resynchronization. 
-By using the knowledge discovered in the tests in \myref{par:radiohead_time_sent_test}. 
-The time it takes to send a given message can be calculated using \myref{eq:timeToSendFormular}. 
-This result subtracted from the clock x gives  start time of the time slot. 
-The device can use this value to resynchronize.
-This is handled in the protocolMaintance procedure.
-
+Another thing to realize is because the timing is static, the clock $x$ needs to be reset only after the duration of a full timeslot; $\delta$.
+Other resyncronization is handled in the 'protocolMaintance' procedure.
 % subsection general_case (end)   
             
