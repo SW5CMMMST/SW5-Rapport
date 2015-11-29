@@ -9,24 +9,37 @@ In the code examples some code used for debugging or testing have been removed a
 \subsection{Timing on the Arduino}
 To acquire relative time on Arduino the following constructs are used: A global variable, a reset function and a get function. 
 This construction can accurately time the length of time-slots and its constituents. 
+Additionally when joining a network the device needs to wait for the next timeslot before entering the mainloop. 
+This is done with the function \texttt{waitForNextTimeslot} which takes the argument the size of the payload received, then calculates how much is left of the timeslot, and waits for that period. 
+It is possible to accurately calculate how long it took to send the payload, the formulae for this is found in the test, see \myref{ssub:radiohead_time_sent_test} \myref{cha:radiohead_time_sent_test}.
+This function is also used every time a payload is received to ensure that the devices in the network remains synchronised. 
+\todo[inline]{Vi har ikke check på om den joiner i denne iteration. Explicit mention? - Troels}
+\todo[inline]{Har vi tilføjet GUARD time til modellen tidligere? - Troels}
 \begin{figure}
 \begin{lstlisting}[style=customc,caption={The variable and functions used to implement timing.},label={lst:ccrc:timing}]
 unsigned long x = 0;
 
 unsigned long getClock(unsigned long * x_0){
-    return millis() - *x_0; 
+    return millis() - *x_0;
 }
 
 void resetClock(unsigned long * x_0) {
-    if(millis() + 1 < *x_0)
-        Serial.println(F("Timer overflowed ..."));
-
     *x_0 = millis();
 }
+
+void waitForNextTimeslot(uint32_t payloadSize) {
+    uint32_t sentTime = 66 + (6 * payloadSize);
+    uint32_t timeLeft = DELTA_COM - GUARD_TIME_BEFORE_TX - sentTime;
+
+    resetClock(&x);
+    while(getClock(&x) <= timeLeft);
+    resetClock(&x);
+}
+
 \end{lstlisting}
 \end{figure}
 \subsection{Upstart: Creating or Joining a Network.}
-When each Arduino starts it determine if there is a network in progress and join it. 
+When each Arduino starts it determines if there is a network in progress and join it. 
 If it cannot find a network then it should create its own network, so that others can join it. 
 The worst case time required to determine whether a network exists is roughly $3 \times \delta \leq t_0$ for the CCRC-problem, as determined in \myref{sub:setupCCRC}, where $t_0$ is the maximum time. 
 This is referred to as \texttt{INIT\_WAIT} in the code and sets the limit for how long an Arduino listens before creating its own network. 
@@ -35,30 +48,25 @@ In \myref{lst:ccrc:startup} the startup code is shown.
 \begin{lstlisting}[style=customc,caption={Startup, if a network is found join it, if not create one.},label={lst:ccrc:startup}]
 resetClock(&x);
 
-foundNetwork = false;
+bool foundNetwork = false;
 while(getClock(&x) <= INIT_WAIT && !foundNetwork) {
     if(rx()) {
-        Serial.println(F("Found Network, joining!!"));
-        if(inPayload.header.slotCount > 1) {
-            netStat.i = inPayload.header.currentSlot;
-            netStat.n = inPayload.header.slotCount + 1;
-            netStat.k = inPayload.header.slotCount - 1;
-            setPayloadHead(&outPayload, netStat.i,  netStat.n, address);
-            foundNetwork = true;
-        }
+        foundNetwork = true;
     }
 }
 
-if(!foundNetwork) {
+if(foundNetwork) {
+    netStat.i = inPayload.header.currentSlot;
+    netStat.n = inPayload.header.slotCount + 1;
+    netStat.k = inPayload.header.slotCount - 1; // EmptySlot, is 0-indexed
+    setPayloadHead(&outPayload, netStat.i,  netStat.n, address);
+    waitForNextTimeslot(inPayloadSize);
+} else {
     netStat.n = 2;
     netStat.k = 0;
-    netStat.i = 1; 
-    outPayload.header.currentSlot = 0;
-    outPayload.header.slotCount = 2;
-    outPayload.header.address = address;
-    Serial.println("Found no network, starting own");
+    netStat.i = 1; // Such that when we loop it increments to
+    setPayloadHead(&outPayload, netStat.i,  netStat.n, address);
 }
-
 resetClock(&x);
 // Main loop begins now.
 \end{lstlisting}
@@ -71,21 +79,21 @@ There exists no special case for a device to join as communication is perfect th
 \begin{figure}
 \begin{lstlisting}[style=customc,caption={Main loop deciding whether to transmit or receive.},label={lst:ccrc:rxortx}]
 nextSlot(); // Increment the timeslot
-if(netStat.i == netStat.k) {
-    // Guard time
+if(netStat.i == netStat.k) { 
+    // Transmit!
     delay(GUARD_TIME_BEFORE_TX);
     tx(NULL, 0);
-    resetClock(&x);
 } else {
-    foundNetwork = false
-    while(getClock(&x) <= TIMESLOT_LEN && !foundNetwork) {
+    // Receive
+    bool gotMessage = false
+    while(getClock(&x) <= TIMESLOT_LEN && !gotMessage) {
         if(rx()){
             resync(); // Takes the infomation from the recived payload.
             foundNetwork = true;
         }
      }
-     resetClock(&x);
 }
+waitForNextTimeslot(inPayloadSize);
 \end{lstlisting}
 \end{figure}
 
