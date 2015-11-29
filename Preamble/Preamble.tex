@@ -13,6 +13,7 @@
 \definecolor{aaublue}{RGB}{33,26,82}
 \definecolor{OliveGreen}{rgb}{0,0.6,0}
 \usepackage{graphicx}
+\usepackage{subcaption}
 \usepackage{caption}
 \captionsetup{  font=footnotesize, 
                 labelfont=bf}
@@ -31,7 +32,8 @@
 \usepackage{wrapfig}
 \usepackage{tcolorbox}
 \usepackage{colortbl}
-\usepackage{enumitem} %THIS BREAKS ENUMERATE AND ITEMIZE
+\usepackage{enumitem}
+\SetLabelAlign{parright}{\parbox[t]{\labelwidth}{\raggedleft#1}}
 \usepackage{moreenum}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Page Layout
@@ -90,7 +92,7 @@
 \usepackage{latexsym,multicol,color,pstricks}
 
 \lstdefinelanguage{Uppaal}{ % syntax highlight via font
-basicstyle=\small\sffamily, % small sans−serif font (like verdana)
+basicstyle=\scriptsize\ttfamily, % small sans−serif font (like verdana)
 keywords={after update,assign,before update,break,case,const,continue,
 default,else,enum,for,guard,if,meta,process,progress,return,select,
 state,sync,switch,trans,system,while},
@@ -119,3 +121,4 @@ literate={{−>}{{$\leadsto$} }2 {−−>}{{$\longrightarrow$} }2
 
 \headheight 15pt
 \usepackage{microtype}
+\overfullrule=2cm

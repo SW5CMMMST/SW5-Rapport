@@ -1,20 +1,32 @@
 \resizebox{1\textwidth}{!}{%
 \begin{tikzpicture}[scale=\textwidth]
 \node[draw, align = center, 
-		minimum width=0.45\textwidth, 
-		minimum height=10mm,
-		label=below:$\delta_{comm}$] 
+		minimum width=0.55\textwidth, 
+		minimum height=10mm] 
 	(communicating) at (0,0)
 	{\textbf{Communication phase}};
 \node[draw, right = 0cm of communicating,
-		minimum width=0.45\textwidth, 
+		minimum width=0.35\textwidth, 
 		minimum height=10mm,
 		label=below:$\delta_{proc}$]
 	(processing)
 	{\textbf{Processing phase}};
+\node[draw, left = 0 cm of communicating,
+		minimum width=0.1\textwidth, 
+		minimum height=10mm]
+		(payload) {\textbf{Make payload}};
 
-\draw [decoration={brace, amplitude=+40pt}, decorate]
-    (communicating.north west) -- (processing.north east) node [black,midway,above=+42pt] 
+\draw [decoration={brace, amplitude=+20pt}, decorate]
+    (payload.north west) -- (processing.north east) node [black,midway,above=+22pt] 
+    (linename)
     {\textbf{Time Slot}};	
+
+    \node[align=center,black,anchor=south] at (linename.north) {$\delta$};
+
+\draw [decoration={brace, amplitude=20pt, mirror}, decorate]
+    (payload.south west) -- (communicating.south east) node [black,midway,below=+22pt] 
+    (linename)
+    {$\delta_{comm}$};	
+
 \end{tikzpicture}
 }%
