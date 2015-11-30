@@ -1,0 +1,64 @@
+\section{Multiple Startup Issue}\label{sec:MSI-CCRC}
+The activation of multiple devices at any point in time such that two or more devices are active but not in a network causes a problem that must be handled differently for each of the two aforementioned cases.
+The first case, which will be handled in this section, is in the case where no network exists prior to the activation of devices.
+As has been established earlier the time required to guarantee no network exists is $\delta \times 3$.
+From the moment that a device has determined no network exists it spends $\delta$ time to announce the existence of a network.
+As such if a multiple of devices are activated within $\delta$ time, relative to the firstly activated device, multiple networks will be established.
+By this it follows that if one can guarantee devices start with an offset of at least $\delta$ the problem is solved for every case.
+In an effort to solve this several different approaches can help solve the issue however none of them can guarantee that a multiple of networks will never occur with 100 \% certainty. 
+As such implementing concepts from each approach may yield the best result.
+
+\begin{description}[labelindent=\parindent]
+    \item[Unique Offset]\hfill\\
+    Each device listens for a network for a uniquely specified amount of time rather than $\delta \times 3$.
+    \item[Randomly Create]\hfill\\
+    Once a device is done listening for a network it either creates its own network or resets and starts listening again.
+    \item[Kill the Network]\hfill\\
+    If a device is alone in a network for too long it may decide to kill the network and start listening again.
+    \item[Exponential Back-off]\hfill\\ 
+    While exponential Back-off would not work on its own it could be used in combination with another idea of the three aforementioned approaches to positively increase the ratio between successful and unsuccessful attempts.  
+\end{description} 
+
+\subsection{Unique Offset}
+Using the ID of each device one could guarantee that no device used the same multiple of $\delta$ prior to establishing their network by the formula $\delta \times 3 + \delta \times ID$.
+This however assumes device IDs are activated continuously for it to work.
+In the case where initially the device with ID 2 is turned on and exactly $\delta$ time later the device with ID 1 is turned on they would still both create a network, as such this is not a valid solution to the problem.
+
+\subsection{Randomly Create}\label{RCreate}
+For this each device would need to implement some sort of chance factor to determine whether or not to create a network.
+This could be determined by filtering the result of a random seed such that even results would create a network and odd would listen again.
+The problem with this is while it gives the opportunity to for two devices to start within the same time-slot without both creating a network at the same time, this is no guarantee; as such this would further require the implementation of recovery.
+
+\subsection{Seppuko}\label{KtN}
+This technique would allow for multiple networks to create but instead work as a sort of recovery technique.
+If a network is alone for too long, as no devices will be able to join if several networks are jamming each other, the device will kill the network and reset itself to once again look for other networks.
+If a network is online for a number of frames equal to $address + C$, where the C is a constant that ensures a network will not die too quick, two networks will die at closest one frame from each other.
+
+\bigskip \noindent
+In the edge case where two have been started at the exact same point in time and have addresses where $address_1 - address_2 = 1 \lor address_2 - address_1 = 1$ they will die within one frame of eachother, and as such one will have its next creation of a network delayed by one frame relative to the other network.
+The offset of one frame is enough that a network can die, recreate and transmit before the other network recreates in the previously mentioned edge case.
+The problem with this solution occurs when more than two devices are activated within one frame, in that case all but one network would have to die off within two frames for a network of multiple devices to successfully be established; otherwise the devices would repeat an endless cycle of creating and killing networks due to too many networks constantly jamming each other.
+
+\subsection{Exponential Backoff}
+Exponential backoff is a technique of every unsuccessful attempt increasing the exponent of some pairwise unique constant in order to reach an acceptable difference in values.
+Amongst others it is used in Ethernet to reschedule data transfer after collisions. \citep{Ebackoff}
+As mentioned this technique does not work on its own, however it can be applied to both \myref{RCreate} and \myref{KtN} to increase odds of success.
+\subsubsection*{Randomly Create}
+For the idea of implementing exponential backoff into randomly create the chance of creating should be lower than the initial concept where it was 50 \%.
+Starting with a lower chance the algorithm would for each unsuccessful attempt of creating a network increase the chance.
+In an effort to end up with different chances for each device trying to create, the algorithm would have to work on a unique value such as the address of each device.
+While this does not remove the chance of two networks still starting at the same time, it does reduce the chance as one device will have better odds of creating than any other device turned on in the same moment.
+\subsubsection*{Seppuko}
+As aforementioned kill the network is a recovery technique, this provides a different problem than randomly create and as such the implementation of exponential backoff would be too.
+It would seemingly make sense to implement the exponential backoff in the expression which already uses the unique address to decide when the network should die.
+The expression would then instead look like $address^a + C$ where $a$ defines the current attempt to find the network.
+As was mentioned in \myref{KtN} for the recovery to work with more than two devices in the network all devices but one has to die within two frames or they will create new networks due to jamming.
+If the exponential backoff is implemented as in the previous example these networks would become exponentially longer.
+While at some point the networks might hit the edge case where they would finally connect, that is the unlikely outcome.
+
+\bigskip \noindent
+The restriction of all but one network having to die off within two frames is a result of only listening for three frames.
+As such using exponential backoff for this part might provide a better chance of success.
+The previously established time spend listening would then change to a formula implemetning the exponential backoff such as $\delta \times 3 + \delta \times address^a$ where a once again $a$ denotes the attempt, for the sake of keeping the single device scenario intact this would be indexed by 0.
+
+Kill if alone + exponential backoff = superior

@@ -29,23 +29,23 @@ A combination of the following concepts could provide avoidance and recovery fro
 Using the concepts above it would be possible to design and implement a strategy for handling a scenario, where two or more devices tries to join the same network simultaneously.
 The modifications to the exsisting design from (REF TO CCRC-design) needed, will be shown in the following paragraphs.
 
-\subsubsection{Modification of The Payload} % (fold)
-\label{ssub:modification_of_the_payload}
+\subsection{Modification of The Payload} % (fold)
+\label{sub:modification_of_the_payload}
 \textbf{--WIP--}
 \begin{itemize}
     \item The head should be able to indicate mode and/or address of the joining device, along side some validation parameter.
     \item The payload should maybe be shorter for announcing devices, so transmission time will be shorter and therefore less risk of transmitting simultaneously i.e. using the random offset.
 \end{itemize}
-% subsubsection modification_of_the_payload (end)
+% subsection modification_of_the_payload (end)
 
-\subsubsection{Introduction of Sub Slots and Exponential Back-Off} % (fold)
-\label{ssub:introduction_of_sub_slots_and_exponential_backoff}
+\subsection{Introduction of Sub Slots and Exponential Back-Off} % (fold)
+\label{sub:introduction_of_sub_slots_and_exponential_backoff}
 To ensure a faster conflict solving if multiple devices try to connect simultaneously, a two-step process is designed.
 These two steps consists of choosing a random offset of sub slots to wait in the empty slot, along with a strategy of exponential back-off if jamming occurs.
 On \myref{fig:pseudo_flowMultiConnect} it can be seen how said two-steps is merged into the existing flow chart (\myref{fig:psuedo_flowCCRC}) from \myref{sub:setupCCRC}
 
 \tikzfigure{PsuedoFlowDiagramMULTI_CONNECT}{Revised flow diagram showing how a device acts during the Initialization phase}{pseudo_flowMultiConnect} 
-% subsubsection introduction_of_sub_slots_and_exponential_backoff (end)
+% subsection introduction_of_sub_slots_and_exponential_backoff (end)
 
 
 % section simultaneous_connect (end) 
