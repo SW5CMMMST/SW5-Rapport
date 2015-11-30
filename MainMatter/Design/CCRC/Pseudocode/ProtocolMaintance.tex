@@ -9,7 +9,7 @@ The time it takes to send a given message can be calculated using \myref{eq:time
 This result subtracted from the clock $x$ gives start time of the time slot as seen in line 9 in \myref{lst:maintaniance}. 
 The device can use this value to resynchronize.
 
-\begin{minipage}{\linewidth} %minpage to avoid page break
+\begin{minipage}{0.95\linewidth} %minpage to avoid page break
 \begin{lstlisting}[style=pseudocode, mathescape=true, label={lst:maintaniance}, caption={Pseudocode example of protocol maintaniance}] 
 procedure protocolMaintanaice($n', i', |data|$)
 	if $n' > n$ then
