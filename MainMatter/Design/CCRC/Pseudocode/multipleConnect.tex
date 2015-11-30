@@ -23,14 +23,17 @@ If all new devices tries to connect in the first empty slot, as they should, the
 Moreover the jammed, and jamming, devices will never know that their message was not received by anyone, as there is no way of knowing if one transmission was disrupted or jammed.
 A device should always try to connect to a network immediately after starting up.
 This means that jams are bound to happen sooner or later, so some measures must be taken to avoid and recover from such situations.
+When it comes to multiple devices trying to simultaneously connect to a network, each devices must be able to handle announce conflicts internally.
+However the payload should contain some information, which could be used in the solution of these conflicts.
 
 A combination of the following concepts could provide avoidance and recovery from jamming, in the process of joining a network: 
 \begin{description}[labelindent=\parindent]
     \item[Random Offset]\hfill\\
     When a device is announcing itself in the empty slot, it randomly chooses an offset for when to send the announcement payload.
+    The random offset is not time but sub slots. 
     In the rest of the empty slot it listens for other possible devices announcing themselves.
     If such message is heard it does not attempt to announce itself in the empty slot.
-    This method implies that the empty slot is significantly bigger than the time it takes to transmit the announcement payload.
+    This method implies that the length of empty slot is a multiple of the time it takes to transmit the announcement payload.
     \item[Validation]\hfill\\
     You should always validate whether or not your announcement have been heard and accepted by a majority of the network (over 50 \%), before joining the network.
     \item[Payload Mode]\hfill\\
@@ -52,18 +55,14 @@ The modifications to the exsisting design from (REF TO CCRC-design) needed, will
 \end{itemize}
 % subsubsection modification_of_the_payload (end)
 
-\subsubsection{Introduction of Randomness} % (fold)
-\label{ssub:introduction_of_randomness}
-\textbf{--WIP--}
-\begin{itemize}
-    \item Random offset should be used in every empty slot and exponential back-off only when a jam is ``detected''.
-    \item Both in the random offset and exponential back-off.
-    \item However the random offset should probably be based of off the unique address.
-    \item The emptyslot should be long enough for the random offset to make sense i.e. transmission time times 3 or 4 (maybe defined by a parameter that can in- or decrease jamming-avoidance).
-\end{itemize}
+\subsubsection{Introduction of Sub Slots and Exponential Back-Off} % (fold)
+\label{ssub:introduction_of_sub_slots_and_exponential_backoff}
+To ensure a faster conflict solving if multiple devices try to connect simultaneously, a two-step process is designed.
+These two steps consists of choosing a random offset of sub slots to wait in the empty slot, along with a strategy of exponential back-off if jamming occurs.
+On \myref{fig:pseudo_flowMultiConnect} it can be seen how said two-steps is merged into the existing flow chart (\myref{fig:psuedo_flowCCRC}) from \myref{sub:setupCCRC}
 
-\tikzfigure{PsuedoFlowDiagramMULTI_CONNECT}{Revised flow diagram showing how a device acts during the Initialization phase}{psuedo_flowMultiConnect} 
-% subsubsection introduction_of_randomness (end)
+\tikzfigure{PsuedoFlowDiagramMULTI_CONNECT}{Revised flow diagram showing how a device acts during the Initialization phase}{pseudo_flowMultiConnect} 
+% subsubsection introduction_of_sub_slots_and_exponential_backoff (end)
 
 
 % section simultaneous_startup (end) 
