@@ -8,12 +8,13 @@
 \begin{tikzpicture}[node distance = 2.8cm, auto]
     % Place nodes
     \node [cloud] (start) {Start};
-    \node [block, right of=start, node distance=2cm] (search) {Search for network};
+    \node [block, right of=start] (search) {Search for network};
     \node [decision, right of=search] (found) {Found network?};
     \node [block, below of=found] (init) {Initialize network};
-    \node [cloud, below of=init, node distance=1.4cm] (end) {Enter main loop};
-    \node [block, right of=found, node distance=3.5cm] (listen) {Listen while waiting for empty slot};
+    \node [cloud, left of=init, node distance = 4cm] (end) {Enter main loop};
+    \node [block, right of=found, node distance = 3.4cm] (listen) {Listen while waiting for empty slot};
     \node [block, below of=listen] (announce) {Announce};
+    \node [block, below of=announce] (wait) {Wait for end of timeslot};
     %\node [block, right of=announce] (verify) {Verify connection};
     %\node [decision, below of=announce, node distance=2.4cm] (connected) {Connected? };
 
@@ -28,5 +29,6 @@
     %\path [line] (verify) -- (connected);
     %\path [line] (connected) -| node [near start] {no} (listen);
     %\path [line] (connected) |- node [near start] {yes} (end);
-	\path [line] (announce) |- (end);
+	\path [line] (announce) -- (wait);
+    \path [line] (wait) -| (end);
 \end{tikzpicture}
