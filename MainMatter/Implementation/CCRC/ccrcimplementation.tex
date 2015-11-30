@@ -5,16 +5,16 @@ In the code examples some code used for debugging or testing have been removed a
 This chapter will explain how we implemented the main points of the protocol; this is the timing on the Arduino, how an Arduino can create and join a network, and lastly how the main loop works. 
 
 \subsection{Timing on the Arduino}
-To acquire relative time on Arduino the following constructs are used: A global variable, a reset function and a get function. 
+To acquire relative time on Arduino the following constructs are used: A global variable, a reset function and a get function.
+The variables and functions used to implement timing can be seen on \myref{lst:ccrc:timing}.
 This construction can accurately time the length of time-slots and its constituents. 
 Additionally when joining a network the device needs to wait for the next timeslot before entering the mainloop. 
 This is done with the function \texttt{waitForNextTimeslot} which takes the argument the size of the payload received, then calculates how much is left of the timeslot, and waits for that period. 
 It is possible to accurately calculate how long it took to send the payload, the formulae for this is found in the test, see \myref{ssub:radiohead_time_sent_test} \myref{cha:radiohead_time_sent_test}.
 This function is also used every time a payload is received to ensure that the devices in the network remains synchronised. 
-\todo[inline]{Vi har ikke check på om den joiner i denne iteration. Explicit mention? - Troels}
-\todo[inline]{Har vi tilføjet GUARD time til modellen tidligere? - Troels}
+
 \begin{figure}
-\begin{lstlisting}[style=customc,caption={The variable and functions used to implement timing.},label={lst:ccrc:timing}]
+\begin{lstlisting}[style=customc,caption={The variables and functions used to implement timing.},label={lst:ccrc:timing}]
 unsigned long x = 0;
 
 unsigned long getClock(unsigned long * x_0){
@@ -37,7 +37,7 @@ void waitForNextTimeslot(uint32_t payloadSize) {
 \end{lstlisting}
 \vspace{-20pt}
 \end{figure}
-\subsection{Upstart: Creating or Joining a Network.}
+\subsection{Upstart: Creating or Joining a Network}
 When each Arduino starts it determines if there is a network in progress and join it. 
 If it cannot find a network then it should create its own network, so that others can join it. 
 The worst case time required to determine whether a network exists is roughly $3 \times \delta \leq t_0$ for the CCRC-problem, as determined in \myref{sub:setupCCRC}, where $t_0$ is the maximum time. 
@@ -72,7 +72,7 @@ resetClock(&x);
 \end{figure}
 \subsection{Main Loop: Normal Network Operation}
 The main loop executes both the processing phase and the communication phase.
-First user-code is executed, this lasts at most \texttt{$DELTA_{PROC}$} time, which is $\delta_{proc}$ is the design. 
+First user-code is executed, this lasts at most \texttt{$DELTA_{PROC}$} time, which is $\delta_{proc}$ in the design. 
 Firstly each device should either transmit or receive depending on the current timeslot. 
 If the current timeslot belongs to a device then that device should transmit otherwise it should receive, note that there is no special case for the empty slot in which new devices can join the network.
 There exists no special case for a device to join as communication is perfect thus the device can simply transmit in the empty slot letting everyone know that the network has increased, and the device is seizing the former empty slot.
