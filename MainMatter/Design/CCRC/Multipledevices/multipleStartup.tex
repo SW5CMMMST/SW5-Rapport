@@ -15,8 +15,8 @@ As such implementing concepts from each approach may yield the best result.
     Once a device is done listening for a network it either creates its own network or resets and starts listening again.
     \item[Kill the Network]\hfill\\
     If a device is alone in a network for too long it may decide to kill the network and start listening again.
-    \item[Exponential Back-off]\hfill\\ 
-    While exponential Back-off would not work on its own it could be used in combination with another idea of the three aforementioned approaches to positively increase the ratio between successful and unsuccessful attempts.  
+    \item[Exponential Backoff]\hfill\\ 
+    Inspired by exponential backoff one could use a similar concept to alter some of the former ideas in an effort to make them more likely to positively increase the ratio between successful and unsuccessful attempts.
 \end{description} 
 
 \subsection{Unique Offset}
@@ -29,7 +29,7 @@ For this each device would need to implement some sort of chance factor to deter
 This could be determined by filtering the result of a random seed such that even results would create a network and odd would listen again.
 The problem with this is while it gives the opportunity to for two devices to start within the same time-slot without both creating a network at the same time, this is no guarantee; as such this would further require the implementation of recovery.
 
-\subsection{Seppuko}\label{KtN}
+\subsection{Seppuku}\label{KtN}
 This technique would allow for multiple networks to create but instead work as a sort of recovery technique.
 If a network is alone for too long, as no devices will be able to join if several networks are jamming each other, the device will kill the network and reset itself to once again look for other networks.
 If a network is online for a number of frames equal to $address + C$, where the C is a constant that ensures a network will not die too quick, two networks will die at closest one frame from each other.
@@ -38,17 +38,18 @@ If a network is online for a number of frames equal to $address + C$, where the 
 In the edge case where two have been started at the exact same point in time and have addresses where $address_1 - address_2 = 1 \lor address_2 - address_1 = 1$ they will die within one frame of eachother, and as such one will have its next creation of a network delayed by one frame relative to the other network.
 The offset of one frame is enough that a network can die, recreate and transmit before the other network recreates in the previously mentioned edge case.
 The problem with this solution occurs when more than two devices are activated within one frame, in that case all but one network would have to die off within two frames for a network of multiple devices to successfully be established; otherwise the devices would repeat an endless cycle of creating and killing networks due to too many networks constantly jamming each other.
+This only gets worse over time as any new device turned on will join the
 
 \subsection{Exponential Backoff}
 Exponential backoff is a technique of every unsuccessful attempt increasing the exponent of some pairwise unique constant in order to reach an acceptable difference in values.
 Amongst others it is used in Ethernet to reschedule data transfer after collisions. \citep{Ebackoff}
-As mentioned this technique does not work on its own, however it can be applied to both \myref{RCreate} and \myref{KtN} to increase odds of success.
+Using the idea of an increasing exponent it can be applied to both \myref{RCreate} and \myref{KtN} to increase odds of success.
 \subsubsection*{Randomly Create}
 For the idea of implementing exponential backoff into randomly create the chance of creating should be lower than the initial concept where it was 50 \%.
 Starting with a lower chance the algorithm would for each unsuccessful attempt of creating a network increase the chance.
 In an effort to end up with different chances for each device trying to create, the algorithm would have to work on a unique value such as the address of each device.
 While this does not remove the chance of two networks still starting at the same time, it does reduce the chance as one device will have better odds of creating than any other device turned on in the same moment.
-\subsubsection*{Seppuko}
+\subsubsection*{Seppuku}
 As aforementioned kill the network is a recovery technique, this provides a different problem than randomly create and as such the implementation of exponential backoff would be too.
 It would seemingly make sense to implement the exponential backoff in the expression which already uses the unique address to decide when the network should die.
 The expression would then instead look like $address^a + C$ where $a$ defines the current attempt to find the network.
