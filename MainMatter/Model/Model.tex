@@ -1,10 +1,10 @@
+%!TEX root = ../../master.tex
 \section{The Model}\label{sec:themodel}
 This section will showcase the model made to express the design from \myref{cha:Design}.
 For simplicity the the model in this chapter has been split into two parts, an initializing phase and the main loop.
-The complete model can be seen in \myref{app:UPPAAL}.
 Before the template is shown the code for the system will be presented.
 The template has local code which can be seen on \myref{device_local}.
-This code contains functions which capsulate many updates from the template, which would otherwise clutter the template with too many specifics.
+This code contains functions which encapsulate many updates from the template, which would otherwise clutter the template with too many specifics.
 
 \begin{lstlisting}[style=UPPAAL,
 caption={Local code for Device.}, label={device_local}, multicols=2]
@@ -32,8 +32,6 @@ void receive()
 
 void join_Network(){
     k=n;
-    i = 1;
-    local_i = 1;
     n = n+1;
     local_n = local_n+1;
     Connected = true;
@@ -89,7 +87,7 @@ typedef int[1,N] id_t;
 \end{lstlisting}
 
 Finally to instantiate the system, a system declaration is needed which can be seen on \myref{UPPAAL_System_Dcl}.
-This creates $n$ devices each with a unique ID from $1-n$ because of the code seen on \myref{uppaal_Global}, at the comment Device Creation.
+This creates $N$ devices each with a unique ID from $1 - N$ because of the code seen on \myref{uppaal_Global}, at the comment Device Creation.
 
 \begin{lstlisting}[style=UPPAAL,
 caption={Code for system declarations.}, label={UPPAAL_System_Dcl}]
@@ -145,46 +143,52 @@ A function to calculate this synchronized time will be require to implement the 
 As mentioned in \myref{subsec:uppaal} it is possible to make queries to verify that some given properties are true.
 \myref{sec:Pseudo} contains statements which should be true for a correctly connected network.
 These statements can be written as queries in UPPAAL, which the tool will then determine to be correct or not. 
-The queries described here have been tested with a system consisting of up to 6 devices, but it is recomended to go no higher than 4 in one system as the queries computation time increase dramatically.
+The queries described here have been tested with a system consisting of up to 6 devices, but it is recommended to go no higher than 4 in one system as the queries computation time increase dramatically.
 The queries for the system will be given one by one with along with a description of what they represent.
-\begin{lstlisting}[style=UPPAAL, title={This means that eventually it will be true that all devices are connected, and if two devices have the same time-slot \texttt{k} for as their own, it means it is the same device. }]
-1. A<> forall(i: id_t) forall(j: id_t) Device(i).Connected and
-		 Device(j).Connected and Device(i).k == Device(j).k imply i == j
+\begin{lstlisting}[style=UPPAAL, title={This query requires that eventually it all devices are connected, and no pair of devices have the same \texttt{k}.}]
+1. A<> forall(i : id_t) forall(j : id_t) Device(i).Connected and
+         Device(j).Connected and Device(i).k == Device(j).k imply i == j
 \end{lstlisting}
 
 \begin{lstlisting}[style=UPPAAL, title={The query requires that there is no deadlock in the system.}]
 2. A[] not deadlock
 \end{lstlisting}
 
-\begin{lstlisting}[style=UPPAAL, title={This requires that if a device \texttt{i}, and a device \texttt{j} are both transmitting, it mean they are the same.}]
-3. A[] forall(i : id_t) forall(j : id_t)  Device(i).Transmitting and
-		 Device(j).Transmitting imply i == j
+\todo[inline]{The following query should cover ALL transmitting states.}
+\begin{lstlisting}[style=UPPAAL, title={This query requires that no pair of devices are in the ``Transmitting'' state at the same time.}]
+3. A[] forall(i : id_t) forall(j : id_t) 
+      ((Device(i).Transmitting and Device(j).Transmitting) 
+    or (Device(i).Transmitting and Device(j).Transmitting_Not_Connected) 
+    or (Device(i).Transmitting_Not_Connected and Device(j).Transmitting_Not_Connected)) 
+    imply i==j
 \end{lstlisting}
-\begin{lstlisting}[style=UPPAAL, title={This query requires that if two devices are both in the location \texttt{User\_Code} they then have the same value of their \texttt{local\_i}}]
+\begin{lstlisting}[style=UPPAAL, title={This query requires that if two devices are both in the location \texttt{User\_Code} they then have the same value of their \texttt{local\_i}}. This imply that they are synchronised.]
 4. A[] forall(i : id_t) forall(j : id_t) Device(i).User_Code and 
-		Device(j).User_Code imply Device(i).local_i == Device(j).local_i
+        Device(j).User_Code imply Device(i).local_i == Device(j).local_i
 \end{lstlisting}
 \begin{lstlisting}[style=UPPAAL, title={This query requires that if a device \texttt{i} and a device \texttt{j} is both connected, they then have the same value of their \texttt{local\_n}. If they were different it would mean that they are not in the same network, and as such would have different numbers of time-slots in their networks. But the system model makes sure that this is not the case.}]
-5. A[] forall(i : id_t) forall(j : id_t) Device(i).Connected and 
-		Device(j).Connected imply Device(i).local_n == Device(j).local_n
+5. A[] forall(i : id_t) forall(j : id_t) 
+    Device(i).Connected and Device(j).Connected 
+    imply Device(i).local_n == Device(j).local_n
 \end{lstlisting}
 
 \begin{lstlisting}[style=UPPAAL, title={This query requires that if it is always true that all devices never has the the time-slot which one of the devices has locally as the empty-slot. If any device did have this, it would mean that a device was out of sync, since it did not know which time-slot would be the empty one. }]
-6. A[] forall(i : id_t) forall(j :id_t) Device(i).k != Device(j).local_n
+6. A[] forall(i : id_t) forall(j : id_t) Device(i).k != Device(j).local_n
 \end{lstlisting}
 
-\begin{lstlisting}[style=UPPAAL, title={This query says that if a device is connected it has a \texttt{k} value between \texttt{0} and \texttt{n}, which is the number of time-slots in the frame}]
-7. A[] forall(i : id_t) Device(i).Connected and 
-	 	Device(j).Connected imply Device(i).k < n and Device(i).k > 0
+\begin{lstlisting}[style=UPPAAL, title={This query requires that if a device is connected it has a \texttt{k} value between \texttt{0} and \texttt{n}, which is the number of time-slots in the frame}]
+7. A[] forall(i : id_t) 
+    Device(i).Connected and Device(j).Connected 
+    imply Device(i).k < n and Device(i).k > 0
 \end{lstlisting}
 
 \begin{lstlisting}[style=UPPAAL, title={The query requires that if a device is connected, is it then true that the number of devices connected to a network is equal to one less the number of time-slots in the frame of a network. }]
-8. A[]  forall(i: id_t) Device(i).Connected imply Connected_Counter == n-1
+8. A[] forall(i : id_t) Device(i).Connected imply Connected_Counter == n-1
 \end{lstlisting}
 
 All of these queries will yield a true result when run with 6 devices on the model presented in this chapter.
 Note that queries have been added to verify the model beyond the ones derived from the statements in \myref{sec:Pseudo}, an example is query 2.
 
-The queries 1, 7 and 8 together make up the statement (e) from \myref{sec:Pseudo}, since if no devices have the same time-slot k and if the number of devices is one less than the number of time-slots and all time-slots in the range [1,n-1] corresponds to an occupied time-slot in the network.
+The queries 1, 7 and 8 together make up the statement (e) from \myref{sec:Pseudo}, since if no devices have the same time-slot k and if the number of devices is one less than the number of time-slots and all time-slots in the range $[1, N-1]$ corresponds to an occupied time-slot in the network.
 
 Since all of these statements hold true, it is concluded that the model does indeed do what it was designed to do, and an implementation according to the specification should theoretically work and be possible to create.
