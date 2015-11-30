@@ -1,23 +1,6 @@
-\section{Simultaneous Startup} % (fold)
-\label{sec:simultaneous_startup}
+\section{Simultaneous Connect} % (fold)
+\label{sec:simultaneous_connect}
 
-Solve the problem this time, consider at least the three following possibilities
-
-\noindent
-Multiple Startup Ideas:
-
-\begin{description}[labelindent=\parindent]
-    \item[Random Seed]\hfill\\ 
-    Creates a random seed from ID or some other number, in that time i will create network - Does not work
-
-    \item[Chante to create]\hfill\\
-    Multiple devices may still get through at once
-
-    \item[Reset if alone]\hfill\\
-    This could work, if a device is alone in a network is alone  1/20 chance for resetting
-\end{description}   
-
-\noindent
 Another problem arises when two or more devices are started simultaneously while a functioning network is up and running.
 If all new devices tries to connect in the first empty slot, as they should, they will jam each others messages and no one will be heard.
 Moreover the jammed, and jamming, devices will never know that their message was not received by anyone, as there is no way of knowing if one transmission was disrupted or jammed.
@@ -65,4 +48,4 @@ On \myref{fig:pseudo_flowMultiConnect} it can be seen how said two-steps is merg
 % subsubsection introduction_of_sub_slots_and_exponential_backoff (end)
 
 
-% section simultaneous_startup (end) 
+% section simultaneous_connect (end) 
