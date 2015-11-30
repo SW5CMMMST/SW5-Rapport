@@ -21,30 +21,69 @@ A combination of the following concepts could provide avoidance and recovery fro
     You should always validate whether or not your announcement have been heard and accepted by a majority of the network (over 50 \%), before joining the network.
     \item[Payload Mode]\hfill\\
     The head of the payload should contain an extra field, which can indicate different modes or some other variable.
-    If the design using modes is chosen, it would be possible for other devices implementing the protocol to do various actions upon the data of the payload, e.g. the mode can indicate that the first byte of the date contains the address of a device, which wishes or is allowed to join the network.
-    \item[Exponential Back-off]\hfill\\ 
-    If no one in the network responds to a device's announcement, or it is not validated, the device will use exponential back-off in regards to how many frames it should wait before trying again.
+    If the design using modes is chosen, it would be possible for other devices implementing the protocol to do various actions upon the data of the payload, e.g. the mode can indicate that the first byte of the date contains the address of a device, which is allowed to join the network.
+    \item[Exponential Backoff]\hfill\\ 
+    If no one in the network responds to a device's announcement, or it is not validated, the device will use exponential backoff in regards to how many frames it should wait before trying again.
 \end{description} 
 \noindent
 Using the concepts above it would be possible to design and implement a strategy for handling a scenario, where two or more devices tries to join the same network simultaneously.
-The modifications to the exsisting design from (REF TO CCRC-design) needed, will be shown in the following paragraphs.
+The modifications to the existing design from (REF TO CCRC-design) needed, will be shown in the following paragraphs.
 
 \subsection{Modification of The Payload} % (fold)
 \label{sub:modification_of_the_payload}
+To pass around information, which is valuable to the protocol, the payload needs to be modified.
+This modification should add information where needed and remove unused information in other cases.
+In the following paragraphs two modifications, which are needed to accommodate for simultaneously connecting devices, will be presented. 
+
+\subsubsection{Modes and Validation} % (fold)
+\label{ssub:modes_and_validation}
 \textbf{--WIP--}
-\begin{itemize}
-    \item The head should be able to indicate mode and/or address of the joining device, along side some validation parameter.
-    \item The payload should maybe be shorter for announcing devices, so transmission time will be shorter and therefore less risk of transmitting simultaneously i.e. using the random offset.
-\end{itemize}
+The first modification to the payload, is to introduce a way of indicating modes. 
+\tikzfigure{Payload_wModes.tikz}{Modified payload containing an indicator for mode}{payloadwMode}
+% subsubsection modes_and_validation (end)
+
+\subsubsection{Announcements} % (fold)
+\label{ssub:announcements}
+\textbf{--WIP--}
+% subsubsection announcements (end)
+
 % subsection modification_of_the_payload (end)
 
-\subsection{Introduction of Sub Slots and Exponential Back-Off} % (fold)
+\subsection{Introduction of Sub Slots and Exponential Backoff} % (fold)
 \label{sub:introduction_of_sub_slots_and_exponential_backoff}
 To ensure a faster conflict solving if multiple devices try to connect simultaneously, a two-step process is designed.
 These two steps consists of choosing a random offset of sub slots to wait in the empty slot, along with a strategy of exponential back-off if jamming occurs.
 On \myref{fig:pseudo_flowMultiConnect} it can be seen how said two-steps is merged into the existing flow chart (\myref{fig:psuedo_flowCCRC}) from \myref{sub:setupCCRC}
 
-\tikzfigure{PsuedoFlowDiagramMULTI_CONNECT}{Revised flow diagram showing how a device acts during the Initialization phase}{pseudo_flowMultiConnect} 
+\tikzfigure{PsuedoFlowDiagramMULTI_CONNECT}{Revised flow diagram showing how a device acts during the Initialization phase}{pseudo_flowMultiConnect}
+
+\subsubsection{Sub Slots} % (fold)
+\label{ssub:sub_slots}
+To avoid using the potentially time consuming exponential backoff, if a multiple of devices try to connect simultaneously, the empty slot will be partitioned into smaller sub slots (see \myref{fig:frame_wsubslots} for illutration). 
+The length of the sub slots should be the longer than time it takes to transmit an announcement; is important not to have overlapping announcements, since none of them would be heard due to jamming.
+
+When determining how many sub slots the empty slot should be partitioned into, it should be considered that more sub slots will increase the overall frame length.
+Because of this, the number of partitions should be decided by the programmer implementing the protocol.
+
+\tikzfigure{SimpleFrame_wSubSlots.tikz}{A frame with two connected devices and a three-way partitioned empty slot}{frame_wsubslots}
+
+% subsubsection sub_slots (end)
+
+\subsubsection{Exponential Backoff} % (fold)
+\label{ssub:exponential_backoff}
+The method of exponential backoff to be used here consists of:
+\begin{enumerate*}[label=\itshape \alph*\upshape)]
+    \item remembering how many unvalidated announcements have been sent, this will typically be caused by collisions; and
+    \item choosing a random number of frames to wait based upon this number.   
+\end{enumerate*}
+These properties of the exponential backoff can be expressed as follows:
+\begin{equation}
+     x \in [0, 2^c - 1] \mid x \in \mathbb{Z}^+
+\end{equation}
+Where $x$ is a randomly chosen number of frames to wait from the range, and $c$ is number of unvalidated announcements. With this method a device will wait 0 to 1 frames after the first unvalidated announcement, 0 to 3 after the second and 0 to 7 after the third. To avoid an infinite increase of the wait time the $c$ should have an upper limit of e.g. 5, which would ensure a maximum wait of $2^5-1 = 31$ frames.
+
+
+% subsubsection exponential_backoff (end) 
 % subsection introduction_of_sub_slots_and_exponential_backoff (end)
 
 
