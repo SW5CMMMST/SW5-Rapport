@@ -1,0 +1,34 @@
+\chapter{Frame Defragmentation}
+A significant issue for long-lived networks is the removal of devices. 
+Currently in the design if a device leaves and joins again, it will get a new time-slot in the frame, and the old time-slot will remain unused.
+Additionally there is no way of informing other devices of an impeding power off of a device. 
+This is the explicit removal problem (ERP). 
+If a device is unable to transmit for any other reason, i.e. power-off, transmission module failure, etc. it is unable to inform the other devices of this ahead of time. 
+This is the implicit removal problem (IRP). 
+
+A solution to this problem should ideally handle both of these sub-problems, however a solution to the IRP will also solve the ERP.
+Therefore it is sufficient to solve IRP, and therefore the rest of this chapter will only focus on the IRP.  
+
+The term fragmentation refers to unused parts of a sequential resource. 
+In relation to TDMA it is an unused time-slot in the middle of the frame. 
+
+The design in this chapter inherits the assumptions of the CCRC-problem. 
+
+\section{Automatic Removal of Inactive Devices}
+The proposed design has a general case and a special case for the first device in the frame.
+\paragraph{General case}
+The general case applies to any device which is part of a network and not the first device in the frame, i.e. $k \neq 1$.
+If the device does not receive any payload from the device before it (i.e. device $k - 1$) a given number of times in a row, then it should transmit in its time-slot instead of its own from this frame on onward. 
+This will create another missing slot to be handled by another device, unless the device was in time-slot $n - 1$, i.e. the last time-slot of the frame. 
+
+\paragraph{Special case}
+The special case applies to the first device of the frame, i.e. $k = 1$. 
+Since there is no device before it, whose time-slot it can move to, it should instead reduce the number of time-slots in the frame by one, if it does not receive any payload from the last device of the frame, i.e. $k = n - 1$, a given number of times. 
+
+\bigskip
+
+This is a simple solution, which defragments the frame one device at the time, the worst case scenario is that the first device of the frame is unable to transmit, then the second will take its spot, and so on until the new first device reduces the amount of time-slots in the frame by one. 
+This worst case will take at most take \todo{todo - Troels}
+
+\section{Automatic Insertion in Unused Time-slots}
+Another solution is for new devices to insert themselves in unused time-slot of an existing network.
