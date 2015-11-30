@@ -42,25 +42,30 @@ The problem with this solution occurs when more than two devices are activated w
 This only gets worse over time as any new device turned on will join the cycle of jamming.
 
 \subsection{Exponential Backoff}
-Exponential backoff is a technique of every unsuccessful attempt increasing the exponent of some pairwise unique constant in order to reach an acceptable difference in values.
+Without going into detail exponential backoff is a technique of increasing an exponent after every unsuccessful attempt in order to reach more acceptable odds of success.
 Amongst others it is used in Ethernet to reschedule data transfer after collisions. \citep{Ebackoff}
 Using the idea of an increasing exponent it can be applied to both \myref{RCreate} and \myref{KtN} to increase odds of success.
-\subsubsection*{Randomly Create}
+\subsubsection*{Randomly Create}\label
 For the idea of implementing exponential backoff into randomly create the chance of creating should be lower than the initial concept where it was 50 \%.
 Starting with a lower chance the algorithm would for each unsuccessful attempt of creating a network increase the chance.
 In an effort to end up with different chances for each device trying to create, the algorithm would have to work on a unique value such as the address of each device.
 While this does not remove the chance of two networks still starting at the same time, it does reduce the chance as one device will have better odds of creating than any other device turned on in the same moment.
 \subsubsection*{Seppuku}
-As aforementioned kill the network is a recovery technique, this provides a different problem than randomly create and as such the implementation of exponential backoff would be too.
-It would seemingly make sense to implement the exponential backoff in the expression which already uses the unique address to decide when the network should die.
+For the chance to kill implementation this would work similarly to what was mentioned about randomly create. 
+However for the fixed version it would work differently.
+For the fixed version the exponent could be implemented in the expression which already uses the unique address to decide when the network should die.
 The expression would then instead look like $address^a + C$ where $a$ defines the current attempt to find the network.
 As was mentioned in \myref{KtN} for the recovery to work with more than two devices in the network all devices but one has to die within two frames or they will create new networks due to jamming.
 If the exponential backoff is implemented as in the previous example these networks would become exponentially longer.
 While at some point the networks might hit the edge case where they would finally connect, that is the unlikely outcome.
 
-\bigskip \noindent
-The restriction of all but one network having to die off within two frames is a result of only listening for three frames.
-As such using exponential backoff for this part might provide a better chance of success.
-The previously established time spend listening would then change to a formula implemetning the exponential backoff such as $\delta \times 3 + \delta \times address^a$ where a once again $a$ denotes the attempt, for the sake of keeping the single device scenario intact this would be indexed by 0.
+As aforementioned kill the network is a recovery technique, this also provides the opportunity of altering factors otherwise having to remain constant.
+The restriction of all networks but one having to die off within two frames is a result of only listening for three frames.
+As such adding in the exponential factor to the listening part might provide a better chance of success.
+The previously established time spend listening would then change to a formula implementing and exponent such as $\delta \times 3 + \delta \times address^a$ where a once again $a$ denotes amount of attempts, for the sake of keeping the single device scenario intact this would be indexed by 0.
+This would cause networks to be listening for increasing lengths rather than ending up in a lengthy cycle of jamming each other.
 
-Kill if alone + exponential backoff = superior
+\bigskip \noindent
+As was mentioned in \myref{RCreate} that technique still allows for multiple networks as it has no recovery, however combining that technique with the recovery technique mentioned in \myref{KtN} would provide a working solution.
+The effects of randomly create would be a better chance of only one network being created even when two or more devices are turned on at once where as killing the network would act as a way to recover if a multiple of devices got through.
+For the method of killing off the network, using the fixed method one would not have to rely on any randomness, however this would be at the cost of how long it would take to establish a network in the case that several devices were allowed to start one.
