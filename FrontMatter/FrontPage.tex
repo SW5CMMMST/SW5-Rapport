@@ -1,40 +1,45 @@
+\DeclareFixedFont{\titlefont}{T1}{cmss}{l}{n}{0.5in} 
+\DeclareFixedFont{\subtitlefont}{T1}{cmss}{l}{n}{0.25in} 
 \pdfbookmark[0]{Front page}{label:Frontpage}
 \begin{titlepage}
     \addtolength{\hoffset}{0.5\evensidemargin-0.5\oddsidemargin}
     \noindent
-    \begin{tabular}{@{}p{\textwidth}@{}}
-        \toprule[2pt]
-        \midrule
-        \vspace{2mm}
-        \begin{center}
-            {\Huge\bfseries
-                \TITLE
-            }
-        \end{center}
-        \begin{center}
-            {\Large\bfseries
-                Embedded Systems
-            }
-        \end{center}
-        \vspace{2mm}\\
-        \midrule\toprule[2pt]
-    \end{tabular}
+    \vspace{1.5cm}
+    \begin{center}
+        {\titlefont
+            \TITLE
+        }\\
+        \textcolor{aaublue}{\rule{120pt}{2pt}}\\
+        \vspace{10pt}
+        {\subtitlefont
+            Embedded Systems
+        }
+    \end{center}
     \vspace{4cm}
     \begin{center}
-        {\large
-            Project Paper
+        {\subtitlefont
+            Student Report
         }\\
-        \vspace{2mm}
-        {\Large
+        \vspace{10pt}
+        {\subtitlefont
             SW503E15
         }
     \end{center}
     \vfill
-    \begin{center}
+    \noindent
+\hfill
+\begin{minipage}{0.5\linewidth}
+    \begin{flushright}
         Aalborg Universitet\\
         Department of Computer Science\\
         Selma Lagerl{\"o}fs Vej 300\\
-        9220 Aalborg {\O}st
-    \end{center}
+        9220 Aalborg
+    \end{flushright}
+\end{minipage}
+%
+\begin{minipage}{0.02\linewidth}
+    \textcolor{aaublue}{\rule{1pt}{5\baselineskip}}
+\end{minipage}
+    \titlepagedecoration
 \end{titlepage}
 \clearpage 
