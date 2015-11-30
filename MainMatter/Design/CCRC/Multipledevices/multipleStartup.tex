@@ -43,9 +43,9 @@ This only gets worse over time as any new device turned on will join the cycle o
 
 \subsection{Exponential Backoff}
 Without going into detail exponential backoff is a technique of increasing an exponent after every unsuccessful attempt in order to reach more acceptable odds of success.
-Amongst others it is used in Ethernet to reschedule data transfer after collisions. \citep{Ebackoff}
+Amongst others it is used in ethernet to reschedule data transfer after collisions. \citep{Ebackoff}
 Using the idea of an increasing exponent it can be applied to both \myref{RCreate} and \myref{KtN} to increase odds of success.
-\subsubsection*{Randomly Create}\label
+\subsubsection*{Randomly Create}
 For the idea of using an exponent in randomly create, the chance of creating should start of relatively low.
 Starting with a lower chance the algorithm would for each unsuccessful attempt of creating a network increase the chance.
 In an effort to end up with different chances for each device trying to create, the algorithm would have to work on a unique value such as the address of each device.
@@ -68,4 +68,5 @@ This would cause networks to be listening for increasing lengths rather than end
 \bigskip \noindent
 As was mentioned in \myref{RCreate} that technique still allows for multiple networks as it has no recovery, however combining that technique with the recovery technique mentioned in \myref{KtN} would provide a working solution.
 The effects of randomly create would be a better chance of only one network being created even when two or more devices are turned on at once where as killing the network would act as a way to recover if a multiple of devices got through.
-For the method of killing off the network, using the fixed method one would not have to rely on any randomness, however this would be at the cost of how long it would take to establish a network in the case that several devices were allowed to start one.
+For the method of killing off the network, using the fixed method one would not have to rely on any randomness, however this would be at the cost of how long it would take to establish a network in the case that several devices were allowed to start one in the first place.
+The following flow chart and pseudo code will show how and exactly what combination of ideas will be used.
