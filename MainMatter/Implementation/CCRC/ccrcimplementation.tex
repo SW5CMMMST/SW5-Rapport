@@ -1,141 +1,109 @@
 \noindent
-The implementation contains some code to help the test and a simple application. 
-This simple application allows one Arduino to turn on LEDs connected to other Arduinos. 
-This is to demonstrate that the protocol works, and can transmit information besides the header used in the protocol. 
-
-First the data structures used for the implementation will be described followed by the mechanism for joining and creating a network and lastly the core loop which is run while connected to a network.
+The ability to have a user application have also been implemented, but as it hasn't been described in detail, and it is not the main focus this has been omitted from this chapter.
 In the code examples some code used for debugging or testing have been removed as it is irrelevant for the working protocol, however the full code is available in \myref{app:CCRC_CODE}. 
-\subsection{Data Structures}
-The payload is grouped into two parts, the first part is the header necessary for the network to work, and the second is the data which the application can send.
-The structs for \texttt{payload} and \texttt{payloadHead} are shown on \myref{lst:ccrc:payload} and \myref{lst:ccrc:payloadHead} respectively.
-The devices must transmit the header in its own time-slot, but the data is optional.
-This means that the transmission time can be shorter than the maximum time given.
 
-\begin{lstlisting}[style=customc,caption={The payload the network uses.},label={lst:ccrc:payload}]
-struct payload {
-    struct payloadHead header;
-    uint8_t data[13]; // So total size is 16 byte
-};
-\end{lstlisting}
-
-\begin{lstlisting}[style=customc,caption={The header of the payload which the network uses.},label={lst:ccrc:payloadHead}]
-struct payloadHead {
-    uint8_t currentSlot;
-    uint8_t slotCount;
-    uint8_t address;
-};
-\end{lstlisting}
-
-\noindent
-The last important data structure used is the \texttt{networkStatus} struct, shown in \myref{lst:ccrc:networkStatus}.
-This data structure is responsible for locally containing the status of the network. 
-Note that the names used are the same as in \myref{sec:Pseudo}.
-
-\begin{lstlisting}[style=customc,caption={The \texttt{networkStatus} struct, containing the status of the network locally.},label={lst:ccrc:networkStatus}]
-struct networkStatus {
-    uint8_t n; // number of timeslots
-    uint8_t k; // the timeslot of this device
-    uint8_t i; // the timeslot currently in progress
-};
-\end{lstlisting}
+This chapter will explain how we implemented the main points of the protocol; this is the timing on the Arduino, how an Arduino can create and join a network, and lastly how the main loop works. 
 
 \subsection{Timing on the Arduino}
-To acquire relative time on Arduino the following constructs are used: A global variable, a reset function and a get function. 
+To acquire relative time on Arduino the following constructs are used: A global variable, a reset function and a get function.
+The variables and functions used to implement timing can be seen on \myref{lst:ccrc:timing}.
 This construction can accurately time the length of time-slots and its constituents. 
-\begin{lstlisting}[style=customc,caption={The variable and functions used to implement timing.},label={lst:ccrc:timing}]
+Additionally when joining a network the device needs to wait for the next timeslot before entering the mainloop. 
+This is done with the function \texttt{waitForNextTimeslot} which takes the argument the size of the payload received, then calculates how much is left of the timeslot, and waits for that period. 
+It is possible to accurately calculate how long it took to send the payload, the formulae for this is found in the test, see \myref{ssub:radiohead_time_sent_test} \myref{cha:radiohead_time_sent_test}.
+This function is also used every time a payload is received to ensure that the devices in the network remains synchronised. 
+
+\begin{figure}
+\begin{lstlisting}[style=customc,caption={The variables and functions used to implement timing.},label={lst:ccrc:timing}]
 unsigned long x = 0;
 
 unsigned long getClock(unsigned long * x_0){
-    return millis() - *x_0; 
+    return millis() - *x_0;
 }
 
 void resetClock(unsigned long * x_0) {
-    if(millis() + 1 < *x_0)
-        Serial.println(F("Timer overflowed ..."));
-
     *x_0 = millis();
 }
-\end{lstlisting}
 
-\subsection{Upstart: Creating or Joining a Network.}
-When each Arduino starts it determine if there is a network in progress and join it. 
+void waitForNextTimeslot(uint32_t payloadSize) {
+    uint32_t sentTime = 66 + (6 * payloadSize);
+    uint32_t timeLeft = DELTA_COM - GUARD_TIME_BEFORE_TX - sentTime;
+
+    resetClock(&x);
+    while(getClock(&x) <= timeLeft);
+    resetClock(&x);
+}
+
+\end{lstlisting}
+\vspace{-20pt}
+\end{figure}
+\subsection{Upstart: Creating or Joining a Network}
+When each Arduino starts it determines if there is a network in progress and join it. 
 If it cannot find a network then it should create its own network, so that others can join it. 
 The worst case time required to determine whether a network exists is roughly $3 \times \delta \leq t_0$ for the CCRC-problem, as determined in \myref{sub:setupCCRC}, where $t_0$ is the maximum time. 
 This is referred to as \texttt{INIT\_WAIT} in the code and sets the limit for how long an Arduino listens before creating its own network. 
 In \myref{lst:ccrc:startup} the startup code is shown. 
-
+\begin{figure}
 \begin{lstlisting}[style=customc,caption={Startup, if a network is found join it, if not create one.},label={lst:ccrc:startup}]
 resetClock(&x);
 
-foundNetwork = false;
+bool foundNetwork = false;
 while(getClock(&x) <= INIT_WAIT && !foundNetwork) {
     if(rx()) {
-        Serial.println(F("Found Network, joining!!"));
-        if(inPayload.header.slotCount > 1) {
-            netStat.i = inPayload.header.currentSlot;
-            netStat.n = inPayload.header.slotCount + 1;
-            netStat.k = inPayload.header.slotCount - 1;
-            setPayloadHead(&outPayload, netStat.i,  netStat.n, address);
-            foundNetwork = true;
-        }
+        foundNetwork = true;
     }
 }
 
-if(!foundNetwork) {
+if(foundNetwork) {
+    netStat.i = inPayload.header.currentSlot;
+    netStat.n = inPayload.header.slotCount + 1;
+    netStat.k = inPayload.header.slotCount - 1; // EmptySlot, is 0-indexed
+    setPayloadHead(&outPayload, netStat.i,  netStat.n, address);
+    waitForNextTimeslot(inPayloadSize);
+} else {
     netStat.n = 2;
     netStat.k = 0;
-    netStat.i = 1; 
-    outPayload.header.currentSlot = 0;
-    outPayload.header.slotCount = 2;
-    outPayload.header.address = address;
-    Serial.println("Found no network, starting own");
+    netStat.i = 1; // Such that when we loop it increments to
+    setPayloadHead(&outPayload, netStat.i,  netStat.n, address);
 }
-
 resetClock(&x);
 // Main loop begins now.
 \end{lstlisting}
-
+\end{figure}
 \subsection{Main Loop: Normal Network Operation}
 The main loop executes both the processing phase and the communication phase.
+First user-code is executed, this lasts at most \texttt{$DELTA_{PROC}$} time, which is $\delta_{proc}$ in the design. 
 Firstly each device should either transmit or receive depending on the current timeslot. 
 If the current timeslot belongs to a device then that device should transmit otherwise it should receive, note that there is no special case for the empty slot in which new devices can join the network.
 There exists no special case for a device to join as communication is perfect thus the device can simply transmit in the empty slot letting everyone know that the network has increased, and the device is seizing the former empty slot.
 \begin{figure}
-\begin{lstlisting}[style=customc,caption={Main loop deciding whether to transmit or receive.},label={lst:ccrc:rxortx}]
+\begin{lstlisting}[style=customc,caption={Important parts of the main loop.},label={lst:ccrc:rxortx}]
+userCodeRunonce();
+while(getClock(&x) <= DELTA_PROC) {
+    userCodeRepeat();
+}
+
 nextSlot(); // Increment the timeslot
-if(netStat.i == netStat.k) {
-    // Guard time
+if(netStat.i == netStat.k) { 
+    // Transmit!
     delay(GUARD_TIME_BEFORE_TX);
     tx(NULL, 0);
-    resetClock(&x);
 } else {
-    foundNetwork = false
-    while(getClock(&x) <= TIMESLOT_LEN && !foundNetwork) {
+    // Receive
+    bool gotMessage = false
+    while(getClock(&x) <= TIMESLOT_LEN && !gotMessage) {
         if(rx()){
             resync(); // Takes the infomation from the recived payload.
             foundNetwork = true;
         }
      }
-     resetClock(&x);
 }
+waitForNextTimeslot(inPayloadSize);
 \end{lstlisting}
 \end{figure}
 
-\bigskip \noindent
-The \texttt{tx()}-function prepares and transmits the data.
-It then resets the clock on the device and the main loop starts over.
-The \texttt{rx()}-function asks Radiohead whether a full package has been received. 
-If a full package has been received the package is then copied to \texttt{inPayload}, which is a global variable instance of the \texttt{payload} struct described earlier, lastly the function returns true.
-Following \texttt{rx()} the while-loop on line 16 in \myref{lst:ccrc:rxortx} will break, causing the clock to reset and run the second part of the main loop.
-This means that the communication part of the current timeslot is over after the transmission is complete.
-Since it happens at the same time for both the transmitting device and the receiving device(s) then a synchronization of the clocks is obtained, this is based on the assumptions of CCRC. 
- 
-In the main loop user code is run for a maximum of $\delta_{proc}$ time, known as \texttt{DELTA\_PROC} in the code.
-As aforementioned this example allows one Arduino to turn on an LED on another Arduino. 
-
-\begin{lstlisting}[style=customc,caption={While-loop with application code.},label={lst:ccrc:usercode}]
-bool runOnce = false;
-while(getClock(&x) <= DELTA_PROC) {
-    // LED-APPLICATION-CODE
-}
-\end{lstlisting}
+The \texttt{tx()}-function prepares and transmits the payload, this can optionally include user-data, this is the first parameter, and the second is the length of the data.
+It then waits for the timeslot to end, as this is a static time for every timeslot, then it resets the clock on the device and the main loop starts over.
+The \texttt{rx()}-function asks Radiohead whether a full payload has been received. 
+If a full payload has been received the payload is then copied to \texttt{inPayload} and then returns true.
+Following \texttt{rx()} the while-loop on line 16 in \myref{lst:ccrc:rxortx} will break, then it waits for the timeslot to end and then resets the clock and starts the loop over. 

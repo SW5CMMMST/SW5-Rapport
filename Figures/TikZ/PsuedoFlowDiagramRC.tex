@@ -1,5 +1,5 @@
 \tikzstyle{decision} = [diamond, draw, fill=yellow!20, 
-    text width=5em, text badly centered, node distance=3cm, inner sep=3pt]
+    text width=4.5em, text badly centered, node distance=3cm, inner sep=3pt]
 \tikzstyle{block} = [rectangle, draw, fill=green!40, 
     text width=5em, text centered, rounded corners, minimum height=4em]
 \tikzstyle{line} = [draw, -latex']
@@ -8,13 +8,15 @@
 \begin{tikzpicture}[node distance = 2.8cm, auto]
     % Place nodes
     \node [cloud] (start) {Start};
-    \node [block, below of=start, node distance=1.4cm] (search) {Search for network};
-    \node [decision, below of=search, node distance=2.4cm] (found) {Found network?};
+    \node [block, right of=start] (search) {Search for network};
+    \node [decision, right of=search] (found) {Found network?};
     \node [block, below of=found] (init) {Initialize network};
-    \node [cloud, below of=init, node distance=1.4cm] (end) {Enter main loop};
-    \node [block, right of=found, node distance=3.5cm] (listen) {Listen while waiting for empty slot};
-    \node [block, right of=listen] (announce) {Announce};
-    \node [decision, below of=announce, node distance=2.4cm] (connected) {Connected?};
+    \node [cloud, left of=init, node distance = 4cm] (end) {Enter main loop};
+    \node [block, right of=found, node distance = 3.4cm] (listen) {Listen while waiting for empty slot};
+    \node [block, below of=listen] (announce) {Announce};
+    \node [block, below of=announce] (wait) {Wait for end of timeslot};
+    %\node [block, right of=announce] (verify) {Verify connection};
+    %\node [decision, below of=announce, node distance=2.4cm] (connected) {Connected? };
 
     % Draw edges
     \path [line] (start) -- (search);
@@ -23,7 +25,10 @@
     \path [line] (found) -- node {yes} (listen);
     \path [line] (init) -- (end);
     \path [line] (listen) -- (announce);
-    \path [line] (announce) -- (connected);
-    \path [line] (connected) -| node [near start] {no} (listen);
-    \path [line] (connected) |- node [near start] {yes} (end);
+    %\path [line] (announce) -- (connected);
+    %\path [line] (verify) -- (connected);
+    %\path [line] (connected) -| node [near start] {no} (listen);
+    %\path [line] (connected) |- node [near start] {yes} (end);
+	\path [line] (announce) -- (wait);
+    \path [line] (wait) -| (end);
 \end{tikzpicture}
