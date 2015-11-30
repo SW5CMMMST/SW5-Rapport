@@ -46,7 +46,7 @@ Without going into detail exponential backoff is a technique of increasing an ex
 Amongst others it is used in Ethernet to reschedule data transfer after collisions. \citep{Ebackoff}
 Using the idea of an increasing exponent it can be applied to both \myref{RCreate} and \myref{KtN} to increase odds of success.
 \subsubsection*{Randomly Create}\label
-For the idea of implementing exponential backoff into randomly create the chance of creating should be lower than the initial concept where it was 50 \%.
+For the idea of using an exponent in randomly create, the chance of creating should start of relatively low.
 Starting with a lower chance the algorithm would for each unsuccessful attempt of creating a network increase the chance.
 In an effort to end up with different chances for each device trying to create, the algorithm would have to work on a unique value such as the address of each device.
 While this does not remove the chance of two networks still starting at the same time, it does reduce the chance as one device will have better odds of creating than any other device turned on in the same moment.
@@ -56,10 +56,10 @@ However for the fixed version it would work differently.
 For the fixed version the exponent could be implemented in the expression which already uses the unique address to decide when the network should die.
 The expression would then instead look like $address^a + C$ where $a$ defines the current attempt to find the network.
 As was mentioned in \myref{KtN} for the recovery to work with more than two devices in the network all devices but one has to die within two frames or they will create new networks due to jamming.
-If the exponential backoff is implemented as in the previous example these networks would become exponentially longer.
+If the exponent is implemented as in the previous example these networks would be alive for exponentially longer.
 While at some point the networks might hit the edge case where they would finally connect, that is the unlikely outcome.
 
-As aforementioned kill the network is a recovery technique, this also provides the opportunity of altering factors otherwise having to remain constant.
+As aforementioned killing the network is a recovery technique, this also provides the opportunity of altering factors otherwise having to remain constant.
 The restriction of all networks but one having to die off within two frames is a result of only listening for three frames.
 As such adding in the exponential factor to the listening part might provide a better chance of success.
 The previously established time spend listening would then change to a formula implementing and exponent such as $\delta \times 3 + \delta \times address^a$ where a once again $a$ denotes amount of attempts, for the sake of keeping the single device scenario intact this would be indexed by 0.
