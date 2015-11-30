@@ -32,13 +32,14 @@ The problem with this is while it gives the opportunity to for two devices to st
 \subsection{Seppuku}\label{KtN}
 This technique would allow for multiple networks to create but instead work as a sort of recovery technique.
 If a network is alone for too long, as no devices will be able to join if several networks are jamming each other, the device will kill the network and reset itself to once again look for other networks.
-If a network is online for a number of frames equal to $address + C$, where the C is a constant that ensures a network will not die too quick, two networks will die at closest one frame from each other.
-
+This can be done either by chance or by a fixed number.
+For the on chance to kill the network the device would after each frame run an algorithm which would determine whether or not the network should kill itself.
 \bigskip \noindent
+For the fixed time before kill; if a network is online for a number of frames equal to $address + C$, where the C is a constant that ensures a network will not die too quick, two networks will die at closest one frame from each other.
 In the edge case where two have been started at the exact same point in time and have addresses where $address_1 - address_2 = 1 \lor address_2 - address_1 = 1$ they will die within one frame of eachother, and as such one will have its next creation of a network delayed by one frame relative to the other network.
 The offset of one frame is enough that a network can die, recreate and transmit before the other network recreates in the previously mentioned edge case.
 The problem with this solution occurs when more than two devices are activated within one frame, in that case all but one network would have to die off within two frames for a network of multiple devices to successfully be established; otherwise the devices would repeat an endless cycle of creating and killing networks due to too many networks constantly jamming each other.
-This only gets worse over time as any new device turned on will join the
+This only gets worse over time as any new device turned on will join the cycle of jamming.
 
 \subsection{Exponential Backoff}
 Exponential backoff is a technique of every unsuccessful attempt increasing the exponent of some pairwise unique constant in order to reach an acceptable difference in values.
