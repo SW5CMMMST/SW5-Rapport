@@ -2,7 +2,10 @@
 \section{Protocol}
 The design and development of a protocol is based on its purpose.
 For the protocol documented in this paper, the primary objective is to create a completely connected reliable communication network of Arduinos i.e. a network of Arduinos able to communicate with an arbitrary number of devices and allowing devices to join or leave.
-The protocol should be general in purpose, with the possiblites of using it for different usecases.
-This should be archieved by designing the protocol as a libary and thus allowing usecode for the specific usecases.
 
-The design of the protocol will be topdown, so the first element designed will be the frame, thereafter the timeslots, which a frame consists of and finally the payload which is transmitted in the timeslots. 
+The protocol should general in purpose, with the possibles of using it for different use-cases.
+This should be achieved by designing the protocol as a library and thus allowing user-code for the specific use-cases.
+The design of the protocol will be top-down, so the first element designed will be the frame, thereafter the timeslots, which a frame consists of and finally the payload which is transmitted in the timeslots. 
+
+For this protocol it is assumed that no two devices will start within a critical period of time.
+To make sure that only one device will attempt to create a network at the same time, and only one device will attempt to connect to an existing network at the same time. 
