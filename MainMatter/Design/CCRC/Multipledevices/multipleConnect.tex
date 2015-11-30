@@ -1,3 +1,4 @@
+\clearpage
 \section{Simultaneous Connect} % (fold)
 \label{sec:simultaneous_connect}
 
@@ -37,14 +38,21 @@ In the following paragraphs two modifications, which are needed to accommodate f
 
 \subsubsection{Modes and Validation} % (fold)
 \label{ssub:modes_and_validation}
-\textbf{--WIP--}
-The first modification to the payload, is to introduce a way of indicating modes. 
+The first modification to the payload, is to introduce a way of indicating modes.
+With this addition it is possible to utilise the data part of the payload for auxiliary information, e.g. if the mode indicates a validation payload, the first byte of the data could be the address of the device accepted into the network.
+Such a modification with mode in the payload header can be seen on \myref{fig:payloadwMode}, where \emph{mode} is inserted after \emph{timestamp} and before \emph{data}. 
+
 \tikzfigure{Payload_wModes.tikz}{Modified payload containing an indicator for mode}{payloadwMode}
+
+\noindent
+Along side the possibility of sending validation payloads using modes, other functions could benefit from this in the future, e.g. targeted payloads, payload that should be echoed or other special cases.
 % subsubsection modes_and_validation (end)
 
 \subsubsection{Announcements} % (fold)
 \label{ssub:announcements}
-\textbf{--WIP--}
+To minimise the time it takes to announce oneself to a network, a special announcement payload is introduced.
+This payload specification only need to carry one information that is the unique identifier or address of the device which is sending it.
+By shortening the payload significantly from the regular size of at least five fields (the header in \myref{fig:payloadwMode}) to one, the time it takes to sent it also is drastically decreased.
 % subsubsection announcements (end)
 
 % subsection modification_of_the_payload (end)
@@ -55,7 +63,17 @@ To ensure a faster conflict solving if multiple devices try to connect simultane
 These two steps consists of choosing a random offset of sub slots to wait in the empty slot, along with a strategy of exponential back-off if jamming occurs.
 On \myref{fig:pseudo_flowMultiConnect} it can be seen how said two-steps is merged into the existing flow chart (\myref{fig:psuedo_flowCCRC}) from \myref{sub:setupCCRC}
 
-\tikzfigure{PsuedoFlowDiagramMULTI_CONNECT}{Revised flow diagram showing how a device acts during the Initialization phase}{pseudo_flowMultiConnect}
+\begin{figure}[p]
+    \centering \footnotesize
+    \input{Figures/TikZ/PsuedoFlowDiagramMULTI_CONNECT.tex}
+    \caption{Revised flow diagram showing how a device acts during the Initialization phase}
+    \label{fig:pseudo_flowMultiConnect}
+\end{figure}
+
+The flow chart in \myref{fig:pseudo_flowMultiConnect} shows that the random offset of sub slots is the first method of prevention when it comes to simultaneous connection of multiple devices.
+If a device hears another announcement before it has sent it's own in the chosen sub slot, it will abort the announce-phase and wait for the next empty slot before trying immediately again.
+However if a device announces it self and does not get validated by the network, because the announcement was jammed, it will use exponential backoff to prevent further collisions.
+The following paragraphs will discuss said sub slots and exponential backoff.
 
 \subsubsection{Sub Slots} % (fold)
 \label{ssub:sub_slots}
@@ -65,7 +83,13 @@ The length of the sub slots should be the longer than time it takes to transmit 
 When determining how many sub slots the empty slot should be partitioned into, it should be considered that more sub slots will increase the overall frame length.
 Because of this, the number of partitions should be decided by the programmer implementing the protocol.
 
-\tikzfigure{SimpleFrame_wSubSlots.tikz}{A frame with two connected devices and a three-way partitioned empty slot}{frame_wsubslots}
+\begin{figure}[h]
+    \centering \footnotesize
+    \input{Figures/TikZ/SimpleFrame_wSubSlots.tikz}
+    \caption{A frame with two connected devices and a three-way partitioned empty slot}
+    \label{fig:frame_wsubslots}
+\end{figure}
+%\tikzfigure{SimpleFrame_wSubSlots.tikz}{A frame with two connected devices and a three-way partitioned empty slot}{frame_wsubslots}
 
 % subsubsection sub_slots (end)
 
@@ -81,7 +105,6 @@ These properties of the exponential backoff can be expressed as follows:
      x \in [0, 2^c - 1] \mid x \in \mathbb{Z}^+
 \end{equation}
 Where $x$ is a randomly chosen number of frames to wait from the range, and $c$ is number of unvalidated announcements. With this method a device will wait 0 to 1 frames after the first unvalidated announcement, 0 to 3 after the second and 0 to 7 after the third. To avoid an infinite increase of the wait time the $c$ should have an upper limit of e.g. 5, which would ensure a maximum wait of $2^5-1 = 31$ frames.
-
 
 % subsubsection exponential_backoff (end) 
 % subsection introduction_of_sub_slots_and_exponential_backoff (end)
