@@ -18,7 +18,7 @@ That device can only know its local variables and what it receives via the \enqu
         $\delta_{comm}$      & integer   & The duration of a time slot reserved for communication    & $0 < \delta_{comm}$ \\
         $\delta_{proc}$     & integer   & The duration of a time slot reserved for processing       & $0 < \delta_{proc}$ \\
         $t_0$               & integer   & The minimum time to determine if a network exists         & $3 \times \delta \leq t_0$ \\
-        $x$                 & clock     & A clock used for timing, and always running\\
+        $x$                 & clock     & A clock used for timing\\
         \bottomrule
     \end{tabularx}
     \caption{The local variables every device has access to.}
@@ -32,9 +32,9 @@ This should ensure that two devices will not send messages at the same time.
 \begin{table}[H]
 	\centering
 	$\begin{array}{l l l}
-		(a)&\forall\ \{d_a, d_b\} \subset Network: & d_a.k \neq d_b.k \\
-		(b)&\forall\ \{d_a, d_b\} \subset Network: & d_a.n = d_b.n \\
-		(c)&\forall\ \{d_a, d_b\} \subset Network: & d_a.i = d_b.i \\[1ex]
+        (a)&\forall\ d_a, d_b \in Network: & d_a.k = d_b.k  \iff d_a=d_b\\
+		(b)&\forall\ d_a, d_b \in Network: & d_a.n = d_b.n \\
+		(c)&\forall\ d_a, d_b \in Network: & d_a.i = d_b.i \\[1ex]
 		(d)&\forall\ d \in Network: & d.k \neq n \\[1ex]
 		(e)&\forall\ k \in \mathbb{N}_{<n}: & \exists!\ d \in Network: d.k = k 
 	\end{array}$
@@ -68,8 +68,8 @@ This loop should only be stopped when the network is reconfigured.
 Reconfiguration of the network involves setting up and connecting to a network. 
 These processes is described in \myref{sub:setupCCRC}.
 
-\begin{minipage}{\linewidth} %minpage to avoid page break
-\begin{lstlisting}[style=pseudocode,mathescape=true, label={lst:general_case}, caption={Pseudocode example of the main loop}] 
+\begin{lstlisting}[style=pseudocode,mathescape=true,float,floatplacement=H,
+    label={lst:general_case}, caption={Pseudocode example of the main loop}] 
 procedure mainLoop()
     while true do
         loopstart:
@@ -91,7 +91,6 @@ procedure mainLoop()
         end
     end
 \end{lstlisting}  
-\end{minipage}
 
 The full pseudocode for the general case can be seen in \myref{lst:general_case}. 
 In the code, there are a few extra details but the main structure is the same. 

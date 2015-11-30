@@ -21,8 +21,7 @@ It is worth noting here that this minimum is only true for this case, both stron
 If a network is found prior to \textit{x} exceeding $t_0$ the device will process the data and use this to properly attain a slot in the network as is seen on lines 7 - 9 in \myref{lst:setupCCRC}.
 Should it occur that no network is found the device will start its own network with the initial configuration that lines 14 - 16 in \myref{lst:setupCCRC} shows.
 
-\begin{minipage}{\linewidth} %minpage to avoid page break
-\begin{lstlisting}[label=lst:setupCCRC,style=pseudocode,mathescape=true,caption={Pseudocode example of the special case procedure Initialize()},basicstyle=\ttfamily]
+\begin{lstlisting}[label=lst:setupCCRC,style=pseudocode,mathescape=true,caption={Pseudocode example of the special case procedure Initialize()},float, floatplacement=h]
 procedure Initialize()
     $x \leftarrow 0$
     while $x \leq t_0$ do
@@ -42,5 +41,4 @@ procedure Initialize()
     $x \leftarrow 0$ // Reset clock
     mainLoop()
 \end{lstlisting}   
-\end{minipage}
 % subsection special_cases (end)
