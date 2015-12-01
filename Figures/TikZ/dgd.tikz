@@ -12,10 +12,10 @@
     \tikzstyle{u}  = [slot, fill=orange!30]
     \tikzstyle{b}  = [slot, fill=green!30]
     \tikzstyle{c}  = [slot, fill=yellow!30]
-    \tikzstyle{m} = [slot, fill=purple!30]
+    \tikzstyle{m}  = [slot, fill=purple!30]
 
     \begin{pgfonlayer}{foreground}
-        \node[a, below = \x    of a_slot0]                  (b_slot0) at (0,0) {Occupied};
+        \node[a, below = \x]                                (b_slot0) at (0,0) {Occupied};
         \node[u, right = 0.0pt of b_slot0]                  (b_slot1)          {Unused};
         \node[b, right = 0.0pt of b_slot1]                  (b_slot2)          {Occupied};
         \node[c, right = 0.0pt of b_slot2]                  (b_slot3)          {Occupied};
