@@ -2,13 +2,12 @@ A significant issue for long-lived TDMA networks such as the one constructed bef
 The term fragmentation refers to unused parts as one or more parts of a sequential resource. 
 In relation to TDMA it is an unused time-slot in the frame. 
 Currently in the design if a device leaves and joins again, it will get a new time-slot in the frame, and the old time-slot will remain unused, thus causing the frame to be longer and therefore slowing the network.
-Additionally there is no way of informing other devices of a devices' impeding removal, e.g. power off. 
-This is the explicit removal problem (ERP). 
-If a device is unable to transmit for any other reason, i.e. power-off, transmission module failure, etc. it is unable to inform the other devices of this ahead of time. 
-This is the implicit removal problem (IRP). 
+We make two distinctions explicit removal problem (ERP) and implicit removal problem (IRP).
+ERP is when a device would inform other devices of its impeding removal, e.g. powering-off soon. 
+IRP is if a device is suddenly unable to transmit for any other reason, i.e. suddenly powering-off, transmission module failure, etc. it is unable to inform the other devices of this ahead of time. 
 
 A solution to this problem should ideally handle both of these sub-problems, however a solution to the IRP will also solve the ERP.
-Therefore it is sufficient to solve IRP, and therefore the rest of this chapter will only focus on the IRP.  
+Therefore it is sufficient to solve IRP, which means that the rest of this chapter will only focus on IRP.  
 
 The design in this chapter inherits the assumptions of the CCRC-problem. 
 
@@ -18,8 +17,8 @@ The proposed design has a special case for the first device in the frame, and a 
 
 \paragraph{General case}
 The general case applies to any device which is part of a network and not the first device in the frame, i.e. $k \neq 1$.
-If the device does not receive any payload from the device before it (i.e. device $k - 1$) a given number of times, called $m_{max}$, in a row, then it should transmit in its time-slot instead of its own from this frame on onward. 
-This will create another missing slot to be handled by another device, unless the device was in time-slot $n - 1$, i.e. the last time-slot of the frame. 
+If the device does not receive any payload from the device before it (i.e. device $k - 1$) a given number of times in a row, called $m_{max}$, then the device should transmit in the time-slot of the device which it did not receive from, instead of its own time-slot from this frame on onward. 
+This will create another missing slot to be handled by another device, however a problem arises if the device was in the time-slot $n - 1$, i.e. the last time-slot of the frame, which will be explained in the following paragraph.
 
 \paragraph{Special case}
 The special case applies to the first device of the frame, i.e. $k = 1$. 
@@ -27,8 +26,8 @@ Since there is no device in the same frame before the first device, whose time-s
 
 \bigskip
 
-This is a simple solution, which defragments the frame one device at the time, the worst case scenario is that the first device of the frame is unable to transmit, then the second will take its spot, and so on until the new first device reduces the amount of time-slots in the frame by one. 
-This worst case will take at most take $n * m_{max}$ frames to remove the first device, assuming it is the only change to the network in the meantime. 
+This is a simple solution, which defragments the frame one device at a time, the worst case scenario is that the first device of the frame is unable to transmit, then the second device will take its spot, and so on until the new first device reduces the amount of time-slots in the frame by one. 
+This worst case will at most take $n * m_{max}$ frames to remove the first device, assuming it is the only change to the network in the meantime. 
 Under the assumptions of the CCRC-problem, no transmissions should be missed, and therefore $m_{max}$ can be set to $1$. 
 The device reducing the time-slots in the frame by one will not cause new devices not to be able to join the network, as the free time-slot will simply be placed in the previous time-slot. 
 
@@ -36,11 +35,11 @@ The device reducing the time-slots in the frame by one will not cause new device
 Another solution is for new devices to insert themselves in unused time-slot of an existing network.
 
 \paragraph{Addition to start-up}
-This would change the start-up procedure to require new devices, which discovers a network, to listen for at-least one whole frame, then insert themselves in an unoccupied time-slot, and if non is found then the empty slot. 
+This would change the start-up procedure to require new devices, which discovers a network, to listen for at-least one whole frame, then insert themselves in an unoccupied time-slot, and if no unoccupied time-slot is found then the empty slot. 
 
 \bigskip
 
 This will in some cases reduce or even remove fragmentation from a network. 
 For example the case in which a device restarts unexpectedly, then it would retake its old time-slot, assuming no other parts of the network changed in the downtime.
 It is a relatively simple change to the existing protocol, and would therefore be easy to implement.  
-However this would not be a solution for network which decrease in size, and would leave them with empty time-slots until a new device joins the network. 
+However this would not be a solution for networks which decrease in size, and would leave them with empty time-slots until a new device joins the network, which effectively increases the frame length unnecessarily.
