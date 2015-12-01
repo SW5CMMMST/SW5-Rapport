@@ -1,55 +1,49 @@
 \resizebox{1\textwidth}{!}{%
 \begin{tikzpicture}[scale=\textwidth, node distance = 0pt, outer sep = 0pt]
-    \tikzstyle{slot} = [draw, minimum height=10mm, minimum width=100pt, fill=white]
-    \tikzstyle{line} = [draw, thick, -latex']
-    \pgfdeclarelayer{background}
-    \pgfdeclarelayer{foreground}
-    \pgfsetlayers{background,main,foreground}
-    \def\x{20pt}
-    \def\y{10pt}
+    \def\jdx{20pt}
+    \def\jdx{10mm}
+    \def\jdw{100pt}
+    \def\jdg{20pt}
 
+    \tikzstyle{slot} = [draw, minimum height=10mm, minimum width=\jdw]
+    \tikzstyle{line} = [draw, thick, -latex']
     \tikzstyle{a}  = [slot, fill=blue!30]
     \tikzstyle{u}  = [slot, fill=orange!30]
     \tikzstyle{b}  = [slot, fill=green!30]
     \tikzstyle{c}  = [slot, fill=yellow!30]
     \tikzstyle{m}  = [slot, fill=purple!30]
 
-    \begin{pgfonlayer}{foreground}
-        \node[a, below = \x]                                (b_slot0) at (0,0) {Occupied};
-        \node[u, right = 0.0pt of b_slot0]                  (b_slot1)          {Unused};
-        \node[b, right = 0.0pt of b_slot1]                  (b_slot2)          {Occupied};
-        \node[c, right = 0.0pt of b_slot2]                  (b_slot3)          {Occupied};
-        \node[m, right = 0.0pt of b_slot3]                  (b_slot4)          {Empty-Slot};
+    \node[draw=none]                        (invis1) at (0,0)   {};
+    
+    \node[a, below right = 0.0 * \jdx and \jdx + 0 * \jdw   of invis1] (a_slot0) {Occupied};
+    \node[u, below right = 0.0 * \jdx and \jdx + 1 * \jdw   of invis1] (a_slot1) {Unused};
+    \node[b, below right = 0.0 * \jdx and \jdx + 2 * \jdw   of invis1] (a_slot2) {Occupied};
+    \node[c, below right = 0.0 * \jdx and \jdx + 3 * \jdw   of invis1] (a_slot3) {Occupied};
+    \node[m, below right = 0.0 * \jdx and \jdx + 4 * \jdw   of invis1] (a_slot4) {Empty-Slot};
 
-        \node[a, below       = \x           of b_slot0]     (c_slot0)          {Occupied};
-        \node[b, below right = \x and 0.0pt of b_slot0]     (c_slot1)          {Occupied};
-        \node[u, below right = \x and 0.0pt of b_slot1]     (c_slot2)          {Unused};
-        \node[c, below right = \x and 0.0pt of b_slot2]     (c_slot3)          {Occupied};
-        \node[m, below right = \x and 0.0pt of b_slot3]     (c_slot4)          {Empty-Slot};
+    \node[a, below right = 1.5 * \jdx and \jdx + 0 * \jdw   of invis1] (b_slot0) {Occupied};
+    \node[b, below right = 1.5 * \jdx and \jdx + 1 * \jdw   of invis1] (b_slot1) {Occupied};
+    \node[u, below right = 1.5 * \jdx and \jdx + 2 * \jdw   of invis1] (b_slot2) {Unused};
+    \node[c, below right = 1.5 * \jdx and \jdx + 3 * \jdw   of invis1] (b_slot3) {Occupied};
+    \node[m, below right = 1.5 * \jdx and \jdx + 4 * \jdw   of invis1] (b_slot4) {Empty-Slot};
 
-        \node[a, below       = \x           of c_slot0]     (d_slot0)          {Occupied};
-        \node[b, below right = \x and 0.0pt of c_slot0]     (d_slot1)          {Occupied};
-        \node[c, below right = \x and 0.0pt of c_slot1]     (d_slot2)          {Occupied};
-        \node[u, below right = \x and 0.0pt of c_slot2]     (d_slot3)          {Unused};
-        \node[m, below right = \x and 0.0pt of c_slot3]     (d_slot4)          {Empty-Slot};
+    \node[a, below right = 3.0 * \jdx and \jdx + 0 * \jdw   of invis1] (c_slot0) {Occupied};
+    \node[b, below right = 3.0 * \jdx and \jdx + 1 * \jdw   of invis1] (c_slot1) {Occupied};
+    \node[c, below right = 3.0 * \jdx and \jdx + 2 * \jdw   of invis1] (c_slot2) {Occupied};
+    \node[u, below right = 3.0 * \jdx and \jdx + 3 * \jdw   of invis1] (c_slot3) {Unused};
+    \node[m, below right = 3.0 * \jdx and \jdx + 4 * \jdw   of invis1] (c_slot4) {Empty-Slot};
 
-        \node[a, below       = \x           of d_slot0]     (e_slot0)          {Occupied};
-        \node[b, below right = \x and 0.0pt of d_slot0]     (e_slot1)          {Occupied};
-        \node[c, below right = \x and 0.0pt of d_slot1]     (e_slot2)          {Occupied};
-        \node[m, below right = \x and 0.0pt of d_slot2]     (e_slot4)          {Empty-Slot};
-    \end{pgfonlayer}{foreground}
+    \node[a, below right = 4.5 * \jdx and \jdx + 0 * \jdw   of invis1] (d_slot0) {Occupied};
+    \node[b, below right = 4.5 * \jdx and \jdx + 1 * \jdw   of invis1] (d_slot1) {Occupied};
+    \node[u, below right = 4.5 * \jdx and \jdx + 2 * \jdw   of invis1] (d_slot2) {Occupied};
+    \node[m, below right = 4.5 * \jdx and \jdx + 3 * \jdw   of invis1] (d_slot3) {Empty-Slot};
 
-    \begin{pgfonlayer}{main}
-        \path [line, line width=2pt] (b_slot2) -- (c_slot1);
-        \path [line, line width=2pt] (c_slot3) -- (d_slot2);
-    \end{pgfonlayer}{main}
+    \node[draw=none, left = \jdx of a_slot0] (invis1)  {Frame 1};
+    \node[draw=none, left = \jdx of b_slot0] (invis2)  {Frame 2};
+    \node[draw=none, left = \jdx of c_slot0] (invis3)  {Frame 3};
+    \node[draw=none, left = \jdx of d_slot0] (invis4)  {Frame 4};
 
-    \begin{pgfonlayer}{background}
-        \node[draw=none, left = \y of b_slot0] (invis) {Frame 1};
-        \node[draw=none, left = \y of c_slot0] (invis) {Frame 2};
-        \node[draw=none, left = \y of d_slot0] (invis) {Frame 3};
-        \node[draw=none, left = \y of e_slot0] (invis) {Frame 4};
-    \end{pgfonlayer}{background}
-
+    \path [line, line width=2pt] (b_slot2) -- (c_slot1);
+    \path [line, line width=2pt] (c_slot3) -- (d_slot2);
 \end{tikzpicture}
 }

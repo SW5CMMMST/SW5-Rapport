@@ -1,12 +1,10 @@
-\resizebox{1\textwidth}{!}{%
-\begin{tikzpicture}[scale=\textwidth, node distance = 0pt, outer sep = 0pt]
-    \tikzstyle{slot} = [draw, minimum height=10mm, minimum width=100pt, fill=white]
-    \tikzstyle{line} = [draw, thick, -latex']
-    \pgfdeclarelayer{background}
-    \pgfdeclarelayer{foreground}
-    \pgfsetlayers{background,main,foreground}
+\resizebox{1\textwidth}{!}{
+\begin{tikzpicture}[scale=\textwidth, node distance = 1pt, outer sep = 0.25pt]
+
     \def\x{20pt}
-    \def\y{10pt}
+    \def\y{20pt}
+    \def\w{100pt}
+    \tikzstyle{slot} = [draw, minimum height=10mm, minimum width=\w]
 
     \tikzstyle{a}  = [slot, fill=blue!30]
     \tikzstyle{u}  = [slot, fill=orange!30]
@@ -14,23 +12,19 @@
     \tikzstyle{c}  = [slot, fill=yellow!30]
     \tikzstyle{m}  = [slot, fill=purple!30]
 
-    \begin{pgfonlayer}{foreground}
-        \node[a, below = \x]                                (b_slot0) at (0,0) {Occupied};
-        \node[u, right = 0.0pt of b_slot0]                  (b_slot1)          {Unused};
-        \node[b, right = 0.0pt of b_slot1]                  (b_slot2)          {Occupied};
-        \node[c, right = 0.0pt of b_slot2]                  (b_slot3)          {Occupied};
-        \node[m, right = 0.0pt of b_slot3]                  (b_slot4)          {Empty-Slot};
+    \node[draw=none]                        (invis1) at (0,0)   {Frame 1};
+    \node[draw=none, below = \x of invis1]  (invis2)            {Frame 2};
+    
+    \node[a, right       =        \x + 0 * \w   of invis1] (e_slot0)          {Occupied};
+    \node[u, right       =        \x + 1 * \w   of invis1] (e_slot0)          {Unused};
+    \node[b, right       =        \x + 2 * \w   of invis1] (e_slot0)          {Occupied};
+    \node[c, right       =        \x + 3 * \w   of invis1] (e_slot0)          {Occupied};
+    \node[m, right       =        \x + 4 * \w   of invis1] (e_slot0)          {Empty-Slot};
 
-        \node[a, below       = \x           of b_slot0]     (e_slot0)          {Occupied};
-        \node[c, below right = \x and 0.0pt of b_slot0]     (e_slot1)          {Occupied};
-        \node[b, below right = \x and 0.0pt of b_slot1]     (e_slot2)          {Occupied};
-        \node[m, below right = \x and 0.0pt of b_slot2]     (e_slot4)          {Empty-Slot};
-    \end{pgfonlayer}{foreground}
-
-    \begin{pgfonlayer}{background}
-        \node[draw=none, left = \y of b_slot0] (invis) {Frame 1};
-        \node[draw=none, left = \y of e_slot0] (invis) {Frame 2};
-    \end{pgfonlayer}{background}
+    \node[a, below right = \y and \x + 0 * \w   of invis1] (e_slot0)          {Occupied};
+    \node[c, below right = \y and \x + 1 * \w   of invis1] (e_slot1)          {Occupied};
+    \node[b, below right = \y and \x + 2 * \w   of invis1] (e_slot1)          {Occupied};
+    \node[m, below right = \y and \x + 3 * \w   of invis1] (e_slot1)          {Empty-Slot};
 
 \end{tikzpicture}
 }
