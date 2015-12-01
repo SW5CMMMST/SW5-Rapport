@@ -5,8 +5,8 @@ The requirements stated in the previous chapter, can be modelled as a graph prob
 The vertices, $V$, are the devices and the edges, $E$, are the communication paths between the devices. 
 The weight, $W(v_1, v_2)$, is the probability of a message from $v_1$ successfully being received by $v_2$.
 An example of this can be seen on \myref{fig:network}.
-For this project only networks which can be depicted as a single complete or strongly graph will be considered, it order for all devies having the posiblility to excange data with every other device.
-\myref{fig:network} is an example of a strongl graph network which can be described as: $E \subseteq V \times ]0,1] \times V$ where for any $v_i, v_j$ there exists a path from $v_i$ to $v_j$ with the reliability $r$ which is a number in the range $]0,1]$.
+For this project only networks which can be depicted as a complete or strongly connected graph will be considered, it order for all devies having the posiblility to excange data with every other device.
+\myref{fig:network} is an example of a strongly connected network which can be described as: $E \subseteq V \times ]0,1] \times V$ where for any $v_i, v_j$ there exists a path from $v_i$ to $v_j$ with the reliability $r$ which is a number in the range $]0,1]$.
 
 \tikzfigure{NetworkGraph.tex}{An example of a strongly connected unreliable network with probabilities modelled as a graph.}{network}
 
