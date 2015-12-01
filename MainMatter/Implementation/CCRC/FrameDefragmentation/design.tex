@@ -26,7 +26,7 @@ This will create another missing slot to be handled by another device, however a
 The special case applies to the first device of the frame, i.e. $k = 1$. 
 Since there is no device in the same frame before the first device, whose time-slot it can move to, it should instead reduce the number of time-slots in the frame by one, if it does not receive any payload from the last device of the frame, i.e. $k = n - 1$, a given number of times, called $m_{max}$. 
 
-\tikzfigure{dgd.tikz}{Decremental Gradual Defragmentation, removal of device 0x02 starting in slot 2.}{dgd} 
+\tikzfigure{dgd.tikz}{Decremental Gradual Defragmentation, removal of device in slot 2.}{dgd} 
 
 \bigskip
 
@@ -42,7 +42,7 @@ Jumping defragmentation reduces fragmentation by moving the last device of a fra
 The last device of the frame should monitor which time-slots is unused for $m_{max}$ time-slots. 
 If such a time-slot is found, then it should take that time-slot and reduce the size of the frame by one.
 
-\info[inline]{Make figure tikz}
+\tikzfigure{jd.tikz}{Jumping Defragmentation, removal of device in slot 2.}{jd} 
 
 \bigskip
 
@@ -58,7 +58,7 @@ Another solution is for new devices to insert themselves in unused time-slot of 
 \paragraph{Addition to start-up}
 This would change the start-up procedure to require new devices, which discovers a network, to listen for at-least one whole frame, then insert themselves in an unoccupied time-slot, and if no unoccupied time-slot is found then the empty slot. 
 
-\info[inline]{Make figure tikz}
+\tikzfigure{aiut.tikz}{Automatic insertion in slot 2.}{aiut} 
 
 \bigskip
 

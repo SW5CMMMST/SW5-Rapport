@@ -1,0 +1,45 @@
+\resizebox{1\textwidth}{!}{%
+\begin{tikzpicture}[scale=\textwidth, node distance = 0pt, outer sep = 0pt]
+    \tikzstyle{slot} = [draw, minimum height=10mm, minimum width=100pt, fill=white]
+    \tikzstyle{line} = [draw, thick, -latex']
+    \pgfdeclarelayer{background}
+    \pgfdeclarelayer{foreground}
+    \pgfsetlayers{background,main,foreground}
+    \def\x{30pt + 10mm + 30pt}
+    \def\y{10pt}
+
+    \tikzstyle{a}  = [slot, fill=blue!30]
+    \tikzstyle{b}  = [slot, fill=green!30]
+    \tikzstyle{c}  = [slot, fill=yellow!30]
+    \tikzstyle{d}  = [slot, fill=red!30]
+
+    \tikzstyle{u}  = [slot, fill=orange!30]
+    \tikzstyle{m}  = [slot, fill=purple!30]
+
+    \begin{pgfonlayer}{foreground}
+        \node[a]                                (b_slot0) at (0,0) {Occupied};
+        \node[u, right = 0.0pt of b_slot0]                  (b_slot1)          {Unused};
+        \node[b, right = 0.0pt of b_slot1]                  (b_slot2)          {Occupied};
+        \node[c, right = 0.0pt of b_slot2]                  (b_slot3)          {Occupied};
+        \node[m, right = 0.0pt of b_slot3]                  (b_slot4)          {Empty-Slot};
+
+        \node[d, below right = 30pt and 0.0pt of b_slot0]   (new)              {New Device};
+
+        \node[a, below       = \x           of b_slot0]     (e_slot0)          {Occupied};
+        \node[d, below right = \x and 0.0pt of b_slot0]     (e_slot1)          {Occupied};
+        \node[b, below right = \x and 0.0pt of b_slot1]     (e_slot2)          {Occupied};
+        \node[c, below right = \x and 0.0pt of b_slot2]     (e_slot3)          {Occupied};
+        \node[m, below right = \x and 0.0pt of b_slot3]     (e_slot4)          {Empty-Slot};
+    \end{pgfonlayer}{foreground}
+
+    \begin{pgfonlayer}{background}
+        \node[draw=none, left = \y of b_slot0] (invis) {Frame 1};
+        \node[draw=none, left = \y of e_slot0] (invis) {Frame 2};
+    \end{pgfonlayer}{background}
+
+    \begin{pgfonlayer}{main}
+        \path [line, line width=2pt] (new) -- (e_slot1);
+    \end{pgfonlayer}{main}
+
+\end{tikzpicture}
+}
