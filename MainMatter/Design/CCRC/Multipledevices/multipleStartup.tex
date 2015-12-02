@@ -26,12 +26,17 @@ In the case where initially the device with ID 2 is turned on and exactly $\delt
 
 \subsection{Randomly Create}\label{RCreate}
 For this each device would need to implement some sort of chance factor to determine whether or not to create a network.
-This could be determined by filtering the result of a random seed such that even results would create a network and odd would listen again which would obtain a 50/50 chance.
+This could be determined by running an algorithm on the result of a random seed, depending on how the algorithm is designed one can obtain
 The problem with this is while it gives the opportunity to for two devices to start within the same time-slot without both creating a network at the same time, this is no guarantee; as such this would further require the implementation of a recovery method.
 
 \subsection{Seppuku}\label{KtN}
-Deterministic, factors to change, and non-deterministic, recovery technique
-
+This technique has the network killing itself which works as a recovery technique, allowing two networks to be established but then solving that very problem.
+The technique has the network disassemble itself once some factor determines it needs to.
+This can be done either determinsticly or non-deterministicly.
+For the non-determinisme it would work similarly to random create, execpt the outcome would be killing the network rather than creating one.
+For determinism some variable should be incremented until it reaches a limit where it forces the network to kill itself.
+For this to actually work there would have to be implemented something which guarantees that networks would not follow the same pattern, as that could result in a loop of killing and creating networks.
+Another problem that occurs is if more than two networks are created, for it to work all but one network must die within two frames due to the previously set time spent listening.
 
 \subsection{Exponential variables}
 Without going into detail exponential backoff is a technique of increasing an exponent after every unsuccessful attempt in order to reach more acceptable odds of success.
@@ -43,11 +48,12 @@ Starting with a lower chance the algorithm would for each unsuccessful attempt o
 In an effort to end up with different chances for each device trying to create, the algorithm would have to work on a unique value such as the address of each device.
 While this does not remove the chance of two networks still starting at the same time, it does reduce the chance as one device will have better odds of creating than any other device turned on in the same moment.
 \subsubsection*{Seppuku}
- $\delta \times 3 + \delta \times address^a$
-
+Once again the non-deterministic solution here would be implemented similarly to randomly create.
+For the deterministic approach the unique factor chosen would be altered exponentially.
+A complication in doing so would be that networks would be active for exponential lengths of time, and with the specific requirement of networks having to die within two frames it could worsen the time it takes to successfully establish a single network exponentially; for this reason one might consider using another factor to guarentee unique outcomes for each device, such as an exponential change in listening time which also solves the problem with the two frames limitation.
 
 The following flow chart and pseudo code will show how and exactly what combination of ideas will be used.
-Following the flow chart certain points of interest in \myref{pseudo_flowMultiStart} will be explicitly explained.
+Following the flow chart certain points of interest in \myref{fig:pseudo_flowMultiStart} will be explicitly explained.
 \tikzfigure{PseudoFlowDiagramMultiStart}{Revised flow diagram showing how a device acts during the Initialization phase if no networks are detected.}{pseudo_flowMultiStart}
 
 \paragraph{Search for network}
