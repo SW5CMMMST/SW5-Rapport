@@ -10,7 +10,12 @@
     \node[vertex, right = 2cm of 0]   (3) {$v_3$};
     \node[vertex, below =     of 0]   (4) {$v_4$};
     
-    \path[thick] (1) edge (2) edge (3) edge (4);
-    \path[thick] (3) edge (2) edge (4);
-    \path[thick] (2) edge (4);
+    \path[thick,->] (1) edge (2) edge (3) edge (4);
+    \path[thick,->] (3) edge (2) edge (4);
+    \path[thick,->] (2) edge (4);
+
+    \path[thick,<-] (1) edge (2) edge (3) edge (4);
+    \path[thick,<-] (3) edge (2) edge (4);
+    \path[thick,<-] (2) edge (4);
+
 \end{tikzpicture}  
