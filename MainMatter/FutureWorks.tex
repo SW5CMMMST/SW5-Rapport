@@ -1,1 +1,37 @@
 \chapter{Future Works}
+This chapter describes the problems whose solutions could help in better solve the problem statement as stated in \myref{sec:problemStatement}. 
+Most of these were excluded due to time constraints.
+
+\section{Strongly Connected Networks}
+During the analysis phase of the project, an issue came up what if the network is not complete? 
+Many of the techniques from the unreliable networks would work in most cases. 
+For example when connecting to a network. 
+
+An incomplete network is a network where the individual devices might not have a direct connection to every other device in the network. 
+This complicates communication between devices.
+
+\tikzfigure{LinearNetwork.tikz}{A linearly connected network where every node has at most two connections.}{linearNetwork}
+
+In this case, the other devices in the network must figure out whether to act as a relay for a message. 
+The simple solution is to repeat all known information. 
+This would make the message length long and by that account also the frame length. 
+Communication would become slow.
+
+A worst case for a network of four devices is illustrated by \myref{fig:linearNetwork}.
+When device 1 wants to send a message to device 4, the message needs to go through device 2 and 3 first.
+
+The implementation of this would allow many other use cases for the protocol. 
+
+\section{Interrupt based library}
+
+The Arduino platform includes support for interrupt based programming.
+This means that every $\delta$ milliseconds an interrupt in the user program could occur.
+In this interrupt the protocol specific details could be handled, such as transmitting and reciving.
+
+The main advantage of this would be that the timer gives a better guarrentee that the user code will not exceed the expected duration.
+The disadvantage of this would be that the interface could become less obvious, and it would make the code vunerable to race conditions.
+
+Another thing to note is that on the Arduino Nano and Uno there are three timer interrupts.
+One is used by the delay function another is used by radiohead leaving exactly one left for the protocol.
+This would mean that every other library which uses timers would be uncompatible, unless RadioHead and the protocol could share interrupt.
+But this would require a lot of changes to both libraries.
