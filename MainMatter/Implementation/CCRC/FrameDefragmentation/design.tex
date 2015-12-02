@@ -12,7 +12,9 @@ Therefore it is sufficient to solve IRP, which means that the rest of this chapt
 
 The design in this chapter inherits the assumptions of the CCRC-problem. 
 
-\subsection{Decremental Gradual Defragmentation}
+\subsection{Methods of defragmenting a network}
+
+\subsubsection{Decremental Gradual Defragmentation}
 This design moves devices to the previous slot if it is empty. 
 Thereby gradually reducing the fragmentation of the frame.
 The proposed design has a special case for the first device in the frame, and a general case for the rest of the devices.
@@ -35,12 +37,17 @@ This worst case will at most take $n * m_{max}$ frames to remove the first devic
 Under the assumptions of the CCRC-problem, no transmissions should be missed, and therefore $m_{max}$ can be set to $1$. 
 The device reducing the time-slots in the frame by one will not cause new devices not to be able to join the network, as the free time-slot will simply be placed in the previous time-slot. 
 
-\subsection{Jumping Defragmentation}
-Jumping defragmentation reduces fragmentation by moving the last device of a frame to an unused time-slot.
+\subsubsection{Jumping Defragmentation}
+Jumping defragmentation reduces fragmentation by moving the last device of a frame to an unused time-slot. Further if the last time-slot is unused then the first device should reduce the size of the frame.
 
-\paragraph{Special for last device of frame}
+\paragraph{For last device of frame}
 The last device of the frame should monitor which time-slots is unused for $m_{max}$ time-slots. 
-If such a time-slot is found, then it should take that time-slot and reduce the size of the frame by one.
+If such a time-slot is found, then it should take that time-slot and reduce the size of the frame by one. 
+It is preferred to the the first time-slot which is available, but not a strict necessity.   
+
+\paragraph{For the first device of the frame}
+The first device of the frame should monitor if the last time-slot of the frame is unused for $m_{max}$ time-slots.
+If that is the case then it should reduce the size of the frame by one.
 
 \tikzfigure{jd.tikz}{Jumping Defragmentation, removal of device in slot 2.}{jd} 
 
@@ -52,7 +59,7 @@ If multiple devices are removed at the same time, the last device should take an
 This has an advantage over Decremental Gradual Defragmentation that it is faster, any single device removal will be solved in the next frame, where in Decremental Gradual Defragmentation it takes $n * m_{max}$ frames to completely defragment the frame. 
 Where as in the same case Jumping Defragmentation takes $m_{max}$ frames to defragment. 
 
-\subsection{Automatic Insertion in Unused Time-slots}
+\subsubsection{Automatic Insertion in Unused Time-slots}
 Another solution is for new devices to insert themselves in unused time-slot of an existing network.
 
 \paragraph{Addition to start-up}
@@ -67,3 +74,15 @@ For example the case in which a device restarts unexpectedly, then it would reta
 It is a relatively simple change to the existing protocol, and would therefore be easy to implement.  
 However this would not be a solution for networks which decrease in size, and would leave them with empty time-slots until a new device joins the network, which effectively increases the frame length unnecessarily.
 
+\subsection{Changes to the Protocol}
+To evaluate the methods above the following factors will be considered: Speed and ability the defragment.
+The Decremental Gradual Defragmentation-method will defragment the network, however it is slow, as it takes $(n - k + 1) * n_{max}$ frames to defragment, where $k$ is the time-slot which the device removed had. \todo{please doublecheck my math here.}
+The Automatic Insertion in Unused Time-slots-method increases the time it takes to connect a new device to at least the length of the frame. 
+It however will not defragment a network which decreases in size. 
+The last method: Jumping Defragmentation is fast, it will only take $m_{max}$ frames to defragment any single device leaving the network, and defragments the network in all cases. 
+
+Therefore the Jumping Defragmentation-method will be described in greater detail with pseudo-code and flowcharts which describes the changes to the existing protocol. 
+
+\subsubsection{Additions to the flowchart}
+
+\subsubsection{Additions to the pseudo-code}
