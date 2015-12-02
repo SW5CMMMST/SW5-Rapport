@@ -5,17 +5,32 @@ The requirements stated in the previous chapter, can be modelled as a graph prob
 The vertices, $V$, are the devices and the edges, $E$, are the communication paths between the devices. 
 The weight, $W(v_1, v_2)$, is the probability of a message from $v_1$ successfully being received by $v_2$.
 An example of this can be seen on \myref{fig:network}.
-For this project only networks which can be depicted as a complete or strongly connected graph will be considered, it order for all devies having the posiblility to excange data with every other device.
-\myref{fig:network} is an example of a strongly connected network which can be described as: $E \subseteq V \times ]0,1] \times V$ where for any $v_i, v_j$ there exists a path from $v_i$ to $v_j$ with the reliability $r$ which is a number in the range $]0,1]$.
+For this project only networks which can be depicted as completely or strongly connected graphs will be considered, to ensure that all devices will have the possibility to exchange information with every other device.
+In \myref{fig:examplenetworkgraphs} the two different network types are modelled as graphs; \myref{fig:network} is an example of a strongly connected network which can be described as: $E \subseteq V \times ]0,1] \times V$ where for any $v_i, v_j$ there exists a path from $v_i$ to $v_j$ with the reliability $r$ which is a number in the range $]0,1]$.
 
-\tikzfigure{NetworkGraph.tex}{An example of a strongly connected unreliable network with probabilities modelled as a graph.}{network}
+\begin{figure}[h]
+    \begin{subfigure}{0.5\linewidth}
+        \centering
+        \input{Figures/TikZ/completelyConnectedGraph.tex}
+        \caption{Completely connected network.}
+        \label{fig:ccrcnetworkgraph}
+    \end{subfigure}\hfill
+    \begin{subfigure}{0.5\linewidth}
+        \centering
+        \input{Figures/TikZ/NetworkGraph.tex}
+        \caption{Strongly connected unreliable network with probabilities.}
+        \label{fig:network}
+    \end{subfigure}
+    \caption{Examples of networks modelled as graphs.}
+    \label{fig:examplenetworkgraphs} 
+\end{figure}
 
-\noindent Creating a protocol for such a network is a complex problem to solve and many issues will become apparent throughout analysis of the problem.
+\noindent Creating a protocol for such a network as shown in \myref{fig:network} is a complex problem to solve and many issues will become apparent throughout analysis of the problem.
 In order to simplify the problem some assumptions are made about the network.
 %We assume that the devices will always be in range of each other; this means that all vertices on the graph have a non-zero edge between all other vertices on the graph.
 During development of the system, the system could be set up to give \textasciitilde100 \% probability of successfully receiving the message, by wiring the Arduinos together instead of using radio communication; this gives more room to work on the baseline communication issues without having to consider the unreliability of the radio frequency modules.
-As mentioned before the networks can be set up as either complete graphs or strongly connected graphs.
-This allows four sub problems which can be modelled as graphs:
+As previously mentioned the networks can be set up as either completely connected graphs (as in \myref{fig:ccrcnetworkgraph}) or strongly connected graphs (as in \myref{fig:network}).
+As a consequence of this, four sub problems will be considered and modelled as graphs:
 \\
 \begin{description}[labelindent=\parindent,itemsep=2em]
     \item[CCRC-problem:] Completely connected reliable communication problem   
@@ -47,15 +62,15 @@ This allows four sub problems which can be modelled as graphs:
     The SCUC-problem describes the most realistic scenario, a strongly connected network with a chance of not receiving transmissions. 
 \end{description}
 \bigskip \noindent
-The CCRC-problem is is the obvious chioce for the first iteration, since this is the simplest problem, which requires the least amount of design choices to be fulfilled.
-Which problem should follow CCRC-solution, is however at more complex descison.
+The CCRC-problem is is the obvious choice for the first iteration, since this is the simplest problem, which requires the least amount of design choices to be fulfilled.
+The decision of which problem should follow CCRC-solution, is however a more complex discussion.
 One could argue for expanding into a still reliable but now only strongly connected network (SCRC), as well as arguing for expanding into a unreliably but still completely connected network (CCUC).
-Therefor the chosen order does simply reflect the our expations to which order will be the easiset.
+Therefor the chosen order will simply reflect our estimation of which problems will require the least amount of modification.
 
-Another possibity would be to only split the sub problems into three, e.g. CCRC $\rightarrow$ CCUC $\rightarrow$ SCUC, however we deem that a more optimal solution can de dereived by working with the strongly connected problem and the unreliabe problem and the at last combining the solutions and experince into when solving the SCUC.
+Another possibility would be to only split the sub problems into three, e.g. CCRC $\rightarrow$ CCUC $\rightarrow$ SCUC, however we deem that a more optimal solution can be derived by working with the strongly connected problem followed by the unreliable problem and then combine the solutions to solve the SCUC-problem.
 
-In addition to these four sub problems some more pratical problems will be abstraced away for in the first iteration.
-An example of such a abstraction could be starting multiple devies at the same time.
-Solutions to these pratical problems will be implemented continually during the development. 
-These abstractions will be furhter explained as the are taken during the design and implemtations phases of the problems.
-This approach increases the probability of having a working solution at the end of this project without over- or underestimating the workload.
+In addition to these four sub problems, some more practical problems will be abstracted away for in the first iteration.
+An example of such a abstraction could be starting multiple devices at the same time.
+Solutions to these practical problems will be implemented continually during the development. 
+These abstractions will be further explained as the are taken during the design and implementation phases of the problems.
+This approach increases the probability of having a working solution at the end of this project without over- or underestimating the workload. 
