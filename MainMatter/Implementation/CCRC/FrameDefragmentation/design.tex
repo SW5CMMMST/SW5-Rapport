@@ -84,12 +84,20 @@ The last method: Jumping Defragmentation is fast, it will only take $m_{max}$ fr
 Therefore the Jumping Defragmentation-method will be described in greater detail with pseudo-code and flowcharts which describes the changes to the existing protocol. 
 
 \subsubsection{Additions to the flowchart}
+These changes are to be put into the flowchart from \myref{fig:main_psuedo_flow}.
 
+The first flowchart, \myref{fig:jd1}, is necessary for the fist and last device to monitor if they should change the frame, here the last device increments a counter for each device from which it does not receive a payload.
+\tikzfigure{DefragmentationFlowchart_1.tikz}{The needed changes to main loop, to count which devices misses their times-slot.}{jd1}
 
-\tikzfigure{DefragmentationFlowchart_1.tikz}{The needed changes to main loop.}{psuedo_1}
-\tikzfigure{DefragmentationFlowchart_2.tikz}{The needed changes to main loop.}{psuedo_2}
-\tikzfigure{DefragmentationFlowchart_3.tikz}{The needed changes to main loop.}{psuedo_3}
+\info[inline]{Todo: Erstat dummy i charts med rigtige.}
 
+The second flowchart, \myref{fig:jd2}, is the jump itself.
+If the counter for any timeslot is higher than $m_{min}$, then it should change its $k$ to what the $k$ of the device which counter was higher.
+\tikzfigure{DefragmentationFlowchart_2.tikz}{The needed changes to main loop.}{jd2}
+
+The third flowchart, \myref{fig:jd3}, shows how to handle the last device of the frame leaving.
+\tikzfigure{DefragmentationFlowchart_3.tikz}{The needed changes to main loop.}{jd3}
 
 
 \subsubsection{Additions to the pseudo-code}
+\todo[inline]{todo.}
