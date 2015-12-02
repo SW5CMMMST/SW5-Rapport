@@ -15,7 +15,7 @@ As such implementing concepts from each approach may yield the best result.
     Once a device is done listening for a network it either creates its own network or resets and starts listening again.
     \item[Kill the Network]\hfill\\
     If a device is alone in a network for too long it may decide to kill the network and start listening again.
-    \item[Exponential Backoff]\hfill\\ 
+    \item[Exponential variables]\hfill\\ 
     Inspired by exponential backoff one could use a similar concept to alter some of the former ideas in an effort to make them more likely to positively increase the ratio between successful and unsuccessful attempts.
 \end{description} 
 
@@ -26,24 +26,16 @@ In the case where initially the device with ID 2 is turned on and exactly $\delt
 
 \subsection{Randomly Create}\label{RCreate}
 For this each device would need to implement some sort of chance factor to determine whether or not to create a network.
-This could be determined by filtering the result of a random seed such that even results would create a network and odd would listen again.
-The problem with this is while it gives the opportunity to for two devices to start within the same time-slot without both creating a network at the same time, this is no guarantee; as such this would further require the implementation of recovery.
+This could be determined by filtering the result of a random seed such that even results would create a network and odd would listen again which would obtain a 50/50 chance.
+The problem with this is while it gives the opportunity to for two devices to start within the same time-slot without both creating a network at the same time, this is no guarantee; as such this would further require the implementation of a recovery method.
 
 \subsection{Seppuku}\label{KtN}
-This technique would allow for multiple networks to create but instead work as a sort of recovery technique.
-If a network is alone for too long, as no devices will be able to join if several networks are jamming each other, the device will kill the network and reset itself to once again look for other networks.
-This can be done either by chance or by a fixed number.
-For the on chance to kill the network the device would after each frame run an algorithm which would determine whether or not the network should kill itself.
-\bigskip \noindent
-For the fixed time before kill; if a network is online for a number of frames equal to $address + C$, where the C is a constant that ensures a network will not die too quick, two networks will die at closest one frame from each other.
-In the edge case where two have been started at the exact same point in time and have addresses where $address_1 - address_2 = 1 \lor address_2 - address_1 = 1$ they will die within one frame of eachother, and as such one will have its next creation of a network delayed by one frame relative to the other network.
-The offset of one frame is enough that a network can die, recreate and transmit before the other network recreates in the previously mentioned edge case.
-The problem with this solution occurs when more than two devices are activated within one frame, in that case all but one network would have to die off within two frames for a network of multiple devices to successfully be established; otherwise the devices would repeat an endless cycle of creating and killing networks due to too many networks constantly jamming each other.
-This only gets worse over time as any new device turned on will join the cycle of jamming.
+Deterministic, factors to change, and non-deterministic, recovery technique
 
-\subsection{Exponential Backoff}
+
+\subsection{Exponential variables}
 Without going into detail exponential backoff is a technique of increasing an exponent after every unsuccessful attempt in order to reach more acceptable odds of success.
-Amongst others it is used in ethernet to reschedule data transfer after collisions. \citep{Ebackoff}
+Amongst others it is used in Ethernet to reschedule data transfer after collisions. \citep{Ebackoff}
 Using the idea of an increasing exponent it can be applied to both \myref{RCreate} and \myref{KtN} to increase odds of success.
 \subsubsection*{Randomly Create}
 For the idea of using an exponent in randomly create, the chance of creating should start of relatively low.
@@ -51,19 +43,7 @@ Starting with a lower chance the algorithm would for each unsuccessful attempt o
 In an effort to end up with different chances for each device trying to create, the algorithm would have to work on a unique value such as the address of each device.
 While this does not remove the chance of two networks still starting at the same time, it does reduce the chance as one device will have better odds of creating than any other device turned on in the same moment.
 \subsubsection*{Seppuku}
-For the chance to kill implementation this would work similarly to what was mentioned about randomly create. 
-However for the fixed version it would work differently.
-For the fixed version the exponent could be implemented in the expression which already uses the unique address to decide when the network should die.
-The expression would then instead look like $address^a + C$ where $a$ defines the current attempt to find the network.
-As was mentioned in \myref{KtN} for the recovery to work with more than two devices in the network all devices but one has to die within two frames or they will create new networks due to jamming.
-If the exponent is implemented as in the previous example these networks would be alive for exponentially longer.
-While at some point the networks might hit the edge case where they would finally connect, that is the unlikely outcome.
-
-As aforementioned killing the network is a recovery technique, this also provides the opportunity of altering factors otherwise having to remain constant.
-The restriction of all networks but one having to die off within two frames is a result of only listening for three frames.
-As such adding in the exponential factor to the listening part might provide a better chance of success.
-The previously established time spend listening would then change to a formula implementing and exponent such as $\delta \times 3 + \delta \times address^a$ where a once again $a$ denotes amount of attempts, for the sake of keeping the single device scenario intact this would be indexed by 0.
-This would cause networks to be listening for increasing lengths rather than ending up in a lengthy cycle of jamming each other.
+ $\delta \times 3 + \delta \times address^a$
 
 \bigskip \noindent
 As was mentioned in \myref{RCreate} that technique still allows for multiple networks as it has no recovery, however combining that technique with the recovery technique mentioned in \myref{KtN} would provide a working solution.
@@ -81,4 +61,6 @@ The addition to the expression, $\delta \times address^a$, ensures that after an
 \paragraph{Create Network?}
 This decision is a 50/50 chance to either create a network or go back to searching for one, as this does not increase $a$ it does not affect the time spent listening.
 \paragraph{Alone the network?}
-For this decision the device checks whether or not it is alone in the network as if it is not, a special version of \texttt{mainLoop()} should be run as in this scenario two or more networks could be jamming each other.
+For this decision the device checks whether or not it is alone in the network as if it is not, a special version of \texttt{mainLoop()}, making use of the kill network method, should be run as two or more networks could be jamming each other.
+\paragraph{Time to Die?}
+This decision checks for how many frames a network has been alone by executing the folliwng expression, $f > (address \% 100) + C$, where $f$ denotes a count for how many frames a device has been alone in the network and $C$ is a constant which ensures that low addresses still are allowed to run several frames before dieing.
