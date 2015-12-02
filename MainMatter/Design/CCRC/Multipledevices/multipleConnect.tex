@@ -3,10 +3,10 @@
 \label{sec:simultaneous_connect}
 
 Another problem arises when two or more devices are started simultaneously while a functioning network is up and running.
-If all new devices tries to connect in the first empty slot, as they should, they will jam each others messages and no one will be heard.
+If all new devices tries to connect in the first empty slot, as they should, they will jam each others messages and neither will be heard.
 Moreover the jammed, and jamming, devices will never know that their message was not received by anyone, as there is no way of knowing if one transmission was disrupted or jammed.
-A device should always try to connect to a network immediately after starting up.
-This means that jams are bound to happen sooner or later, so some measures must be taken to avoid and recover from such situations.
+A device should always try to connect to a network immediately after starting up, to ensure that in non-jamming situations it is fast.
+This also means that jams are bound to happen sooner or later, so some measures must be taken to avoid and recover from such situations.
 When it comes to multiple devices trying to simultaneously connect to a network, each devices must be able to handle announce conflicts internally.
 However the payload should contain some information, which could be used in the solution of these conflicts.
 
@@ -16,12 +16,12 @@ A combination of the following concepts could provide avoidance and recovery fro
     When a device is announcing itself in the empty slot, it randomly chooses an offset for when to send the announcement payload.
     The random offset is not time but sub slots. 
     In the rest of the empty slot it listens for other possible devices announcing themselves.
-    If such message is heard it does not attempt to announce itself in the empty slot.
+    If such a message is heard it does not attempt to announce itself in a later sub slot of the empty slot.
     This method implies that the length of empty slot is a multiple of the time it takes to transmit the announcement payload.
     \item[Validation]\hfill\\
     You should always validate whether or not your announcement have been heard and accepted by  the network (one device under CCRC), before joining the network.
     \item[Payload Mode]\hfill\\
-    The head of the payload should contain an extra field, which can indicate different modes or some other variable.
+    The header of the payload should contain an extra field, which can indicate different modes or some other variable.
     If the design using modes is chosen, it would be possible for other devices implementing the protocol to do various actions upon the data of the payload, e.g. the mode can indicate that the first byte of the date contains the address of a device, which is allowed to join the network.
     \item[Exponential Backoff]\hfill\\ 
     If no one in the network responds to a device's announcement, or it is not validated, the device will use exponential backoff in regards to how many frames it should wait before trying again.
@@ -40,7 +40,7 @@ In the following paragraphs two modifications, which are needed to accommodate f
 \label{ssub:modes_and_validation}
 The first modification to the payload, is to introduce a way of indicating modes.
 With this addition it is possible to utilise the data part of the payload for auxiliary information, e.g. if the mode indicates a validation payload, the first byte of the data could be the address of the device accepted into the network.
-Such a modification with mode in the payload header can be seen on \myref{fig:payloadwMode}, where \emph{mode} is inserted after \emph{timestamp} and before \emph{data}. 
+Such a modification with mode in the payload header can be seen on \myref{fig:payloadwMode}, where \emph{mode} is inserted after \emph{Address} and before \emph{Data}. 
 
 \tikzfigure{Payload_wModes.tikz}{Modified payload containing an indicator for mode}{payloadwMode}
 
@@ -60,7 +60,7 @@ By shortening the payload significantly from the regular size of at least five f
 \subsection{Introduction of Sub Slots and Exponential Backoff} % (fold)
 \label{sub:introduction_of_sub_slots_and_exponential_backoff}
 To ensure a faster conflict solving if multiple devices try to connect simultaneously, a two-step process is designed.
-These two steps consists of choosing a random offset of sub slots to wait in the empty slot, along with a strategy of exponential back-off if jamming occurs.
+These two steps consists of choosing a random offset\todo{Is it an offset or a sub slot? - Troels } of sub slots to wait in the empty slot, along with a strategy of exponential back-off if jamming occurs.
 On \myref{fig:pseudo_flowMultiConnect} it can be seen how said two-steps is merged into the existing flow chart (\myref{fig:psuedo_flowCCRC}) from \myref{sub:setupCCRC}
 
 \begin{figure}[p]
