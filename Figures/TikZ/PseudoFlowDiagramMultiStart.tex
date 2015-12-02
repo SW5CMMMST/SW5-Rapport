@@ -10,24 +10,24 @@
 \begin{tikzpicture}[node distance = 2.8cm, auto]
     % Place nodes
     \node [cloud] (start) {Start};
-    \node [block, right of=start] (search) {Search for network for $\delta \times 3 + \delta \times addr^a$};
+    \node [block, right of=start] (search) {Search for network};
     \node [decision, below of=search] (found) {Found network?};
     \node [preDefProc, right of=found, node distance=3.5cm] (join) {\nodepart{two}{Join network}};
     \node [decision, below of=found, node distance = 3.5cm] (tocreate) {Create Network?};
     \node [block, below of=tocreate] (init) {Initialize network};
-    \node [decision, below of=init] (unitcount) { $n > 2$?};
+    \node [decision, below of=init] (unitcount) {Alone in network?};
     \node [preDefProc, below of=unitcount, node distance=2.5cm] (mainLoop) {\nodepart{two}{Main Loop}};
     \node [block, right of=unitcount] (wait) {wait for next time-slot};
-    \node [block, right of=wait] (userCode) {Run User Code for $\delta_{proc}$};
-    \node [decision, below of=userCode] (myTime) {$i == k$?};
+    \node [block, right of=wait] (userCode) {Run User Code};
+    \node [decision, below of=userCode] (myTime) {My timeslot?};
     \node [block, right of=myTime] (receive) {Receive};
     \node [decision, below of=receive] (rmsg) {Received Message?};
     \node [block, below of=rmsg] (pmsg) {Process Message};
     \node [block, below of=myTime] (payload) {Make Payload};
     \node [block, below of=payload] (transmit) {Transmit};
-    \node [decision, below of=mainLoop] (fCountCheck) {$f > ((addr+c) \mod 100)$};
-    \node [preDefProc, left of=fCountCheck, node distance = 3.25cm] (fCountAdd) {\nodepart{two}{$f = f +1$}};
-    \node [preDefProc, below of=fCountCheck] (aAdd) {\nodepart{two}{$a = a +1$}};
+    \node [decision, below of=mainLoop] (fCountCheck) {Time to die?};
+    \node [preDefProc, left of=fCountCheck, node distance = 3.15cm] (fCountAdd) {\nodepart{two}{increment f}};
+    \node [preDefProc, below of=fCountCheck] (aAdd) {\nodepart{two}{increment a}};
     \node [block, left of=aAdd] (seppuku) {Kill network};
     
     
