@@ -1,0 +1,20 @@
+\begin{tikzpicture}[auto]
+    \node [decision]        (iflastdevice2) at (0,0)  {If last device in frame?};
+    \node [decision, above = 1cm of iflastdevice2]        (ifabovecounter)  {If any device above counter?};
+    \node [block, right = of ifabovecounter] (overtake) {Overtake its position};
+    \node [block, below = of overtake] (reducesize) {Reduce size of network};
+    \node [cloud_nospace, right = of reducesize] (dummy5) {dummy};
+    \node [cloud_nospace, left = of iflastdevice2] (dummy6) {dummy};
+
+
+    \path [line] (ifabovecounter) -- node {yes} (overtake);
+    \path [line] (iflastdevice2) -- node {yes} (ifabovecounter);
+
+    \path [line] (ifabovecounter.north) -| node [near start]  {no} (dummy5);
+    \path [line] (iflastdevice2) -| node [near start] {no} (dummy5);
+
+    \path [line] (overtake) -- (reducesize);
+    \path [line] (reducesize) -- (dummy5);
+    \path [line] (dummy6) -- (iflastdevice2);    
+
+\end{tikzpicture}

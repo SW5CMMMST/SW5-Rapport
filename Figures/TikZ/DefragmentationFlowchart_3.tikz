@@ -1,0 +1,15 @@
+\begin{tikzpicture}[auto]
+    \node [decision] (iffirstdevice) at (0,0)  {If first device in frame?};
+    \node [decision, above = 1cm and 1cm of iffirstdevice]        (iflastslot)  {If last device above counter?};
+    \node [block, right = of iflastslot]       (reduce)     {Reduce size of network};
+    \node [cloud_nospace, right = of reduce]       (dummy3)     {dummy};
+    \node [cloud_nospace, left = of iffirstdevice]       (dummy4)     {dummy};
+
+    \path [line] (iffirstdevice) -- node {yes} (iflastslot);
+    \path [line] (iflastslot) -- node {yes} (reduce);
+    \path [line] (iffirstdevice) -| node [near start] {no} (dummy3);
+    \path [line] (iflastslot.north) -| node {no} (dummy3);
+    \path [line] (reduce) -- (dummy3);
+    \path [line] (dummy4) -- (iffirstdevice);
+
+\end{tikzpicture}
