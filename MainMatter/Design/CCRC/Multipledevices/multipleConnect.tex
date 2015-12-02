@@ -19,7 +19,7 @@ A combination of the following concepts could provide avoidance and recovery fro
     If such message is heard it does not attempt to announce itself in the empty slot.
     This method implies that the length of empty slot is a multiple of the time it takes to transmit the announcement payload.
     \item[Validation]\hfill\\
-    You should always validate whether or not your announcement have been heard and accepted by a majority of the network (over 50 \%), before joining the network.
+    You should always validate whether or not your announcement have been heard and accepted by  the network (one device under CCRC), before joining the network.
     \item[Payload Mode]\hfill\\
     The head of the payload should contain an extra field, which can indicate different modes or some other variable.
     If the design using modes is chosen, it would be possible for other devices implementing the protocol to do various actions upon the data of the payload, e.g. the mode can indicate that the first byte of the date contains the address of a device, which is allowed to join the network.
@@ -102,7 +102,7 @@ The method of exponential backoff to be used here consists of:
 \end{enumerate*}
 These properties of the exponential backoff can be expressed as follows:
 \begin{equation}
-     x \in [0, 2^c - 1] \mid x \in \mathbb{Z}^+
+     x \in [0, 2^c - 1] \mid x \in \mathbb{Z}^+, c \in [1,5]
 \end{equation}
 Where $x$ is a randomly chosen number of frames to wait from the range, and $c$ is number of unvalidated announcements. With this method a device will wait 0 to 1 frames after the first unvalidated announcement, 0 to 3 after the second and 0 to 7 after the third. To avoid an infinite increase of the wait time the $c$ should have an upper limit of e.g. 5, which would ensure a maximum wait of $2^5-1 = 31$ frames.
 
