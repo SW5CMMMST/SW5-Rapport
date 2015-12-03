@@ -6,6 +6,7 @@
 \tikzstyle{cloud} = [draw, ellipse,fill=red!20,
     minimum height=2em, align=center]
 \tikzstyle{preproc} = [draw,rectangle split, rectangle split horizontal,rectangle split parts=3, fill=green!40, minimum height=4em] 
+\resizebox{1\textwidth}{!}{
 \begin{tikzpicture}[node distance = 2.8cm, auto]
     % Place nodes
     \node [cloud] (start) {Start};
@@ -44,3 +45,4 @@
     \path [line] (join) -- (mainloop); 
     \path [line] (waitempty) -- (listen); 
 \end{tikzpicture}                                
+}
