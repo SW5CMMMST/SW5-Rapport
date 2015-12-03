@@ -67,7 +67,8 @@ Note that this no longer denotes the minimum time required to find a network, as
         $f$                 & integer   & A counter for how many frames a device has been alone                             & $0 \leq f$  \\
         $a$                 & integer   & A 0 indexed exponent for how many attempts have been made at creating a network   & $0 \leq a \leq 5$     \\
         $t_1$               & integer   & The time spent searching for a network                                            & $t_1 = 3 \times \delta + id^a \times \delta$     \\
-        $firstNetwork$      & boolean   & A boolean value used to determine whether or not to initialize a to zero          & $a \neq 0 \land firstNetwork = \top \lor a = 0 \land firstNetwork = \bot$     \\
+        $firstN$            & boolean   & A boolean value used to determine whether or not to initialize a to zero          & $a \neq 0 \land firstN = \top \lor$     \\
+                            &           &                                                                                   & $a = 0 \land firstN = \bot$     \\
 
         \bottomrule
     \end{tabularx}}
