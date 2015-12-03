@@ -1,7 +1,7 @@
 
 \bigskip \noindent
 The following procedure replaces lines 34 through 38 in \myref{lst:setupCCRC}
-\begin{lstlisting}[label=lst:networkMultiStartCCRC,style=pseudocode,mathescape=true,caption={Pseudocode example of the procedure initializeNetwork() for CCRC with multiconnect}]
+\begin{lstlisting}[label=lst:networkMultiStartCCRC,style=pseudocode,mathescape=true,caption={Pseudocode example of the procedure initializeNetwork() for CCRC for the multiple device activation problem.}]
 procedure initializeNetwork()
     // Initialize variables
     $x \leftarrow 0$
@@ -13,9 +13,7 @@ procedure initializeNetwork()
     if $firstNetwork \neq \bot$
         $a \leftarrow 0$
     
-    loop forever
-        if $2 < n$  //alone or not?
-            goto $\text{``mainLoop''}$
+    loop forever       
         run userCode() until $x \geq \delta_{proc}$
         $i \leftarrow (i \text{ mod } n) + 1$ // Update current slot
         if $i = k$ then
@@ -30,6 +28,8 @@ procedure initializeNetwork()
                 goto $\text{``initialize''}$
             else
                 $f \leftarrow f + 1$
+                if $2 < n$  //alone or not?
+                    goto $\text{``mainLoop''}$
         else
             while $x \leq \delta$ do
                 if received($i'$, $n'$, $id'$, $data'$) then
@@ -53,7 +53,7 @@ procedure initializeNetwork()
     $firstNetwork \leftarrow \bot$
     initialize()
 \end{lstlisting}
-
+\noindent
 With this new procedure for initializing a network, a few new variables are also introduced.
 Furthermore the variable $t_0$ which determines the minimum time required to determine a time slot no longer holds true, as such a new variable, $t_1$ is introduced which replaces $t_0$ in \myref{lst:setupCCRC} line 5.
 Note that this no longer denotes the minimum time required to find a network, as that is now non-deterministic due to jamming networks.
