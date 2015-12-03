@@ -8,29 +8,21 @@ By this it follows that if one can guarantee devices start with an offset of at 
 In an effort to solve this several different approaches can help solve the issue however none of them can guarantee that a multiple of networks will never occur with 100 \% certainty. 
 As such implementing concepts from several of the following approaches may yield the best result.
 
-\begin{description}[labelindent=\parindent]
-    \item[Unique Offset]\hfill\\
-    Each device listens for a network for a uniquely specified amount of time rather than $\delta \times 3$.
-    \item[Randomly Create]\hfill\\
-    Once a device is done listening for a network it either creates its own network or resets and starts listening again.
-    \item[Kill the Network]\hfill\\
-    If a device is alone in a network for too long it may decide to kill the network and start listening again.
-    \item[Exponential variables]\hfill\\ 
-    Inspired by exponential backoff one could use a similar concept to alter some of the former ideas in an effort to make them more likely to positively increase the ratio between successful and unsuccessful attempts.
-\end{description} 
-
 \subsection{Unique Offset}
+Where Each device listens for a network for a uniquely specified amount of time rather than $\delta \times 3$.
 Using the ID of each device one could guarantee that no device used the same multiple of $\delta$ prior to establishing their network by the formula $\delta \times 3 + \delta \times ID$.
 This however assumes device IDs are activated continuously for it to work.
 In the case where initially the device with ID 2 is turned on and exactly $\delta$ time later the device with ID 1 is turned on they would still both create a network, as such this is not a valid solution to the problem.
 
 \subsection{Randomly Create}\label{RCreate}
+Once a device is done listening for a network it either creates its own network or resets and starts listening again.
 For this each device would need to implement a chance factor to determine whether or not to create a network.
 This could be determined by running an algorithm on the result of a random seed, depending on how the algorithm is designed one can obtain whichever chance is preferred.
 The problem with this is while it gives the opportunity to for two devices to start within the same time-slot without both creating a network at the same time, this is no guarantee; as such this would further require the implementation of a recovery method.
 
 \subsection{Kill the network}\label{KtN}
-This technique has the network killing itself which works as a recovery technique, allowing two networks to be established but then solving that very problem.
+If a device is alone in a network for too long it may decide to kill the network and start listening again.
+This works as a recovery technique, allowing two networks to be established but then solving that very problem.
 The technique has the network disassemble itself once some factor determines it needs to.
 This can be done either deterministic or non-deterministic.
 For the non-determinism it would work similarly to random create, except the outcome would be killing the network rather than creating one.
@@ -52,9 +44,9 @@ Once again the non-deterministic solution here would be implemented similarly to
 For the deterministic approach the unique factor chosen would be altered exponentially.
 A complication in doing so would be that networks would be active for exponential lengths of time, and with the specific requirement of networks having to die within two frames it could worsen the time it takes to successfully establish a single network exponentially; for this reason one might consider using another factor to guarantee unique outcomes for each device, such as an exponential change in listening time which also solves the problem with the two frames limitation.
 
-The following flow chart and pseudo code will show how and exactly what combination of ideas will be used.
-Following the flow chart certain points of interest in \myref{fig:pseudo_flowMultiStart} will be explicitly explained.
-\tikzfigure{PseudoFlowDiagramMultiStart}{Revised flow diagram showing how a device acts during the Initialization phase if no networks are detected.}{pseudo_flowMultiStart}
+\subsection{Modifications to the Upstart phase}
+Based on the aforementioned possibilities a new upstart phase have been designed which minimizes the probabilities of devices creating several networks.
+The changes are explained i the following text, as well as in the flowchart in \myref{fig:pseudo_flowMultiStart} representing the new design.
 
 \paragraph{Search for network}
 The initial action after starting a device states to search for a network.
@@ -66,3 +58,4 @@ This decision is a 50\% chance to either create a network or go back to searchin
 For this decision the device checks whether or not it is alone in the network as if it is, an altered version of \texttt{mainLoop()} is run, making use of the kill network method, as two or more networks could be jamming each other.
 \paragraph{Time to Die?}
 This decision checks for how many frames a network has been alone by executing the following expression, $f > (address \% 100) + C$, where $f$ denotes a count for how many frames a device has been alone in the network and $C$ is a constant which ensures that low addresses still are allowed to run several frames before dieing.
+\tikzfigure{PseudoFlowDiagramMultiStart}{Revised flow diagram showing how a device acts during the Initialization phase if no networks are detected.}{pseudo_flowMultiStart}
