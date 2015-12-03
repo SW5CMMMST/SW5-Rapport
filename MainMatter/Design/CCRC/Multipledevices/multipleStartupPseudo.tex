@@ -1,0 +1,49 @@
+The following replaces lines 34 through 38 in \myref{lst:setupCCRC}
+
+\begin{lstlisting}[label=lst:networkMultiConnectCCRC,style=pseudocode,mathescape=true,caption={Pseudocode example of the procedure initializeNetwork() for CCRC with multiconnect}]
+procedure initializeNetwork()
+    // Initialize variables
+    $x \leftarrow 0$
+    $n \leftarrow 2$
+    $k \leftarrow 1$
+    $i \leftarrow 0$
+    $a \leftarrow 0$
+    $f \leftarrow 0$
+    $C \leftarrow 10$
+    procedure mainLoop()
+    loop forever
+        run userCode() until $x \geq \delta_{proc}$
+        $i \leftarrow (i \text{ mod } n) + 1$ // Update current slot
+        if $i = k$ then
+            makePayload() // Updates the data to be sendt
+            transmit($i$, $n$, $id$, $data$)
+        else
+            while $x \leq \delta$ do
+                if received($i'$, $n'$, $id'$, $data'$) then
+                    protocolMaintance($i'$, $n'$, $|data'|$)
+                    userRecieve($id'$, $data'$)
+                end
+            end
+        end
+        wait until $x \geq \delta$
+        $x \leftarrow 0$ 
+    end
+    // Enter main loop
+    mainLoop()
+\end{lstlisting}
+
+With this new procedure for initializing a network, a few new variables are also introduced.
+\begin{table}[h]
+    {\setlength{\extrarowheight}{1ex}%
+    \begin{tabularx}{\textwidth}{l|l|X|l}
+        \toprule
+        Name                & Type      & Description & Constraint \\
+        \midrule
+        $C$                 & integer   & A constant ensuring that low address devices do not die too often  & $5 \leq C \leq 15$      \\
+        $f$                 & integer   & A counter for how many frames a device has been alone              & $0 \leq f$  \\
+        $a$                 & integer   & A 0 indexed exponent for how many attempts have been made at creating a network & $0 \leq a \leq 5$     \\
+        \bottomrule
+    \end{tabularx}}
+    \caption{Additional local variables used to avoid multiple networks.}
+    \label{tab:locals_wmulticonnect}
+\end{table}
