@@ -13,7 +13,7 @@
     \node [block, right of=start] (search) {Search for network};
     \node [decision, below of=search] (found) {Found network?};
     \node [preDefProc, right of=found, node distance=3.5cm] (join) {\nodepart{two}{Join network}};
-    \node [decision, below of=found, node distance = 3.5cm] (tocreate) {Create Network?};
+    \node [block, below of=found, node distance = 3.5cm] (tocreate) {Create Network?};
     \node [block, below of=tocreate] (init) {Initialize network};
     \node [decision, below of=init] (unitcount) {Alone in network?};
     \node [preDefProc, below of=unitcount, node distance=2.5cm] (mainLoop) {\nodepart{two}{Main Loop}};
@@ -37,9 +37,6 @@
     \draw [line] (search) -- (found);
     \draw [line] (found) -- node {yes} (join);
     \draw [line] (found) -- node {no} (tocreate);
-    \node [draw=none, right of=join] (jp){no};
-    \draw [-] (tocreate)  -|  (jp);
-    \draw [line] (jp)  |-  (search);
     \draw [line] (tocreate) --  node {yes} (init);
     \draw [line] (init) -- (unitcount);
     \draw [line] (unitcount) -- node {yes} (wait);
