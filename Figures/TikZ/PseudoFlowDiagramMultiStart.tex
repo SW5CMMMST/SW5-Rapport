@@ -17,17 +17,17 @@
     \node [block, below of=tocreate] (init) {Initialize network};
     \node [decision, below of=init] (unitcount) {Alone in network?};
     \node [preDefProc, below of=unitcount, node distance=2.5cm] (mainLoop) {\nodepart{two}{Main Loop}};
-    \node [block, right of=unitcount] (wait) {wait for next time-slot};
+    \node [block, right of=unitcount, node distance=3.5cm] (wait) {wait for next time-slot};
     \node [block, right of=wait] (userCode) {Run User Code};
     \node [decision, below of=userCode] (myTime) {My timeslot?};
-    \node [block, right of=myTime] (receive) {Receive};
+    \node [block, right of=myTime, node distance = 3.25cm] (receive) {Receive};
     \node [decision, below of=receive] (rmsg) {Received Message?};
     \node [block, below of=rmsg] (pmsg) {Process Message};
     \node [block, below of=myTime] (payload) {Make Payload};
     \node [block, below of=payload] (transmit) {Transmit};
-    \node [decision, below of=mainLoop] (fCountCheck) {Time to die?};
-    \node [block, left of=fCountCheck, node distance = 3.15cm] (fCountAdd) {increment f};
-    \node [block, below of=fCountCheck] (aAdd) {increment a};
+    \node [decision, left of=payload] (fCountCheck) {Time to die?};
+    \node [block, left of=myTime] (fCountAdd) {increment f};
+    \node [block, left of=fCountCheck, node distance = 3.25cm] (aAdd) {increment a};
     \node [block, left of=aAdd] (seppuku) {Kill network};
     
     
@@ -37,7 +37,7 @@
     \draw [line] (search) -- (found);
     \draw [line] (found) -- node {yes} (join);
     \draw [line] (found) -- node {no} (tocreate);
-    \draw [line] (tocreate) --  node (init);
+    \draw [line] (tocreate) --  (init);
     \draw [line] (init) -- (unitcount);
     \draw [line] (unitcount) -- node {yes} (wait);
     \draw [line] (unitcount) -- node {no} (mainLoop);
@@ -58,10 +58,9 @@
     \draw [line] (myTime) -- node {yes} (payload);
     \draw [line] (payload) -- (transmit);
     \node [draw=none, right of=fCountCheck] (fcountp){};
-    \draw [-] (transmit) -| (fcountp.center);
-    \draw [line] (fcountp.center) -- (fCountCheck);
+    \draw [line] (transmit) -| (fCountCheck);
     \draw [line] (fCountCheck) -- node {no} (fCountAdd);
-    \draw [line] (fCountAdd) |- (unitcount);
+    \draw [line] (fCountAdd) -- (wait);
     \draw [line] (fCountCheck) -- node {yes} (aAdd);
     \draw [line] (aAdd) -- (seppuku);
     \node [draw=none, left of=seppuku, node distance=1.95cm] (seppup) {};

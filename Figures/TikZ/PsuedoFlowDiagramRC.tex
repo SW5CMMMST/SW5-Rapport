@@ -27,7 +27,7 @@
     \path [line] (found) -- node {yes} (listen);
     \path [line] (init) -- (end);
     \path [line] (listen) -- (announce);
-    \path [line] (announce) -- (connected);
-    \path [line] (connected) -| node [near start] {no} (listen);
-    \path [line] (connected) |- node [near start] {yes} (end);
+    \path [line] (announce) -- (wait);
+    \path [line] (wait) -| (end);
+    %\path [line] (connected) |- node [near start] {yes} (end);
 \end{tikzpicture}
