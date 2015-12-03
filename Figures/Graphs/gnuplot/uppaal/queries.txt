@@ -1,0 +1,2 @@
+a. Pr[<=300000] ( <> forall(i : id_t) forall(j : id_t)  (time > 3000) and (Device(i).Connected and Device(j).Connected imply (Device(i).local_n == Device(j).local_n and Device(i).local_n > 2 and Device(j).local_n >2)))
+b. Pr[<=300000] ( <>  forall(i: id_t) (time >3000) and (Device(i).Connected imply Connected_Counter == ((Device(i).local_n) - 1)))

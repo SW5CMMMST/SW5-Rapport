@@ -1,0 +1,30 @@
+\resizebox{1\textwidth}{!}{%
+\begin{tikzpicture}[node distance=0cm]
+\node[draw, align = center, 
+        minimum width=0.15\textwidth, 
+        minimum height=10mm] 
+    (slot) at (0,0)
+    {\textbf{Current slot}};
+\node[draw, right=of slot,
+        minimum width=0.15\textwidth, 
+        minimum height=10mm]
+    (slotcnt)
+    {\textbf{Slot Count}};
+\node[draw, right=of slotcnt,
+        minimum width=0.15\textwidth, 
+        minimum height=10mm]
+    (addr)
+    {\textbf{Address}};
+\node[draw, right=of addr,
+        minimum width=0.15\textwidth, 
+        minimum height=10mm]
+    (mode)
+    {\textbf{Mode}};
+\node[draw, right=of mode,
+        minimum width=0.60\textwidth, 
+        minimum height=10mm]
+    (data)
+    {\textbf{Data}};
+
+\end{tikzpicture}
+}%

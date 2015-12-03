@@ -1,0 +1,75 @@
+\tikzstyle{decision} = [diamond, draw, fill=yellow!20, 
+    text width=4.5em, text badly centered, inner sep=3pt]
+\tikzstyle{block} = [rectangle, draw, fill=green!40, 
+    text width=6em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{cloud} = [draw, ellipse,fill=red!20,
+    minimum height=2em, align=center]
+\tikzstyle{preDefProc} = [draw,rectangle split, rectangle split horizontal,rectangle split parts=3, fill=green!40,minimum height=4em];
+%\node [preDefProc, right of=search] (test){\nodepart{two}{textHere}};
+\resizebox{1\textwidth}{!}{
+\begin{tikzpicture}[node distance = 2.8cm, auto]
+    % Place nodes
+    \node [cloud] (start) {Start};
+    \node [block, right of=start] (search) {Search for network};
+    \node [decision, below of=search] (found) {Found network?};
+    \node [preDefProc, right of=found, node distance=3.5cm] (join) {\nodepart{two}{Join network}};
+    \node [block, below of=found, node distance = 3.5cm] (tocreate) {Create Network};
+    \node [block, below of=tocreate] (init) {Initialize network};
+    \node [decision, below of=init] (unitcount) {Alone in network?};
+    \node [preDefProc, below of=unitcount, node distance=2.5cm] (mainLoop) {\nodepart{two}{Main Loop}};
+    \node [block, right of=unitcount, node distance=3.5cm] (wait) {wait for next time-slot};
+    \node [block, right of=wait] (userCode) {Run User Code};
+    \node [decision, below of=userCode] (myTime) {My timeslot?};
+    \node [block, right of=myTime, node distance = 3.25cm] (receive) {Receive};
+    \node [decision, below of=receive] (rmsg) {Received Message?};
+    \node [block, below of=rmsg] (pmsg) {Process Message};
+    \node [block, below of=myTime] (payload) {Make Payload};
+    \node [block, below of=payload] (transmit) {Transmit};
+    \node [decision, left of=payload] (fCountCheck) {Time to die?};
+    \node [block, left of=myTime] (fCountAdd) {increment f};
+    \node [block, left of=fCountCheck, node distance = 3.25cm] (aAdd) {increment a};
+    \node [block, left of=aAdd] (seppuku) {Kill network};
+    
+    
+
+    % Draw edges
+    \draw [line] (start) -- (search);
+    \draw [line] (search) -- (found);
+    \draw [line] (found) -- node {yes} (join);
+    \draw [line] (found) -- node {no} (tocreate);
+    \draw [line] (tocreate) --  (init);
+    \draw [line] (init) -- (unitcount);
+    \draw [line] (unitcount) -- node {yes} (wait);
+    \draw [line] (unitcount) -- node {no} (mainLoop);
+    \draw [line] (wait) -- (userCode);
+    \draw [line] (userCode) -- (myTime);
+    \draw [line] (myTime) -- node {no} (receive);
+    \draw [line] (receive) -- (rmsg);
+    \draw [line] (rmsg) -- node {yes} (pmsg);
+    \node [right of=rmsg, node distance =2.5cm] (rmsgp){};
+    \draw [-] (pmsg) -| (rmsgp.center);
+    \node [above of=unitcount, node distance =1.75cm] (aucp) {};
+    \draw [line] (rmsgp.center) |- (aucp.center);
+    \node [right of=rmsg, node distance =2cm] (rmsgpshort){};
+    \node [above of =wait, node distance =1.25cm] (waitap) {};
+    \draw [-] (rmsg) -- node {no} (rmsgpshort.center);
+    \draw [-] (rmsgpshort.center) |- (waitap.center);
+    \draw [line] (waitap.center) -- (wait);  
+    \draw [line] (myTime) -- node {yes} (payload);
+    \draw [line] (payload) -- (transmit);
+    \node [draw=none, right of=fCountCheck] (fcountp){};
+    \draw [line] (transmit) -| (fCountCheck);
+    \draw [line] (fCountCheck) -- node {no} (fCountAdd);
+    \draw [line] (fCountAdd) -- (wait);
+    \draw [line] (fCountCheck) -- node {yes} (aAdd);
+    \draw [line] (aAdd) -- (seppuku);
+    \node [draw=none, left of=seppuku, node distance=1.95cm] (seppup) {};
+    \draw [-] (seppuku) -- (seppup.center);
+    \node [draw=none, below of=search, node distance=0.60cm] (seap){};
+    \node [draw=none, left of=seap, node distance=1.05cm] (seapp){};
+    \draw [line] (seppup.center) |- (seapp);
+
+
+\end{tikzpicture}                                   
+}
