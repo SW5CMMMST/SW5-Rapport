@@ -140,3 +140,19 @@ literate={{−>}{{$\leadsto$} }2 {−−>}{{$\longrightarrow$} }2
 
 
 \overfullrule=2cm
+
+
+%\usepackage{linehighlight}
+\definecolor{codehighlight}{rgb}{0.95,0.8,0.8}
+\definecolor{codebackground}{rgb}{0.95,0.95,0.95}
+
+%Use this command to highlight code:
+% add ", escapechar=\%" to lstlisting options
+% then add: "%\HilightGreen%"
+% or: "%\HilightRed%" to the start of a line
+
+%\newcommand{\HilightGreen}{\makebox[0pt][l]{\color{green!15}\rule[-4pt]{0.80\linewidth}{14pt}}}
+\newcommand{\HilightGreen}{\makebox[0pt][l]{\color{green!15}\rule[-4pt]{\linewidth}{14pt}}}
+
+\newcommand{\HilightRed}{\makebox[0pt][l]{\color{red!15}\rule[-4pt]{\linewidth}{14pt}}}
+
