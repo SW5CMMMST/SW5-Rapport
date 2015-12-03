@@ -5,12 +5,13 @@
 \tikzstyle{line} = [draw, -latex']
 \tikzstyle{cloud} = [draw, ellipse,fill=red!20,
     minimum height=2em, align=center]
+\tikzstyle{preproc} = [draw,rectangle split, rectangle split horizontal,rectangle split parts=3, fill=green!40, minimum height=4em] 
 \begin{tikzpicture}[node distance = 2.8cm, auto]
     % Place nodes
     \node [cloud] (start) {Start};
     \node [block, right of=start] (search) {Search for network};
     \node [decision, below of=search] (found) {Found network?};
-    \node [cloud, right of=found, node distance=3.5cm] (init) {GOTO \\ init network};
+    \node [preproc, right of=found, node distance=3.5cm] (init) {\nodepart{two} Init network};
     \node [block, below of=found] (listen) {Listen while waiting for empty slot};
     \node [block, right of=listen] (choosesubs) {Choose which sub slot to take};
     \node [block, right of=choosesubs] (listensubs) {Listen in the prior sub empty slots};
@@ -22,7 +23,7 @@
     \node [block, left of=validated] (expbackoffcalc) {Determine an exponential backoff}; 
     \node [block, left of=listen] (backoff) {Wait for back-off amount of frames}; 
     \node [block, below of=validated] (join) {Take k after what the empty slot had}; 
-    \node [cloud, left of=join] (mainloop) {GOTO \\ main loop};
+    \node [preproc, left of=join] (mainloop) {\nodepart{two} Main loop};
 
     % Draw edges
     \path [line] (start) -- (search);
