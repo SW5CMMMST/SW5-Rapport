@@ -38,14 +38,14 @@ But this would require a lot of changes to both libraries.
 
 \section{Speed optimizations}
 
-The protocol as it is described takes approximately $66 + (6 \times l)$ milliseconds to send a package of length $l$. 
+The protocol takes approximately $66 + (6 \times l)$ milliseconds to send a package of length $l$ as discoverd in \myref{ssub:radiohead_time_sent_test}. 
 This means that a message length of 16 bytes would give 162 miliseconds to send.
 If the user code takes up a quater of the time slot then the slot length must be approximately 200 miliseconds.
 In a network with $n$ devices, this means that the frame length must be equal to $200 \times (n + 1)$.
 This means that in a network of just four devices the frame length would be a second.
 
 There are many ways to optimize this, but this section will focus on these possible improvements: 
-Skip unnessary transmissions, increase the bit rate, ?? and parallel communication for disconnected devices.
+Skip unnessary transmissions, increase the bit rate, reduce overhead, and parallel communication for disconnected devices.
 
 \paragraph{Skip unnessary transmissions} 
 When the protocol is functioning there is a chance that a device will not have anything to send in its slot.
@@ -60,8 +60,15 @@ But even for smaller increases it could have a significant speed improvement.
 The best way to implement this would be to have the user be in control of the bit rate.
 In this way the user could set the rate according to how reliable and fast the protocol needs to be.
 
+\paragraph{Reduce overhead}
+As discussed in \myref{subsubsec:RadioHead}, RadioHead has some overhead associated with using that library.
+It is possible that by reducing the initial signal of 3 4to6 bytes. 
+However the performance increase is negligible.
+Another place to look is what extra work RadioHead does before sending a message which might not be nessary.
+But this would not be the best place to look for an performance increase.
+
 \paragraph{Parallel communication}
-This third possible implovement assumes that the protocol works in a strongly connected network. 
+This forth possible implovement assumes that the protocol works in a strongly connected network. 
 If in a network of more than three devices contains two devices who can not hear eachother and none of their neighbors can hear both of them. 
 Then there would not be any reason not to have them in the same slot.
 This would need some way of knowing what slots neighbors and their neighbors occopies.
