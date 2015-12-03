@@ -12,12 +12,12 @@ Therefore it is sufficient to solve IRP, which means that the rest of this chapt
 
 The design in this chapter inherits the assumptions of the CCRC-problem. 
 
-\subsection{Methods of defragmenting a network}
+\section{Methods of defragmenting a network}
 
 The value $m_{max}$ is the number of times no one hears from a given device, after which it is considered inactive. 
 In CCRC $m_{max} = 1$ should be a possibility if one assumes that the only cause of not receiving transmissions is a device is off-line.  
 
-\subsubsection{Decremental Gradual Defragmentation}
+\subsection{Decremental Gradual Defragmentation}
 This design moves devices to the previous slot if it is empty. 
 Thereby gradually reducing the fragmentation of the frame.
 The proposed design has a special case for the first device in the frame, and a general case for the rest of the devices.
@@ -40,7 +40,7 @@ This worst case will at most take $n * m_{max}$ frames to remove the first devic
 Under the assumptions of the CCRC-problem, no transmissions should be missed, and therefore $m_{max}$ can be set to $1$. 
 The device reducing the time-slots in the frame by one will not cause new devices not to be able to join the network, as the free time-slot will simply be placed in the previous time-slot. 
 
-\subsubsection{Jumping Defragmentation}
+\subsection{Jumping Defragmentation}
 Jumping defragmentation reduces fragmentation by moving the last device of a frame to an unused time-slot. Further if the last time-slot is unused then the first device should reduce the size of the frame.
 
 \paragraph{For last device of frame}
@@ -62,7 +62,7 @@ If multiple devices are removed at the same time, the last device should take an
 This has an advantage over Decremental Gradual Defragmentation that it is faster, any single device removal will be solved in the next frame, where in Decremental Gradual Defragmentation it takes $n * m_{max}$ frames to completely defragment the frame. 
 Where as in the same case Jumping Defragmentation takes $m_{max}$ frames to defragment. 
 
-\subsubsection{Automatic Insertion in Unused Time-slots}
+\subsection{Automatic Insertion in Unused Time-slots}
 Another solution is for new devices to insert themselves in unused time-slot of an existing network.
 
 \paragraph{Addition to start-up}
@@ -77,7 +77,7 @@ For example the case in which a device restarts unexpectedly, then it would reta
 It is a relatively simple change to the existing protocol, and would therefore be easy to implement.  
 However this would not be a solution for networks which decrease in size, and would leave them with empty time-slots until a new device joins the network, which effectively increases the frame length unnecessarily.
 
-\subsection{Changes to the Protocol}
+\section{Changes to the Protocol}
 To evaluate the methods above the following factors will be considered: Speed and ability the defragment.
 The Decremental Gradual Defragmentation-method will defragment the network, however it is slow, as it takes $(n - k + 1) * m_{max}$ frames to defragment, where $k$ is the time-slot which the device removed had. \todo{please doublecheck my math here.}
 The Automatic Insertion in Unused Time-slots-method increases the time it takes to connect a new device to at least the length of the frame. 
@@ -86,21 +86,3 @@ The last method: Jumping Defragmentation is fast, it will only take $m_{max}$ fr
 
 Therefore the Jumping Defragmentation-method will be described in greater detail with pseudo-code and flowcharts which describes the changes to the existing protocol. 
 
-\subsubsection{Additions to the flowchart}
-These changes are to be put into the flowchart from \myref{fig:main_psuedo_flow}.
-
-The first flowchart, \myref{fig:jd1}, is necessary for the fist and last device to monitor if they should change the frame, here the last device increments a counter for each device from which it does not receive a payload.
-\tikzfigure{DefragmentationFlowchart_1.tikz}{The needed changes to main loop, to count which devices misses their times-slot.}{jd1}
-
-\info[inline]{Todo: Erstat dummy i charts med rigtige.}
-
-The second flowchart, \myref{fig:jd2}, is the jump itself.
-If the counter for any timeslot is higher than $m_{min}$, then it should change its $k$ to what the $k$ of the device which counter was higher.
-\tikzfigure{DefragmentationFlowchart_2.tikz}{The needed changes to main loop.}{jd2}
-
-The third flowchart, \myref{fig:jd3}, shows how to handle the last device of the frame leaving.
-\tikzfigure{DefragmentationFlowchart_3.tikz}{The needed changes to main loop.}{jd3}
-
-
-\subsubsection{Additions to the pseudo-code}
-\todo[inline]{todo.}

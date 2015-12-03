@@ -13,10 +13,11 @@
     \node [decision]        (ifrecieved) at (0,-4)  {If first or last device in frame?};    
     \node [block, right = of ifrecieved]       (reset)     {Reset counter for device received from};
     \node [cloud_nospace, right = of reset]       (dummy3)     {Process message};
-    \node [cloud_nospace, left = of ifrecieved, text width=7em, text centered]       (dummy4)     {Recieved message? \\ - yes};
+    \node [cloud_nospace, left = of ifrecieved, text width=7em, text centered]       (dummy4)     {Recieved message?};
     \path [line] (ifrecieved) -- node {yes} (reset);
     \path [line] (ifrecieved.north) -| node [near start] {no} (dummy3);
+    \path [line] (dummy4) -- node {yes} (ifrecieved);
+
     \path [line] (reset) -- (dummy3);
-    \path [line] (dummy4) -- (ifrecieved);
 \end{tikzpicture}
 }
