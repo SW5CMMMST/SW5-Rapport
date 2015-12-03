@@ -1,0 +1,28 @@
+\subsection{Protocol Maintanaince}\label{subsec:protocolmaintanaince}
+During the last few code examples, the 'protocolMaintaince' procedure managed the local variables. 
+This procedure synchronizes the current slot $i$ between devices, and if there are any new devices then synchronize the increase in total amount of devices.
+
+Lastly the procedure handles the resynchronization of clocks because in the real world, the devices could go out of sync. 
+So the  device must handle this by some means of resynchronization. 
+By using the knowledge discovered in the tests in \myref{cha:radiohead_time_sent_test}. 
+The time it takes to send a given message can be calculated using \myref{eq:timeToSendFormular}. 
+This result subtracted from the clock $x$ gives start time of the time slot as seen in line 9 in \myref{lst:maintaniance}. 
+The device can use this value to resynchronize.
+
+\begin{minipage}{0.95\linewidth} %minpage to avoid page break
+\begin{lstlisting}[style=pseudocode, mathescape=true, label={lst:maintaniance}, caption={Pseudocode example of protocol maintaniance}] 
+procedure protocolMaintanaice($n', i', |data|$)
+	if $n' > n$ then
+		$n \leftarrow n'$
+	end
+	$i \leftarrow i'$
+	// Duration of the transmission
+	$transDur \leftarrow 66 + (|data| \times 6)$
+	// Relative time when transmission began
+	$transTime \leftarrow x - transDur$
+	// Relative time of the start of the slot
+	$slotTime \leftarrow transTime - \delta_{proc}$
+	// Resyncronize
+	$x \leftarrow x - slotTime$
+\end{lstlisting}  
+\end{minipage}

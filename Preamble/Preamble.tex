@@ -3,7 +3,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\usepackage[utf8]{inputenc} 
 \usepackage[UKenglish]{babel}  
-\usepackage{lmodern}        
+\usepackage{lmodern} 
 \usepackage[T1]{fontenc}   
 \usepackage[scaled=0.85]{beramono}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -18,7 +18,7 @@
 \captionsetup{  font=footnotesize, 
                 labelfont=bf}
 \usepackage[nounderscore]{syntax} 
-\usepackage{array,booktabs}
+\usepackage{array,booktabs,arydshln}
 \usepackage{tabularx}
 \usepackage{multirow}
 \usepackage{tikz}
@@ -26,15 +26,16 @@
 \usetikzlibrary{shapes,arrows}
 \usepackage{tikz-qtree}
 \usepackage{tikzscale}
-\usetikzlibrary{shapes.multipart, arrows, matrix, automata, positioning, shadows, decorations.pathreplacing}
+\usetikzlibrary{shapes.multipart, arrows, matrix, automata, positioning, shadows, decorations.pathreplacing, calc}
 \usepackage{float}
 \usepackage[off]{auto-pst-pdf}
 \usepackage{wrapfig}
 \usepackage{tcolorbox}
 \usepackage{colortbl}
-\usepackage{enumitem}
+\usepackage[inline]{enumitem}
 \SetLabelAlign{parright}{\parbox[t]{\labelwidth}{\raggedleft#1}}
 \usepackage{moreenum}
+\usepackage{setspace}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Page Layout
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -121,4 +122,16 @@ literate={{−>}{{$\leadsto$} }2 {−−>}{{$\longrightarrow$} }2
 
 \headheight 15pt
 \usepackage{microtype}
+
+\usepackage{pgfplots}
+\definecolor{Offline}{HTML}{8B49A6}
+\definecolor{Connecting}{HTML}{2488CB}
+\definecolor{usercode}{HTML}{0EBC31}
+\definecolor{Rx}{HTML}{F1C40E}
+\definecolor{Tx}{HTML}{E74C3C}
+\definecolor{BuzyWaiting}{HTML}{EF44FE}
+\definecolor{EmptySlot}{HTML}{2F2F2F}
+
+%\definecolor{emptyf}{HTML}{000000}
+
 \overfullrule=2cm

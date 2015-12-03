@@ -26,8 +26,8 @@
     \node [block, below of=myTime] (payload) {Make Payload};
     \node [block, below of=payload] (transmit) {Transmit};
     \node [decision, below of=mainLoop] (fCountCheck) {Time to die?};
-    \node [preDefProc, left of=fCountCheck, node distance = 3.15cm] (fCountAdd) {\nodepart{two}{increment f}};
-    \node [preDefProc, below of=fCountCheck] (aAdd) {\nodepart{two}{increment a}};
+    \node [block, left of=fCountCheck, node distance = 3.15cm] (fCountAdd) {increment f};
+    \node [block, below of=fCountCheck] (aAdd) {increment a};
     \node [block, left of=aAdd] (seppuku) {Kill network};
     
     
