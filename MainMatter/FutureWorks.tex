@@ -35,3 +35,24 @@ Another thing to note is that on the Arduino Nano and Uno there are three timer 
 One is used by the delay function another is used by radiohead leaving exactly one left for the protocol.
 This would mean that every other library which uses timers would be uncompatible, unless RadioHead and the protocol could share interrupt.
 But this would require a lot of changes to both libraries.
+
+\section{Speed optimisations}
+
+The protocol as it is described takes approxemetily $66 + (6 \times l)$ milliseconds to transmit a package of length $l$. 
+This means that a message length of 16 bytes would give 162 miliseconds to send.
+If the user code takes up a quater of the time slot then the slot length must be approxemetily 200 miliseconds.
+In a network with $n$ devices this means that the frame length must be equal to $200 \times (n + 1)$.
+This means that in a network of just four devices the frame length would be a second.
+
+There are a number of ways to optimize this, but this section will focus on these possible improvements: Skip unnessary transmissions, increase the bit rate, ?? and parallel communication for disconnected devices.
+
+\paragraph{Skip unnessary transmissions} 
+
+\paragraph{Increase the bit rate} hello text
+
+\paragraph{Parallel communication}
+This third possible implovement assumes that the protocol works in a strongly connected network. 
+If in a network of multiple devices two devices who can not hear eachother and their neighbors can not hear both of them then there would not be any reason not to have them in the same slot.
+This would require some way of knowing what slots were occupied by neighbors and neighbors neighbors.
+One way to implement this would require a new setup phase that is called when a new device is added where every device tries to establish a new network.
+This has the added advantage of a build-in garbage collector for dead devices.
