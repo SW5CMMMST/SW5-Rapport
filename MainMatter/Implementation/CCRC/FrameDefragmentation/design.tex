@@ -14,6 +14,9 @@ The design in this chapter inherits the assumptions of the CCRC-problem.
 
 \subsection{Methods of defragmenting a network}
 
+The value $m_{max}$ is the number of times no one hears from a given device, after which it is considered inactive. 
+In CCRC $m_{max} = 1$ should be a possibility if one assumes that the only cause of not receiving transmissions is a device is off-line.  
+
 \subsubsection{Decremental Gradual Defragmentation}
 This design moves devices to the previous slot if it is empty. 
 Thereby gradually reducing the fragmentation of the frame.
@@ -76,7 +79,7 @@ However this would not be a solution for networks which decrease in size, and wo
 
 \subsection{Changes to the Protocol}
 To evaluate the methods above the following factors will be considered: Speed and ability the defragment.
-The Decremental Gradual Defragmentation-method will defragment the network, however it is slow, as it takes $(n - k + 1) * n_{max}$ frames to defragment, where $k$ is the time-slot which the device removed had. \todo{please doublecheck my math here.}
+The Decremental Gradual Defragmentation-method will defragment the network, however it is slow, as it takes $(n - k + 1) * m_{max}$ frames to defragment, where $k$ is the time-slot which the device removed had. \todo{please doublecheck my math here.}
 The Automatic Insertion in Unused Time-slots-method increases the time it takes to connect a new device to at least the length of the frame. 
 It however will not defragment a network which decreases in size. 
 The last method: Jumping Defragmentation is fast, it will only take $m_{max}$ frames to defragment any single device leaving the network, and defragments the network in all cases. 
