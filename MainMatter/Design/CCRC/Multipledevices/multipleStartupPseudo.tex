@@ -1,8 +1,7 @@
 \subsection{Changes to the Pseudocode}
-The previously introduced pseudocode was written with the assumption that only one device would be turned on at a time due to which it does not work when this assumption is removed.
-As such new pseudocode must be written for those areas this affects; in \myref{lst:setupCCRC} only five lines handle the creation of a new network.
-As is shown on the flowcode model \myref{fig:pseudo_flowMultiStart} the multiple network establishment issue is handled with an altered main loop, as such much of the new pseudocode will resemble  pseudocode from \myref{lst:general_case}.
-The procedure seen in \myref{lst:networkMultiStartCCRC} replaces lines 34 through 38 in \myref{lst:setupCCRC} which are the five aforementioned lines.
+This section will cover the new pseudocode which must be written for those areas multiple startup affects; in \myref{lst:setupCCRC} only five lines handle the creation of a new network, which is line 5 and lines 34-38.
+As is shown on the flow diagram \myref{fig:pseudo_flowMultiStart} the multiple network establishment issue is handled with an altered main loop, as such much of the new pseudocode will resemble pseudocode from \myref{lst:general_case}.
+The procedure seen in \myref{lst:networkMultiStartCCRC} replaces lines 34 through 38 in \myref{lst:setupCCRC}.
 \begin{figure}
 \begin{lstlisting}[label=lst:networkMultiStartCCRC,style=pseudocode,mathescape=true,caption={Pseudocode example of the procedure initializeNetwork() for CCRC for the multiple device activation problem.}]
 procedure initializeNetwork()
@@ -12,9 +11,9 @@ procedure initializeNetwork()
     $k \leftarrow 1$
     $i \leftarrow 0$
     $f \leftarrow 0$
-    $C \leftarrow 10$
-    if $firstNetwork \neq \bot$
+    if $firstNetwork \neq \bot$ then
         $a \leftarrow 0$
+    end
     
     loop forever       
         run userCode() until $x \geq \delta_{proc}$
@@ -22,7 +21,7 @@ procedure initializeNetwork()
         if $i = k$ then
             makePayload() //Updates the data to be sent
             transmit($i$, $n$, $id$, $data$)
-            if $f < id + C$ //Time to die check
+            if $f < id + C$ then //Time to die check
                 $a \leftarrow a + 1$
                 $n \leftarrow 0$
                 $k \leftarrow 0$
@@ -31,15 +30,15 @@ procedure initializeNetwork()
                 goto $\text{``initialize''}$
             else
                 $f \leftarrow f + 1$
-                if $2 < n$  //alone or not?
-                    goto $\text{``mainLoop''}$
+            end
         else
             while $x \leq \delta$ do
                 if received($i'$, $n'$, $id'$, $data'$) then
                     protocolMaintance($i'$, $n'$, $|data'|$)
                     userRecieve($id'$, $data'$)
-                    if $2 < n$  //alone or not?
+                    if $2 < n$ then //alone or not?
                         goto $\text{``mainLoop''}$
+                    end
                 end
             end
         end
@@ -54,13 +53,13 @@ procedure initializeNetwork()
     //Go back to searching for a network
     label: $\text{``initialize''}$
     $firstNetwork \leftarrow \bot$
-    initialize()
+    initializeNetwork()
 \end{lstlisting}
 \end{figure}
 
 \bigskip \noindent
 With this new procedure for initializing a network, a few new variables are also introduced.
-Furthermore the variable $t_0$ which determines the minimum time required to determine a time slot no longer holds true, as such a new variable, $t_1$ is introduced which replaces $t_0$ in \myref{lst:setupCCRC} line 5.
+Furthermore the variable $t_0$ which determines the minimum time required to determine a time slot no longer holds true, as such a new variable, $t_1$ is introduced which replaces $t_0$ on \myref{lst:setupCCRC} line 5.
 Note that this no longer denotes the minimum time required to find a network, as that is now non-deterministic due to jamming networks.
 \begin{table}[h]
     {\setlength{\extrarowheight}{1ex}%
