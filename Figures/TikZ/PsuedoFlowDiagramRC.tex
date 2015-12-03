@@ -5,13 +5,14 @@
 \tikzstyle{line} = [draw, -latex']
 \tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
     minimum height=2em]
+    \tikzstyle{preDefProc} = [draw,rectangle split, rectangle split horizontal,rectangle split parts=3, fill=green!40 ,minimum height=4em];
 \begin{tikzpicture}[node distance = 2.8cm, auto]
     % Place nodes
     \node [cloud] (start) {Start};
     \node [block, right of=start] (search) {Search for network};
     \node [decision, right of=search] (found) {Found network?};
     \node [block, below of=found] (init) {Initialize network};
-    \node [cloud, left of=init, node distance = 4cm] (end) {Enter main loop};
+    \node [preDefProc, left of=init] (end){\nodepart{two}{Main loop}};
     \node [block, right of=found, node distance = 3.4cm] (listen) {Listen while waiting for empty slot};
     \node [block, below of=listen] (announce) {Announce};
     \node [block, below of=announce] (wait) {Wait for end of timeslot};
