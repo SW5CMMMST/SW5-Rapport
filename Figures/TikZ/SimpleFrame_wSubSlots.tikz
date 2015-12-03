@@ -1,0 +1,35 @@
+\resizebox{1\textwidth}{!}{%
+\begin{tikzpicture}[scale=\textwidth, node distance = 0cm]
+\node[draw, align = center, 
+        minimum width=0.33\textwidth, 
+        minimum height=10mm] 
+    (slot0)
+    {$Slot_1$ (occupied)};
+\node[draw, right=of slot0,
+        minimum width=0.33\textwidth, 
+        minimum height=10mm]
+    (slot1)
+    {$Slot_2$ (occupied)};
+\node[draw, right=of slot1,
+        minimum width=0.33\textwidth, 
+        minimum height=10mm,
+        rectangle split, 
+        rectangle split horizontal,
+        rectangle split parts=3,
+        rectangle split draw splits=false]
+    (slot2)
+    {$Sub\ Slot_1$ \nodepart{two} $Sub\ Slot_2$ \nodepart{three} $Sub\ Slot_3$};
+    
+\draw [decoration={brace, mirror, amplitude=+20pt}, decorate]
+    (slot1.south west) -- (slot1.south east) node [black,midway,below=+21pt] 
+    {Regular time slot};
+\draw [decoration={brace, mirror, amplitude=+20pt}, decorate]
+    (slot2.south west) -- (slot2.south east) node [black,midway,below=+21pt] 
+    {Partitioned empty slot};
+\draw [decoration={brace, amplitude=+25pt}, decorate]
+    (slot0.north west) -- (slot2.north east) node [black,midway,above=+26pt] 
+    {Frame};
+\draw [dashed] ($(slot2.north)!0.33!(slot2.north west)$) -- ($(slot2.south)!0.33!(slot2.south west)$);
+\draw [dashed] ($(slot2.north)!0.33!(slot2.north east)$) -- ($(slot2.south)!0.33!(slot2.south east)$); 
+\end{tikzpicture}
+}%

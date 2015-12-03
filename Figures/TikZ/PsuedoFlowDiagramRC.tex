@@ -1,5 +1,5 @@
 \tikzstyle{decision} = [diamond, draw, fill=yellow!20, 
-    text width=5em, text badly centered, node distance=3cm, inner sep=3pt]
+    text width=4.5em, text badly centered, node distance=3cm, inner sep=3pt]
 \tikzstyle{block} = [rectangle, draw, fill=green!40, 
     text width=5em, text centered, rounded corners, minimum height=4em]
 \tikzstyle{line} = [draw, -latex']
@@ -26,5 +26,4 @@
     \path [line] (announce) -- (connected);
     \path [line] (connected) -| node [near start] {no} (listen);
     \path [line] (connected) |- node [near start] {yes} (end);
-
 \end{tikzpicture}
