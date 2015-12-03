@@ -3,7 +3,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\usepackage[utf8]{inputenc} 
 \usepackage[UKenglish]{babel}  
-\usepackage{lmodern}        
+\usepackage{lmodern} 
 \usepackage[T1]{fontenc}   
 \usepackage[scaled=0.85]{beramono}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -18,7 +18,7 @@
 \captionsetup{  font=footnotesize, 
                 labelfont=bf}
 \usepackage[nounderscore]{syntax} 
-\usepackage{array,booktabs}
+\usepackage{array,booktabs,arydshln}
 \usepackage{tabularx}
 \usepackage{multirow}
 \usepackage{tikz}
@@ -32,9 +32,10 @@
 \usepackage{wrapfig}
 \usepackage{tcolorbox}
 \usepackage{colortbl}
-\usepackage{enumitem}
+\usepackage[inline]{enumitem}
 \SetLabelAlign{parright}{\parbox[t]{\labelwidth}{\raggedleft#1}}
 \usepackage{moreenum}
+\usepackage{setspace}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Page Layout
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -123,8 +124,6 @@ literate={{−>}{{$\leadsto$} }2 {−−>}{{$\longrightarrow$} }2
 \usepackage{microtype}
 
 \usepackage{pgfplots}
-\pgfplotsset{compat=1.12}
-
 \definecolor{Offline}{HTML}{8B49A6}
 \definecolor{Connecting}{HTML}{2488CB}
 \definecolor{usercode}{HTML}{0EBC31}
