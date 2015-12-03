@@ -1,6 +1,9 @@
-
-\bigskip \noindent
-The following procedure replaces lines 34 through 38 in \myref{lst:setupCCRC}
+\subsection{Changes to the Pseudocode}
+The previously introduced pseudocode was written with the assumption that only one device would be turned on at a time due to which it does not work when this assumption is removed.
+As such new pseudocode must be written for those areas this affects; in \myref{lst:setupCCRC} only five lines handle the creation of a new network.
+As is shown on the flowcode model \myref{fig:pseudo_flowMultiStart} the multiple network establishment issue is handled with an altered main loop, as such much of the new pseudocode will resemble  pseudocode from \myref{lst:general_case}.
+The procedure seen in \myref{lst:networkMultiStartCCRC} replaces lines 34 through 38 in \myref{lst:setupCCRC} which are the five aforementioned lines.
+\begin{figure}
 \begin{lstlisting}[label=lst:networkMultiStartCCRC,style=pseudocode,mathescape=true,caption={Pseudocode example of the procedure initializeNetwork() for CCRC for the multiple device activation problem.}]
 procedure initializeNetwork()
     // Initialize variables
@@ -53,7 +56,9 @@ procedure initializeNetwork()
     $firstNetwork \leftarrow \bot$
     initialize()
 \end{lstlisting}
-\noindent
+\end{figure}
+
+\bigskip \noindent
 With this new procedure for initializing a network, a few new variables are also introduced.
 Furthermore the variable $t_0$ which determines the minimum time required to determine a time slot no longer holds true, as such a new variable, $t_1$ is introduced which replaces $t_0$ in \myref{lst:setupCCRC} line 5.
 Note that this no longer denotes the minimum time required to find a network, as that is now non-deterministic due to jamming networks.
