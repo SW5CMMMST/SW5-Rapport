@@ -42,8 +42,8 @@
     \draw [line] (jp)  |-  (search);
     \draw [line] (tocreate) --  node {yes} (init);
     \draw [line] (init) -- (unitcount);
-    \draw [line] (unitcount) -- node {no} (wait);
-    \draw [line] (unitcount) -- node {yes} (mainLoop);
+    \draw [line] (unitcount) -- node {yes} (wait);
+    \draw [line] (unitcount) -- node {no} (mainLoop);
     \draw [line] (wait) -- (userCode);
     \draw [line] (userCode) -- (myTime);
     \draw [line] (myTime) -- node {no} (receive);
