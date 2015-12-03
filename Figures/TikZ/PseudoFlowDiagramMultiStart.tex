@@ -49,7 +49,7 @@
     \node [right of=rmsg, node distance =2.5cm] (rmsgp){};
     \draw [-] (pmsg) -| (rmsgp.center);
     \node [above of=unitcount, node distance =1.75cm] (aucp) {};
-    \draw [-] (rmsgp.center) |- (aucp.center);
+    \draw [line] (rmsgp.center) |- (aucp.center);
     \node [right of=rmsg, node distance =2cm] (rmsgpshort){};
     \node [above of =wait, node distance =1.25cm] (waitap) {};
     \draw [-] (rmsg) -- node {no} (rmsgpshort.center);

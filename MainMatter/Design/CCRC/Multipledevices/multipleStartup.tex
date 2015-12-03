@@ -59,3 +59,4 @@ For this decision the device checks whether or not it is alone in the network as
 \paragraph{Time to Die?}
 This decision checks for how many frames a network has been alone by executing the following expression, $f > (address \% 100) + C$, where $f$ denotes a count for how many frames a device has been alone in the network and $C$ is a constant which ensures that low addresses still are allowed to run several frames before dying.
 \tikzfigure{PseudoFlowDiagramMultiStart}{Revised flow diagram showing how a device acts during the Initialization phase if no networks are detected.}{pseudo_flowMultiStart}
+
