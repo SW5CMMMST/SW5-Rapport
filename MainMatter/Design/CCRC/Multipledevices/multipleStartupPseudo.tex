@@ -1,7 +1,49 @@
 \subsection{Changes to the Pseudocode}
 This section will cover the new pseudocode which must be written for those areas multiple startup affects; in \myref{lst:setupCCRC} only five lines handle the creation of a new network, which is line 5 and lines 34-38.
 As is shown on the flow diagram \myref{fig:pseudo_flowMultiStart} the multiple network establishment issue is handled with an altered main loop, as such much of the new pseudocode will resemble pseudocode from \myref{lst:general_case}.
-The procedure seen in \myref{lst:networkMultiStartCCRC} replaces lines 34 through 38 in \myref{lst:setupCCRC}.
+The procedure seen in \myref{lst:networkMultiStartCCRC} replaces lines 34 through 38 in \myref{lst:setupCCRC}. 
+\begin{algorithm}
+\caption{Initialise network in CCRC for CCRC for the multiple device activation problem.}
+\label{lst:networkMultiStartCCRC2}
+\begin{algorithmic}[1]
+\Require $c$ is initialised
+\Require $kill_{chance} = 5\%$ 
+\Procedure{InitializeNetwork}{}
+    \State $x \gets 0, n \gets 2, k \gets 1, i \gets 0$
+    \Repeat \Comment{Loop forever}
+        \State \textbf{run} \Call{UserCode}{ } $\text{ \textbf{until} }x \ge \delta_{proc}$
+        \State $i \gets (i \bmod n) + 1$ \Comment{Update current slot}
+        \If {$i = k$}
+            \State \Call{MakePayload}{ } \Comment{Update the data to be sent}
+            \State \Call{Transmit}{$i, n, id, data$}
+        \Else
+            \While {$x \le \delta$}
+                \If {\Call{Received}{$i', n', id', data'$}}
+                    \State \Call{ProtocolMaintenance}{$i', n', |data'|$}
+                    \State \Call{UserReceive}{$id', data'$}
+                    \If {$n > 2$}
+                        \State \textbf{wait until } $x \ge \delta$  
+                        \State $x \gets 0$
+                        \State \Call{MainLoop}{ }
+                    \EndIf
+                \Else
+                    \If {\Call{TimeToDie?}{$kill_{chance}$}} \Comment{$kill_{chance}\%$ of killing}
+                        \State $a \gets a + 1$
+                        \State \Call{InitializeNetwork}{ }
+                    \EndIf
+                \EndIf
+            \EndWhile
+        \EndIf
+        \State \textbf{wait until } $x \ge \delta$  
+        \State $x \gets 0$
+        \State \Call{MainLoop}{ }
+    \Until the end of time
+\EndProcedure    
+\end{algorithmic}
+    
+\end{algorithm}
+
+
 \begin{figure}
 \begin{lstlisting}[label=lst:networkMultiStartCCRC,style=pseudocode,mathescape=true,caption={Pseudocode example of the procedure initializeNetwork() for CCRC for the multiple device activation problem.}]
 procedure initializeNetwork()
