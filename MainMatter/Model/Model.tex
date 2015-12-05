@@ -1,4 +1,3 @@
-%!TEX root = ../../master.tex
 \section{The Model}\label{sec:themodel}
 This section will showcase the model made to express the design from \myref{cha:Design}.
 For simplicity the the model in this chapter has been split into two parts, an initializing phase and the main loop.
@@ -75,8 +74,8 @@ const int Delta_Proc = Delta/5;
 const int Real_Tx_Time = Delta/2;
 const int Tx_Time = Delta_Proc + Real_Tx_Time;
 const int Initial_Wait_Time = Delta*3;
-int Startup_Time = Initial_Wait_Time*2;
-clock startup;
+const int Startup_Time = Initial_Wait_Time*2;
+
 
 //Channel
 broadcast chan transmit;
@@ -95,23 +94,18 @@ system Device;
 \end{lstlisting}
 
 \begin{figure}
-  \includegraphics[width=1\textwidth]{Figures/Model/Device_Connecting.pdf} 
+  \includegraphics[width=1\textwidth]{Figures/Model/Device_Connecting_MultiStart.pdf} 
 \caption{UPPAAL Model showing how the devices initialize.}
 \label{fig:UPPAAL_Intitialization}
 \end{figure}
 
 \bigskip \noindent
-The first part to be presented of the template will be the initialization, which can be seen on \myref{fig:UPPAAL_Intitialization}.
-The initial location has a clock \texttt{startup}, which makes sure that devices will leave the initial location one at a time.
-When one of the devices leave this location, \texttt{startup} will reset, and another will leave the location when \texttt{startup} once again reaches the desired time.
-It should be mentioned that this \texttt{Startup\_Time} is proportional with the number of devices in the system.
-This is because when the frame of the network grows, \texttt{Startup\_Time} must match the increase in frame length such that only one device can be released per frame.
 
-With the current values in the model creating a network with at least six devices is doable, it has not been tested with more.
-While the other devices are waiting to be released, the device which was the first to leave will listen for a network, as there is obviously no network yet the device will fire the edge towards the \texttt{Connected\_To\_Network} location.
+Firstly the devices will nondeterministically leave the initial stage, and start listening for a network.
+When they are done listening and have not found a network, they will create a network themselves, by firing the edge towards the \texttt{Connected\_To\_Network} location.
 The device will setup the initial values for the network, change its boolean \texttt{Connected} to true, this all happens in the function \texttt{create\_Network()}. The device will move onwards towards the main loop, which will be shown later.
-When the next device leaves the initial location it will successfully find a network as one was just created; in doing so the device will fire the edge the other edge, where the broadcast channel \texttt{transmit} is seen.
-The device will stay in this location until the communication phase of the time-slot is complete, and then it will continue towards the committed location \texttt{Network\_Found} and reset the clock \texttt{x} to zero.
+When the devices listen and find the newly created network, they will fire the other edge, where the broadcast channel \texttt{transmit} is seen.
+The device will stay in this location until the communication phase of the time-slot is complete, which is until \texttt{Delta}, and then it will continue towards the committed location \texttt{Network\_Found} and reset the clock \texttt{x} to zero.
 This location is committed as its purpose is simply visual working as a context switch between having found a network and entering the loop to wait for the empty-slot.
 When it has just received a transmission, the device which just transmitted will according to \myref{cha:Design} be performing user code, and therefore the device trying to connect should be waiting for the next time-slot so the other devices are ready to receive again.
 
@@ -143,12 +137,35 @@ A function to calculate this synchronized time will be require to implement the 
 As mentioned in \myref{subsec:uppaal} it is possible to make queries to verify that some given properties are true.
 \myref{sec:Pseudo} contains statements which should be true for a correctly connected network.
 These statements can be written as queries in UPPAAL, which the tool will then determine to be correct or not. 
-The queries described here have been tested with a system consisting of up to 6 devices, but it is recommended to go no higher than 4 in one system as the queries computation time increase dramatically.
+The queries described here will be tested with a system consisting of up to 6 devices, but it is recommended to go no higher than 4 in one system as the queries computation time increase dramatically.
 The queries for the system will be given one by one with along with a description of what they represent.
 \begin{lstlisting}[style=UPPAAL, title={This query requires that eventually it all devices are connected, and no pair of devices have the same \texttt{k}.}]
 1. A<> forall(i : id_t) forall(j : id_t) Device(i).Connected and
          Device(j).Connected and Device(i).k == Device(j).k imply i == j
 \end{lstlisting}
+
+As you might have guessed this query's result will be false.
+If all devices leave the initial location at roughly the same time, they will all create their own network, which means they will all have the same k.
+This situation happens because it is chosen completely nondeterministically when they leave the initial location, however there is ofcourse a cap on how long that will be.
+
+In order to fix this, very little has to change actually.
+A clock \texttt{startup} will be added, and a guard on the edge leaving the initial location will require the clock being equal to \texttt{Startup\_Time}, and when a device fires this edge, it will then update the clock \texttt{startup} to zero, which makes sure that a device will only leave the initial location in the interval which is \texttt{Startup\_time}.
+
+The change in the code will be an addition of the clock, which can be seen on \myref{lst:Clock_Addition}
+\begin{lstlisting}[style=UPPAAL, caption={Addition of the \texttt{startup} clock}, label={lst:Clock_Addition}]
+clock startup;
+\end{lstlisting}
+
+On the model itself the additions can be seen on \myref{fig:OneStartUp}
+
+\begin{figure}
+  \includegraphics[width=1\textwidth]{Figures/Model/Device_Connecting.pdf} 
+\caption{UPPAAL Model showing the devices Initialization, with a single device leaving at a time.}
+\label{fig:OneStartUp}
+\end{figure}
+
+With these changes to the model, a network will be created correctly.
+However, it is a problem that multiple devices cannot be turned on at the same time, therefore this problem will be investigated further in \myref{chap:MDA-CCRC}, but for now the rest of the queries will be introduced and explained.
 
 \begin{lstlisting}[style=UPPAAL, title={The query requires that there is no deadlock in the system.}]
 2. A[] not deadlock
@@ -186,7 +203,7 @@ The queries for the system will be given one by one with along with a descriptio
 8. A[] forall(i : id_t) Device(i).Connected imply Connected_Counter == n-1
 \end{lstlisting}
 
-All of these queries will yield a true result when run with 6 devices on the model presented in this chapter.
+All of these queries will yield a true result, after the changes shown in this section, when run with 6 devices on the model presented in this chapter.
 Note that queries have been added to verify the model beyond the ones derived from the statements in \myref{sec:Pseudo}, an example is query 2.
 
 The queries 1, 7 and 8 together make up the statement (e) from \myref{sec:Pseudo}, since if no devices have the same time-slot k and if the number of devices is one less than the number of time-slots and all time-slots in the range $[1, N-1]$ corresponds to an occupied time-slot in the network.
