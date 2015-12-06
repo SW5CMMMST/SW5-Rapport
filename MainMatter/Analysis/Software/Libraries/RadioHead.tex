@@ -8,7 +8,7 @@ A library called RadioHead does exactly that, and this section explores how it w
 
 RadioHead transmits each message, using \gls{ask}, in the following way:
 Each byte (8 bits) gets encoded as two 6 bit symbols, the 6 bit symbols will never contain 3 of the same signal in a row (high or low), this is to ensure that the receiver can decode the signal properly as it needs to differentiate the high and low signals.
-When a message for example the string \enquote{Hello}, several steps aret taken, and they are as follows:
+When a message for example the string \enquote{Hello}, several steps are taken, and they are as follows:
 
 First a preamble consisting of the the binary pattern \enquote{1010} six times. 
 This is so the receiver can synchronise its timer to the timer of the sender.
@@ -46,6 +46,9 @@ The recommended bit-rate for the transceiver is 2000 bit/sec, this means the mes
 \begin{equation}
 \frac{144 bit}{2000 \frac{bit}{sec}} = 0.072 sec
 \end{equation}
+
+One thing to note is that when multiple transmissions are received at the same time, i.e. when two transmitters in proximity of eachother transmit at the same time, any receiver receiving both transmissions, will when using Radiohead not know that anything was transmitted.
+This means that it is not possible when using RadioHead to detect a collision of transmissions.
 
 % Af: Troels 
 % D. 2015-09-17
