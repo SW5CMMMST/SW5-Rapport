@@ -139,62 +139,57 @@ The modified pseudocode is significantly more complex than the previous verison 
 This is the case because of the two-step strategy previously discussed, which requires addition of several looping and conditional constructs.
 In \myref{lst:pseudoInitMulti} the 17 lines from \myref{lst:setupCCRC}, which concerned connecting, have been expanded to 54 lines of code. 
 
-\begin{lstlisting}[style=pseudocode, mathescape=true, float, floatplacement=p, caption={Modified section of initialise procedure for when network found.}, label=lst:pseudoInitMulti]
-label: $\text{``wait for empty slot''}$
-// Wait for empty slot
-while $i \neq n$ do
-    $i \leftarrow (i \text{ mod } n) + 1$
-    while $x \leq \delta$ do
-        if received($i', n', id', data'$) then
-            protocolMaintance($i', n'$, $|data'|$)
-            break
-        end
-    end
-    wait until $x \geq \delta$
-    $x \leftarrow 0$
-end
-$s \leftarrow random\ \in [1, n_s]$
-while $x \leq \delta_{sub} \times (s-1)$ do
-    if received($id'$) then
-        $x \leftarrow 0$
-        goto $\text{``wait for empty slot''}$
-    end
-end
-// Announce 
-transmit($id$)
-$x \leftarrow 0$
-$i \leftarrow 0$
-$valid \leftarrow \bot$
-while $i \neq n$ do
-    run userCode() until $x \geq \delta_{proc}$
-    $i \leftarrow (i \text{ mod } n) + 1$
-    while $x \leq \delta$ do
-        if received($i'$, $n'$, $id'$, $mode'$, $data'$) then
-            protocolMaintance($i'$, $n'$, $|data'|$)
-            if validated($mode'$, $data'$) then
-                $valid \leftarrow \top$
-            end    
-        end
-    end
-    wait until $x \geq \delta$
-    $x \leftarrow 0$
-end
-if $valid$ then
-    // Obtain timeslot
-    $k \leftarrow n$
-    mainLoop()
-else
-    if $c < c_{max}$ then
-        $c \leftarrow c + 1$
-    end
-    $\text{\emph{backoff}}\leftarrow random \in [0, 2^c-1]$
-    while $\text{\emph{backoff}} > 0$ do
-        wait 1 frame
-        $\text{\emph{backoff}}\leftarrow \text{\emph{backoff}}-1$ 
-    end
-    goto $\text{``wait for empty slot''}$
-end
-\end{lstlisting}
+\begin{algorithm}[h]
+\caption{Modified section of initialise procedure for when network found.}
+\label{lst:pseudoInitMulti}
+\begin{algorithmic}[1]
+\Require $c$ is initialised
+\Procedure {ConnectToNetwork}{ }
+    \While {$i \neq n$}
+        \State \textbf{run} \Call{UserCode}{ } $\text{ \textbf{until} }x \ge \delta_{proc}$ 
+        \State $i \gets (i \bmod n) + 1$
+        \While {$x \le \delta$}
+            \If {\Call{Received}{$i', n', id', mode', data'$}}
+                \State \Call{ProtocolMaintenanca}{$i', n', |data'|$}
+                \State \textbf{break}
+            \EndIf
+        \EndWhile
+        \State \textbf{wait until } $x \le \delta$
+        \State $x \gets 0$
+    \EndWhile
+    \State \Call{Transmit}{$i, n, id, data$} \Comment{Send announcement}
+    \State $x \gets 0,\, i \gets 0,\, valid \gets \bot$
+    \While {$i \neq n$}
+        \State \textbf{run} \Call{UserCode}{ } $\text{ \textbf{until} }x \ge \delta_{proc}$
+        \State $i \gets (i \bmod n) + 1$
+        \While {$x \le \delta$}
+            \If {\Call{Received}{$i', n', id', mode', data'$}}
+                \State \Call{ProtocolMaintenanca}{$i', n', |data'|$}
+                \If {\Call{Validated}{$mode', data'$}}
+                    \State $valid \gets \top$
+                \EndIf
+            \EndIf
+        \EndWhile
+        \State \textbf{wait until } $x \le \delta$
+        \State $x \gets 0$ 
+    \EndWhile
+    \If {$valid$}
+        \State $k \gets n$ \Comment{Obtain timeslot}
+        \State \Call{MainLoop}{ }
+    \Else
+        \If {$c < c_{max}$}
+            \State $c \gets c+1$
+        \EndIf
+        \State $b \gets \text{random } \in [0, 2^c -1]$
+        \While {$b > 0$}
+            \State \textbf{wait} $1 \text{ frame}$
+            \State $b \gets b - 1$
+        \EndWhile
+        \State \Call{ConnectToNetwork}{ }
+    \EndIf
+\EndProcedure
+\end{algorithmic}    
+\end{algorithm}
 
 % subsection changes_to_the_pseudocode (end)
 

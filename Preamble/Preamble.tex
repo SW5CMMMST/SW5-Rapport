@@ -95,10 +95,13 @@
 \usepackage{algorithm}
 \usepackage{algpseudocode} 
 \floatname{algorithm}{Pseudocode}
-\algrenewcommand\algorithmicindent{2ex}%
+\algrenewcommand\algorithmicindent{2em}%  
+\captionsetup[algorithm]{font=footnotesize}
 \makeatletter
 \renewcommand{\ALG@beginalgorithmic}{\footnotesize}
-\makeatother
+\makeatother  
+\algdef{SE}[DOWHILE]{Do}{DoWhile}{\algorithmicdo}[1]{\algorithmicwhile\ #1}% 
+\algrenewcommand{\alglinenumber}[1]{\color{black!50!}\scriptsize#1}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MyRef
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
