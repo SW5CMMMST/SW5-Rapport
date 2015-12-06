@@ -26,7 +26,7 @@ This are the changes needed for the model, in order for the devices to start try
 The other problem is for when devices try to connect to the same network at the same time.
 A verification loop has been created for the model, where all devices which transmitted that they wanted to join the network will listen for the number of devices acknowledging their request of joining the network.
 If the amount of acknowledgements are lower than half of the devices in the network, they will also use the exponential backoff method, where they will wait for a random number of frames, in an incresingly larger range, with a cap of 31 frames.
-This is the only change needed for handling multiple devices connecting to the network, the specifics of the implementation of this on the model will not be presented in this section, but for the curious reader the specifics can be seen in the back as previously mentioned.\todo{Hvad gør vi med koden der også hører til modellen?} \todo{Skal der måske alligevel være nogle screenshots af de forskellige dele her ? Det bliver lidt tørt at læse allerede nu synes jeg? Eller er det kun mig der har det sådan ? :) - Søren}
+This is the only change needed for handling multiple devices connecting to the network, the specifics of the implementation of this on the model will not be presented in this section, but for the curious reader the specifics can be seen in the back as previously mentioned.\todo[inline]{Hvad gør vi med koden der også hører til modellen?} \todo[inline]{Skal der måske alligevel være nogle screenshots af de forskellige dele her ? Det bliver lidt tørt at læse allerede nu synes jeg? Eller er det kun mig der har det sådan ? :) - Søren}
 
 %New Queries using SMC
 
@@ -53,7 +53,7 @@ The first query is the only query which was also used on the earlier model, and 
 	  		and Device(i).local_n > 2 and Device(j).local_n >2)))
 \end{lstlisting}
 \noindent
-UPPAAL responds with [0.998,1], it is possible to get the data UPPAAL uses to make a graph of the development of the probability over time, which can be seen on \todo{REF til graf over probability.}
+UPPAAL responds with [0.998,1], it is possible to get the data UPPAAL uses to make a graph of the development of the probability over time, which can be seen on \myref{fig:ConnectQueryTime}.
 
 
 \begin{lstlisting}[style=UPPAAL, title={This query asks after 3000 UPPAAL time units has passed, what then is the probability that a device \texttt{i} has a value \texttt{k} which is different from a device \texttt{j}s value of \texttt{n}}]
@@ -74,22 +74,29 @@ UPPAAL will again respond with [0.998,1], but this query just like the next quer
 	and  Device(i).local_n == N+1)
 \end{lstlisting}
 
-\noindent This query will also result in [0.998,1] chance, and the development of the probability over time can be seen on \todo{REF TIL GRAF}.
+\noindent This query will also result in [0.998,1] chance, and the development of the probability over time can be seen on \myref{fig:ConnectQueryTime}.
 
 %GRAPHS
 
-<<<<<<< HEAD
+\begin{figure}
+  \includegraphics[width=1\textwidth]{Figures/Graphs/ConnectTime.pdf} 
+\caption{Graph showing how the probability of the queries 1, and 4 increase over time.}
+\label{fig:ConnectQueryTime}
+\end{figure}
+
+As can be seen the change in probability increases logarithimically, and will accorindg to UPPAAL eventually connect, however it might take some time for it to do so.
+This is because in the worst case the random numbers generated will keep casuing collisions, or maybe they will take a long time before eventually killing their networks.
+There are many possible explanations for what causes the longer runs, but it it important to note the fact that, the longer the devices are running the bigger the chances are of establishing a stable network.
+
 \todo[inline]{Ide: Måske kunne vi vise hvorfor nogle runs tager lang tid: ``Anatomy of a slow run''. Så kan vi vise hvad der skal ske for at det går dårligt. }
 
 %Conlusion
-=======
+
 \section{Conclusion}
 
 This chapter presented a way to handle the startup of multiple devices, which made use of the technique exponential back-off, which results in an increasingly randomly generated number of wait time for the devices. 
 The randomness results in all devices eventually becoming connected to the network since they will be split up and thus stop jamming eachother.
-The UPPAAL model created data, which can be seen on \todo{ref til graf}.
+The UPPAAL model created data, which can be seen on \myref{fig:ConnectQueryTime}.
 The data shows that the Arduinos will eventually be connected to the same network, however it does take some time, approximately 150k UPPAAL time units.
 This means that an implementation of this design should theoretically be able to solve the issues of turning on more Arduinos at the same time.
 
-
->>>>>>> f436b12b495a6fb45d596e73d86b524c33b23492
