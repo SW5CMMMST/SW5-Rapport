@@ -1,10 +1,10 @@
 \section{Multiple Startup Issue}\label{sec:MSI-CCRC}
 %The activation of multiple devices at any point in time such that two or more devices are active but not in a network causes a problem that must be handled differently for each of the two aforementioned cases.
 The first case, handled in this section, is in the case where no network exists prior to the activation of devices.
-As has been established earlier the time required to guarantee no network exists is $\delta \times 3$.
-From the moment that a device has determined no network exists it spends $\delta$ time to announce the existence of a network.
+As it has been established earlier, the time required to guarantee no network exists is $\delta \times 3$.
+From the moment a device has determined that no network exists, it spends $\delta$ time to announce the existence of a network.
 As such if several devices are activated within $\delta$ time, relative to the firstly activated device, multiple networks will be established.
-By this it follows that if one can guarantee devices start with an offset of at least $\delta$ the problem is solved for every case.
+By this it follows that if one can guarantee that devices start with an offset of at least $\delta$ the problem is solved for every case.
 In an effort to solve this problem several different approaches can help, however none of them can guarantee that a multiple of networks will never occur with 100 \% certainty. 
 As such implementing concepts from several of the following approaches may yield the best result.
 
@@ -48,15 +48,18 @@ A complication in doing so would be that networks would be active for exponentia
 Based on the aforementioned possibilities a new upstart phase have been designed which minimizes the probabilities of devices creating several networks.
 The changes are explained in the following text, as well as in the flowchart in \myref{fig:pseudo_flowMultiStart} representing the new design.
 
-\paragraph{Search for network}
-The initial action after starting a device states to search for a network.
+\begin{description}[labelindent=\parindent]
+    \item[Search for network]\hfill\\
+    The initial action after starting a device states to search for a network.
 This is done for $\delta \times 3 + \delta \times address^a$ where $a$ denotes number of attempts. 
 This expression ensures that devices will not listen for the same amount of time when they are started, and this difference will increase with each attempt, ensuring the existence scenarios in which only one device will create a network while others are still listening, also in the case where they died at the same time.
-\paragraph{Chance of creating a network}
-This method will not be used in order to keep the method of handling multiple startup deterministic.
-\paragraph{Alone in network?}
-For this decision the device checks whether or not it is alone in the network as if it is, an altered version of \texttt{mainLoop()} is run, making use of the kill network method depending on the result of \textbf{Time to Die?}, as two or more networks could be jamming each other.
-\paragraph{Time to Die?}
-This decision checks for how many frames a network has been alone by executing the following expression, $f > (address \% 100) + C$, where $f$ denotes a count for how many frames a device has been alone in the network and $C$ is a constant which ensures that low addresses still are allowed to run several frames before dying.
+    \item[Chance of creating a network]\hfill\\
+    This method will not be used in order to keep the method of handling multiple startup deterministic.
+    \item[Alone in network?]\hfill\\
+    For this decision the device checks whether or not it is alone in the network as if it is, an altered version of \texttt{mainLoop()} is run, making use of the kill network method depending on the result of \textbf{Time to Die?}, as two or more networks could be jamming each other.
+    \item[Time to Die?]\hfill\\
+    This decision checks for how many frames a network has been alone by executing the following expression, $f > (address \% 100) + C$, where $f$ denotes a count for how many frames a device has been alone in the network and $C$ is a constant which ensures that low addresses still are allowed to run several frames before dying.
+\end{description}
+
 \tikzfigure{PseudoFlowDiagramMultiStart}{Revised flow diagram showing how a device acts during the Initialization phase if no networks are detected.}{pseudo_flowMultiStart}
 

@@ -3,7 +3,7 @@
 \label{sec:simultaneous_connect}
 
 Another problem arises when two or more devices are started simultaneously while a functioning network is up and running.
-If all new devices tries to connect in the first empty slot, as they should, they will jam each others messages and neither will be heard.
+If all new devices try to connect in the first empty slot, as they should, they will jam each others messages and neither will be heard.
 Moreover the jammed, and jamming, devices will never know that their message was not received by anyone, as there is no way of knowing if one transmission was disrupted or jammed.
 A device should always try to connect to a network immediately after starting up, to ensure that in non-jamming situations it is fast.
 This also means that jams are bound to happen sooner or later, so some measures must be taken to avoid and recover from such situations.
@@ -13,10 +13,11 @@ However the payload should contain some information, which could be used in the 
 A combination of the following concepts could provide avoidance and recovery from jamming, in the process of joining a network: 
 \begin{description}[labelindent=\parindent]
     \item[Validation]\hfill\\
-    You should always validate whether or not your announcement have been heard and accepted by  the network (one device under CCRC), before joining the network.
+    We should always validate whether or not the announcement has been heard and accepted by the network (one device under CCRC), before joining the network.
     \item[Payload Mode]\hfill\\
     The header of the payload should contain an extra field, which can indicate different modes or some other variable.
     If the design using modes is chosen, it would be possible for other devices implementing the protocol to do various actions upon the data of the payload, e.g. the mode can indicate that the first byte of the date contains the address of a device, which is allowed to join the network.
+    Further explanation will be presented in \myref{ssub:modes_and_validation}
     \item[Exponential Backoff]\hfill\\ 
     If no one in the network responds to a device's announcement, or it is not validated, the device will use exponential backoff in regards to how many frames it should wait before trying again.
 \end{description} 
