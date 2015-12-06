@@ -12,12 +12,6 @@ However the payload should contain some information, which could be used in the 
 
 A combination of the following concepts could provide avoidance and recovery from jamming, in the process of joining a network: 
 \begin{description}[labelindent=\parindent]
-    \item[Random Offset]\hfill\\
-    When a device is announcing itself in the empty slot, it randomly chooses an offset for when to send the announcement payload.
-    The random offset is not time but sub slots. 
-    In the rest of the empty slot it listens for other possible devices announcing themselves.
-    If such a message is heard it does not attempt to announce itself in a later sub slot of the empty slot.
-    This method implies that the length of empty slot is a multiple of the time it takes to transmit the announcement payload.
     \item[Validation]\hfill\\
     You should always validate whether or not your announcement have been heard and accepted by  the network (one device under CCRC), before joining the network.
     \item[Payload Mode]\hfill\\
@@ -34,7 +28,7 @@ The modifications to the existing design from \myref{cha:Design} needed, will be
 \label{sub:modification_of_the_payload}
 To pass around information, which is valuable to the protocol, the payload needs to be modified.
 This modification should add information where needed and remove unused information in other cases.
-In the following paragraphs two modifications, which are needed to accommodate for simultaneously connecting devices, will be presented. 
+In the following paragraph the specific modification, which is needed to accommodate for simultaneously connecting devices, will be presented. 
 
 \subsubsection{Modes and Validation} % (fold)
 \label{ssub:modes_and_validation}
@@ -48,16 +42,9 @@ Such a modification with mode in the payload header can be seen on \myref{fig:pa
 Along side the possibility of sending validation payloads using modes, other functions could benefit from this in the future, e.g. targeted payloads, payload that should be echoed or other special cases.
 % subsubsection modes_and_validation (end)
 
-\subsubsection{Announcements} % (fold)
-\label{ssub:announcements}
-To minimise the time it takes to announce oneself to a network, a special announcement payload is introduced.
-This payload specification only need to carry one information that is the unique identifier or address of the device which is sending it.
-By shortening the payload significantly from the regular size of at least five fields (the header in \myref{fig:payloadwMode}) to one, the time it takes to sent it also is drastically decreased.
-% subsubsection announcements (end)
-
 % subsection modification_of_the_payload (end)
 
-\subsection{Introduction of Sub Slots and Exponential Backoff} % (fold)
+\subsection{Introduction of Exponential Backoff} % (fold)
 \label{sub:introduction_of_sub_slots_and_exponential_backoff}
 To ensure a faster conflict solving if multiple devices try to connect simultaneously, a two-step process is designed.
 These two steps consists of choosing a random offset of sub slots to wait in the empty slot, along with a strategy of exponential back-off if jamming occurs.
@@ -73,25 +60,6 @@ On \myref{fig:pseudo_flowMultiConnect} it can be seen how said two-steps is merg
 The flow chart in \myref{fig:pseudo_flowMultiConnect} shows that the random offset of sub slots is the first method of prevention when it comes to simultaneous connection of multiple devices.
 If a device hears another announcement before it has sent it's own in the chosen sub slot, it will abort the announce-phase and wait for the next empty slot before trying immediately again.
 However if a device announces it self and does not get validated by the network, because the announcement was jammed, it will use exponential backoff to prevent further collisions.
-The following paragraphs will discuss said sub slots and exponential backoff.
-
-\subsubsection{Sub Slots} % (fold)
-\label{ssub:sub_slots}
-To avoid using the potentially time consuming exponential backoff, if a multiple of devices try to connect simultaneously, the empty slot will be partitioned into smaller sub slots (see \myref{fig:frame_wsubslots} for illutration). 
-The length of the sub slots should be the longer than time it takes to transmit an announcement; is important not to have overlapping announcements, since none of them would be heard due to jamming.
-
-When determining how many sub slots the empty slot should be partitioned into, it should be considered that more sub slots will increase the overall frame length.
-Because of this, the number of partitions should be decided by the programmer implementing the protocol.
-
-\begin{figure}[h]
-    \centering \footnotesize
-    \input{Figures/TikZ/SimpleFrame_wSubSlots.tikz}
-    \caption{A frame with two connected devices and a three-way partitioned empty slot}
-    \label{fig:frame_wsubslots}
-\end{figure}
-%\tikzfigure{SimpleFrame_wSubSlots.tikz}{A frame with two connected devices and a three-way partitioned empty slot}{frame_wsubslots}
-
-% subsubsection sub_slots (end)
 
 \subsubsection{Exponential Backoff} % (fold)
 \label{ssub:exponential_backoff}
@@ -121,14 +89,10 @@ In the modified pseudocode some new variables and constants are introduced, thes
         \toprule
         Name                & Type      & Description & Constraint \\
         \midrule
-        $n_s$               & integer   & Number of sub slot in the empty slot  & $1 \leq n_s$      \\
-        $s$                 & integer   & A sub slot in the empty slot          & $s \in [1, n_s]$  \\
-        $\delta_{empty}$    & integer   & The time length of the empty slot     \\
-        $\delta_{sub}$      & integer   & The time length of a sub slot         & $\delta_{empty} \text{ mod } \delta_{sub} = 0$ \\
         $valid$             & boolean   & Indication of validation              \\
         $c$                 & integer   & Number of failed announcements        & $0 \leq c \geq c_{max}$ \\
         $c_{max}$           & integer   & Ceiling of $c$                        \\
-        \emph{backoff}      & integer   & Number of frames to wait              & \emph{backoff}$ \in [0, 2^c-1]$ \\
+        $b$                 & integer   & Number of frames to wait              & $b \in [0, 2^c-1]$ \\
         \bottomrule
     \end{tabularx}}
     \caption{Additional local variables every device has access to.}
