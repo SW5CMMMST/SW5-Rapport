@@ -6,7 +6,7 @@ Another problem arises when two or more devices are started simultaneously while
 If all new devices try to connect in the first empty slot, as they should, they will jam each others messages and neither will be heard.
 Moreover the jammed, and jamming, devices will never know that their message was not received by anyone, as there is no way of knowing if one transmission was disrupted or jammed.
 A device should always try to connect to a network immediately after starting up, to ensure that in non-jamming situations it is fast.
-This also means that jams are bound to happen sooner or later, so some measures must be taken to avoid and recover from such situations.
+This also means that jams are bound to happen sooner or later, so some measures must be taken to recover from such situations.
 When it comes to multiple devices trying to simultaneously connect to a network, each devices must be able to handle announce conflicts internally.
 However the payload should contain some information, which could be used in the solution of these conflicts.
 
@@ -47,35 +47,18 @@ Along side the possibility of sending validation payloads using modes, other fun
 
 \subsection{Introduction of Exponential Backoff} % (fold)
 \label{sub:introduction_of_sub_slots_and_exponential_backoff}
-To ensure a faster conflict solving if multiple devices try to connect simultaneously, a two-step process is designed.
-These two steps consists of choosing a random offset of sub slots to wait in the empty slot, along with a strategy of exponential back-off if jamming occurs.
-On \myref{fig:pseudo_flowMultiConnect} it can be seen how said two-steps is merged into the existing flow chart (\myref{fig:psuedo_flowCCRC}) from \myref{sub:setupCCRC}
+To ensure a faster conflict solving if multiple devices try to connect simultaneously, the method of using exponential backoff is chosen.
+The strategy of using exponential backoff only applies if jamming occurs.
+On \myref{fig:pseudo_flowMultiConnect} it can be seen how method is merged into the existing flow chart (\myref{fig:psuedo_flowCCRC}) from \myref{sub:setupCCRC}.
+The flow chart in \myref{fig:pseudo_flowMultiConnect} shows that if a device announces it self and does not get validated by the network, because the announcement was jammed, it will use exponential backoff to prevent further collisions.   
 
-\begin{figure}[p]
+\begin{figure}[h]
     \centering \footnotesize
     \input{Figures/TikZ/PsuedoFlowDiagramMULTI_CONNECT.tex}
     \caption{Revised flow diagram showing how a device acts during the Initialization phase}
     \label{fig:pseudo_flowMultiConnect}
 \end{figure}
 
-The flow chart in \myref{fig:pseudo_flowMultiConnect} shows that the random offset of sub slots is the first method of prevention when it comes to simultaneous connection of multiple devices.
-If a device hears another announcement before it has sent it's own in the chosen sub slot, it will abort the announce-phase and wait for the next empty slot before trying immediately again.
-However if a device announces it self and does not get validated by the network, because the announcement was jammed, it will use exponential backoff to prevent further collisions.
-
-\subsubsection{Exponential Backoff} % (fold)
-\label{ssub:exponential_backoff}
-The method of exponential backoff to be used here consists of:
-\begin{enumerate*}[label=\itshape \alph*\upshape)]
-    \item remembering how many unvalidated announcements have been sent, this will typically be caused by collisions; and
-    \item choosing a random number of frames to wait based upon this number.   
-\end{enumerate*}
-These properties of the exponential backoff can be expressed as follows:
-\begin{equation}
-     x \in [0, 2^c - 1] \mid x \in \mathbb{Z}^+, c \in [1,5]
-\end{equation}
-Where $x$ is a randomly chosen number of frames to wait from the range, and $c$ is number of unvalidated announcements. With this method a device will wait 0 to 1 frames after the first unvalidated announcement, 0 to 3 after the second and 0 to 7 after the third. To avoid an infinite increase of the wait time the $c$ should have an upper limit of e.g. 5, which would ensure a maximum wait of $2^5-1 = 31$ frames.
-
-% subsubsection exponential_backoff (end) 
 % subsection introduction_of_sub_slots_and_exponential_backoff (end)
 
 \subsection{Changes to the Pseudocode} % (fold)

@@ -2,6 +2,22 @@
 So far the CCRC-solution has been developed with the assumption that devices can only be activated one at a time if they are not part of a network.
 The effect of this assumption is that there is no chance of multiple networks being created in range of each other, and there is no chance for two or more devices jamming each other while attempting to connect to an established network.
 In this chapter this assumption is removed and the complications this brings will be solved in two sections; one pertaining to the issue that occurs if no network exists i.e. creating of multiple networks, and another pertaining to the issue that occurs if a network already exists i.e. multiple devices simultaneously attempting to connect to an established network.
+
+\section{Exponential Backoff} % (fold)
+\label{sec:exponential_backoff}
+The method of exponential backoff to be used here consists of:
+\begin{enumerate*}[label=\itshape \alph*\upshape)]
+    \item remembering how many failed attempts of some action a device has made; and
+    \item choosing a random number of frames to wait based upon this number.   
+\end{enumerate*}
+These properties of the exponential backoff can be expressed as follows:
+\begin{equation}
+     x \in [0, 2^c - 1] \mid x \in \mathbb{Z}^+, c \in [1,5]
+\end{equation}
+Where $x$ is a randomly chosen value from the range, and $c$ is number of failed attempts. 
+The value $x$ can represent a number of frames or a time period.
+With this method a device will wait 0 to 1 time periods after the first failed action, 0 to 3 after the second and 0 to 7 after the third. To avoid an infinite increase of the wait time the $c$ should have an upper limit of e.g. 5, which would ensure a maximum wait of $2^5-1 = 31$ time periods.
+% section exponential_backoff (end)
 \input{MainMatter/Design/CCRC/Multipledevices/multipleStartup.tex}
 \input{MainMatter/Design/CCRC/Multipledevices/multipleStartupPseudo.tex}
 \input{MainMatter/Design/CCRC/Multipledevices/multipleConnect.tex}
