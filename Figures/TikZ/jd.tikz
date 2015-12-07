@@ -13,7 +13,9 @@
     \tikzstyle{m}  = [slot, fill=purple!30]
 
     \node[draw=none]                        (invis1) at (0,0)   {Frame 1};
-    \node[draw=none, below = \x of invis1]  (invis2)            {Frame 2};
+    \node[draw=none, below = 1.35 * \x of invis1]  (invis2)            {Frame 2};
+    \node[draw=none, below = 1.35 * \x of invis2]  (invis3)            {Frame 3};
+
     
     \node[a, right       =        \x + 0 * \w   of invis1] (e_slot0)          {Occupied};
     \node[u, right       =        \x + 1 * \w   of invis1] (e_slot0)          {Unused};
@@ -24,7 +26,13 @@
     \node[a, below right = \y and \x + 0 * \w   of invis1] (e_slot0)          {Occupied};
     \node[c, below right = \y and \x + 1 * \w   of invis1] (e_slot1)          {Occupied};
     \node[b, below right = \y and \x + 2 * \w   of invis1] (e_slot1)          {Occupied};
-    \node[m, below right = \y and \x + 3 * \w   of invis1] (e_slot1)          {Empty-Slot};
+    \node[u, below right = \y and \x + 3 * \w   of invis1] (e_slot1)          {Unused};
+    \node[m, below right = \y and \x + 4 * \w   of invis1] (e_slot1)          {Empty-Slot};
+
+    \node[a, below right = 3 * \y and \x + 0 * \w   of invis1] (e_slot0)          {Occupied};
+    \node[c, below right = 3 * \y and \x + 1 * \w   of invis1] (e_slot1)          {Occupied};
+    \node[b, below right = 3 * \y and \x + 2 * \w   of invis1] (e_slot1)          {Occupied};
+    \node[m, below right = 3 * \y and \x + 3 * \w   of invis1] (e_slot1)          {Empty-Slot};
 
 \end{tikzpicture}
 }

@@ -5,8 +5,9 @@ The first flowchart, \myref{fig:jd1}, is necessary for the fist and last device 
 \tikzfigure{DefragmentationFlowchart_1.tikz}{The needed changes to main loop, to count which devices misses their times-slot.}{jd1}
 
 The second flowchart, \myref{fig:jd2}, is the jump itself.
-If the counter for any timeslot is higher than $m_{min}$, then it should change its $k$ to what the $k$ of the device which counter was higher.
-\tikzfigure{DefragmentationFlowchart_2.tikz}{The needed changes to main loop.}{jd2}
+If the counter for any timeslot is higher than $m_{max}$, then it should change its $k$ to the $k$ of the device which missed counter was higher than $m_{max}$.
+This makes the last device of the frame now have a new k, and thus it has performed the jump.	
+\tikzfigure{DefragmentationFlowchart_2.tikz}{The needed changes to main loop to performing the jump.}{jd2}
 
 The third flowchart, \myref{fig:jd3}, shows how to handle the last device of the frame leaving.
-\tikzfigure{DefragmentationFlowchart_3.tikz}{The needed changes to main loop.}{jd3}
+\tikzfigure{DefragmentationFlowchart_3.tikz}{The needed changes to main loop to decrease the number of time-slots in the network.}{jd3}

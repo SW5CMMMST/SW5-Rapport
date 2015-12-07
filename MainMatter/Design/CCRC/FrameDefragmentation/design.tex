@@ -14,21 +14,20 @@ The design in this chapter inherits the assumptions of the CCRC-problem.
 
 \section{Methods of defragmenting a network}
 
-The value $m_{max}$ is the number of times no one hears from a given device, after which it is considered inactive. 
-In CCRC $m_{max} = 1$ should be a possibility if one assumes that the only cause of not receiving transmissions is a device is off-line.  
+The value $m_{max}$ is the number of times no device hears from a given device, after which it is considered inactive. 
+In CCRC $m_{max} = 1$ should be a possibility if one assumes that the only cause of not receiving transmissions is a device is off-line, and no jamming will occur since a network of more than one device is established.
+In practice however, it would be risky using this assumption, but CCRC is not a realistic assumption anyhow.
 
 \subsection{Decremental Gradual Defragmentation}
 This design moves devices to the previous slot if it is empty. 
 Thereby gradually reducing the fragmentation of the frame.
 The proposed design has a special case for the first device in the frame, and a general case for the rest of the devices.
 
-\paragraph{General case}
-The general case applies to any device which is part of a network and not the first device in the frame, i.e. $k \neq 1$.
+\paragraph{The General case}applies to any device which is part of a network and not the first device in the frame, i.e. $k \neq 1$.
 If the device does not receive any payload from the device before it (i.e. device $k - 1$) a given number of times in a row, called $m_{max}$, then the device should transmit in the time-slot of the device which it did not receive from, instead of its own time-slot from this frame on onward. 
 This will create another missing slot to be handled by another device, however a problem arises if the device was in the time-slot $n - 1$, i.e. the last time-slot of the frame, which will be explained in the following paragraph.
 
-\paragraph{Special case}
-The special case applies to the first device of the frame, i.e. $k = 1$. 
+\paragraph{The Special case}applies to the first device of the frame, i.e. $k = 1$. 
 Since there is no device in the same frame before the first device, whose time-slot it can move to, it should instead reduce the number of time-slots in the frame by one, if it does not receive any payload from the last device of the frame, i.e. $k = n - 1$, a given number of times, called $m_{max}$. 
 
 \tikzfigure{dgd.tikz}{Decremental Gradual Defragmentation, removal of device in slot 2.}{dgd} 
@@ -36,21 +35,20 @@ Since there is no device in the same frame before the first device, whose time-s
 \bigskip
 
 This is a simple solution, which defragments the frame one device at a time, the worst case scenario is that the first device of the frame is unable to transmit, then the second device will take its spot, and so on until the new first device reduces the amount of time-slots in the frame by one. 
-This worst case will at most take $n * m_{max}$ frames to remove the first device, assuming it is the only change to the network in the meantime. 
+This will always take $(n - k) * m_{max}$ frames to remove a device, where k is the time-slot with the disconnected device, assuming it is the only change to the network in the meantime. 
 Under the assumptions of the CCRC-problem, no transmissions should be missed, and therefore $m_{max}$ can be set to $1$. 
-The device reducing the time-slots in the frame by one will not cause new devices not to be able to join the network, as the free time-slot will simply be placed in the previous time-slot. 
+The device reducing the time-slots in the frame by one will not cause new devices to be unable to join the network, as the free time-slot will simply be placed in the previous time-slot. 
 
 \subsection{Jumping Defragmentation}
 Jumping defragmentation reduces fragmentation by moving the last device of a frame to an unused time-slot. Further if the last time-slot is unused then the first device should reduce the size of the frame.
 
-\paragraph{For last device of frame}
-The last device of the frame should monitor which time-slots is unused for $m_{max}$ time-slots. 
+\paragraph{The last device} of the frame should monitor which time-slots is unused for $m_{max}$ time-slots. 
 If such a time-slot is found, then it should take that time-slot and reduce the size of the frame by one. 
-It is preferred to the the first time-slot which is available, but not a strict necessity.   
+It is preferred to be the first available time-slot, but is not a strict necessity.   
 
-\paragraph{For the first device of the frame}
-The first device of the frame should monitor if the last time-slot of the frame is unused for $m_{max}$ time-slots.
+\paragraph{The first device} of the frame should monitor if the last time-slot of the frame is unused for $m_{max}$ time-slots.
 If that is the case then it should reduce the size of the frame by one.
+This happens if the last device of the frame is suddenly missing.
 
 \tikzfigure{jd.tikz}{Jumping Defragmentation, removal of device in slot 2.}{jd} 
 
@@ -58,9 +56,9 @@ If that is the case then it should reduce the size of the frame by one.
 
 This reduces fragmentation as any single unused time-slot will be used in the next frame.
 The other devices will detect that the size of the frame has decreased and use the new size of the frame. 
-If multiple devices are removed at the same time, the last device should take any of the empty time-slots, then another device will be the last device of the next frame, then it can do the same in the frame after that. 
-This has an advantage over Decremental Gradual Defragmentation that it is faster, any single device removal will be solved in the next frame, where in Decremental Gradual Defragmentation it takes $n * m_{max}$ frames to completely defragment the frame. 
-Where as in the same case Jumping Defragmentation takes $m_{max}$ frames to defragment. 
+If multiple devices are removed at the same time, the last device should take any of the empty time-slots, then another device will be the last device of the next frame, then this other device can do the same in the frame after that. 
+This has an advantage over Decremental Gradual Defragmentation that it is faster, any single device removal will be solved in the next frame, where in Decremental Gradual Defragmentation it takes $(n - k) * m_{max}$ frames to defragment the frame. 
+Where as in the same case Jumping Defragmentation takes $m_{max} * 2$ frames to defragment, $m_{max}$ for detecting and jumping and $m_{max}$ for the decreasing n. 
 
 \subsection{Automatic Insertion in Unused Time-slots}
 Another solution is for new devices to insert themselves in unused time-slot of an existing network.
@@ -75,14 +73,14 @@ This would change the start-up procedure to require new devices, which discovers
 This will in some cases reduce or even remove fragmentation from a network. 
 For example the case in which a device restarts unexpectedly, then it would retake its old time-slot, assuming no other parts of the network changed in the downtime.
 It is a relatively simple change to the existing protocol, and would therefore be easy to implement.  
-However this would not be a solution for networks which decrease in size, and would leave them with empty time-slots until a new device joins the network, which effectively increases the frame length unnecessarily.
+However this would not be a solution for networks which decrease in size, and would leave them with empty time-slots until a new device joins the network, which effectively increase the frame length unnecessarily.
 
 \section{Changes to the Protocol}
-To evaluate the methods above the following factors will be considered: Speed and ability the defragment.
-The Decremental Gradual Defragmentation-method will defragment the network, however it is slow, as it takes $(n - k + 1) * m_{max}$ frames to defragment, where $k$ is the time-slot which the device removed had. \todo{please doublecheck my math here.}
+To evaluate the methods above the following factors will be considered: Speed and ability to defragment.
+The Decremental Gradual Defragmentation-method will defragment the network, however it is slow, as it takes $(n - k) * m_{max}$ frames to defragment, where $k$ is the time-slot which the device  that was removed had. 
 The Automatic Insertion in Unused Time-slots-method increases the time it takes to connect a new device to at least the length of the frame. 
-It however will not defragment a network which decreases in size. 
-The last method: Jumping Defragmentation is fast, it will only take $m_{max}$ frames to defragment any single device leaving the network, and defragments the network in all cases. 
+However it will not defragment a network which decrease in size. 
+The last method: Jumping Defragmentation is fast, it will only take $m_{max} * 2$ frames to defragment any single device leaving the network, and defragments the network in all cases. 
 
 Therefore the Jumping Defragmentation-method will be described in greater detail with pseudo-code and flowcharts which describes the changes to the existing protocol. 
 
