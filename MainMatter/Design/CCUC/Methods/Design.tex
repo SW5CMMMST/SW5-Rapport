@@ -1,0 +1,15 @@
+\section{Methods of Avoidance}
+\subsection{Message Redundancy}
+\subsection{Multimessage Echo}
+
+\section{Effects of Packet Loss}
+\section{Methods of Recovery/Minimizing Effects}
+\subsection{Continous listening}
+\subsection{Bitfield Time-Slot ID}
+
+Effects of packet loss:
+Corrupt data; depends on the application; delayed information; not syncing;
+
+Methods of Recovery/Avoiding jams/desync:
+Keep listening - worked earlier, no drift/desync issues;;; How would this handle if device is next?
+Bitmask ID index in msg, allows devices to know if others missed their packet, works for dead device detection as well.
