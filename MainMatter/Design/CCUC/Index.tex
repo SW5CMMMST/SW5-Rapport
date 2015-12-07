@@ -1,2 +1,30 @@
 \chapter{Expanding to the CCUC-problem}
+With the CCRC-problem solved we move towards a problem that lies within the realm of reality, the CCUC-problem.
+For the CCRC-problem the reality of wireless technology was warped with the assumption that communication is perfect.
+For the CCUC-problem this assumption amongst a few others will be removed; as such certain aspects of the CCRC-solution will be adapted to the CCUC-problem.
+
+In order to adapts the CCRC-solution to work for the CCUC-problem the changes required must consider no just the chance for packet loss to occur, but also the effect.
+As going form reliable to unreliable communication is the only change that occurs some parts stays the same; the remainder of this chapter will focus on those aspects of the solution which do change.
+
+\bigskip \noindent
+As we are now working with a realistic scenario of unreliable communication one must also realize that this is an impossible problem to solve.
+The reality is that one can never guarantee that a packet will be received, the best one can do is reduce the odds of it happening.
+Adjusting the UPAALL model on, \myref{}\todo{UPPPPPPPPPAAAAAAAAAAALLLLLLLMODEL}, to account for a 2 \% packet loss, which is more than the results in \myref{tbl:packageloss} show, the network works approximately 96 \% of the time.
+As mentioned one cannot reach 100 \% when considering unreliable communication, however this does not mean that nothing can be done.
+By employing different methods to increase the odds of packets being received one can attempt to approximate a reliability of 100 \%.
+
+Another aspect of unreliable communication is the effect of missing packets of information.
+Depending on what data is being transfered the impact of packet loss differs.
+In regards to small data packages such as those this protocol requires for network management it packet loss completely corrupts the payload.
+As such aside from implementing methods to decrease the odds of packet loss, one must also consider how the repercussions packet loss will bring and if possible reduce this as much as possible.
+
+\todo{file contains comments pertaining to what is different and what is not}
+%Frame intact
+%How to sufficiently guarantee communication, what is sufficient?
+%WorstCase different
+%Time-Slots consistent
+%Chance to enter
+%Consensus in network for certain actions
+
+\input{MainMatter/Design/CCUC/Methods/Design.tex}
 \input{MainMatter/Design/CCUC/Pseudocode/Index.tex}
