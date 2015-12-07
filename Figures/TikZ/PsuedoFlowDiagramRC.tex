@@ -1,18 +1,30 @@
+
+\tikzstyle{decision} = [diamond, draw, fill=yellow!20, 
+    text width=4.5em, text badly centered, node distance=3cm, inner sep=3pt]
+\tikzstyle{block} = [rectangle, draw, fill=green!40, 
+    text width=5em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
+    minimum height=2em]
+    \tikzstyle{preDefProc} = [draw,rectangle split, rectangle split horizontal,rectangle split parts=3, fill=green!40 ,minimum height=4em];
+
 \begin{tikzpicture}[node distance = 2.8cm, auto]
     \node [cloud] (start) {Start};
     \node [block, right of=start] (search) {Search for network};
     \node [decision, right of=search] (found) {Found network?};
     \node [block, below of=found] (init) {Initialize network};
-    \node [cloud, left of=init, node distance = 4cm] (end) {Enter main loop};
+    \node [preDefProc, left of=init] (end){\nodepart{two}{Main loop}};
     \node [block, right of=found, node distance = 3.4cm] (listen) {Listen while waiting for empty slot};
     \node [block, below of=listen] (announce) {Announce};
     \node [block, below of=announce] (wait) {Wait for end of timeslot};
+
+    % Draw edges
     \path [line] (start) -- (search);
     \path [line] (search) -- (found);
     \path [line] (found) -- node {no} (init);
     \path [line] (found) -- node {yes} (listen);
     \path [line] (init) -- (end);
     \path [line] (listen) -- (announce);
-	\path [line] (announce) -- (wait);
+    \path [line] (announce) -- (wait);
     \path [line] (wait) -| (end);
 \end{tikzpicture}
