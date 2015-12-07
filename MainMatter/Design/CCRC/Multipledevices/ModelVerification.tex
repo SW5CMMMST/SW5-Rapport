@@ -1,13 +1,12 @@
+\newpage
 \section{Statistical Model Checking}
 
-This section will present the UPPAAL SMC extension, the changes to the model made in UPPAAL to utilise this, and also present the results of the queries which are made using the UPPAAL SMC extension.
-
-When a model rely on stochastic behaviors, such as randomness, its state-space grows exponentially (sometimes called a state-space explosion) therefore an exhaustive search determining wheather if some property holds is not possible in reasonable time. 
-Instead one can estimate a percentage chance a property holds, within a given probability of uncertainty, with an statistical model checker (SMC). 
+When a model rely on stochastic behaviours, such as randomness, its state-space grows exponentially (sometimes called a state-space explosion) therefore an exhaustive search determining whether if some property holds is not possible in reasonable time. 
+Instead one can estimate a percentage chance a property holds, within a given probability of uncertainty, with a Statistical Model Chcker (SMC). 
 
 %UPPAAL SMC Explanation
 \subsection{UPPAAL SMC}
-\begin{wrapfigure}[16]{r}{0.3\textwidth}
+\begin{wrapfigure}[18]{r}{0.3\textwidth}
 \centering
   \includegraphics[width=0.3\textwidth]{Figures/Model/Simple_SMC.pdf} 
 \caption{A simple UPPAAL SMC model with weighted edges. }
@@ -18,14 +17,14 @@ To do this in UPPAAL there is an extension called UPPAAL SMC, a full tutorial is
 
 In UPPAAL SMC there is a new type of edge, this is a weighted edge and is shown as a dashed line. 
 An example of this can be seen in figure \myref{fig:simpleSMC}. 
-In the figure is a simple UPPAAL SMC model, following the initial state there is a ``branch point'' from which there are two weighted edges.
-The number by the weighted edges give their probability of being taken, this simple concept allows UPPAAL SMC to do randomness without having to explore the full state-space, as it can run simulations taking each edge a number of time corresponding to their weights. 
+The figure shows a simple UPPAAL SMC model, following the initial state there is a ``branch point'' from which there are two weighted edges.
+The number by the weighted edges give their probability of being taken, this simple concept allows UPPAAL SMC to do randomness without having to explore the full state-space, as it can run simulations taking each edge a number of times corresponding to their weights. 
 This example simulates a coin toss, giving 50 \% chance of heads and 50 \% chance of tails. 
 
 UPPAAL SMC can additionally draw several types of plots which shows what the chance of a given query being true after a given run duration.
 
 It is possible to set the statistical parameters for UPPAAL SMC, such as: Probability uncertainty, Probability of false negatives and Probability of false positives. 
-Setting these parameters closer to zero will cause the time it takes verify a query for a model, however it will also be more accurate. 
+Setting these parameters closer to zero will cause the time it takes to verify a query for a model to increase drastically, however it will also be more accurate. 
 
 %Description of changes to the model in UPPAAL
 
