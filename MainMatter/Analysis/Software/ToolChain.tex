@@ -15,30 +15,6 @@ This toolchain is also shown on \myref{fig:arduino_flow}.\cite{2015ArduinoToolch
 To show how to upload code to an Arduino, some screenshots have been taken to show how this is done through the Arduino IDE.
 First to upload any code to the Arduino, the kind of Arduino being used has to be specified, and how to do this can be seen on \myref{fig:choose_arduino}.
 
-\begin{figure}
-\begin{subfigure}{0.47\linewidth}
-\centering
-\includegraphics[width=\linewidth]{Figures/ChooseArduino.png}
-\caption{Choose Arduino}
-\label{fig:choose_arduino}
-\end{subfigure}\hfill
-\begin{subfigure}{0.47\linewidth}
-\centering
-\includegraphics[width=\linewidth]{Figures/ChoosePort.png}
-\caption{Choose Port}
-\label{fig:choose_port}
-\end{subfigure}\\[1ex]
-\begin{subfigure}{\linewidth}
-\centering
-\includegraphics[width=0.7\linewidth]{Figures/SerialMonitor}
-\caption{Serial monitor after uploading code}
-\label{fig:serial_monitor}
-\end{subfigure}
-\caption{Screenshots from the Arduino IDE.}
-\label{fig:ArduinoScreenshots}
-\end{figure}
-
-
 Secondly the Port where the Arudino being uploaded to is plugged in needs to be specified, and a screenshot of this can be seen on figure \myref{fig:choose_port}.
 
 When the code is ready to be uploaded to the Arduino a simple press of the arrow in the top of the IDE will upload and run the code. 
@@ -54,4 +30,28 @@ It is of course also possible to program in many other languages for the Arduino
 An example of this could be Java.
 NanoVM is an implementation of some of the Java virtual machine for the AVR processors, it does not contain all of its features because of the limited resources the microcontrollers possesses. 
 According to the creator NanoVM, see \cite{NanoVM}, will never contain all the features of the JVM, and C is still a much more powerful language when working with microcontrollers. 
-Therefore it is also chosen for the software being developed in this project.
+
+Therefore Arduinos own IDE is the one used for the development of the protocol in this project.
+
+\begin{figure}[!h]
+	\begin{subfigure}{0.47\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{Figures/ChooseArduino.png}
+		\caption{Choose Arduino}
+		\label{fig:choose_arduino}
+	\end{subfigure}\hfill
+	\begin{subfigure}{0.47\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{Figures/ChoosePort.png}
+		\caption{Choose Port}
+		\label{fig:choose_port}
+	\end{subfigure}\\[1ex]
+	\begin{subfigure}{\linewidth}
+		\centering
+		\includegraphics[width=0.47\linewidth]{Figures/SerialMonitor}
+		\caption{Serial monitor after uploading code}
+		\label{fig:serial_monitor}
+	\end{subfigure}
+	\caption{Screenshots from the Arduino IDE.}
+	\label{fig:ArduinoScreenshots}
+\end{figure}
