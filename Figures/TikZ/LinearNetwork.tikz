@@ -1,0 +1,8 @@
+\begin{tikzpicture} [device/.style={circle, fill=blue!40, draw}]
+\node[device](d1){1};
+\node[device, right=of d1](d2){2};
+\node[device, right=of d2](d3){3};
+\node[device, right=of d3](d4){4};
+
+\draw (d1) -- (d2) -- (d3) -- (d4);
+\end{tikzpicture}
