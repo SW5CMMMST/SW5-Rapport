@@ -1,7 +1,7 @@
 \section{Packet Loss}
 \subsection{Methods of Avoidance}
-As aforementioned one can attempt to approximate 100 \% reliability in a network by reducing the odds of package loss.
-In an effort to reduce package loss two ideas will be represented, both based on the concept of conditional probability, a subject of probability theory.
+As aforesmentioned one can attempt to approximate 100 \% reliability in a network by reducing the odds of package loss.
+In an effort to reduce package loss two ideas will be presented, both based on the concept of conditional probability, a subject of probability theory.
 \myref{eq:conditionalProb} shows the formula for conditional probability in the form where it is used to calculate the odds of both event A and B occurring given they are not independent.
 One might notice that given the probability of A and B individually is the same, which is the case for our assumed packet loss, the result may also be described as \myref{eq:conditionalProb2}.
 \begin{align}
@@ -15,7 +15,7 @@ While this would increase the length of $\delta_{comm}$ it would also decrease t
 Each message would provide an exponential decrease in the odds of a packet being lost as is evident by \myref{eq:conditionalProb2} where $events$ would simply be the multiple of redundant messages $+ 1$, an example would be by simply sending each message twice, that would give one redundant message, with a packet loss of 2 \% this would change to a $0.02^2$ chance i.e. 0.04 \% chance of both messages being lost.
 
 \subsubsection*{Multimessage Echo}
-In essence this is the same idea as \myref{redundancy} but spread out to several devices.
+In essence this is the same idea as message redundancy but spread out to several devices.
 For this idea each device would save a number of previously received messages and make them part of its own payload.
 This would echo messages from devices several times over, but from different devices which in the case that the problem is between two devices could help where Message Redundancy might not.
 An echo would have to be at least two previous messages for it to affect all cases.
