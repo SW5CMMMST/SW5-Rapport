@@ -15,12 +15,12 @@
 		minimum height=10mm]
 	(addr)
 	{\textbf{Address}};
-	\node[draw, right = 0cm of addr,
+	\node[right = 0cm of addr,
 		minimum width=0.15\textwidth, 
 		minimum height=10mm]
 	(timestamp)
-	{\textbf{Timestamp}};
-\node[draw, right = 0cm of timestamp,
+	{};
+\node[draw, right = 0cm of addr,
 		minimum width=0.55\textwidth, 
 		minimum height=10mm]
 	(mode)

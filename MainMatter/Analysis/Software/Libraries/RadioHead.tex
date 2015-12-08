@@ -1,57 +1,59 @@
 % Af: Troels 
 % D. 2015-09-17
 % Review: Søren 21. 09.
-\subsubsection{RadioHead}\label{subsubsec:RadioHead}
+\subsection{The RadioHead Library}\label{subsubsec:RadioHead}
 
-In order to use the RF modules with good results, some way of synchronising and encoding the transmissions can be used to reduce faults, like package loss.
+In order to use the \gls{rf} modules with good results, some way of synchronising and encoding the transmissions can be used to reduce faults, like package loss.
 A library called RadioHead does exactly that, and this section explores how it works.
 
 RadioHead transmits each message, using \gls{ask}, in the following way:
-Each byte (8 bits) gets encoded as two 6 bit symbols, the 6 bit symbols will never contain 3 of the same signal in a row (high or low), this is to ensure that the receiver can decode the signal properly as it needs to differentiate the high and low signals.
-When a message for example the string \enquote{Hello}, several steps aret taken, and they are as follows:
+Each byte (8-bits) gets encoded as two 6-bit symbols, such that the 6-bit symbols will never contain more than three of the same signal in a row (high or low).
+This is to ensure that the receiver can decode the signal properly as it needs to differentiate the high and low signals.
+When a message for example the string \enquote{Hello}, several steps are taken, and they are as follows:
 
 First a preamble consisting of the the binary pattern \enquote{1010} six times. 
-This is so the receiver can synchronise its timer to the timer of the sender.
+This is so the receiver can synchronise its timer to the timer of the sender, and the receiver can calibrate its sensors to the high and low value of the message.
 Then the pattern \enquote{111000} once, and then \enquote{101100}, and then the start symbol \enquote{101100111000}. 
 This is the start code of the message. 
+
 Every four bit from now is encoded as the six bit encoding mentioned before.
 The next byte (effectively 12 bits) is the message length including itself and the check-sum bytes.
-Then the message \enquote{Hello}, this doesn't need to be terminated as the length is known, has the size 5 bytes $(5 * 12 bits/byte = 60 bits)$.
-Then a check-sum to ensure the integrity of the message, consisting of 24 bits after encoding.
+Then the message \enquote{Hello}, this doesn't need to be terminated as the length is known, has the size 5 bytes $(5 \times 12\ bits/byte = 60\ bits)$.
+Then a check-sum is appended to the message to validate the integrity of the message, consisting of 24 bits after encoding.
 
 \begin{table}[ht]
-\centering
-\colorlet{shadecolor}{gray!20}
-\rowcolors{1}{white}{shadecolor}
-\caption{A table view of the content of transmitting \enquote{Hello} with RadioHead.}
-\label{table:RH}
-\resizebox{1\textwidth}{!}{
-\begin{tabular}{lllll}
-Name           & Purpose                               & Content                  & Size {[}bit{]} \\ \hline
-Preamble pt. 1 & Syncronization                        & \enquote{1010} * 6       & 24             \\
-Preamble pt. 2 & Syncronization                        & \enquote{111000}         & 6              \\
-Preamble pt. 3 & Syncronization                        & \enquote{101100}         & 6              \\
-Start symbol   & Indicate start of transmission        & \enquote{101100111000}   & 12             \\
-Message length & To indicate the length of the message & 4to6(\enquote{01101000}) & 12             \\
-Message        & The payload                           & 4to6(\enquote{Hello})    & 60             \\
-Checksum       & To verify the integrity               & 4to6(\enquote{???})      & 12             \\
-                
-\end{tabular}
-}
+	\centering
+	\colorlet{shadecolor}{gray!20}
+	\rowcolors{1}{white}{shadecolor}
+	\caption{A table view of the content of transmitting \enquote{Hello} with RadioHead.}
+	\label{table:RH}
+	\resizebox{\textwidth}{!}{
+		\begin{tabular}{lllll}
+			Name           & Purpose                               & Content                  & Size {[}bit{]} \\ \hline
+			Preamble pt. 1 & Syncronization                        & \enquote{1010} * 6       & 24             \\
+			Preamble pt. 2 & Syncronization                        & \enquote{111000}         & 6              \\
+			Preamble pt. 3 & Syncronization                        & \enquote{101100}         & 6              \\
+			Start symbol   & Indicate start of transmission        & \enquote{101100111000}   & 12             \\
+			Message length & To indicate the length of the message & 4to6(\enquote{01101000}) & 12             \\
+			Message        & The payload                           & 4to6(\enquote{Hello})    & 60             \\
+			Checksum       & To verify the integrity               & 4to6(\enquote{???})      & 12             \\		
+		\end{tabular}
+	}
 \end{table}
 
 This brings the total size of the packet to 144 bit, while the message is 5 bytes or 40 bits.
-
 The recommended bit-rate for the transceiver is 2000 bit/sec, this means the message will take at least:
+
 \begin{equation}
-\frac{144 bit}{2000 \frac{bit}{sec}} = 0.072 sec
+\frac{144\ bit}{2000 \frac{bit}{sec}} = 0.072\ sec
 \end{equation}
 
 % Af: Troels 
 % D. 2015-09-17
 %Review Søren 21. 09.
 \paragraph{Timing} \hfill \\
-After calculating the contents of the package to be sent, the Arduino needs to write it to the RF transmitter. 
-To time this the built in ``timer1'' on the Arduino is used, to trigger an interrupt with a relatively high consistency.
+After calculating the contents of the package to be sent, the Arduino needs to write it to the \gls{rf} transmitter. 
+To time this the built in timer; \enquote*{timer1}, on the Arduino is used, to trigger an interrupt with a relatively high consistency.
 Every eighth interrupt the signal is changed to the next bit and written via a digital pin. 
-On the receiving end, the signal is sampled eight times pr. period, if five or more of these eight is high then, it is declared a 0 bit, otherwise it is declared a 1 bit. % Dette er ikke en skrivefejl RH_ASK.cpp L. 619
+On the receiving end, the signal is sampled eight times pr. period, if five or more of these eight is high then, it is declared a 0-bit, otherwise it is declared a 1-bit. % Dette er ikke en skrivefejl RH_ASK.cpp L. 619
+This is because the process of sending the signal inverts the value.

@@ -7,17 +7,18 @@ The strict requirements must be upheld for a development platform to be usable i
 
 \begin{enumerate}[label=\itshape \alph*\upshape)]
 \item able to communicate using a single radio frequency, or have a way of using additional hardware to do so;
-\item the ability to debug and develop programs in a fast and reliable way;
+\item the ability to debug and develop programs for rapid prototyping;
 \item a relatively low cost, within the constrains of the budget given by the institution;
 and
 \item an ability to implement a real-time aspect.
 \end{enumerate}
 
 Furthermore the following parameters would be advantageous for this project and e.g. the real world application hereof:
+
 \begin{enumerate}[label=\itshape \alph*\upshape), resume]
 \item low power consumption, and possibility for running on batteries;
 \item small form factor of the device itself;
-\item ability to minimise and customise into a production like product;
+\item ability to minimise and customise into a production ready product;
 \item an extensive choice of useful and reliable libraries;
 and
 \item comprehensive and accurate documentation.
@@ -25,10 +26,11 @@ and
 
 \bigskip
 After exploring the market the Arduino ATmega328P based development boards seems like an ideal choice.
-Specifically the Arduino Uno (see \cite{ArduinoUNO}), which is the most known model seems like a perfect fit.
+Specifically the Arduino Uno (see \cite{ArduinoUNO}), which is the recommended model for all around prototyping, seemed like a perfect fit.
 
-Another notable candidate is the Raspberry Pi (see \cite{RaspberryPI}, which features a much faster CPU, HDMI output, two USB ports etc., however it falls short on the real-time aspect in conjunction with the ability to debug them. 
-There does exist a version of the real-time operating system RTOS (Open Source Real Time Operating System) for the Raspberry Pi.
+Another notable candidate is the Raspberry Pi (see \cite{RaspberryPI}), which features a much faster CPU, HDMI output, two USB ports etc.
+It falls short on the real-time aspect in conjunction with the ability to debug them. 
+There does exist a version of the real-time operating system \gls{rtos} for the Raspberry Pi.
 However each Raspberry Pi costs above 200 DKK each, this would only allow the project group to buy two devices, and this would severely limit the possibilities of the project.
 An Arduino compatible board can be bought from many manufacturers for the low cost of 38 DKK, which means many Arduinoes can be obtained for the project.
 

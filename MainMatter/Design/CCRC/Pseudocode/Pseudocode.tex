@@ -1,5 +1,5 @@
 \section{Pseudocode Description}\label{sec:Pseudo}
-This section presents key components of the designed TDMA-based protocol. 
+This section presents key components of the designed \gls{tdma}-based protocol. 
 First an informal description is given followed by relevant flowcharts and pseudocode examples. 
 The model of the protocol is divided into the two phases - the initilization phase and the loop phase. 
 
@@ -27,7 +27,7 @@ That device can only know its local variables and what it receives via the \enqu
 
 The devices store their knowledge in their local variables as seen in \myref{tab:locals}. 
 The aim of the network should be to manipulate those values while running, to satisfy the statements seen in \myref{tab:invariants}. 
-This should ensure that two devices will not send messages at the same time.
+This should ensure that no jam should occur.
 
 \begin{table}[H]
 	\centering
@@ -50,10 +50,10 @@ The \enquote{transmit} function is simple, it sends a message over radio waves c
 The \enquote{received} function is harder, it takes some parameters which are set to the received values if any was received. 
 It then returns true if a message was received; otherwise false.
                     
-\subsection{General Case} % (fold)
+\subsection{Main Loop} % (fold)
 \label{sub:general_case}
 
-During the lifetime of the devices, they should spend most of their time in this general case or in the user code. 
+During the lifetime of the devices, they should spend most of their time in this loop or in the user code. 
 This code determines whose turn it is, synchronises devices, and handles communication.
 
 As seen in \myref{fig:main_psuedo_flow} the flow of the code is a straightforward loop with a few logical checks. 
