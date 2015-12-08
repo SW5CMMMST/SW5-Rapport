@@ -91,11 +91,25 @@
 
 \usepackage{booktabs}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Pseudocode
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\usepackage{algorithm}
+\usepackage{algpseudocode} 
+\floatname{algorithm}{Pseudocode}
+\algrenewcommand\algorithmicindent{2em}%  
+\captionsetup[algorithm]{font=footnotesize}
+\makeatletter
+\renewcommand{\ALG@beginalgorithmic}{\footnotesize}
+\makeatother  
+\algdef{SE}[DOWHILE]{Do}{DoWhile}{\algorithmicdo}[1]{\algorithmicwhile\ #1}% 
+\algrenewcommand{\alglinenumber}[1]{\color{black!50!}\scriptsize#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MyRef
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage[english]{cleveref}
 \crefname{exa}{example}{examples}
-\newcommand{\myref}[1]{\Cref{#1}}
+\crefname{algorithm}{pseudocode}{pseudocodes}
+\newcommand{\myref}[1]{\cref{#1}}
 \newcommand{\Myref}[1]{\Cref{#1}}
 \newcommand{\lowercaseref}[1]{\cref{#1}}
 

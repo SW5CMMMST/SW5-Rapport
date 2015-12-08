@@ -25,47 +25,42 @@ It is worth noting here that this minimum is only true for this case, both stron
 If a network is found prior to \textit{x} exceeding $t_0$ the device will process the data and use this to properly obtain a slot in the network, this is done in the function protocolMaintance which will be explained in \myref{subsec:protocolmaintanaince}.
 Should it occur that no network is found the device will start its own network with the initial configuration that lines 35 - 38 in \myref{lst:setupCCRC} shows.
 
-\begin{lstlisting}[label=lst:setupCCRC,style=pseudocode,mathescape=true,caption={Pseudocode example of the special case procedure initialize()}]
-procedure initialize()
-	$x \leftarrow 0$
-	$found \leftarrow \bot$
-	// Search for network
-	while $x \leq t_0$ do
-		if received($i', n', id', data'$) then
-			protocolMaintance($i', n'$, $|data'|$)
-			$found \leftarrow \top$
-			wait until $x \geq \delta$
-			$x \leftarrow 0$
-			break
-		end
-	end	
-	if $found = \top$ then
-		// Wait for empty slot
-		while $i \neq n$ do
-			$i \leftarrow (i \text{ mod } n) + 1$
-			while $x \leq \delta$ do
-				if received($i', n', id', data'$) then
-					protocolMaintance($i', n'$, $|data'|$)
-					break
-				end
-			end
-			wait until $x \geq \delta$
-			$x \leftarrow 0$
-		end
-		wait until $x \geq \delta_{proc}$
-		// Obtain timeslot
-		$k \leftarrow n$
-		$n \leftarrow n + 1$
-		// Announce
-		transmit($i$, $n$, $id$, $data$)
-	else
-		// Initialize network
-		$x \leftarrow 0$
-		$n \leftarrow 2$
-		$k \leftarrow 1$
-		$i \leftarrow 0$
-	end
-	// Enter main loop
-	mainLoop()
-\end{lstlisting}  
+\begin{algorithm}[h]
+\caption{Pseudocode example of the special case procedure Initialise()}
+\label{lst:setupCCRC}
+\begin{algorithmic}[1]
+\Procedure {Initialise}{ } 
+    \State $x \gets 0$
+    \State $found \gets \bot$
+    \While {$x \le t_0$}
+        \If {\Call{Received}{$i', n', id', data'$}}
+            \State \Call{ProtocolMaintenance}{$i', n', |data'|$} 
+            \State $found \gets \top$
+            \State \textbf{wait until } $x \ge \delta$
+            \State $x \gets 0$
+            \State \textbf{break}
+        \EndIf                                        
+    \EndWhile
+    \If {$found$}
+        \While {$i \neq n$}
+            \State $i \gets (i \bmod n) + 1$
+            \While {$x \le \delta$}
+                \If {\Call{Received}{$i', n', id', data'$}}
+                    \State \Call{ProtocolMaintenance}{$i', n', |data'|$}
+                    \State \textbf{break}
+                \EndIf
+            \EndWhile
+            \State \textbf{wait until } $x \ge \delta$
+            \State $x \gets 0$ 
+        \EndWhile
+        \State \textbf{wait until } $x \ge \delta_{proc}$
+        \State $k \gets n,\, n \gets n+1$ \Comment{Obtain timeslot}
+        \State \Call{Transmit}{$i, n, id, data$} \Comment{Announce}        
+    \Else
+        \State $x \gets 0,\, n \gets 2,\, k \gets 1,\, i \gets 0$ \Comment{Init new network}
+    \EndIf
+    \State \Call{MainLoop}{ } \Comment{Enter the main loop}
+\EndProcedure        
+\end{algorithmic}    
+\end{algorithm} 
 % subsection special_cases (end)

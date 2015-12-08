@@ -68,33 +68,37 @@ This loop should only be stopped when the network is reconfigured.
 Reconfiguration of the network involves setting up and connecting to a network. 
 These processes is described in \myref{sub:setupCCRC}.
 
-\begin{lstlisting}[style=pseudocode,mathescape=true,float,floatplacement=H,
-    label={lst:general_case}, caption={Pseudocode example of the main loop}] 
-procedure mainLoop()
-	loop forever
-		run userCode() until $x \geq \delta_{proc}$
-		$i \leftarrow (i \text{ mod } n) + 1$ // Update current slot
-		if $i = k$ then
-			makePayload() // Updates the data to be sendt
-			transmit($i$, $n$, $id$, $data$)
-		else
-			while $x \leq \delta$ do
-				if received($i'$, $n'$, $id'$, $data'$) then
-					protocolMaintance($i'$, $n'$, $|data'|$)
-					userRecieve($id'$, $data'$)
-				end
-			end
-		end
-		wait until $x \geq \delta$
-		$x \leftarrow 0$ 
-	end
-\end{lstlisting}  
+\begin{algorithm}[h]
+\caption{Design example of the main loop}
+\label{lst:general_case}
+\begin{algorithmic}[1]
+\Procedure {MainLoop}{ }
+    \Repeat
+        \State \textbf{run} \Call{UserCode}{ } $\text{ \textbf{until} }x \ge \delta_{proc}$ 
+        \State $i \gets (i \bmod n) + 1$
+        \If {$i = k$}
+            \State \Call{MakePayload}{ }
+            \State \Call{Transmit}{$i, n, id, data$}
+        \Else
+            \While {$x \le \delta$}
+                \If {\Call{Received}{$i', n', id', data'$}}
+                    \State \Call{ProtocolMaintenance}{$i', n', |data'|$}
+                    \State \Call{UserReceive}{$id', data'$}
+                \EndIf
+            \EndWhile
+        \EndIf
+        \State \textbf{wait until } $x \le \delta$
+        \State $x \gets 0$ 
+    \Until {the end of time}
+\EndProcedure        
+\end{algorithmic}    
+\end{algorithm}
 
 The full pseudocode for the general case can be seen in \myref{lst:general_case}. 
 In the code, there are a few extra details but the main structure is the same. 
 The code describes how a device knows whether it is its turn or not.  
 
 Another thing to realize is because the timing is static, the clock $x$ needs to be reset only after the duration of a full timeslot; $\delta$.
-Other resyncronization is handled in the 'protocolMaintance' procedure.
+Other resyncronization is handled in the ``protocolMaintance'' procedure.
 % subsection general_case (end)   
             
