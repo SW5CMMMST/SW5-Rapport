@@ -10,8 +10,8 @@ P(A \land B) &= P^{events} \label{eq:conditionalProb2}
 \end{align}
 
 \subsubsection*{Message Redundancy}\label{redundancy}
-Considering conditional probability one might transmit the same payload more than once in the communication phase.
-While this would increase the length of the communication phase it would also decrease the odds of any given message being lost as per conditional probability.
+Considering conditional probability one might transmit the same payload more than once in $\delta_{comm}$.
+While this would increase the length of $\delta_{comm}$ it would also decrease the odds of any given message being lost as per conditional probability.
 Each message would provide an exponential decrease in the odds of a packet being lost as is evident by \myref{eq:conditionalProb2} where $events$ would simply be the multiple of redundant messages $+ 1$, an example would be by simply sending each message twice, that would give one redundant message, with a packet loss of 2 \% this would change to a $0.02^2$ chance i.e. 0.04 \% chance of both messages being lost.
 
 \subsubsection*{Multimessage Echo}
