@@ -1,85 +1,80 @@
 \chapter{Future Works}
-This chapter describes the problems which solutions could help better solve the problem statement as stated in \myref{sec:problemStatement}. 
-Most of these were excluded from the project due to time constraints.
+This chapter describes problems yet to be solved, the solutions for which could improve upon the solution to the problem statement as stated in \myref{sec:problemStatement}. 
+Some of these problems were also described in \myref{chp:Problems}, yet not solved due to their complexity.
 
 \section{Strongly Connected Networks}
-During the analysis phase of the project, an issue of incomplete networks arose.  
-Many of the techniques from the unreliable networks would work in most cases, e.g. when connecting to a network. 
-
-An incomplete network is a network where the individual devices might not have a direct connection to every other device in the network. 
-This complicates communication between devices.
+During the analysis phase of the project, an issue of strongly connected networks arose.  
+Techniques from the unreliable networks would work in most cases, e.g. when connecting to a network. \todo{Pure hypothesis, also no it would not}
+In a strongly connected network communication between devices is significantly more complex.
 
 \tikzfigure{LinearNetwork.tikz}{A linearly connected network where every node has at most two connections.}{linearNetwork}
-
-In this case, the other devices in the network must figure out whether to act as a relay for a message. 
-The simple solution is to repeat all known information, which would increase the message length and by that account also the frame length.
-Hence communication between devices would become slower.
+\noindent
+In this case the other devices in the network must figure out whether to act as a relay for other devices. 
+The simple solution is to repeat all known information, which would increase the payload size and by extension also the frame length.
+Hence communication between devices would take longer.
 
 The worst case for a network of four devices is illustrated by \myref{fig:linearNetwork}.
 When device 1 wants to send a message to device 4, the message needs to go through device 2 and 3 first.
-
-The implementation of this would allow many other use cases for the protocol. 
+The implementation of this would be applicable for other use cases in the protocol. 
 \todo{write more about this! Very sudden ending...}
 
 \section{Timer Interrupt Based Library}
 The Arduino platform includes support for timer interrupt based programming.
-This means that every $\delta$ milliseconds an interrupt in the user program could occur.
+This means that every $\delta$ milliseconds an interrupt in the user program could occur.\todo{Er det meningen at vi referer til en time-slot length her?}
 In this interrupt the protocol specific details could be handled, such as transmitting, receiving and maintenance.
 
-The main advantage of this would be that the timer gives a better guarantee that the user code will not exceed the expected duration.
-The disadvantage of this would be that the interface could become less obvious, and it would make the code vulnerable to race conditions.
-Moreover the user code would need to be preemptable and context switching would have to be implemented correctly.
+The main advantage of this would be that the timer gives a better guarantee that the user code will not exceed the expected duration.\todo{why?how?}
+The disadvantage of this would be that the interface could become less obvious, and it would make the code vulnerable to race conditions. \todo{hviklet interface?}
+Moreover the user code would need to be preempt-able and context switching would have to be implemented correctly.
 
 Another thing to note is that on the Arduino Nano and Uno there are three timer interrupts.
 One is used by the delay function another is used by RadioHead leaving exactly one left for the protocol.
-This would mean that every other library which uses timers would be incompatible, unless RadioHead and the protocol could share interrupts.
-But this would require a lot of changes to both libraries.
+This would mean that every other library which uses timers would be incompatible, unless RadioHead and the protocol could share interrupts, which would require a lot of changes to both libraries.
 
-\section{Speed Optimisations}
+\section{Improvements to Protocol Operating Speed}
 
-The protocol takes approximately $66 + (6 \times l)$ milliseconds to send a package of length $l$ bytes as discoverd in \myref{ssub:radiohead_time_sent_test}. 
-This means that a message length of 16 bytes would take 162 milliseconds to send.
-If the user code takes up a quarter of the time slot then the slot length must be approximately 200 milliseconds.
+The protocol uses approximately $66 + (6 \times s)$ milliseconds to transmit a package of size $s$, as discovered in \myref{ssub:radiohead_time_sent_test}. 
+This means that a payload of 16 bytes would take 162 milliseconds to transmit.
+If the user code takes up a quarter of the time slot then the time-slot length must be approximately 200 milliseconds.
 In a network with $n$ devices, this means that the frame length must be equal to $200 \times (n + 1)$.
-Which then means that in a network of four devices the frame length would be a second.
-
-There are many ways to optimise this, but this section will focus on these possible improvements:
-\begin{enumerate*}[label=\itshape \alph*\upshape)]
+Due to which a network of four devices would have a frame length of one second.
+There is a wide range of ways to improve the speed at which the protocol operations, but this section will focus on the following possible improvements:
+\begin{enumerate}[label=\itshape \alph*\upshape)]
     \item Skip unnecessary transmissions,
     \item increase the bit rate, 
     \item reduce overhead, and
     \item parallelise communication for devices not completely but only strongly connected.
-\end{enumerate*} 
+\end{enumerate} 
 
 \begin{description}[labelindent=\parindent]
-    \item [Skip unnessary transmissions]\hfill\\
-When the protocol is fully functioning there is a chance that a device will not have anything new to send in its timeslot.
-Currently, the device would send the last message again, filling the slot with information that might be redundant.
+    \item [Skip unnecessary transmissions]\hfill\\\todo{One would have to skip an entire time-slot not just transmission, this would mean dynamic time-slots, this description mentions nothing of this}
+When the protocol is fully functioning there is a chance that a device will not have anything new to transmit in its time-slot.
+Currently the device would transmit the previous payload again filling the slot with information that might be redundant.
 However some kind of signal that indicates to the other devices that this slot should be skipped is needed to implement this idea.
 
     \item[Increase the bit rate]\hfill\\ 
 An obvious way to increase communication speed is to increase the bit rate.
-This could introduce unreliability for the communication at higher bit rates. 
-But even for smaller increases to the bit rate, it could have a significant speed improvement.
+This could introduce unreliability for the communication at higher bit rates, but even for smaller increases to the bit rate it could be a significant improvement.
 The best way to implement this would be to have the user be in control of the bit rate.
-This way the user could set the rate according to how reliable and fast the protocol needs to be.
+This way the user could set the rate according to the requirements of a given application.
 
     \item[Reduce overhead]\hfill\\
-\todo{Author plz try writing this again}
-As discussed in \myref{subsubsec:RadioHead}, RadioHead introduces some overhead associated when using the library.
+\todo{Author plz try writing this again, no sense was made}
+As discussed in \myref{subsubsec:RadioHead}, RadioHead introduces some overhead associated with using the library.
 It is possible that by reducing the initial signal of 3 4to6 bytes. 
 However the performance increase is negligible.
-Another place to look is what extra work RadioHead does before sending a message which might not be necessary.
+Another place to look is what extra work RadioHead does before transmitting the payload which might not be necessary.
 But this would not be the best place to look for an performance increase.
 
     \item[Parallelise communication]\hfill\\
     \todo{wouldn't this require some designated ``router'' device?}
-This forth possible improvement assumes that the protocol works in a strongly connected network. 
-If a network of more than three devices contains two devices who can not hear each other and none of their neighbours can hear both of them; there would not be any reason not to have them in the same slot.
-This would need some way of knowing which slots neighbours and their neighbours occupy.
-One way of implementing this would need a rearrange phase where every device tries to rearrange the assigned slots.
+This fourth possible improvement assumes a strongly connected network in which at least two nodes cannot hear each other nor their respective neighbours.
+If a network adheres to this assumption there would be no reason not to have them share a time-slot.
+This would require some way for a device to know which time-slot its neighbours and its neighbours-neighbours occupy.
+One way of implementing this would be with a rearrange phase.
+In this phase every device tries to rearrange the assigned time-slots.\todo{Every device attempting to rearrange the time-slot of each device? that wont work}
 When a new device connects to the network, the network enters this phase.
 The problem with this is that the communication is paused during this phase in the entire network.
-This has the added advantage of a build-in garbage collector for dead devices.
+This has the added advantage of a build-in garbage collector for dead devices.\todo{how so?}
 \end{description}
 
