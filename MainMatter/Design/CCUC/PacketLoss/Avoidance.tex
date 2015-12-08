@@ -22,3 +22,5 @@ An echo would have to be at least two previous messages for it to affect all cas
 This is such that if a device misses the message from the previous device, and it is the following device, it can still acquire that message from the device following itself.
 Furthermore this would also allow for devices to hear whether or not another device heard them, given their time-slots are withing the amounts of messages echoed.
 With three devices this provides the same packet loss as before due to the aforementiond example.
+This increases the message length greatly, and thus will also reduce the speed of the network as message redundancy would.
+If it requires less time than message redundancy, greatly depends on the size of the messages being sent.
