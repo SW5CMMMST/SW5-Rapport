@@ -35,24 +35,34 @@ Setting these parameters closer to zero will cause the time it takes to verify a
 The UPPAAL model shown in \myref{sec:themodel} has gone through extensive changes to accomodate the challenges posed of multiple devices starting at the same time.
 The complete model can be seen in the back of the project report printed on a A3-paper, and it can also be found on the CD, which is also in the back of the project folder.
 
-Since multiple devices are turned on at the same time, it is now possible that more than one device is transmitting at the same time. 
-If two or more devices transmit at the same time, i.e. a jam, then none of the receiving devices will be able to receive any payloads, this is also mentioned in \myref{subsubsec:RadioHead}, this needs to be modeled in UPPAAL. 
+\paragraph{Jamming} can now occur since multiple devices are turned on at the same time, which means that more than one device is now able to transmit at the same time.
+If two or more devices transmit at the same time, i.e. a jam, then none of the receiving devices will be able to receive any payloads, this is also mentioned in \myref{subsubsec:RadioHead}, this needs to be modelled in UPPAAL. 
 %When this happens, it has been mentioned in \myref{subsubsec:RadioHead}, that nothing is detected by the receivers, therefore a mechanism making sure that when two devices are trying to transmit at the same time, nothing will be received by anyone are needed in UPPAAL. 
 
+\paragraph{Multiple Startup.}
 In the previous model presented in \myref{sec:themodel} only one device was able to start at a time, as there was nothing to handle multiple starting at the same time.
+\begin{wrapfigure}[18]{r}{0.3\textwidth}
+\centering
+  \includegraphics[width=0.3\textwidth]{Figures/Model/Screenshot_Of_Kill.png} 
+\caption{Graph showing the split node after not receiving, where there is a chance for the device to start over and kill the network.}
+\label{fig:Screenshot_Of_Kill}
+\end{wrapfigure}
+
 This limitation will be removed in this model.
 %The devices can now start at the same time again, as was possible before the mechanism controlling when a device was released was implemented, as presented in \myref{sec:verifyingTheModel}.
 To stop devices from being alone in a network forever, a split node is made when nothing is received in a time slot, where the device is alone in the network, i.e. the \texttt{local\_n} of the device is equal to 2.
-This split node has 2 outgoing edges, one edge which has a probability weight of 90, which makes the device go back into its main loop, and another edge with a probability of 10, which make the device kill the network, and start listening again.
+This split node has 2 outgoing edges, one edge which has a probability weight of 90, which makes the device go back into its main loop, and another edge with a probability of \texttt{kill\_chance} (10 \%), which make the device kill the network, and start listening again.
 When this happens the exponential back-off method is used, which means for each time a device kills the network it will have a chance of listening for a longer period of time, according to the specification in the previous sections.
 This are the changes needed for the model, in order for the devices to start trying to connect to the same network instead of multiple networks.
+\myref{fig:Screenshot_Of_Kill} shows the split node leaving the location after not receiving a transmission.
+
+
+
+\paragraph{Multile Devices Connecting.}
 The other problem is for when devices try to connect to the same network at the same time.
 A verification loop has been created for the model, where all devices which transmitted that they wanted to join the network will listen for the number of devices acknowledging their request of joining the network.
 If the amount of acknowledgments are lower than half of the devices in the network, they will also use the exponential backoff method, where they will wait for a random number of frames, in an increasingly larger range, with a cap of 31 frames (It only require one acknowledgment in the CCRC, but this solutions is chosen, to easier expand to CCUC).
 This is the only change needed for handling multiple devices connecting to the network, the specifics of the implementation of this on the model will not be presented in this section, but for the curious reader the specifics can be seen in the back as previously mentioned.
-\todo[inline]{Hvad gør vi med koden der også hører til modellen?} 
-\todo[inline]{Skal der måske alligevel være nogle screenshots af de forskellige dele her ? Det bliver lidt tørt at læse allerede nu synes jeg? Eller er det kun mig der har det sådan ? :) - Søren}
-\todo[inline]{Det er meget svært at få noget ud af at læse dette afsnit uden nogle billeder af UPPAAL modellen, bare små udsnit som er vigtige. - Troels }
 
 %New Queries using SMC
 
