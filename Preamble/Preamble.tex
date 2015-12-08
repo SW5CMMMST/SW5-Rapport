@@ -82,7 +82,6 @@
 % Misc
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage[nottoc]{tocbibind}
-%\usepackage{paralist}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{xargs}
@@ -90,6 +89,19 @@
 \usepackage{csquotes}
 
 \usepackage{booktabs}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Pseudocode
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\usepackage{algorithm}
+\usepackage{algpseudocode} 
+\floatname{algorithm}{Pseudocode}
+\algrenewcommand\algorithmicindent{2em}%  
+\captionsetup[algorithm]{font=footnotesize}
+\makeatletter
+\renewcommand{\ALG@beginalgorithmic}{\footnotesize}
+\makeatother  
+\algdef{SE}[DOWHILE]{Do}{DoWhile}{\algorithmicdo}[1]{\algorithmicwhile\ #1}% 
+\algrenewcommand{\alglinenumber}[1]{\color{black!50!}\scriptsize#1}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MyRef
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

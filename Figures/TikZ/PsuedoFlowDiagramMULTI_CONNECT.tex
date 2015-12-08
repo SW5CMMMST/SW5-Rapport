@@ -6,21 +6,17 @@
 \tikzstyle{cloud} = [draw, ellipse,fill=red!20,
     minimum height=2em, align=center]
 \tikzstyle{preproc} = [draw,rectangle split, rectangle split horizontal,rectangle split parts=3, fill=green!40, minimum height=4em] 
-\resizebox{1\textwidth}{!}{
 \begin{tikzpicture}[node distance = 2.8cm, auto]
     % Place nodes
     \node [cloud] (start) {Start};
-    \node [block, right of=start] (search) {Search for network};
+    \node [block, left of=start] (search) {Search for network};
     \node [decision, below of=search] (found) {Found network?};
     \node [preproc, right of=found, node distance=3.5cm] (init) {\nodepart{two} Init network};
     \node [block, below of=found] (listen) {Listen while waiting for empty slot};
-    \node [block, right of=listen] (choosesubs) {Choose which sub slot to take};
-    \node [block, right of=choosesubs] (listensubs) {Listen in the prior sub empty slots};
-    \node [decision, below of=listensubs] (heardinsub) {Heard announce?};
-    \node [block, below of=listen] (waitempty) {Wait rest of the empty slot};  
-    \node [decision, below of=listen, node distance=5.6cm] (validated) {Validated?};
+    \node [block, right of=listen] (announce) {Announce in empty slot}; 
+    \node [decision, below of=listen, node distance=2.5cm] (validated) {Validated?};
     \node [block, right of=validated] (listenvalidate) {Listen for validation from the network};
-    \node [block, right of=listenvalidate] (announce) {Announce in sub empty slot};
+    
     \node [block, left of=validated] (expbackoffcalc) {Determine an exponential backoff}; 
     \node [block, left of=listen] (backoff) {Wait for backoff amount of frames}; 
     \node [block, below of=validated] (join) {Take k after what the empty slot had}; 
@@ -31,18 +27,12 @@
     \path [line] (search) -- (found);
     \path [line] (found) -- node {no} (init);
     \path [line] (found) -- node {yes} (listen);
-    \path [line] (listen) -- (choosesubs);
-    \path [line] (choosesubs) -- (listensubs);
-    \path [line] (listensubs) -- (heardinsub);
+    \path [line] (listen) -- (announce);
     \path [line] (announce) -- (listenvalidate);
     \path [line] (listenvalidate) -- (validated);
     \path [line] (validated) -- node {no} (expbackoffcalc);
     \path [line] (validated) -- node {yes} (join);
-    \path [line] (heardinsub) -- node {yes} (waitempty);
-    \path [line] (heardinsub) -- node {no} (announce); 
     \path [line] (expbackoffcalc) -- (backoff);
-    \path [line] (backoff) -- (listen);
+    \path [line] (backoff) |- (search);
     \path [line] (join) -- (mainloop); 
-    \path [line] (waitempty) -- (listen); 
-\end{tikzpicture}                                
-}
+\end{tikzpicture}
