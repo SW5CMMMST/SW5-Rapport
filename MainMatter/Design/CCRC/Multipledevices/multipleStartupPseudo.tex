@@ -6,7 +6,7 @@ The procedure seen in \myref{lst:networkMultiStartCCRC} replaces lines 34 throug
 \caption{Initialise network in CCRC for CCRC for the multiple device activation problem.}
 \label{lst:networkMultiStartCCRC2}
 \begin{algorithmic}[1]
-\Require $c$ is initialised
+\Require $c$ is initialised \Comment{Will be 0 on first run}
 \Require $kill_{chance} = 5\%$ 
 \Procedure{InitializeNetwork}{ }
     \State $x \gets 0, n \gets 2, k \gets 1, i \gets 0$
@@ -28,8 +28,8 @@ The procedure seen in \myref{lst:networkMultiStartCCRC} replaces lines 34 throug
                     \EndIf
                 \Else
                     \If {\Call{TimeToDie?}{$kill_{chance}$}} \Comment{$kill_{chance}\%$ of killing}
-                        \State $a \gets a + 1$
-                        \State \Call{RetryStartUp}{ } \Comment{Listen for networks then call \textsc{InitializeNetwork}}
+                        \State $c \gets c + 1$
+                        \State \Call{RetryStartUp}{ } \Comment{Go back to searching for networks again}
                     \EndIf
                 \EndIf
             \EndWhile
@@ -52,7 +52,7 @@ Note that this no longer denotes the minimum time required to find a network, as
         \toprule
         Name                & Type       & Description & Constraint \\
         \midrule
-        $c$                 & integer    & Number of attempts of creating a network, but capped at 5                         & $0 \leq a \leq 5$     \\
+        $c$                 & integer    & Number of attempts of creating a network, but capped at 5                         & $0 \leq c \leq 5$     \\
         $t_1$               & integer    & The time spent searching for a network                                            & $t_1 = 3 \times \delta + id^c \times \delta$     \\
         $kill_{chance}$     & percentage & The chance of a device killing it self                                            & $kill_{chance} = 5\%$  \\
         \bottomrule

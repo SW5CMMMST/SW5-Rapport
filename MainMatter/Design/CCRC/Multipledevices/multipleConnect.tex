@@ -91,14 +91,14 @@ In \myref{lst:pseudoInitMulti} the 17 lines from \myref{lst:setupCCRC}, which co
 \caption{Modified section of initialise procedure for when network found.}
 \label{lst:pseudoInitMulti}
 \begin{algorithmic}[1]
-\Require $c$ is initialised
+\Require $c$ is initialised \Comment{Will be 0 on first run}
 \Procedure {ConnectToNetwork}{ }
     \While {$i \neq n$}
         \State \textbf{run} \Call{UserCode}{ } $\text{ \textbf{until} }x \ge \delta_{proc}$ 
         \State $i \gets (i \bmod n) + 1$
         \While {$x \le \delta$}
             \If {\Call{Received}{$i', n', id', mode', data'$}}
-                \State \Call{ProtocolMaintenanca}{$i', n', |data'|$}
+                \State \Call{ProtocolMaintenance}{$i', n', |data'|$}
                 \State \textbf{break}
             \EndIf
         \EndWhile
@@ -112,7 +112,7 @@ In \myref{lst:pseudoInitMulti} the 17 lines from \myref{lst:setupCCRC}, which co
         \State $i \gets (i \bmod n) + 1$
         \While {$x \le \delta$}
             \If {\Call{Received}{$i', n', id', mode', data'$}}
-                \State \Call{ProtocolMaintenanca}{$i', n', |data'|$}
+                \State \Call{ProtocolMaintenance}{$i', n', |data'|$}
                 \If {\Call{Validated}{$mode', data'$}}
                     \State $valid \gets \top$
                 \EndIf
@@ -133,7 +133,7 @@ In \myref{lst:pseudoInitMulti} the 17 lines from \myref{lst:setupCCRC}, which co
             \State \textbf{wait} $1 \text{ frame}$
             \State $b \gets b - 1$
         \EndWhile
-        \State \Call{ConnectToNetwork}{ }
+        \State \Call{RetryStartUp}{ } \Comment{Go back to searching for networks again}
     \EndIf
 \EndProcedure
 \end{algorithmic}    

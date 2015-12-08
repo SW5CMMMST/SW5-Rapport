@@ -9,7 +9,7 @@
 \begin{tikzpicture}[node distance = 2.8cm, auto]
     % Place nodes
     \node [cloud] (start) {Start};
-    \node [block, right of=start] (search) {Search for network};
+    \node [block, left of=start] (search) {Search for network};
     \node [decision, below of=search] (found) {Found network?};
     \node [preproc, right of=found, node distance=3.5cm] (init) {\nodepart{two} Init network};
     \node [block, below of=found] (listen) {Listen while waiting for empty slot};
@@ -33,6 +33,6 @@
     \path [line] (validated) -- node {no} (expbackoffcalc);
     \path [line] (validated) -- node {yes} (join);
     \path [line] (expbackoffcalc) -- (backoff);
-    \path [line] (backoff) -- (listen);
+    \path [line] (backoff) |- (search);
     \path [line] (join) -- (mainloop); 
 \end{tikzpicture}
