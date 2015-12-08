@@ -31,46 +31,48 @@ In order to simplify the problem some assumptions are made about the network.
 During development of the system, the system could be set up to give \textasciitilde100 \% probability of successfully receiving the message, by wiring the Arduinos together instead of using radio communication; this gives more room to work on the baseline communication issues without having to consider the unreliability of the radio frequency modules.
 As previously mentioned the networks can be set up as either completely connected graphs (as in \myref{fig:ccrcnetworkgraph}) or strongly connected graphs (as in \myref{fig:network}).
 As a consequence of this, four sub problems will be considered and modelled as graphs:
-\\
+
 \begin{description}[labelindent=\parindent,itemsep=2em]
-    \item[CCRC-problem:] Completely connected reliable communication problem   
+    \item[\gls{ccrc}-problem:]   
     \begin{equation}
-    \text{iff } \forall\, \{v_i, v_j\} \subset V: \, (v_i,r,v_j)\in E \mid r = 1    
+		\text{iff } \forall\, \{v_i, v_j\} \subset V: \, (v_i,r,v_j)\in E \mid r = 1    
     \end{equation}
-    The CCRC-problem describes how all vertices are directly connected with each other, creating a completely connected graph, and all the weights of the edges are also 1, which means that all transmissions will be received. 
+    The \gls{ccrc}-problem describes a network where all vertices are directly connected with each other, creating a completely connected graph.
+	All the weights of the edges in this graph are 1, which means that all transmissions will be received. 
     
-    \item[CCUC-problem:] Completely connected unreliable communication problem
+    \item[\gls{ccuc}-problem:]
     \begin{equation}
-    \text{iff } \forall\, \{v_i, v_j\} \subset V: \, (v_i,r,v_j)\in E \mid r \in (0, 1]
+		\text{iff } \forall\, \{v_i, v_j\} \subset V: \, (v_i,r,v_j)\in E \mid r \in (0, 1]
     \end{equation}
-    The CCUC-problem describes a completely connected graph however in this scenario there is not a \textasciitilde100\% chance the transmission will be received; all vertices are still in range of each-other. 
+    The \gls{ccuc}-problem describes a completely connected graph however in this scenario there is not a guarrentee that the transmission will be received; all vertices are still in range of each-other. 
     
-    \item[SCRC-problem:] Strongly connected reliable communication problem
+    \item[\gls{scrc}-problem:]
     \begin{equation}
-    \begin{gathered}
-    \text{iff } \forall\, \{v_i, v_j\} \subset V: \text{ there is a directed path from } v_i \text{ to } v_j\; \land \\ \forall\, (v_q, r, v_r) \in E : r = 1
-    \end{gathered}  
+		\begin{gathered}
+			\text{iff } \forall\, \{v_i, v_j\} \subset V: \text{ there is a directed path from } v_i \text{ to } v_j\; \land \\ \forall\, (v_q, r, v_r) \in E : r = 1
+		\end{gathered}  
     \end{equation}   
-    The SCRC-problem describes a strongly connected network meaning at least one vertex has an indirect connection to another rather than a direct connection, i.e. there still exists a path from every vertex to every other vertex but at least one pair of vertices requires one or more mediating vertices. In this example communication is once again reliable such that all transmissions will be received. 
+    The \gls{scrc}-problem describes a strongly connected network meaning at least one vertex does not have direct connections to all other verticies, i.e. there still exists a path from every vertex to every other vertex but at least one pair of vertices requires one or more mediating vertices. 
+	In this example communication is once again reliable such that all transmissions will be received. 
     
-    \item[SCUC-problem:] Strongly connected unreliable communication problem
+    \item[\gls{scuc}-problem:]
     \begin{equation}
-    \begin{gathered}
-    \text{iff } \forall\, \{v_i, v_j\} \subset V: \text{ there is a directed path from } v_i \text{ to } v_j\; \land \\ \forall\, (v_q, r, v_r) \in E : r \in (0, 1]
-    \end{gathered}  
+		\begin{gathered}
+			\text{iff } \forall\, \{v_i, v_j\} \subset V: \text{ there is a directed path from } v_i \text{ to } v_j\; \land \\ \forall\, (v_q, r, v_r) \in E : r \in (0, 1]
+		\end{gathered}  
     \end{equation}    
-    The SCUC-problem describes the most realistic scenario, a strongly connected network with a chance of not receiving transmissions. 
+    The \gls{scuc}-problem describes the most realistic scenario, a strongly connected network with a chance of not receiving transmissions. 
 \end{description}
 \bigskip \noindent
-The CCRC-problem is is the obvious choice for the first iteration, since this is the simplest problem, which requires the least amount of design choices to be fulfilled.
-The decision of which problem should follow CCRC-solution, is however a more complex discussion.
-One could argue for expanding into a still reliable but now only strongly connected network (SCRC), as well as arguing for expanding into a unreliably but still completely connected network (CCUC).
+The \gls{ccrc}-problem is is the obvious choice for the first iteration, since this is the simplest problem, which requires the least amount of design choices to be fulfilled.
+The decision of which problem should follow \gls{ccrc}-solution, is however a more complex discussion.
+One could argue for expanding into a still reliable but now only \acrlong{scrc}, as well as arguing for expanding into a unreliably but still \acrlong{ccuc}.
 Therefor the chosen order will simply reflect our estimation of which problems will require the least amount of modification.
 
-Another possibility would be to only split the sub problems into three, e.g. CCRC $\rightarrow$ CCUC $\rightarrow$ SCUC, however we deem that a more optimal solution can be derived by working with the strongly connected problem followed by the unreliable problem and then combine the solutions to solve the SCUC-problem.
+Another possibility would be to only split the sub problems into three, e.g. \gls{ccrc} $\rightarrow$ \gls{ccuc} $\rightarrow$ \gls{scuc}.
+However we deem that a more optimal solution can be derived by working with the strongly connected problem followed by the unreliable problem and then combine the solutions to solve the \gls{scuc}-problem.
 
 In addition to these four sub problems, some more practical problems will be abstracted away for in the first iteration.
 An example of such a abstraction could be starting multiple devices at the same time.
 Solutions to these practical problems will be implemented continually during the development. 
-These abstractions will be further explained as the are taken during the design and implementation phases of the problems.
 This approach increases the probability of having a working solution at the end of this project without over- or underestimating the workload. 

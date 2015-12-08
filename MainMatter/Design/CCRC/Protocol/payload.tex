@@ -1,8 +1,8 @@
 \subsection{Payload}
-When developing for an Arduino it is important to design for the limited resources available.
-Therefore it is advised to keep the amount of resources used small.
-Additionally the transmission time increases as the size of the payload increases, this will further escalate the risk of packet loss. 
-Thus a balance between the size of the payload, the speed of transmission and the reliability of transmissions should be met. 
+When developing for an Arduino it is important to design for the limited memory available.
+Therefore it is advised to keep the amount of memory used small.
+Additionally the transmission time increases as the size of the payload increases, this will further increase the risk of packet loss. 
+Thus the smallest payload which could acomplish the task needed is prefered.
 
 \bigskip 
 The amount of data in the payload largely depends on the complexity of the network itself, and the devices that make up the network.
@@ -14,15 +14,14 @@ In an effort to allow for such a variety in networks an abstraction of the data 
 A figure showing the design of the payload can be seen on \myref{fig:payload_struct}.
 
 \tikzfigure{ProtocolStruct.tikz}{Payload with information needed to communicate on the network, along with some data to be used by the Arduinos in the user code.}{payload_struct}
-\bigskip
 
-The payload has the four variables: slot, slot count, address and timestamp, which is to be used to communicate in the network.
+The payload has the three variables: slot, slot count and address, which are used to communicate in the network.
 The slot is used to indicate which slot the frame is currently in, while slot count is the total number of slots.
 The payload allows the protocol to abstract from what data is being sent, and as such any data can be send as long as it is of reasonable size. 
-Examples of data could be sending a message to turn on some LED or maybe requesting other devices for their sensor outputs.
+
+Examples of data could be sending a message to turn on some LED or maybe requesting sensor data from other devices.
 Address is much like a mac address and is unique for all Arduinos, and is used to differentiate between Arduinos to tell them apart.
 This could instead be included in the Data as some implementations with the protocol might not need to differentiate between the Arduinos, however this is a more general solution for the protocol.
 Since the size of the address is finite, and will most likely be implemented as a 1 byte unsigned integer. 
 A 1 byte address would allow 256 addresses, however a few may be reserved for special uses.
-The timestamp is used to synchronize the units.
-This payload is reasonably small, and the size of the data field will depend on the user code on the device.
+This header is reasonably small with a size of 3 bytes, and the size of the data field will depend on the user code on the device.
