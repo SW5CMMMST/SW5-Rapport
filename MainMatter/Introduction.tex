@@ -5,39 +5,19 @@
 Wired communication is considered the fastest and  most reliable mean of digital communication.
 Wireless communication allows for a wider field of use cases, this is a trade-off between reliability and speed on the one side and flexibility on the other. \cite{wirelessTradeoffs}
 
-Devices which use wireless communication have influenced the world in the last couple of years, with smart phones becoming more and more common to most people in the western world. \cite{2013-SmartPhoneUse}
+Devices which use wireless communication have influenced the world in the last couple of years, with smartphones becoming more and more common to most people in the western world. \cite{2013-SmartPhoneUse}
 However there exist many more uses for wireless technology than just being used in mobile phones, tablets, and laptops, it can also be implemented in smaller embedded systems\footnote{In this project \enquote{embedded systems} is used to describe a category of computational units, which have limited resources and are relatively small in size. } in everyday use.
+These system are often reffered to as smartsystems.
 
-%An example of these smaller embedded systems could be wireless temperature sensors or other sensors, which need a placement unsuitable for a wired connection.
-
-%These wireless temperature sensors can work by having a sensor measure the temperature and a transmitter which transmits the temperature via a wireless radio.
-%The receiver is then listening to the frequency of the transmitter waiting for the transmission to be received.
-%When transmitting data either wireless or wired, the data can be corrupted in the transmission, due to interfering signals or general noise.
-%To account for the corruption a system can implement error detection and correction.
-%A compromise would make the data transfer more reliable for a trade off in speed.
-
-An example of these smaller embedded systems could be modern fire alarms for larger buildings where the signal of a fire in one wing of a building would need to be transmitted throughout the entire building.
-If this system was developed with a wired network, it requires a lot of setup to begin with, and adding more alarms to the network, will be a much bigger hurdle than a wired solution. 
-For devices such as fire alarms this is less of a problem as new units probably do not come often, but other uses, such as home automation, where new devices might enter and leave the network at any time this problem might arise more often and thus pose a bigger obstacle.
+An example of these smaller embedded systems could be modern fire alarms for larger buildings, where the signal of a fire in one wing of a building would be transmitted throughout the entire building.
+If this system was developed with a wired network, it would need a lot of setup to begin with.
+And adding more alarms to the network, will be a much bigger hurdle than a wired solution. 
+For devices such as fire alarms this is less of a problem as new units probably do not come often, but other uses, such as home automation, where new devices might enter and leave the network at any time this problem might arise more often and thus pose a bigger challenge.
 
 This could be solved by using Wi-Fi networks.
 Wi-Fi provides decades of research in communications which allows them to transfer lots of data reasonably fast.
 For embedded systems this might be excessive depending on the system in question.
 The fire alarm, for instance, would only need to send a few bits of data, so a Wi-Fi solution would require more power but still only use a fraction of the features available.
-
-%This sort of setup and forget nature of the wired solution must be replicated in the wireless successor, so that the 
-
-%It depends on the system, whether a fast connection is more important than a reliable one.
-%For example it is important for an alarm system, which uses multiple devices e.g. fire alarms, to be reliable.
-%This is required to guarantee that all devices will receive a message when one alarm goes off;
-%As this would be an important aspect of such a system.
-
-%The example concerning the temperature sensor was described with one transmitter and one receiver, but what opportunities could arise using more than just one of each?
-
-%\bigskip
-
-%Using multiple embedded systems each fitted with a transmitter and a receiver, the embedded systems can use a single frequency radio, which is cheap, to communicate with one another, without any of the devices explicitly controlling the communication.
-%This could possibly be used in home automation to control the lights, or to control the ventilation system in a building etc.
 
 \section{Problem Statement}\label{sec:problemStatement}
 
@@ -45,29 +25,12 @@ For this project the focus is going to be on a solution which can be modified fo
 In other words; a cost efficient solution to the problem, and it is believed that there might be enough power in radio frequencies modules that even when using only one frequency, a communications network can still be established and maintained.
 
 This can be described as the following problem which will be explored throughout this paper.
-
-%\myref{Analysis} has sought to analyse and discover what devices to use for communicating via radio frequencies, and also how these work.
-%The choice of device fell upon the Arduino, not because it has any clear advantages compared to any other Atmega based micro controller, but because they were easily obtainable for the project.
-%They are cheap, and the University already had some available for the project.
-
-%The Arduinos fitted with 433 MHz receivers and transmitters were tested, to show the accuracy of the RF modules fitted with different antennas over varying ranges. 
-%The result showed that the modules are not 100\% reliable when communicating, which means that a protocol for communicating between multiple Arduinos will have to take this into account.
-%Another test showed the speed of transmitting and receiving data depending on the size of the data, this information is critical for designing a protocol using TDMA.
-%To use TDMA the information of the speed of transmission is needed to design the single time slot. 
-%With the information obtained throughout \myref{Analysis} a problem statement can be formulated.
-
 \bigskip
 
 {\addtolength{\leftskip}{10mm}\addtolength{\rightskip}{10mm}\noindent\hrulefill\it
 
-\noindent How can a network of devices with radio transceivers of a single frequency communicate, such that any devices can send messages to any other device in the network, in a reliable and time-critical way?
+\noindent How can a network of devices with radio transceivers of a single frequency communicate, such that any devices can send messages to other devices in the network, in a reliable and time-critical way?
 
 \noindent\hrulefill
 
 }
-
-%\section{Method description}
-
-%The solution to the problem statement will be worked on based on the methods and models described by \todo{cite the RTS book}. The result will be verified using UPPAAL, a model checking program.
-
-%But first a knowledge base must be established about how to 
