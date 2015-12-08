@@ -25,7 +25,7 @@ The proposed design has a special case for the first device in the frame, and a 
 
 \paragraph{The General case}applies to any device which is part of a network and not the first device in the frame, i.e. $k \neq 1$.
 If the device does not receive any payload from the device before it (i.e. device $k - 1$) a given number of times in a row, called $m_{max}$, then the device should transmit in the time-slot of the device which it did not receive from, instead of its own time-slot from this frame on onward. 
-This will create another missing slot to be handled by another device, however a problem arises when the unused slot in $n - 1$, i.e. the last time-slot of the frame, which will be explained in the following paragraph.
+This will create another missing slot to be handled by another device, however a problem arises when the unused time-slot in $n - 1$, i.e. the last time-slot of the frame, which will be explained in the following paragraph.
 
 \paragraph{The Special case}applies to the first device of the frame, i.e. $k = 1$. 
 Since there is no device in the same frame before the first device, whose time-slot it can move to, it should instead reduce the number of time-slots in the frame by one, if it does not receive any payload from the last device of the frame, i.e. $k = n - 1$, a given number of times, called $m_{max}$. 
@@ -64,7 +64,7 @@ Where as in the same case Jumping Defragmentation takes $m_{max} * 2$ frames to 
 Another solution is for new devices to insert themselves in unused time-slot of an existing network.
 
 \paragraph{Addition to start-up}
-This would change the start-up procedure to require new devices, which discovers a network, to listen for at-least one whole frame, then insert themselves in an unoccupied time-slot, and if no unoccupied time-slot is found then the empty slot. 
+This would change the start-up procedure to require new devices, which discovers a network, to listen for at-least one whole frame, then insert themselves in an unoccupied time-slot, and if no unoccupied time-slot is found then in the empty slot. 
 
 \tikzfigure{aiut.tikz}{Automatic insertion in slot 2.}{aiut} 
 
@@ -82,5 +82,5 @@ The Automatic Insertion in Unused Time-slots-method increases the time it takes 
 However it will not defragment a network which decrease in size. 
 The last method: Jumping Defragmentation is fast, it will only take $m_{max} * 2$ frames to defragment any single device leaving the network, and defragments the network in all cases. 
 
-Therefore the Jumping Defragmentation-method will be described in greater detail with pseudo-code and flowcharts which describes the changes to the existing protocol. 
+Therefore the Jumping Defragmentation-method will be described in greater detail with pseudocode and flowcharts which describes the changes to the existing protocol. 
 

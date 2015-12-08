@@ -9,12 +9,14 @@
     \def\y{10pt}
 
     \tikzstyle{a}  = [slot, fill=blue!30]
-    \tikzstyle{b}  = [slot, fill=green!30]
-    \tikzstyle{c}  = [slot, fill=yellow!30]
-    \tikzstyle{d}  = [slot, fill=red!30]
-
     \tikzstyle{u}  = [slot, fill=orange!30]
+    \tikzstyle{b}  = [slot, fill=blue!20]
+    \tikzstyle{c}  = [slot, fill=blue!10]
     \tikzstyle{m}  = [slot, fill=purple!30]
+    \tikzstyle{d}  = [slot, fill=blue!40]
+
+    %\tikzstyle{u}  = [slot, fill=orange!30]
+    %\tikzstyle{m}  = [slot, fill=purple!30]
 
     \begin{pgfonlayer}{foreground}
         \node[a]                                (b_slot0) at (0,0) {Occupied};
