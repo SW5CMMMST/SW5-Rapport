@@ -74,9 +74,8 @@ Therefore the queries will all except for one be checking for the probability of
 The choice of 3000 time units is because this gives enough time for all devices to start up, and at least as some of them should have started a network. 
 It should be noted that the model uses time estimates which roughly translate to the time being used in each phase for the hardware used in this project, where a time-slot length is $\delta = 250$.
 
-\info[inline]{I \url{http://people.cs.aau.dk/~adavid/publications/89-tutorial.pdf} har de på side 7, eksempel 5 en intressant måde at skrive querys og forklaring op, måske vi skulle nakke den? Vi er tæt på den men måske vi kunne være lidt tættere? - Troels}
-
 All the queries have been run with five devices in the system, and a confidence of 0.999.
+All queries' cumulative probability is shown on \myref{fig:ConnectQueryTime}.
 The first query is the only query which was also used on the earlier model, and it will still give a result indicating the query holds.
 
 \begin{lstlisting}[style=UPPAAL, title={This query requires that eventually if all devices are connected, then no pair of devices have the same \texttt{k}, unless the pair consists of the same two devices. This is true.}]
@@ -84,7 +83,7 @@ The first query is the only query which was also used on the earlier model, and 
          Device(j).Connected and Device(i).k == Device(j).k imply i == j
 \end{lstlisting}
 
-\begin{lstlisting}[style=UPPAAL, title={This query asks after 3000 UPPAAL time units has passed, what then is the probability that if two devices \texttt{i}, and \texttt{j} are connected to a network that their local values of \texttt{n} are the same, and that they are both connected to the same network. This means that the devices are connected to the same network. UPPAAL runs this query and within 3451 runs [0.998,1] with confidence 99.9 \% this is true. It is further possible to plot the cumulative probability of this see \myref{fig:ConnectQueryTime}.}]
+\begin{lstlisting}[style=UPPAAL, title={This query asks after 3000 UPPAAL time units has passed, what then is the probability that if two devices \texttt{i}, and \texttt{j} are connected to a network that their local values of \texttt{n} are the same, and that they are both connected to the same network. This means that the devices are connected to the same network. UPPAAL runs this query and within 3451 runs [0.998,1] with confidence 99.9 \% this is true. }]
 2. Pr[<=300000] ( <> forall(i : id_t) forall(j : id_t) (time > 3000) 
     and (Device(i).Connected and Device(j).Connected 
     imply ((Device(i).local_n == Device(j).local_n)
@@ -114,8 +113,8 @@ The first query is the only query which was also used on the earlier model, and 
 %GRAPHS
 
 \begin{figure}
-  \includegraphics[width=1\textwidth]{Figures/Graphs/ConnectTime.pdf} 
-\caption{Graph showing how the probability of the queries 2, and 4 increase over time.}
+  \includegraphics[width=1\textwidth]{Figures/Graphs/gnuplot/uppaal/graph.pdf} 
+\caption{Graph of the UPPAAL SMC queries, in which the cumulative probability increase over time.}
 \label{fig:ConnectQueryTime}
 \end{figure}
 
