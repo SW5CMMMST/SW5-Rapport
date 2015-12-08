@@ -18,7 +18,7 @@
     \node [block, right of=validated] (listenvalidate) {Listen for validation from the network};
     
     \node [block, left of=validated] (expbackoffcalc) {Determine an exponential backoff}; 
-    \node [block, left of=listen] (backoff) {Wait for back-off amount of frames}; 
+    \node [block, left of=listen] (backoff) {Wait for backoff amount of frames}; 
     \node [block, below of=validated] (join) {Take k after what the empty slot had}; 
     \node [preproc, left of=join] (mainloop) {\nodepart{two} Main loop};
 

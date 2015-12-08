@@ -54,7 +54,7 @@ master.thm
 *.loc
 *.brf
 *.tdo
-*.xml
+master.run.xml
 *.bib
 *.fls
 main.pdf
