@@ -5,6 +5,7 @@ Before the template is shown the code for the system will be presented.
 The template has local code which can be seen on \myref{device_local}.
 This code contains functions which encapsulate many updates from the template, which would otherwise clutter the template with too many specifics.
 
+\begin{figure}[h!]
 \begin{lstlisting}[style=UPPAAL,
 caption={Local code for Device.}, label={device_local}, multicols=2]
 // Place local declarations here.
@@ -54,11 +55,13 @@ void make_Payload(){
 }
 
 \end{lstlisting}
+\end{figure}
 
 The global code for the system can be seen on \myref{uppaal_Global}.
 This is where the system sends information from one device to another, when one device transmit it will change the global values, while the receiving devices will get the global values and put them locally.
 Another important thing to note is the broadcast channel transmit, which will be used as descibred in \myref{UPPAAL_Models}.
 
+\begin{figure}[h!]
 \begin{lstlisting}[style=UPPAAL,
 caption={Code for the global declarations.}, label={uppaal_Global}, multicols=2]
 // Place global declarations here.
@@ -84,7 +87,7 @@ broadcast chan transmit;
 const int N = 4;
 typedef int[1,N] id_t;
 \end{lstlisting}
-
+\end{figure}
 Finally to instantiate the system, a system declaration is needed which can be seen on \myref{UPPAAL_System_Dcl}.
 This creates $N$ devices each with a unique ID from $1 - N$ because of the code seen on \myref{uppaal_Global}, at the comment Device Creation.
 
