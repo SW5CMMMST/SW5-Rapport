@@ -1,81 +1,61 @@
 \subsection{Changes to the Pseudocode}
-This section will cover the new pseudocode which must be written for those areas multiple startup affects; in \myref{lst:setupCCRC} only five lines handle the creation of a new network, which is line 5 and lines 34-38.
+This section will cover the new pseudocode which must be written for those areas multiple startup affects; in \myref{lst:setupCCRC} only six lines handle the creation of a new network, which is line 5 and lines 34-38.
 As is shown on the flow diagram \myref{fig:pseudo_flowMultiStart} the multiple network establishment issue is handled with an altered main loop, as such much of the new pseudocode will resemble pseudocode from \myref{lst:general_case}.
-The procedure seen in \myref{lst:networkMultiStartCCRC} replaces lines 34 through 38 in \myref{lst:setupCCRC}.
-\begin{figure}
-\begin{lstlisting}[label=lst:networkMultiStartCCRC,style=pseudocode,mathescape=true,caption={Pseudocode example of the procedure initializeNetwork() for CCRC for the multiple device activation problem.}]
-procedure initializeNetwork()
-    // Initialize variables
-    $x \leftarrow 0$
-    $n \leftarrow 2$
-    $k \leftarrow 1$
-    $i \leftarrow 0$
-    $f \leftarrow 0$
-    if $firstNetwork \neq \bot$ then
-        $a \leftarrow 0$
-    end
-    
-    loop forever       
-        run userCode() until $x \geq \delta_{proc}$
-        $i \leftarrow (i \text{ mod } n) + 1$ // Update current slot
-        if $i = k$ then
-            makePayload() //Updates the data to be sent
-            transmit($i$, $n$, $id$, $data$)
-            if $f < id + C$ then //Time to die check
-                $a \leftarrow a + 1$
-                $n \leftarrow 0$
-                $k \leftarrow 0$
-                $f \leftarrow 0$
-                $i \leftarrow 0$
-                goto $\text{``initialize''}$
-            else
-                $f \leftarrow f + 1$
-            end
-        else
-            while $x \leq \delta$ do
-                if received($i'$, $n'$, $id'$, $data'$) then
-                    protocolMaintance($i'$, $n'$, $|data'|$)
-                    userRecieve($id'$, $data'$)
-                    if $2 < n$ then //alone or not?
-                        goto $\text{``mainLoop''}$
-                    end
-                end
-            end
-        end
-        wait until $x \geq \delta$
-        $x \leftarrow 0$ 
-    end
-    //Enter main loop
-    label: $\text{``mainLoop''}$
-    wait until $x \geq \delta$
-    $x \leftarrow 0$
-    mainLoop()
-    //Go back to searching for a network
-    label: $\text{``initialize''}$
-    $firstNetwork \leftarrow \bot$
-    initializeNetwork()
-\end{lstlisting}
-\end{figure}
+The procedure seen in \myref{lst:networkMultiStartCCRC2} replaces lines 34 through 38 in \myref{lst:setupCCRC}. 
+\begin{algorithm}
+\caption{Initialise network in CCRC for CCRC for the multiple device activation problem.}
+\label{lst:networkMultiStartCCRC2}
+\begin{algorithmic}[1]
+\Require $c$ is initialised \Comment{Will be 0 on first run}
+\Require $kill_{chance} = 5\%$ 
+\Procedure{InitializeNetwork}{ }
+    \State $x \gets 0, n \gets 2, k \gets 1, i \gets 0$
+    \Repeat \Comment{Loop forever}
+        \State \textbf{run} \Call{UserCode}{ } $\text{ \textbf{until} }x \ge \delta_{proc}$
+        \State $i \gets (i \bmod n) + 1$ \Comment{Update current slot}
+        \If {$i = k$}
+            \State \Call{MakePayload}{ } \Comment{Update the data to be sent}
+            \State \Call{Transmit}{$i, n, id, data$}
+        \Else
+            \While {$x \le \delta$}
+                \If {\Call{Received}{$i', n', id', data'$}}
+                    \State \Call{ProtocolMaintenance}{$i', n', |data'|$}
+                    \State \Call{UserReceive}{$id', data'$}
+                    \If {$n > 2$}
+                        \State \textbf{wait until } $x \ge \delta$  
+                        \State $x \gets 0$
+                        \State \Call{MainLoop}{ }
+                    \EndIf
+                \Else
+                    \If {\Call{TimeToDie?}{$kill_{chance}$}} \Comment{$kill_{chance}\%$ of killing}
+                        \State $c \gets c + 1$
+                        \State \Call{RetryStartUp}{ } \Comment{Return to searching for networks}
+                    \EndIf
+                \EndIf
+            \EndWhile
+        \EndIf
+        \State \textbf{wait until } $x \ge \delta$  
+        \State $x \gets 0$
+    \Until the end of time
+\EndProcedure    
+\end{algorithmic}
+\end{algorithm}
 
 \bigskip \noindent
-With this new procedure for initializing a network, a few new variables are also introduced.
+With this new procedure for initializing a network, a few new variables are also introduced, all of which are shown in \myref{tab:locals_wmultistartup}.
 Furthermore the variable $t_0$ which determines the minimum time required to determine a time slot no longer holds true, as such a new variable, $t_1$ is introduced which replaces $t_0$ on \myref{lst:setupCCRC} line 5.
 Note that this no longer denotes the minimum time required to find a network, as that is now non-deterministic due to jamming networks.
 \begin{table}[h]
     {\setlength{\extrarowheight}{1ex}%
     \begin{tabularx}{\textwidth}{l|l|X|l}
         \toprule
-        Name                & Type      & Description & Constraint \\
+        Name                & Type       & Description & Constraint \\
         \midrule
-        $C$                 & integer   & A constant ensuring that low address devices do not die too often                 & $5 \leq C \leq 15$      \\
-        $f$                 & integer   & A counter for how many frames a device has been alone                             & $0 \leq f$  \\
-        $a$                 & integer   & A 0 indexed exponent for how many attempts have been made at creating a network   & $0 \leq a \leq 5$     \\
-        $t_1$               & integer   & The time spent searching for a network                                            & $t_1 = 3 \times \delta + id^a \times \delta$     \\
-        $firstN$            & boolean   & A boolean value used to determine whether or not it is the first attempt at a network         & $a \neq 0 \land firstN = \top \lor$     \\
-                            &           &                                                                                   & $a = 0 \land firstN = \bot$     \\
-
+        $c$                 & integer    & Number of attempts of creating a network, but capped at 5                         & $0 \leq c \leq 5$     \\
+        $t_1$               & integer    & The time spent searching for a network                                            & $t_1 = 3 \times \delta + id^c \times \delta$     \\
+        $kill_{chance}$     & percentage & The chance of a device killing it self                                            & $kill_{chance} = 5\%$  \\
         \bottomrule
     \end{tabularx}}
     \caption{Additional local variables used to avoid multiple networks.}
-    \label{tab:locals_wmulticonnect}
+    \label{tab:locals_wmultistartup}
 \end{table}

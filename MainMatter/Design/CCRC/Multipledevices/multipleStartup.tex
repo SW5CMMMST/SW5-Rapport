@@ -1,18 +1,20 @@
 \section{Multiple Startup Issue}\label{sec:MSI-CCRC}
 %The activation of multiple devices at any point in time such that two or more devices are active but not in a network causes a problem that must be handled differently for each of the two aforementioned cases.
 The first case, handled in this section, is in the case where no network exists prior to the activation of devices.
-As has been established earlier the time required to guarantee no network exists is $\delta \times 3$.
-From the moment that a device has determined no network exists it spends $\delta$ time to announce the existence of a network.
+As it has been established earlier, the time required to guarantee no network exists is $\delta \times 3$.
+From the moment a device has determined that no network exists, it spends $\delta$ time to announce the existence of a network.
 As such if several devices are activated within $\delta$ time, relative to the firstly activated device, multiple networks will be established.
-By this it follows that if one can guarantee devices start with an offset of at least $\delta$ the problem is solved for every case.
+By this it follows that if one can guarantee that devices start with an offset of at least $\delta$ the problem is solved for every case.
 In an effort to solve this problem several different approaches can help, however none of them can guarantee that a multiple of networks will never occur with 100 \% certainty. 
 As such implementing concepts from several of the following approaches may yield the best result.
 
 \subsection{Unique Offset}
-Unique offset is when each device listens for a network for a uniquely specified amount of $\delta$ times time rather than $\delta \times 3$.
-Using the ID of each device one could guarantee that no device used the same multiple of $\delta$ prior to establishing their network by the formula $\delta \times 3 + \delta \times ID$.
-This however assumes device IDs are activated continuously for it to work.
+Unique offset is when each device listens for a network for a uniquely specified amount of $\delta$ rather than the initial wait time of $\delta \times 3$.
+Using the ID of each device one could guarantee that no device used the same multiple of $\delta$ prior to establishing their network by the formula $\text{\textit{initial wait time}} + \delta \times ID$.
+This however assumes device are activated either simultaneously or continuously with rising addresses for it to work.
 In the case where initially the device with ID 2 is turned on and exactly $\delta$ time later the device with ID 1 is turned on they would still both create a network, as such this is not a valid solution in itself to the problem.
+However this approach could significantly increase the chance of only creating only one network in situations where all the devices are started simultaneously, e.g. a scenario where a multiple of devices are connected to the same power grid, which is then turned off and on again.
+Hereby making it appropriate for a uniform startup process.
 
 \subsection{Randomly Create}\label{RCreate}
 Once a device is done listening for a network it either creates its own network or resets and starts listening again.
@@ -30,10 +32,8 @@ For determinism some variable should be incremented until it reaches a limit whe
 For this to actually work there would have to be implemented something which guarantees that networks would not follow the same pattern, as that could result in a loop of killing and creating networks.
 Another problem that occurs is if more than two networks are created, for it to work all but one network must die within two frames due to the previously set time spent listening.
 
-\subsection{Exponential variables}
-Exponential backoff is a technique of increasing an exponent after every unsuccessful attempt in order to reach more acceptable odds of success.
-Amongst others it is used in Ethernet to reschedule data transfer after collisions, see \citep{Ebackoff}.
-Using the idea of an increasing exponent it can be applied to randomly create, killing the network and unique offset to increase odds of success.
+\subsection{Exponential variables} 
+Using the idea of an increasing exponent, similarly to the technique in exponential backoff as described in \myref{sec:exponential_backoff} can be applied to randomly create, killing the network and unique offset to increase odds of success.
 \subsubsection*{Randomly Create}
 For the idea of using an exponent in randomly create, the chance of creating should start relatively low.
 Starting with a lower chance the algorithm would for each unsuccessful attempt of creating a network increase the chance.
@@ -44,19 +44,22 @@ Once again the non-deterministic solution here would be implemented similarly to
 For the deterministic approach the unique factor chosen would be altered exponentially.
 A complication in doing so would be that networks would be active for exponential lengths of time, and with the specific requirement of networks having to die within two frames it could worsen the time it takes to successfully establish a single network exponentially; for this reason one might consider using another factor to guarantee unique outcomes for each device, such as an exponential change in listening time which might also be uniquely offset, which also solves the problem with the two frames limitation.
 
-\subsection{Modifications to the Upstart phase}
-Based on the aforementioned possibilities a new upstart phase have been designed which minimizes the probabilities of devices creating several networks.
+\subsection{Modifications to the Upstart phase}                 
+Based on the aforementioned possibilities a new upstart phase have been designed which minimises the probabilities of devices creating several networks.
 The changes are explained in the following text, as well as in the flowchart in \myref{fig:pseudo_flowMultiStart} representing the new design.
 
-\paragraph{Search for network}
-The initial action after starting a device states to search for a network.
-This is done for $\delta \times 3 + \delta \times address^a$ where $a$ denotes number of attempts. 
-This expression ensures that devices will not listen for the same amount of time when they are started, and this difference will increase with each attempt, ensuring the existence scenarios in which only one device will create a network while others are still listening, also in the case where they died at the same time.
-\paragraph{Chance of creating a network}
-This method will not be used in order to keep the method of handling multiple startup deterministic.
-\paragraph{Alone in network?}
-For this decision the device checks whether or not it is alone in the network as if it is, an altered version of \texttt{mainLoop()} is run, making use of the kill network method depending on the result of \textbf{Time to Die?}, as two or more networks could be jamming each other.
-\paragraph{Time to Die?}
-This decision checks for how many frames a network has been alone by executing the following expression, $f > (address \% 100) + C$, where $f$ denotes a count for how many frames a device has been alone in the network and $C$ is a constant which ensures that low addresses still are allowed to run several frames before dying.
+\begin{description}[labelindent=\parindent]
+    \item[Search for network]\hfill\\
+    The initial action after starting a device states to search for a network.
+    This is done for $\text{\textit{initial wait time}} + \delta \times b$ where $b$ denotes a random number chosen using the method of exponential backoff from \myref{sec:exponential_backoff}, i.e. $b \in [0, 2^c-1]$, where $c$ is the number of attempts of creating a network.
+    This expression ensures that devices will not listen for the same amount of time when they are started, and this difference will increase with each attempt, ensuring the existence scenarios in which only one device will create a network while others are still listening, also in the case where they died at the same time.
+    \item[Chance of creating a network]\hfill\\
+    This method will not be used in order to keep the method of handling multiple startup deterministic.
+    \item[Alone in network?]\hfill\\
+    For this decision the device checks whether or not it is alone in the network; if it is an altered version of \texttt{mainLoop()} is run, making use of the kill network method depending on the result of \textbf{Time to Die?}, as two or more networks could be jamming each other.
+    \item[Time to Die?]\hfill\\
+    This decision is completely random based on a given chance of killing the device.
+\end{description}
+
 \tikzfigure{PseudoFlowDiagramMultiStart}{Revised flow diagram showing how a device acts during the Initialization phase if no networks are detected.}{pseudo_flowMultiStart}
 
