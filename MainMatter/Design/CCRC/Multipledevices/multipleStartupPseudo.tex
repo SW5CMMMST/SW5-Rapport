@@ -58,7 +58,7 @@ procedure initializeNetwork()
 \end{figure}
 
 \bigskip \noindent
-With this new procedure for initializing a network, a few new variables are also introduced.
+With this new procedure for initializing a network, a few new variables are also introduced, all of which are shown in \myref{tab:locals_wmultistartup}.
 Furthermore the variable $t_0$ which determines the minimum time required to determine a time slot no longer holds true, as such a new variable, $t_1$ is introduced which replaces $t_0$ on \myref{lst:setupCCRC} line 5.
 Note that this no longer denotes the minimum time required to find a network, as that is now non-deterministic due to jamming networks.
 \begin{table}[h]
@@ -77,5 +77,5 @@ Note that this no longer denotes the minimum time required to find a network, as
         \bottomrule
     \end{tabularx}}
     \caption{Additional local variables used to avoid multiple networks.}
-    \label{tab:locals_wmulticonnect}
+    \label{tab:locals_wmultistartup}
 \end{table}

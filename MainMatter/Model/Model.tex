@@ -136,14 +136,14 @@ This case happens whenever the empty slot is the current time-slot and no new de
 According to the specification of \myref{cha:Design} devices which receive a transmission will synchronize to the clock of the transmitting device, this is implemented in the system as the update \texttt{x:=Tx\_Time}, where \texttt{Tx\_Time} is the sum of \texttt{Delta\_Proc} and \texttt{Real\_Tx\_Time}, so it is the time the transmitting device has spent until it is done transmitting.
 A function to calculate this synchronized time will be require to implement the model on an Arduino.
 
-\section{Verifying the Model}
+\section{Verifying the Model}\label{sec:verifyingTheModel}
 
 As mentioned in \myref{subsec:uppaal} it is possible to make queries to verify that some given properties are true.
 \myref{sec:Pseudo} contains statements which should be true for a correctly connected network.
 These statements can be written as queries in UPPAAL, which the tool will then determine to be correct or not. 
 The queries described here will be tested with a system consisting of up to 6 devices, but it is recommended to go no higher than 4 in one system as the queries computation time increase dramatically.
 The queries for the system will be given one by one with along with a description of what they represent.
-\begin{lstlisting}[style=UPPAAL, title={This query requires that eventually it all devices are connected, and no pair of devices have the same \texttt{k}.}]
+\begin{lstlisting}[style=UPPAAL, title={This query requires that eventually if all devices are connected, then no pair of devices have the same \texttt{k}, unless the pair consists of the same two devices.}]
 1. A<> forall(i : id_t) forall(j : id_t) Device(i).Connected and
          Device(j).Connected and Device(i).k == Device(j).k imply i == j
 \end{lstlisting}
