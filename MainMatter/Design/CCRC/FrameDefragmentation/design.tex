@@ -3,7 +3,7 @@ A significant issue for long-lived TDMA networks such as the one constructed bef
 The term fragmentation refers to unused parts as one or more parts of a sequential resource. 
 In relation to TDMA it is an unused time-slot in the frame. 
 Currently in the design if a device leaves and joins again, it will get a new time-slot in the frame, and the old time-slot will remain unused, thus causing the frame to be longer and therefore slowing the network.
-We make two distinctions explicit removal problem (ERP) and implicit removal problem (IRP).
+We make two distinctions; explicit removal problem (ERP) and implicit removal problem (IRP).
 ERP is when a device would inform other devices of its impeding removal, e.g. powering-off soon. 
 IRP is if a device is suddenly unable to transmit for any other reason, i.e. suddenly powering-off, transmission module failure, etc. it is unable to inform the other devices of this ahead of time. 
 
@@ -15,7 +15,7 @@ The design in this chapter inherits the assumptions of the CCRC-problem.
 \section{Methods of defragmenting a network}
 
 The value $m_{max}$ is the number of times no device hears from a given device, after which it is considered inactive. 
-In CCRC $m_{max} = 1$ should be a possibility if one assumes that the only cause of not receiving transmissions is a device is off-line, and no jamming will occur since a network of more than one device is established.
+In CCRC $m_{max} = 1$ should be a possibility if one assumes that the only cause of not receiving transmissions is a device is offline, and no jamming will occur since a network of more than one device is established.
 In practice however, it would be risky using this assumption, but CCRC is not a realistic assumption anyhow.
 
 \subsection{Decremental Gradual Defragmentation}
@@ -25,7 +25,7 @@ The proposed design has a special case for the first device in the frame, and a 
 
 \paragraph{The General case}applies to any device which is part of a network and not the first device in the frame, i.e. $k \neq 1$.
 If the device does not receive any payload from the device before it (i.e. device $k - 1$) a given number of times in a row, called $m_{max}$, then the device should transmit in the time-slot of the device which it did not receive from, instead of its own time-slot from this frame on onward. 
-This will create another missing slot to be handled by another device, however a problem arises if the device was in the time-slot $n - 1$, i.e. the last time-slot of the frame, which will be explained in the following paragraph.
+This will create another missing slot to be handled by another device, however a problem arises when the unused slot in $n - 1$, i.e. the last time-slot of the frame, which will be explained in the following paragraph.
 
 \paragraph{The Special case}applies to the first device of the frame, i.e. $k = 1$. 
 Since there is no device in the same frame before the first device, whose time-slot it can move to, it should instead reduce the number of time-slots in the frame by one, if it does not receive any payload from the last device of the frame, i.e. $k = n - 1$, a given number of times, called $m_{max}$. 
@@ -36,7 +36,7 @@ Since there is no device in the same frame before the first device, whose time-s
 
 This is a simple solution, which defragments the frame one device at a time, the worst case scenario is that the first device of the frame is unable to transmit, then the second device will take its spot, and so on until the new first device reduces the amount of time-slots in the frame by one. 
 This will always take $(n - k) * m_{max}$ frames to remove a device, where k is the time-slot with the disconnected device, assuming it is the only change to the network in the meantime. 
-Under the assumptions of the CCRC-problem, no transmissions should be missed, and therefore $m_{max}$ can be set to $1$. 
+%Under the assumptions of the CCRC-problem, no transmissions should be missed, and therefore $m_{max}$ can be set to $1$. 
 The device reducing the time-slots in the frame by one will not cause new devices to be unable to join the network, as the free time-slot will simply be placed in the previous time-slot. 
 
 \subsection{Jumping Defragmentation}
