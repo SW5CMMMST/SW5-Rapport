@@ -6,14 +6,15 @@ If the device does not pick up any transmission during this period the device wi
 
 When a device creates a network, the network contains two times slots; one for the device itself and one empty slot, which allows another device to connect to the network.
 When the frame is in the device's own time slot it will transmit so new devices can detect said network, when they are listening in their startup period.  
-A flow diagram of this setup can be seen on \myref{fig:psuedo_flowCCRC}
+A flow diagram of this setup can be seen on \myref{fig:psuedo_flowCCRC}.
 
 \tikzfigure{PsuedoFlowDiagramRC}{Flow diagram showing how a device acts during the Initialization phase}{psuedo_flowCCRC}
  
-\bigskip \noindent
+\noindent
 \texttt{initialize()}, the function in \myref{lst:setupCCRC}, performs the initialization of the device.
 This includes searching for a network or establishing its own network if no network can be detected.
 \myref{lst:setupCCRC} introduces are new local variable $t_0$, this constant decides when the device should give up listening for a network and instead establish a network.
+
 For the completely connected reliable communication case represented in \myref{chp:Problems} $t_0$ has to be at least the length of $2 \times \delta + \delta_{comm}$, however it being slightly longer taking guard time and the chance of a slight miss synchronization into consideration $3 \times \delta$ will be considered the minimum. 
 This worst case scenario can be seen on \myref{fig:worsttimeccrc}.
 This scenario involves a connecting device starting to connect after the last device of the frame has begun its transmission, then it has to wait for the first device of the next frame to transmit before it discovers the network. 
