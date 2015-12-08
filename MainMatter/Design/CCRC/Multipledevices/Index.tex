@@ -1,8 +1,8 @@
-\chapter{Multiple Device Activation}\label{chap:MDA-CCRC}
+\chapter{Design of Multiple Device Activation}\label{chap:MDA-CCRC}
 So far the CCRC-solution has been developed with the assumption that devices can only be activated one at a time if they are not part of a network.
 The effect of this assumption is that there is no chance of multiple networks being created in range of each other, and there is no chance for two or more devices jamming each other while attempting to connect to an established network.
 In this chapter this assumption is removed and the complications this brings will be solved in two sections; one pertaining to the issue that occurs if no network exists i.e. creating of multiple networks, and another pertaining to the issue that occurs if a network already exists i.e. multiple devices simultaneously attempting to connect to an established network.
-Firstly a key concept used in the solving of the multiple device activation problem, will be presented.
+Firstly a key concept used for solving the multiple device activation problem, will be presented.
 Following that the different parts of the problem will be discussed and the needed modifications to the existing design will be revealed.
 
 \section{Exponential Backoff} % (fold)
@@ -14,12 +14,12 @@ The method of exponential backoff to be used here consists of:
 \end{enumerate*}
 These properties of the exponential backoff can be expressed as follows:
 \begin{equation}
-     x \in [0, 2^c - 1] \mid x \in \mathbb{Z}^+, c \in [1,5]
+     x \in [0, 2^c - 1] \mid x \in \mathbb{Z}^+, c \in [1,c_{max}]
 \end{equation}
-Where $x$ is a randomly chosen value from the range, and $c$ is number of failed attempts. 
-The value $x$ can represent a number of frames or a time period.
-With this method a device will wait 0 to 1 time periods after the first failed action, 0 to 3 after the second and 0 to 7 after the third. To avoid an infinite increase of the wait time the $c$ should have an upper limit of e.g. 5, which would ensure a maximum wait of $2^5-1 = 31$ time periods.
-Exponential backoff is for example used in ethernet to reschedule data transfer after collisions, see \citep{Ebackoff}.
+Where $x$ is a randomly chosen value from the range, and $c$ is the number of failed attempts. 
+The value $x$ can represent a number of frames or any other feasible time period.
+With this method a device will wait 0 to 1 time periods after the first failed action, 0 to 3 after the second and 0 to 7 after the third and so on. To avoid an infinite increase of the wait time the $c$ should have an upper limit of e.g. 5, which would ensure a maximum wait of $2^5-1 = 31$ time periods.
+Exponential backoff is for example used in Ethernet to reschedule data transfer after collisions, see \citep{Ebackoff}.
 
 While waiting the device may listen incoming transmissions and act upon these, hence the device is allowed to pre-empt the wait period.
 This means that a device is authorised to e.g. stop the wait period to join a network. 
