@@ -143,10 +143,13 @@ As mentioned in \myref{subsec:uppaal} it is possible to make queries to verify t
 These statements can be written as queries in UPPAAL, which the tool will then determine to be correct or not. 
 The queries described here will be tested with a system consisting of up to 6 devices, but it is recommended to go no higher than 4 in one system as the queries computation time increase dramatically.
 The queries for the system will be given one by one with along with a description of what they represent.
+
+\noindent\begin{minipage}{\textwidth}
 \begin{lstlisting}[style=UPPAAL, title={This query requires that eventually if all devices are connected, then no pair of devices have the same \texttt{k}, unless the pair consists of the same two devices.}]
 1. A<> forall(i : id_t) forall(j : id_t) Device(i).Connected and
          Device(j).Connected and Device(i).k == Device(j).k imply i == j
 \end{lstlisting}
+\end{minipage}
 
 As you might have guessed this query's result will be false.
 If all devices leave the initial location at roughly the same time, they will all create their own network, which means they will all have the same k.
