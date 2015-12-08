@@ -52,7 +52,7 @@ This limitation will be removed in this model.
 %The devices can now start at the same time again, as was possible before the mechanism controlling when a device was released was implemented, as presented in \myref{sec:verifyingTheModel}.
 To stop devices from being alone in a network forever, a split node is made when nothing is received in a time slot, where the device is alone in the network, i.e. the \texttt{local\_n} of the device is equal to 2.
 This split node has 2 outgoing edges, one edge which has a probability weight of 90, which makes the device go back into its main loop, and another edge with a probability of \texttt{kill\_chance} (10 \%), which make the device kill the network, and start listening again.
-When this happens the exponential back-off method is used, which means for each time a device kills the network it will have a chance of listening for a longer period of time, according to the specification in the previous sections.
+When this happens the exponential backoff method is used, which means for each time a device kills the network it will have a chance of listening for a longer period of time, according to the specification in the previous sections.
 This are the changes needed for the model, in order for the devices to start trying to connect to the same network instead of multiple networks.
 \myref{fig:Screenshot_Of_Kill} shows the split node leaving the location after not receiving a transmission.
 
@@ -126,7 +126,7 @@ There are many possible explanations for what causes the longer runs, but it it 
 
 
 \section{Conclusion}
-This chapter presented a way to handle the startup of multiple devices, which made use of the method exponential back-off, which results in an increasingly randomly generated number of wait time for the devices. 
+This chapter presented a way to handle the startup of multiple devices, which made use of the method exponential backoff, which results in an increasingly randomly generated number of wait time for the devices. 
 The randomness results in all devices eventually becoming connected to the network since they will be split up and thus stop jamming each other.
 The UPPAAL model created data, which can be seen on \myref{fig:ConnectQueryTime}.
 The data shows that the Arduinos will eventually be connected to the same network, however it does take some time, approximately $150 000$ UPPAAL time units.
