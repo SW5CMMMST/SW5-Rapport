@@ -58,9 +58,10 @@ This is the only change needed for handling multiple devices connecting to the n
 
 \subsection*{Verifying using SMC}
 
-Some of the queries presented in \myref{sec:verifyingTheModel} make no sense for the new model, as now multiple networks should be running at the same time\todo{``should'', det er vel hvad vi vil undgå med vores løsning? Menes der at det sker (i virkeligheden) og skal løses af modellen? Er lidt forviret her - Troels }, and therefore checking if the value of \texttt{i} is the same for all devices in a certain state makes no sense.
+Some of the queries presented in \myref{sec:verifyingTheModel} make no sense for the new model, as now multiple networks should be running at the same time when the devices first start up, and therefore checking if the value of \texttt{i} is the same for all devices in a certain state makes no sense.
 When verifying using SMC then the querys will yield a probability of being true within a given confidence interval, rather than true or false as in the normal UPPAAL.
-Therefore the queries will all except for one be checking for the probability of them being true over time, when at least 3000 UPPAAL time units has passed. \todo{Hvorfor dette tal? og hvorfor 300000 senere? - Troels}
+Therefore the queries will all except for one be checking for the probability of them being true over time, when at least 3000 UPPAAL time units has passed.
+The choice of 3000 time units is because this gives enough time for all devices to start up, and at least as some of them should have started a network. 
 It should be noted that the model uses time estimates which roughly translate to the time being used in each phase for the hardware used in this project, where a time-slot is equal to \texttt{Delta} which is set to 250 for this model.
 
 \info[inline]{I \url{http://people.cs.aau.dk/~adavid/publications/89-tutorial.pdf} har de på side 7, eksempel 5 en intressant måde at skrive querys og forklaring op, måske vi skulle nakke den? Vi er tæt på den men måske vi kunne være lidt tættere? - Troels}
@@ -83,15 +84,8 @@ The first query is the only query which was also used on the earlier model, and 
 \noindent
 UPPAAL responds with [0.998,1], it is possible to get the data UPPAAL uses to make a graph of the development of the probability over time, which can be seen on \myref{fig:ConnectQueryTime}.
 
-
-\begin{lstlisting}[style=UPPAAL, title={This query asks after 3000 UPPAAL time units has passed, what then is the probability that a device \texttt{i} has a value \texttt{k} which is different from a device \texttt{j}s value of \texttt{n}}]
-3. Pr[<=300000] ( <> forall(i : id_t) forall(j :id_t)  (time >3000) 
-		and (Device(i).k != Device(j).local_n))
-\end{lstlisting}
-UPPAAL will again respond with [0.998,1], but this query just like the next query will actually always be true, and as such cannot be found on the graph, as they are just straight lines.
-
 \begin{lstlisting}[style=UPPAAL, title={This query asks after 3000 UPPAAL time units has passed, what then is the probability that if a device \texttt{i} and a device \texttt{j} is both connected that then \texttt{i}'s values of \texttt{k} will be larger than zero and smaller than \texttt{n}}.]
-4. Pr[<=300000] ( <> forall(i : id_t) forall(j : id_t)  (time >3000) 
+3. Pr[<=300000] ( <> forall(i : id_t) forall(j : id_t)  (time >3000) 
 	  and (Device(i).Connected and Device(j).Connected 
 	  	imply Device(i).k < Device(i).local_n and Device(i).k > 0))
 \end{lstlisting}
@@ -99,7 +93,7 @@ UPPAAL will again respond with [0.998,1], but this query just like the next quer
 \todo[inline]{Hvad er resultatet af denne? Og hvad er (den semantiske) forskel på 3 og 4? Er 4 ikke bare en mere generel udgave af 3? - Troels}
 
 \begin{lstlisting}[style=UPPAAL, title={This query asks after 3000 UPPAAL time units has passed, what then is the probability that a device \texttt{i} has a local value of \texttt{n} to be equal to the number of devices, which is \texttt{N} + 1, which means that all devices are in the same network.}]
-5. Pr[<=300000] Pr[<=300000] ( <>  forall(i: id_t) (time >3000) 
+4. Pr[<=300000] Pr[<=300000] ( <>  forall(i: id_t) (time >3000) 
 	and  Device(i).local_n == N+1)
 \end{lstlisting}
 
@@ -117,9 +111,6 @@ As can be seen the change in probability approaches one as time increases, and a
 This is because in the worst case the random numbers generated will keep causing collisions, or maybe they will take a long time before eventually killing their networks.
 There are many possible explanations for what causes the longer runs, but it it important to note the fact that, the longer the devices are running the bigger the chances are of establishing a stable network.
 
-\todo[inline]{Ide: Måske kunne vi vise hvorfor nogle runs tager lang tid: ``Anatomy of a slow run''. Så kan vi vise hvad der skal ske for at det går dårligt. (Er lidt blevet besvaret siden jeg skrev denne med det som står ovenfor) - Troels}
-
-%Conlusion
 
 \section{Conclusion}
 This chapter presented a way to handle the startup of multiple devices, which made use of the technique exponential back-off, which results in an increasingly randomly generated number of wait time for the devices. 
