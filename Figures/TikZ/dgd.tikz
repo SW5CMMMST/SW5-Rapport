@@ -9,8 +9,8 @@
     \tikzstyle{line} = [draw, thick, -latex']
     \tikzstyle{a}  = [slot, fill=blue!30]
     \tikzstyle{u}  = [slot, fill=orange!30]
-    \tikzstyle{b}  = [slot, fill=green!30]
-    \tikzstyle{c}  = [slot, fill=yellow!30]
+    \tikzstyle{b}  = [slot, fill=blue!20]
+    \tikzstyle{c}  = [slot, fill=blue!10]
     \tikzstyle{m}  = [slot, fill=purple!30]
 
     \node[draw=none]                        (invis1) at (0,0)   {};
@@ -35,7 +35,7 @@
 
     \node[a, below right = 4.5 * \jdx and \jdx + 0 * \jdw   of invis1] (d_slot0) {Occupied};
     \node[b, below right = 4.5 * \jdx and \jdx + 1 * \jdw   of invis1] (d_slot1) {Occupied};
-    \node[u, below right = 4.5 * \jdx and \jdx + 2 * \jdw   of invis1] (d_slot2) {Occupied};
+    \node[c, below right = 4.5 * \jdx and \jdx + 2 * \jdw   of invis1] (d_slot2) {Occupied};
     \node[m, below right = 4.5 * \jdx and \jdx + 3 * \jdw   of invis1] (d_slot3) {Empty-Slot};
 
     \node[draw=none, left = \jdx of a_slot0] (invis1)  {Frame 1};
@@ -43,7 +43,7 @@
     \node[draw=none, left = \jdx of c_slot0] (invis3)  {Frame 3};
     \node[draw=none, left = \jdx of d_slot0] (invis4)  {Frame 4};
 
-    \path [line, line width=2pt] (b_slot2) -- (c_slot1);
-    \path [line, line width=2pt] (c_slot3) -- (d_slot2);
+    \path [line, line width=2pt] (a_slot2) -- (b_slot1);
+    \path [line, line width=2pt] (b_slot3) -- (c_slot2);
 \end{tikzpicture}
 }
