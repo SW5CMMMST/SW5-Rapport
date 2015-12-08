@@ -1,0 +1,13 @@
+\section{Package Loss and Damage Control}
+As one cannot reach complete reliability one must consider the effect of a packet being lost.
+While the effect of packet loss is different depending on what data is being transfered, for the protocol in this paper corrupt data will render the transmission useless.
+
+
+Effects of packet loss:
+Corrupt data; depends on the application; delayed information; not syncing;
+\subsection{Continous listening}
+\subsection{Bitfield Time-Slot ID}
+
+Methods of Recovery/Avoiding jams/desync:
+Keep listening - worked earlier, no drift/desync issues;;; How would this handle if device is next?
+Bitmask ID index in msg, allows devices to know if others missed their packet, works for dead device detection as well.
