@@ -50,7 +50,7 @@
     \node [above of=unitcount, node distance =1.75cm] (aucp) {};
     \draw [line] (rmsgp.center) |- (aucp.center);
     \node [above of=transmit, node distance =1.25cm] (a_transmit){};
-    \draw [line] (rmsg) -- node {no} (perhapsdie);
+    \draw [line] (rmsg) -| node {no} (perhapsdie);
     \draw [line] (a_transmit.center) -| (wait);
     \draw [line] (myTime) -- node {yes} (payload);
     \draw [line] (payload) -- (transmit);

@@ -1,7 +1,7 @@
 \subsection{Changes to the Pseudocode}
-This section will cover the new pseudocode which must be written for those areas multiple startup affects; in \myref{lst:setupCCRC} only five lines handle the creation of a new network, which is line 5 and lines 34-38.
+This section will cover the new pseudocode which must be written for those areas multiple startup affects; in \myref{lst:setupCCRC} only six lines handle the creation of a new network, which is line 5 and lines 34-38.
 As is shown on the flow diagram \myref{fig:pseudo_flowMultiStart} the multiple network establishment issue is handled with an altered main loop, as such much of the new pseudocode will resemble pseudocode from \myref{lst:general_case}.
-The procedure seen in \myref{lst:networkMultiStartCCRC} replaces lines 34 through 38 in \myref{lst:setupCCRC}. 
+The procedure seen in \myref{lst:networkMultiStartCCRC2} replaces lines 34 through 38 in \myref{lst:setupCCRC}. 
 \begin{algorithm}
 \caption{Initialise network in CCRC for CCRC for the multiple device activation problem.}
 \label{lst:networkMultiStartCCRC2}
@@ -29,14 +29,13 @@ The procedure seen in \myref{lst:networkMultiStartCCRC} replaces lines 34 throug
                 \Else
                     \If {\Call{TimeToDie?}{$kill_{chance}$}} \Comment{$kill_{chance}\%$ of killing}
                         \State $c \gets c + 1$
-                        \State \Call{RetryStartUp}{ } \Comment{Go back to searching for networks again}
+                        \State \Call{RetryStartUp}{ } \Comment{Return to searching for networks}
                     \EndIf
                 \EndIf
             \EndWhile
         \EndIf
         \State \textbf{wait until } $x \ge \delta$  
         \State $x \gets 0$
-        \State \Call{MainLoop}{ }
     \Until the end of time
 \EndProcedure    
 \end{algorithmic}
