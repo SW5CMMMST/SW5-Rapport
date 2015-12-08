@@ -15,7 +15,7 @@ A figure showing the design of the payload can be seen on \myref{fig:payload_str
 
 \tikzfigure{ProtocolStruct.tikz}{Payload with information needed to communicate on the network, along with some data to be used by the Arduinos in the user code.}{payload_struct}
 
-The payload has the four variables: slot, slot count, and address, which are used to communicate in the network.
+The payload has the three variables: slot, slot count and address, which are used to communicate in the network.
 The slot is used to indicate which slot the frame is currently in, while slot count is the total number of slots.
 The payload allows the protocol to abstract from what data is being sent, and as such any data can be send as long as it is of reasonable size. 
 

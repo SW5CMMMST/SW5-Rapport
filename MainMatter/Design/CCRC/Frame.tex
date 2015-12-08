@@ -7,7 +7,7 @@ The specifics of adding and removing devices from the network and how those acti
 
 This section will focus on the design of the frame and not how events in the network may alter it.
 Depending on which of the models from \myref{chp:Problems} we take root in, different problems are worth considering.
-For the base example, \acrlong{ccrc}, the only real concern is when and where to place the empty slot.
+For the base example, \gls{ccrc}, the only real concern is when and where to place the empty slot.
 
 In a larger network it will take longer for a device to join allowing for possible more devices to be activated within a single frame, thus resulting in several devices attempting to join.
 However if we once again return to the example of a fire alarm, several devices turning on within seconds of each other in a large network seems an unlikely scenario for other than an initial setup of the network.
@@ -25,7 +25,7 @@ The length of the communication phase is denoted by: $\delta_{comm}$.
 
 \bigskip \noindent
 For the processing phase one should be able to ensure that a transmission is possible in each time slot.
-To achieve this several possibilities of how to determine the length of this phase present themselves; in an effort to broaden the applicability of the protocol it has been chosen that this too, should be uniform and determined by a worst case scenario.\todo{Which worst case senario?}
+To achieve this several possibilities of how to determine the length of this phase present themselves; in an effort to broaden the applicability of the protocol it has been chosen that this too, should be uniform and determined by a worst case scenario.%\todo{Which worst case senario?}
 The processing phase in each time slot will be determined by comparing worst time scenarios for each device and using the worst of these.
 The length of the processing phase is denoted by: $\delta_{proc}$.
 This ensures that a device can perform its computation within its own time slot, while allowing for the opportunity to receive and compute commands when it is not the turn of the device, \myref{fig:SlotDesign} represents the design of the time slot.
