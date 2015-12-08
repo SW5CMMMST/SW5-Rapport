@@ -1,0 +1,82 @@
+\section{Additions to the Pseudocode}
+As in the changes to the flowchart, there will also be changes to the pseudocode. 
+
+There are changes to \texttt{mainLoop} and \texttt{protocolMaintenance}, additions are marked in green and deletions marked with red.
+
+\begin{lstlisting}[style=pseudocode,mathescape=true,float, label={lst:general_case2}, caption={Modifications to the previous pseudocode are highlighted in green.}, escapechar=\%] 
+procedure mainLoop()
+	loop forever
+		run userCode() until $x \geq \delta_{proc}$
+		$i \leftarrow (i \text{ mod } n) + 1$ // Update current slot
+		if $i = k$ then
+%\HilightGreen%			if $k = 1$ then
+%\HilightGreen%				shrinkNetwork()
+%\HilightGreen%			end
+			makePayload() // Updates the data to be sendt
+			transmit($i$, $n$, $id$, $data$)
+%\HilightGreen%			if $k = n - 1$ then
+%\HilightGreen%				jumpPosition()
+%\HilightGreen%			end
+		else
+%\HilightGreen%			timeout $\leftarrow$ true
+			while $x \leq \delta$ do
+				if received($i'$, $n'$, $id'$, $data'$) then
+					protocolMaintance($i'$, $n'$, $|data'|$)
+					userRecieve($id'$, $data'$)
+%\HilightGreen%					timeout $\leftarrow$ false
+				end
+			end
+%\HilightGreen%			handleTimeout(timeout, i, k, n)
+		end
+		wait until $x \geq \delta$
+		$x \leftarrow 0$ 
+	end
+\end{lstlisting} 
+
+\begin{lstlisting}[style=pseudocode,mathescape=true,float, label={lst:general_case5}, caption={Pseudocode example of the main loop}] 
+procedure shrinkNetwork()
+	if counter[$n - 1$] $\geq m_{max}$ then
+		counter[$n - 1$] $\leftarrow 0$
+		$n \leftarrow n - 1$
+	end
+end
+\end{lstlisting}
+
+\begin{lstlisting}[style=pseudocode,mathescape=true,float, label={lst:general_case4}, caption={If any counter is over its limit, then move to its position in the next frame and reduce the size of the network}] 
+procedure jumpPosition()
+	if any counter[$i$] $\geq m_{max}$ then
+		$k \leftarrow i$
+		return
+	end
+end
+\end{lstlisting}
+
+\begin{lstlisting}[style=pseudocode,mathescape=true,float, label={lst:general_case3}, caption={This code handles counting how many times a given device has timed out. }]
+procedure handleTimeout(timeout, i, k, n) 
+	if $timeout$ then
+		if $k = 1\text{ and }i = n - 1$ then
+			counter[$n - 1$] $\leftarrow$ counter[$n - 1$]$ + 1$
+		else if $k = n - 1$
+			counter[$i$] $\leftarrow$ counter[$i$]$ + 1$
+		end
+	else 
+		if $k = 1\text{ and }i = n - 1$ then
+			counter[$n - 1$] $\leftarrow 0$
+		else if $k = n - 1$ then
+			counter[$i$] $\leftarrow 0$
+		end
+	end
+end
+\end{lstlisting}
+
+\begin{lstlisting}[style=pseudocode, mathescape=true, float, label={lst:maintaniance1}, caption={Pseudocode additions to protocol maintaniance}, escapechar=\%] 
+procedure protocolMaintanaice($n', i', |data|$)
+	if $n' \neq n$ then
+		if($k = 1$ or $k = n - 1$) then
+			for $i$ in $[1; n]$ do
+				counter$[i] = n$
+			end
+		end
+	end
+[...]
+\end{lstlisting}  
