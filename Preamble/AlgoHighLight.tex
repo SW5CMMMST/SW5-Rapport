@@ -61,7 +61,7 @@
   \stepcounter{mymark}%
   \tikz[remember picture with id=mark-\themymark,overlay] {;}%
   \begin{tikzpicture}[remember picture,overlay]%
-    \filldraw[GreenYellow]%
+    \filldraw[YellowGreen!40]%
    let \p1=(pic cs:mark-\themymark), 
    \p2=(current page.east)  in 
    ([xshift=-\ALG@thistlm-0.3em,yshift=-0.7ex]0,\y1)  rectangle ++(\linewidth+\AlgIndent,\baselineskip);
@@ -74,25 +74,27 @@
 \algnewcommand\CEnsure{\item[\ColorLine\algorithmicensure]}%
 \algnewcommand\CState{\State\ColorLine}%
 \algnewcommand\CStatex{\Statex\ColorLine}%
-\algnewcommand\CComment{\Comment\ColorLine}%
 
-\algdef{SE}[While]{CWhile}{EndWhile}%
-   [2][default]{\ColorLine\algorithmicwhile\ #2\ \algorithmicdo\ALG@compatcomm{#1}}%
-   {\algorithmicend\ \algorithmicwhile}%
-\algdef{SE}[For]{CFor}{EndFor}%
-   [2][default]{\ColorLine\algorithmicfor\ #2\ \algorithmicdo\ALG@compatcomm{#1}}%
+\algblockdefx[Procedure]{CProcedure}{CEndProcedure}%
+   [2]{\ColorLine\algorithmicprocedure\ \textsc{#1}(#2)}%
+   {\ColorLine\algorithmicend\ \algorithmicprocedure}%
+\algblockdefx[While]{CWhile}{CEndWhile}%
+   [1]{\ColorLine\algorithmicwhile\ #1\ \algorithmicdo}%
+   {\ColorLine\algorithmicend\ \algorithmicwhile}%
+\algblockdefx[For]{CFor}{CEndFor}%
+   [1]{\ColorLine\algorithmicfor\ #1\ \algorithmicdo}%
    {\algorithmicend\ \algorithmicfor}%
-\algdef{SE}[Loop]{CLoop}{EndLoop}%
-   [1][default]{\ColorLine\algorithmicloop\ALG@compatcomm{#1}}%
-   {\algorithmicend\ \algorithmicloop}%
-\algdef{SE}[Repeat]{CRepeat}{Until}%
-   [1][default]{\ColorLine\algorithmicrepeat\ALG@compatcomm{#1}}%
-   [1]{\algorithmicuntil\ #1}%
-\algdef{SE}[If]{CIf}{EndIf}%
-   [2][default]{\ColorLine\algorithmicif\ #2\ \algorithmicthen\ALG@compatcomm{#1}}%
-   {\algorithmicend\ \algorithmicif}%
+\algblockdefx[Loop]{CLoop}{CEndLoop}%
+   {\ColorLine\algorithmicloop}%
+   {\ColorLine\algorithmicend\ \algorithmicloop}%
+\algblockdefx[Repeat]{CRepeat}{CUntil}%
+   {\ColorLine\algorithmicrepeat}%
+   [1]{\ColorLine\algorithmicuntil\ #1}%
+\algblockdefx[If]{CIf}{CEndIf}%
+   [1]{\ColorLine\algorithmicif\ #1\ \algorithmicthen}%
+   {\ColorLine\algorithmicend\ \algorithmicif}%
 \algdef{C}[If]{If}{CElsIf}%
-   [2][default]{\ColorLine\algorithmicelse\ \algorithmicif\ #2\ \algorithmicthen\ALG@compatcomm{#1}}%
-\algdef{Ce}[Else]{If}{CElse}{EndIf}%
-   [1][default]{\ColorLine\algorithmicelse\ALG@compatcomm{#1}}%
+   [1]{\ColorLine\algorithmicelse\ \algorithmicif\ #1\ \algorithmicthen}%
+\algdef{Ce}[Else]{If}{CElse}{CEndIf}%
+   {\ColorLine\algorithmicelse}%
 \makeatother
