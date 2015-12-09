@@ -3,8 +3,8 @@
     \node [decision] (iffirstdevice) at (0,0)  {If first device in frame?};
     \node [decision, above = 1cm and 1cm of iffirstdevice]        (iflastslot)  {If last device above counter?};
     \node [block, right = of iflastslot]       (reduce)     {Reduce size of network};
-    \node [cloud_nospace, right = of reduce]       (dummy3)     {Make payload};
-    \node [cloud_nospace, left = of iffirstdevice, text width=7em, text centered]       (dummy4)     {Is it my timeslot?};
+    \node [cloud_nospace, right = of reduce]       (dummy3)     {End};
+    \node [cloud_nospace, left = of iffirstdevice]       (dummy4)     {Start};
 
     \path [line] (iffirstdevice) -- node {yes} (iflastslot);
     \path [line] (iflastslot) -- node {yes} (reduce);
