@@ -33,50 +33,70 @@ procedure mainLoop()
 	end
 \end{lstlisting} 
 
-\begin{lstlisting}[style=pseudocode,mathescape=true,float, label={lst:general_case5}, caption={Pseudocode example of the main loop}] 
-procedure shrinkNetwork()
-	if counter[$n - 1$] $\geq m_{max}$ then
-		counter[$n - 1$] $\leftarrow 0$
-		$n \leftarrow n - 1$
-	end
-end
-\end{lstlisting}
+\begin{algorithm}[h]
+\caption{Procedure which shrinks the network if needed.}
+\label{lst:general_case5}
+\begin{algorithmic}[1]
+\Procedure {ShrinkNetwork}{ }
+    \If {$[n-1] \ge m_{max}$}
+            \State\HiLi \textit{counter}$[n-1] \gets 0$
+            \State $n \gets n - 1$
+    \EndIf
+\EndProcedure
+\end{algorithmic}    
+\end{algorithm} 
 
-\begin{lstlisting}[style=pseudocode,mathescape=true,float, label={lst:general_case4}, caption={If any counter is over its limit, then move to its position in the next frame and reduce the size of the network}] 
-procedure jumpPosition()
-	if any counter[$i$] $\geq m_{max}$ then
-		$k \leftarrow i$
-		return
-	end
-end
-\end{lstlisting}
+\begin{algorithm}[h]
+\caption{If any counter is over its limit, then move to its position in the next frame and reduce the size of the network.}
+\label{lst:general_case4}
+\begin{algorithmic}[1]
+\Procedure {JumpPosition}{ }
+    \For {\textbf{all} \emph{counter}$[i]$ \textbf{in} \emph{counter}$[ ]$}
+        \If {any \emph{counter}$[i] \ge m_{max}$}
+            \State $k \gets i$
+            \State \textbf{return}
+        \EndIf
+    \EndFor 
+\EndProcedure
+\end{algorithmic}    
+\end{algorithm} 
 
-\begin{lstlisting}[style=pseudocode,mathescape=true,float, label={lst:general_case3}, caption={This code handles counting how many times a given device has timed out. }]
-procedure handleTimeout(timeout, i, k, n) 
-	if $timeout$ then
-		if $k = 1\text{ and }i = n - 1$ then
-			counter[$n - 1$] $\leftarrow$ counter[$n - 1$]$ + 1$
-		else if $k = n - 1$
-			counter[$i$] $\leftarrow$ counter[$i$]$ + 1$
-		end
-	else 
-		if $k = 1\text{ and }i = n - 1$ then
-			counter[$n - 1$] $\leftarrow 0$
-		else if $k = n - 1$ then
-			counter[$i$] $\leftarrow 0$
-		end
-	end
-end
-\end{lstlisting}
+\begin{algorithm}[h]
+\caption{This code handles counting how many times a given device has timed out.}
+\label{lst:general_case3}
+\begin{algorithmic}[1]
+\Procedure {HandleTimeout}{\textit{timeout, }$i, k, n$}
+    \If {\textit{timeout}}
+        \If {$k = 1$ and $i = n - 1$}
+            \State \textit{counter}$[n - 1] \gets$ \textit{counter}$[n - 1] + 1$
+        \ElsIf {$k = n - 1$}
+            \State \textit{counter}$[i] \gets$ \textit{counter}$[i] + 1$
+        \EndIf
+    \Else
+        \If {$k = 1$ and $i = n - 1$}
+            \State \textit{counter}$[n - 1] \gets 0$
+        \ElsIf {$k = n - 1$}
+            \State \textit{counter}$[i] \gets 0$
+        \EndIf
+    \EndIf
+\EndProcedure
+\end{algorithmic}    
+\end{algorithm}
 
-\begin{lstlisting}[style=pseudocode, mathescape=true, float, label={lst:maintaniance1}, caption={Pseudocode additions to protocol maintaniance}, escapechar=\%] 
-procedure protocolMaintanaice($n', i', |data|$)
-	if $n' \neq n$ then
-		if($k = 1$ or $k = n - 1$) then
-			for $i$ in $[1; n]$ do
-				counter$[i] = n$
-			end
-		end
-	end
-[...]
-\end{lstlisting}  
+\begin{algorithm}[h]
+\caption{Additions to protocol maintenance.}
+\label{lst:maintaniance1}
+\begin{algorithmic}[1]
+\Procedure {ProtocolMaintenance}{$n', i', |data'|$}
+    \If {$n' \neq n$}
+        \If {$k = 1$ or $k = n - 1$}
+            \For{$i$ \textbf{in} $[1, n]$}
+                \State \textit{counter}$[i] \gets n$
+            \EndFor
+        \EndIf
+    \EndIf
+\Statex \texttt{[\ldots]}
+\EndProcedure
+\end{algorithmic}    
+\end{algorithm}
+ 
