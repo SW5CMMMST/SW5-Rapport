@@ -55,7 +55,8 @@ Should it occur that no network is found the device will start its own network w
         \EndWhile
         \State \textbf{wait until } $x \ge \delta_{proc}$
         \State $k \gets n,\, n \gets n+1$ \Comment{Obtain timeslot}
-        \State \Call{Transmit}{$i, n, id, data$} \Comment{Announce}        
+        \State \Call{Transmit}{$i, n, id, data$} \Comment{Announce} 
+        \State \textbf{wait until } $x \ge \delta$ \Comment{Wait for time-slot end}
     \Else
         \State $x \gets 0,\, n \gets 2,\, k \gets 1,\, i \gets 0$ \Comment{Init new network}
     \EndIf

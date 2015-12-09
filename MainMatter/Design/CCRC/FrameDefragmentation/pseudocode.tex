@@ -88,15 +88,15 @@ There are changes to \texttt{mainLoop} and \texttt{protocolMaintenance}, additio
 \end{algorithmic}    
 \end{algorithm}
 
-\begin{algorithm}[H]
-\caption{Additions to protocol maintenance.}
+\begin{algorithm}[h]
+\caption{Additions to protocol maintenance, resetting counters if this device has become the first or last device of the frame.}
 \label{lst:maintaniance1}
 \begin{algorithmic}[1]
 \Procedure {ProtocolMaintenance}{$n', i', |data'|$}
     \If {$n' \neq n$}
-        \If {$k = 1$ or $k = n - 1$}
+        \If {$k = 1$ or $k = n - 1$} 
             \For{$i$ \textbf{in} $[1, n]$}
-                \State \textit{counter}$[i] \gets n$
+                \State \textit{counter}$[i] \gets 0$ \Comment{Reset counters if device has become first or last}
             \EndFor
         \EndIf
     \EndIf
