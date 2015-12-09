@@ -1,0 +1,17 @@
+Each device stores certain local variables which preferably should be consistent across devices by the end of a time-slot.
+If this is not the case, it is the result of one or more devices either not knowing that a new device has joined, or that one has been removed.
+
+These variables should essentially be ``global'' but as this is not possible they are stored as local variables and transmitted in each payload.
+With the CCRC-problem one could blindly trust all information which had been transmitted was also received which is not the case with the CCUC-problem.
+
+\bigskip \noindent
+For this reason the idea of a consensus between devices is presented, to explain this imagine the scenario where a device is attempting to join the network.
+In the empty slot it will announce itself with a different $n$ and a different $k$ relative to the devices in the network.
+In the earlier CCRC solution one would simply overwrite local variables with the new values as one was sure all had received the payload.
+In the case where one device did not hear the addition, it would be transmitting the old variables and in doing so cause the change to revert which by extension causes a conflict in the network.
+It is worth mentioning this is only a problem if the variables can both increase and decrease, if time-slots and devices can never be removed one can simply always choose the larger value.
+
+If one instead establishes a consensus by listening to the majority of the network one device will no longer be able to create a conflict.
+The majority would have to be determined by the following frame as all removals and additions to the network are handled in the second to last and last time-slot respectively.
+Furthermore one could introduce a flag which denotes the variables are undergoing a change, once the device that initiated the change has received a payload with a response to flag from all devices, the variable should be changed for the entire network until that occurs the flag will stay active and the change would be retransmitted if not all devices responded.
+Furthermore whilst this flag is flagged, no new device should be able to join the network.
