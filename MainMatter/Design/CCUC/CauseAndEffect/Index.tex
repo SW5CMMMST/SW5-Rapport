@@ -1,10 +1,5 @@
 \section{Cause and Effect}
-Due to the unrealiability of communication some previously designed parts of the protocol should be changed in order for the protocol to work more reliably, these areas are described in this section.
-\subsection{Frame and Time-Slots}
-\include{MainMatter/Design/CCUC/CauseAndEffect/Frame.tex}
-\subsection{Worst Case}
-\include{MainMatter/Design/CCUC/CauseAndEffect/WorstCase.tex}
-\subsection{Consensus}
-\include{MainMatter/Design/CCUC/CauseAndEffect/Consensus.tex}
-\subsection{Payload}
-\include{MainMatter/Design/CCUC/CauseAndEffect/Payload.tex}
+With the introduction of the CCUC-problem other aspects than reducing the probability of packet loss must be considered such as but not limited to blindly trusting information, something considered in \myref{consensus}.
+
+\subsection{Consensus}\label{consensus}
+\input{MainMatter/Design/CCUC/CauseAndEffect/Consensus.tex}
