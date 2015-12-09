@@ -6,7 +6,7 @@ Lastly the procedure handles the resynchronization of clocks because in the real
 So the  device must handle this by some means of resynchronization. 
 By using the knowledge discovered in the tests in \myref{cha:radiohead_time_sent_test}. 
 The time it takes to send a given message can be calculated using \myref{eq:timeToSendFormular}. 
-This result subtracted from the clock $x$ gives start time of the time slot as seen in line 9 in \myref{lst:maintaniance}. 
+This result subtracted from the clock $x$ gives start time of the time slot as seen in line \ref{line:pmaint.resync} in \myref{lst:maintaniance}. 
 The device can uses this value to resynchronize.
 
 \begin{algorithm}[h]
@@ -21,7 +21,7 @@ The device can uses this value to resynchronize.
     \State $transDur \gets 66 + (|data| \times 6)$ \Comment{Duration of the transmission}
     \State $transTime \gets x - transDur$ \Comment{Relative time when transmission began}
     \State $slotTime \gets transTime - \delta_{proc}$ \Comment{Relative time of the start of the slot}
-    \State $x \gets x - slotTime$ \Comment{Resyncronise}        
+    \State $x \gets x - slotTime$ \label{line:pmaint.resync} \Comment{Resyncronise}        
 \EndProcedure        
 \end{algorithmic}    
 \end{algorithm} 
