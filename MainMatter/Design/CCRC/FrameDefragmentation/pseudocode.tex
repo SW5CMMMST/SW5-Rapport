@@ -3,50 +3,55 @@ As in the changes to the flowchart, there will also be changes to the pseudocode
 
 There are changes to \texttt{mainLoop} and \texttt{protocolMaintenance}, additions are marked in green and deletions marked with red.
 
-\begin{lstlisting}[style=pseudocode,mathescape=true,float, label={lst:general_case2}, caption={Modifications to the previous pseudocode are highlighted in green.}, escapechar=\%] 
-procedure mainLoop()
-	loop forever
-		run userCode() until $x \geq \delta_{proc}$
-		$i \leftarrow (i \text{ mod } n) + 1$ // Update current slot
-		if $i = k$ then
-%\HilightGreen%			if $k = 1$ then
-%\HilightGreen%				shrinkNetwork()
-%\HilightGreen%			end
-			makePayload() // Updates the data to be sendt
-			transmit($i$, $n$, $id$, $data$)
-%\HilightGreen%			if $k = n - 1$ then
-%\HilightGreen%				jumpPosition()
-%\HilightGreen%			end
-		else
-%\HilightGreen%			timeout $\leftarrow$ true
-			while $x \leq \delta$ do
-				if received($i'$, $n'$, $id'$, $data'$) then
-					protocolMaintance($i'$, $n'$, $|data'|$)
-					userRecieve($id'$, $data'$)
-%\HilightGreen%					timeout $\leftarrow$ false
-				end
-			end
-%\HilightGreen%			handleTimeout(timeout, i, k, n)
-		end
-		wait until $x \geq \delta$
-		$x \leftarrow 0$ 
-	end
-\end{lstlisting} 
+\begin{algorithm}[H]
+\caption{Modifications to the previous pseudocode are highlighted.}
+\label{lst:general_case2}
+\begin{algorithmic}[1]
+\Procedure {MainLoop}{ }
+    \Repeat
+        \State \textbf{run} \Call{UserCode}{ } $\text{ \textbf{until} }x \ge \delta_{proc}$ 
+        \State $i \gets (i \bmod n) + 1$  \Comment{Update current slot}
+        \If {$i = k$}
+            \CIf {$k = 1$}
+                \CState \Call{ShrinkNetwork}{ }
+            \CEndIf
+            \State \Call{MakePayload}{ } \Comment{Updates the data to be sent}
+            \State \Call{Transmit}{$i, n, id, data$}
+            \CIf {$k = n - 1$}
+                \CState \Call{JumpPosition}{ }
+            \CEndIf
+        \Else
+            \CState \textit{timeout}$ \gets \top$
+            \While {$x \le \delta$}
+                \If {\Call{Received}{$i', n', id', data'$}}
+                    \State \Call{ProtocolMaintenance}{$i', n', |data'|$}
+                    \State \Call{UserReceive}{$id', data'$}
+                    \CState \textit{timeout}$ \gets \bot$
+                \EndIf
+            \EndWhile
+            \CState \Call{HandleTimeout}{\textit{timeout,}$i, k, n$}
+        \EndIf
+        \State \textbf{wait until } $x \le \delta$
+        \State $x \gets 0$ 
+    \Until {the end of time}
+\EndProcedure
+\end{algorithmic}    
+\end{algorithm}
 
-\begin{algorithm}[h]
+\begin{algorithm}[H]
 \caption{Procedure which shrinks the network if needed.}
 \label{lst:general_case5}
 \begin{algorithmic}[1]
 \Procedure {ShrinkNetwork}{ }
     \If {$[n-1] \ge m_{max}$}
-        \CState \textit{counter}$[n-1] \gets 0$
-        \CState $n \gets n - 1$
+        \State \textit{counter}$[n-1] \gets 0$
+        \State $n \gets n - 1$
     \EndIf
 \EndProcedure
 \end{algorithmic}    
 \end{algorithm} 
 
-\begin{algorithm}[h]
+\begin{algorithm}[H]
 \caption{If any counter is over its limit, then move to its position in the next frame and reduce the size of the network.}
 \label{lst:general_case4}
 \begin{algorithmic}[1]
@@ -61,7 +66,7 @@ procedure mainLoop()
 \end{algorithmic}    
 \end{algorithm} 
 
-\begin{algorithm}[h]
+\begin{algorithm}[H]
 \caption{This code handles counting how many times a given device has timed out.}
 \label{lst:general_case3}
 \begin{algorithmic}[1]
@@ -84,14 +89,14 @@ procedure mainLoop()
 \end{algorithm}
 
 \begin{algorithm}[h]
-\caption{Additions to protocol maintenance.}
+\caption{Additions to protocol maintenance, resetting counters if this device has become the first or last device of the frame.}
 \label{lst:maintaniance1}
 \begin{algorithmic}[1]
 \Procedure {ProtocolMaintenance}{$n', i', |data'|$}
     \If {$n' \neq n$}
-        \If {$k = 1$ or $k = n - 1$}
+        \If {$k = 1$ or $k = n - 1$} 
             \For{$i$ \textbf{in} $[1, n]$}
-                \State \textit{counter}$[i] \gets n$
+                \State \textit{counter}$[i] \gets 0$ \Comment{Reset counters if device has become first or last}
             \EndFor
         \EndIf
     \EndIf

@@ -101,9 +101,9 @@
 \captionsetup[algorithm]{font=footnotesize}
 \makeatletter
 \renewcommand{\ALG@beginalgorithmic}{\footnotesize}
-\makeatother  
-\algdef{SE}[DOWHILE]{Do}{DoWhile}{\algorithmicdo}[1]{\algorithmicwhile\ #1}% 
+\makeatother 
 \algrenewcommand{\alglinenumber}[1]{\color{black!50!}\scriptsize#1}
+\algrenewcommand{\algorithmiccomment}[1]{\hfill$\triangleright$ #1\hspace{0.3em}~}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MyRef
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
