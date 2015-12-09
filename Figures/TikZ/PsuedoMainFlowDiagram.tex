@@ -5,9 +5,9 @@
     \node [block, below of=equal] (rx) {Recieve for max $\delta_{comm}$};
     \node [block, above of=equal, node distance=3.4cm] (make) {Make payload};
     \node [block, left of=make, node distance=3.4cm] (tx) {Transmit};
-    \node [decision, left of =rx, node distance=3.4cm] (recieved) {Recieved message?};
+    \node [decision, left of =rx, node distance=3.4cm] (recieved) {Received message?};
     \node [block, left of=recieved, node distance=3.4cm] (compute) {Process message};
-    \node [block, left of=wait, node distance=3.4cm] (wait2) {Wait untill end of timeslot};
+    \node [block, left of=wait, node distance=3.4cm] (wait2) {Wait until end of timeslot};
     \node [cloud, left of=wait2] (start) {Start};
 
 
