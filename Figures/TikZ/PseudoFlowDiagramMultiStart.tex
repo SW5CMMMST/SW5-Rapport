@@ -10,8 +10,8 @@
 \resizebox{1\textwidth}{!}{
 \begin{tikzpicture}[node distance = 2.8cm, auto]
     % Place nodes
-    \node [cloud] (start) {Start};
-    \node [block, right of=start] (search) {Search for network};
+    \node [cloud, align=center] (start) {Start\\$c \leftarrow 0$};
+    \node [block, right of=start, text width=8em] (search) {Search for network for $t_0$ miliseconds};
     \node [decision, below of=search] (found) {Found network?};
     \node [preDefProc, right of=found, node distance=3.5cm] (join) {\nodepart{two}{Join network}};
     \node [block, below of=found, node distance = 3.25cm] (tocreate) {Create Network};
@@ -27,7 +27,7 @@
     \node [block, right of=myTime, node distance = 3.25cm] (payload) {Make Payload}; 
     \node [block, above of=payload] (transmit) {Transmit};
     \node [decision, left of=receive, node distance =3.25cm] (perhapsdie) {Time to die?};
-    \node [block, left of=perhapsdie, node distance=3.5cm] (seppuku) {$a \leftarrow a + 1 $\\Kill network};
+    \node [block, left of=perhapsdie, node distance=3.5cm] (seppuku) {$c \leftarrow c + 1 $\\Kill network};
     
     
 
@@ -60,7 +60,7 @@
     \node [draw=none, left of=seppuku, node distance=1.95cm] (seppup) {};
     \draw [-] (seppuku) -- (seppup.center);
     \node [draw=none, below of=search, node distance=0.60cm] (seap){};
-    \node [draw=none, left of=seap, node distance=1.05cm] (seapp){};
+    \node [draw=none, left of=seap, node distance=1.4cm] (seapp){};
     \draw [line] (seppup.center) |- (seapp);
 
 
