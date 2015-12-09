@@ -5,9 +5,12 @@ In the code examples some code used for debugging or testing have been removed a
 This chapter will explain how we implemented the main points of the protocol; this is the timing on the Arduino, how an Arduino can create and join a network, and lastly how the main loop works. 
 
 \subsection{Timing on the Arduino}
-To acquire relative time on Arduino the following constructs are used: A global variable, a reset function and a get function.
+To acquire relative time on Arduino the following constructs are used: A global unsigned variable, a reset function and a get function.
 The variables and functions used to implement timing can be seen on \myref{lst:ccrc:timing}.
 This construction can accurately time the length of time-slots and its constituents. 
+ The get function also handles overflowing of the \texttt{millis()} function. \texttt{millis()} returns an unsigned integer, and subtracting another unsigned variable from an unsigned variable unsigned arithmetic is used. In unsigned arithmetic calculating the difference between a small number and a large number, will result in the difference from the large number to its maximum value in its bit structure plus the smaller number. An example is two unsigned 8-bit integers 4 and 250. In unsigned arithmethic 4 - 250 will result in 10. The difference between 250 and the max in 8-bits which is 256 is 6, and the smaller number is 4, which yields the final calculation 4+6 which is equal to 10. For the implementation the same thing happens when using \texttt{millis()} in the case of the implementation the same thing will happen, where the difference will be correctly calculated.
+
+ 
 Additionally when joining a network the device needs to wait for the next timeslot before entering the mainloop. 
 This is done with the function \texttt{waitForNextTimeslot} which takes the argument the size of the payload received, then calculates how much is left of the timeslot, and waits for that period. 
 It is possible to accurately calculate how long it took to send the payload, the formulae for this is found in the test, see \myref{ssub:radiohead_time_sent_test} \myref{cha:radiohead_time_sent_test}.
@@ -15,28 +18,12 @@ This function is also used every time a payload is received to ensure that the d
 
 \begin{figure}
 \begin{lstlisting}[style=customc,caption={The variables and functions used to implement timing.},label={lst:ccrc:timing}]
-unsigned long x = 0;
-
-unsigned long getClock(unsigned long * x_0){
-    return millis() - *x_0;
-}
-
-void resetClock(unsigned long * x_0) {
-    *x_0 = millis();
-}
-
-void waitForNextTimeslot(uint32_t payloadSize) {
-    uint32_t sentTime = 66 + (6 * payloadSize);
-    uint32_t timeLeft = DELTA_COM - GUARD_TIME_BEFORE_TX - sentTime;
-
-    resetClock(&x);
-    while(getClock(&x) <= timeLeft);
-    resetClock(&x);
-}
-
+MISSING
 \end{lstlisting}
 \vspace{-20pt}
 \end{figure}
+\todo[inline]{Troels lovede at sætte den rigtige kode ind}
+
 \subsection{Upstart: Creating or Joining a Network}
 When each Arduino starts it determines if there is a network in progress and join it. 
 If it cannot find a network then it should create its own network, so that others can join it. 
@@ -45,31 +32,10 @@ This is referred to as \texttt{INIT\_WAIT} in the code and sets the limit for ho
 In \myref{lst:ccrc:startup} the startup code is shown. 
 \begin{figure}
 \begin{lstlisting}[style=customc,caption={Startup, if a network is found join it, if not create one.},label={lst:ccrc:startup}]
-resetClock(&x);
-
-bool foundNetwork = false;
-while(getClock(&x) <= INIT_WAIT && !foundNetwork) {
-    if(rx()) {
-        foundNetwork = true;
-    }
-}
-
-if(foundNetwork) {
-    netStat.i = inPayload.header.currentSlot;
-    netStat.n = inPayload.header.slotCount + 1;
-    netStat.k = inPayload.header.slotCount - 1; // EmptySlot, is 0-indexed
-    setPayloadHead(&outPayload, netStat.i,  netStat.n, address);
-    waitForNextTimeslot(inPayloadSize);
-} else {
-    netStat.n = 2;
-    netStat.k = 0;
-    netStat.i = 1; // Such that when we loop it increments to
-    setPayloadHead(&outPayload, netStat.i,  netStat.n, address);
-}
-resetClock(&x);
-// Main loop begins now.
+MISSING
 \end{lstlisting}
 \end{figure}
+\todo[inline]{Troels lovede at sætte koden ind.}
 \subsection{Main Loop: Normal Network Operation}
 The main loop executes both the processing phase and the communication phase.
 First user-code is executed, this lasts at most \texttt{$DELTA_{PROC}$} time, which is $\delta_{proc}$ in the design. 
@@ -78,29 +44,10 @@ If the current timeslot belongs to a device then that device should transmit oth
 There exists no special case for a device to join as communication is perfect thus the device can simply transmit in the empty slot letting everyone know that the network has increased, and the device is seizing the former empty slot.
 \begin{figure}
 \begin{lstlisting}[style=customc,caption={Important parts of the main loop.},label={lst:ccrc:rxortx}]
-userCodeRunonce();
-while(getClock(&x) <= DELTA_PROC) {
-    userCodeRepeat();
-}
-
-nextSlot(); // Increment the timeslot
-if(netStat.i == netStat.k) { 
-    // Transmit!
-    delay(GUARD_TIME_BEFORE_TX);
-    tx(NULL, 0);
-} else {
-    // Receive
-    bool gotMessage = false
-    while(getClock(&x) <= TIMESLOT_LEN && !gotMessage) {
-        if(rx()){
-            resync(); // Takes the infomation from the recived payload.
-            foundNetwork = true;
-        }
-     }
-}
-waitForNextTimeslot(inPayloadSize);
+MISSING
 \end{lstlisting}
 \end{figure}
+\todo[inline]{Troels lovede at sætte koden ind.}
 
 The \texttt{tx()}-function prepares and transmits the payload, this can optionally include user-data, this is the first parameter, and the second is the length of the data.
 It then waits for the timeslot to end, as this is a static time for every timeslot, then it resets the clock on the device and the main loop starts over.
