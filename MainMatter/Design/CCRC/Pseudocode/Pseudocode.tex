@@ -1,7 +1,7 @@
 \section{Pseudocode Description}\label{sec:Pseudo}
 This section presents key components of the designed \gls{tdma}-based protocol. 
 First an informal description is given followed by relevant flowcharts and pseudocode examples. 
-The model of the protocol is divided into the two phases - the initilization phase and the loop phase. 
+The model of the protocol is divided into the two phases - the initialisation phase and the loop phase. 
 
 These phases will be described in the following subsections using the same model for a general device. 
 That device can only know its local variables and what it receives via the \enquote{received} function.
@@ -15,9 +15,9 @@ That device can only know its local variables and what it receives via the \enqu
         $k$                 & integer   & The slot claimed by this device                           & $1 \leq k \leq n - 1$\\
         $i$                 & integer   & The current slot                                          & $1 \leq i \leq n$\\
         $\delta$            & integer   & The duration of a time slot                               & $\delta = \delta_{comm} + \delta_{proc}$\\
-        $\delta_{comm}$      & integer   & The duration of a time slot reserved for communication    & $0 < \delta_{comm}$ \\
+        $\delta_{comm}$     & integer   & The duration of a time slot reserved for communication    & $0 < \delta_{comm}$ \\
         $\delta_{proc}$     & integer   & The duration of a time slot reserved for processing       & $0 < \delta_{proc}$ \\
-        $t_0$               & integer   & The minimum time to determine if a network exists         & $3 \times \delta \leq t_0$ \\
+        $t_0$               & constant  & The minimum time to determine if a network exists         & $3 \times \delta \leq t_0$ \\
         $x$                 & clock     & A clock used for timing\\
         \bottomrule
     \end{tabularx}
@@ -26,17 +26,17 @@ That device can only know its local variables and what it receives via the \enqu
 \end{table}
 
 The devices store their knowledge in their local variables as seen in \myref{tab:locals}. 
-The aim of the network should be to manipulate those values while running, to satisfy the statements seen in \myref{tab:invariants}. 
+The aim of the network should be to manipulate those values while running, such that by the end of each time-slot the statements seen in \myref{tab:invariants} are satisfied. 
 This should ensure that no jam should occur.
 
 \begin{table}[H]
 	\centering
 	$\begin{array}{l l l}
-        (a)&\forall\ d_a, d_b \in Network: & d_a.k = d_b.k  \iff d_a=d_b\\
-		(b)&\forall\ d_a, d_b \in Network: & d_a.n = d_b.n \\
-		(c)&\forall\ d_a, d_b \in Network: & d_a.i = d_b.i \\[1ex]
-		(d)&\forall\ d \in Network: & d.k \neq n \\[1ex]
-		(e)&\forall\ k \in \mathbb{N}_{<n}: & \exists!\ d \in Network: d.k = k 
+        (a)$For all $ & d_a, d_b \in Network $ we have $ & d_a.k = d_b.k  $ iff $ d_a=d_b\\
+		(b)$For all $ & d_a, d_b \in Network $ we have $ & d_a.n = d_b.n \\
+		(c)$For all $ & d_a, d_b \in Network $ we have $ & d_a.i = d_b.i \\[1ex]
+		(d)$For all $ & d \in Network $ we have $ & d.k \neq n \\[1ex]
+		(e)$For all $ & k \in \mathbb{N}_{<n} $ we have $ & \exists!\ d \in Network $ we have $ d.k = k 
 	\end{array}$
 	\caption{The requested situation where $Network$ is the set of devices currently connected in a network.}
     \label{tab:invariants}
@@ -77,7 +77,7 @@ These processes is described in \myref{sub:setupCCRC}.
         \State \textbf{run} \Call{UserCode}{ } $\text{ \textbf{until} }x \ge \delta_{proc}$ 
         \State $i \gets (i \bmod n) + 1$
         \If {$i = k$}
-            \State \Call{MakePayload}{ }
+            \State \Call{MakePayload}{ } \Comment{Prepares protocol and application specific}
             \State \Call{Transmit}{$i, n, id, data$}
         \Else
             \While {$x \le \delta$}
@@ -98,7 +98,7 @@ The full pseudocode for the general case can be seen in \myref{lst:general_case}
 In the code, there are a few extra details but the main structure is the same. 
 The code describes how a device knows whether it is its turn or not.  
 
-Another thing to realize is because the timing is static, the clock $x$ needs to be reset only after the duration of a full timeslot; $\delta$.
-Other resyncronization is handled in the ``protocolMaintance'' procedure.
+Another thing to realize is because the timing is static, the clock $x$ needs to be reset only after the duration of a full time-slot; $\delta$.
+Other resynchronisation is handled in the ``protocolMaintance'' procedure.
 % subsection general_case (end)   
             

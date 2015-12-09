@@ -9,7 +9,7 @@ This section will focus on the design of the frame and not how events in the net
 Depending on which of the models from \myref{chp:Problems} we take root in, different problems are worth considering.
 For the base example, \gls{ccrc}, the only real concern is when and where to place the empty slot.
 
-In a larger network it will take longer for a device to join allowing for possible more devices to be activated within a single frame, thus resulting in several devices attempting to join.
+In a larger network it will take longer for a device to join possibly allowing for more devices to be activated within a single frame, thus resulting in several devices attempting to join.
 However if we once again return to the example of a fire alarm, several devices turning on within seconds of each other in a large network seems an unlikely scenario for other than an initial setup of the network.
 Also since the only effect is a slight delay in joining the network, and this would rarely occur outside of the startup network, it is less significant; as such the design will only contain one empty slot at a time as portrayed on \myref{fig:CCFrame}.
 As the figure also shows each device will have one slot per frame, in the case where the network is not completely connected but strongly connected one may consider changing this.
