@@ -7,32 +7,17 @@ This means that anyone which would like to, can copy their hardware design and m
 This also means that there are many copies of the hardware with no changes sold at at a cheaper price compatible with the free Arduino software.
 The software used to program Arduino boards will be explained in \ref{sec:software}.
 
-\subsubsection{Arduino Uno}
-The Arduino Uno is a ATmega328P based micro-controller board.
-It has a total of 20 pins where of most are digital input/output pins.
-Most pins have some predefined functions which allow support a varierty of different communication standars, however none of these are relevant as this project will simply use pins for I/O.
-Code can be uploaded through a USB connection, which can also power the Arduino, and provide a debugging interface for serial communication.
-The total size of an Arduino Uno is roughly five times seven centimetres. 
-
-The processor of the Ardunio is the ATmega328P.
-It has 32 KB of flash memory, 2 KB of SRAM, and 1 KB of EEPROM, and clock speed of 16 MHz.
-
-EEPROM is a small memory section which functions like a small harddrive in the sense that data are saved thereon even when the devices are turned off, more on this can be found on \cite{EEPROM}.
-
-These specifications pose some rather serious constraints in respect to speed, memory and storage.
-These constraints are in great contrast to the majority of today's programming practises where e.g. memory is seen more or less as in abundance.
-
 \begin{tcolorbox}[floatplacement=b,float,colback=white!5,colframe=aaublue!50,title=The Birth of the Arduino \cite{birthofarduino}.]
 In 2005 a group of students, at the Interaction Design Institute Ivrea in Italy, developed the Arduino board as a project, so there would be a cheaper alternative to the ``BASIC Stamp'' (another microcontroller-based development kit), used by the institute at the time, which roughly cost \$100.
 \end{tcolorbox}
 
-%BOLD MOVE!!! 
-%I HAVE ROMOVED THE SHIELDS AND MODULES SUBSUBSECTION!
-%I have edited/added line 11-13 to explain the concent of this. - Morten.
+\subsubsection{Arduino Uno}
+The Arduino Uno is a ATmega328P based micro-controller board, with a foot print of about five by seven centimetres.
+It has a total of 20 pins where of most are digital input/output pins.
+Most pins have some predefined functions which allow support a variety of different communication standards, however none of these are relevant as this project will simply use pins for I/O.
+Code can be uploaded through a USB connection, which can also power the Arduino, and provide a debugging interface through serial communication. 
 
-%\subsubsection{Shields and modules}
-%A core concept of the Arduino and the environment around it, is the ability to extend and interact with the hardware through so called shields and modules.
-%These shields and modules can be input or output devices which interacts with the microcontroller on the Arduino though the digital or analogue headers on the Arduino board.
-%These headers can however be used for other purposes e.g. powering a LED or reading analogue and digital input such as button presses or various sensor.
-%Examples uses for shields are LCD, Ethernet, SDCard, motor control, and relay control (see \cite{ArduinoShields} for more).
-%\figur{arduino_shields.jpg}{0.5}{An Arduino UNO with a stack of two shields on top}{arduino_uno_shields}
+The ATmega328P processor, has 32 KB of flash memory, 2 KB of SRAM, 1 KB of EEPROM, and a clock speed of 16 MHz.
+EEPROM is a small persistent memory section, where stored data is kept when the devices are turned off, more on this can be found on \cite{EEPROM}.
+
+These specifications pose some rather serious constraints in respect to speed, memory and storage, and are in great contrast to the majority of today's programming practises where e.g. memory is seen more or less as in abundance.
