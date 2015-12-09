@@ -15,5 +15,6 @@ However as soon as removal is also an option, a device cannot just trust any n-v
 
 If one instead establishes a consensus by listening to the majority of the network one device will no longer be able to create a conflict.
 The majority would have to be determined by the following frame as all removals and additions to the network are handled in the second to last and last time-slot respectively.
-Furthermore one could introduce a flag which denotes the variables are undergoing a change, once the device that initiated the change has received a payload with a response to the flag from all other devices, the variable should be changed for the entire network until that occurs the flag will stay active and the change would be retransmitted until all devices respond.
-Furthermore whilst this flag is flagged, no new device should be able to join the network.
+Furthermore one could introduce a code which denotes that a device wants to either increment or decrement $n$, once the device that initiated the change has received a payload with a response to the code from all other devices, $n$ should be changed for the entire network, and devices will then accept any change according to the code from any device.
+Until all devices have responded to the code it will keep being transmitted until all devices respond that they are ready to either increment or decrement their $n$ value.
+Furthermore whilst this code is being transmitted, no new device should be able to join the network, and the other devices in the network should also transmit the code, to increase the speed of which the code will be spread throughout the network.

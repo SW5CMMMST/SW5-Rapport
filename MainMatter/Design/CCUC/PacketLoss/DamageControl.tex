@@ -9,7 +9,7 @@ The following two methods could help in the case of packet loss.
 \subsubsection*{Continuous listening}\label{contListen}
 This idea is presented in order to resolve the larger part of the issue, potential desynchronization.
 Should a package be missed, a device will simply begin listening until either it receives a new transmission, or the device should transmit.
-As a transmission is not received the procedure \texttt{protocolMaintaince}, \myref{lst:maintaniance}, is not run and as such it is possible that the device may be slightly out of sync.
+As a transmission is not received the procedure \texttt{protocolMaintenance}, \myref{lst:maintaniance}, is not run and as such it is possible that the device may be slightly out of sync.
 Listening until a new transmission is received allows the device to sync up with the rest of the network and as no transmission was received, there is no reason to run usercode.
 In the case where no transmission is received prior to a devices time-slot, it will still transmit.
 This is necessary as otherwise a dead device would effectively put the network in an eternal state of listening.
