@@ -1,44 +1,5 @@
 \input{MainMatter/Design/CCRC/Pseudocode/Pseudocode.tex}
 \input{MainMatter/Design/CCRC/Pseudocode/ProtocolMaintance.tex}
-\begin{algorithm}[h]
-\caption{Pseudocode example of the special case procedure Initialise()}
-\label{lst:setupCCRC}
-\begin{algorithmic}[1]
-\Procedure {Initialise}{ } 
-    \State $x \gets 0$
-    \State $found \gets \bot$
-    \While {$x \le t_0$}
-        \If {\Call{Received}{$i', n', id', data'$}}
-            \State \Call{ProtocolMaintenance}{$i', n', |data'|$} 
-            \State $found \gets \top$
-            \State \textbf{wait until } $x \ge \delta$
-            \State $x \gets 0$
-            \State \textbf{break}
-        \EndIf                                        
-    \EndWhile
-    \If {$found$}
-        \While {$i \neq n$}
-            \State $i \gets (i \bmod n) + 1$
-            \While {$x \le \delta$}
-                \If {\Call{Received}{$i', n', id', data'$}}
-                    \State \Call{ProtocolMaintenance}{$i', n', |data'|$}
-                    \State \textbf{break}
-                \EndIf
-            \EndWhile
-            \State \textbf{wait until } $x \ge \delta$
-            \State $x \gets 0$ 
-        \EndWhile
-        \State \textbf{wait until } $x \ge \delta_{proc}$
-        \State $k \gets n,\, n \gets n+1$ \Comment{Obtain timeslot}
-        \State \Call{Transmit}{$i, n, id, data$} \Comment{Announce} 
-        \State \textbf{wait until } $x \ge \delta$ \Comment{Wait for time-slot end}
-    \Else
-        \State $x \gets 0,\, n \gets 2,\, k \gets 1,\, i \gets 0$ \Comment{Init new network}
-    \EndIf
-    \State \Call{MainLoop}{ } \Comment{Enter the main loop}
-\EndProcedure        
-\end{algorithmic}    
-\end{algorithm} 
 \input{MainMatter/Design/CCRC/Pseudocode/Setup.tex}
 
 
