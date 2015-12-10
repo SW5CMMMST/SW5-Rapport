@@ -1,43 +1,55 @@
-\chapter{Radio Frequency Module Reception Test} % (fold)
+\subsection{Radio Frequency Module Reception Test} % (fold)
 \label{cha:radio_frequency_module_reception_test}
 In order to test how the Radio Frequency Modules (RFM) works, a test have been devised. 
 The purpose of this test is to test the range of the RFM's with different antennas and across different ranges. 
-The test will use the RadioHead libary as described in \ref{subsubsec:RadioHead}. 
+The test will use the RadioHead library as described in \ref{subsubsec:RadioHead}. 
 Built into RadioHead is a CRC check, this insures the integrity of the message received. 
 
-\section*{Test setup}
-We will test three different antennas 
-\begin{enumerate}[label=\itshape \alph*\upshape)]
-    \item 0 cm (No external antenna);
-    \item 12 cm (An arbitrary length);
-    \item 17.3 cm (Using \myref{QMA})
-\end{enumerate}
+\subsubsection*{Test setup}
+We will test the following three different antenna configurations: 
+\begin{description}[labelindent=\parindent, labelwidth=\widthof{\bfseries 17.3 cm}, align=parright]
+    \item[0 cm] No external antenna
+    \item[12 cm] An arbitrary antenna length
+    \item[17.3 cm] A quarter-monopole antenna (at 433 MHz using \myref{QMA})  
+\end{description}
 Each will be used on both the receiver and the transmitter. 
 This yields six combinations which will be tested. 
 Multiple receivers can receive the same message, therefore all receivers can be tested at the same time. 
-We have tested with distances from 2 metres to 28 metres, except for the test with a 0 cm antenna on the transmitter where a high package loss was occurring even at ranges of 14 metres.
+We have tested with distances from 2 metres to 28 metres, except for the test with a 0 cm antenna on the transmitter where a high package loss was occurring even at ranges of 14 metres. 
+
 The transmitter was placed on a table 1 meter above the ground, and a graphical circuit diagram of an Arduino fitted with a transmitter can be seen on \myref{fig:Transmitter}.
 As is shown on the figure an LED was also connected to the Arduino.
 This LED was used as a visual aid blinking every time a package was send, this has no real influence on the test and was used as a convenience for those who tested.
 
-\figur{Fritzing/Transmitter.pdf}{1}{Graphical circuit diagram of an Arduino with a transmitter.}{Transmitter}
-\noindent 
 The receivers were placed on a table 1 meter above the ground, each 15 cm away from the others, and a graphical circuit diagram of this setup can be seen on \myref{fig:Receiver}.
 Similarly to the transmitter an LED was applied here blinking whenever a package was received.
 
-\figur{Fritzing/Receiver.pdf}{1}{Graphical circuit diagram of an Arduino with a receiver.}{Receiver}
-\noindent First the transmitters and receivers were 2 meters from each-other then a test with 100 packets containing 16 bytes was sent, the contents of a single message was the index of the packages being sent. 
+First the transmitters and receivers were 2 meters from each-other then a test with 100 packets containing 16 bytes was sent, the contents of a single message was the index of the packages being sent. 
 The receivers counted the messages received and wrote the final result to the computer over USB. 
 This was repeated every 2 metres. 
-The code run on the Arduinos can be found in \myref{app:PkgLossRxCode} and \myref{app:PkgLossTxCode}.
+The code run on the Arduinos can be found in \myref{app:PkgLossRxCode} and \myref{app:PkgLossTxCode}.  
 
-\section*{Results}
+\begin{figure}[p]
+\centering
+\includegraphics[width=\linewidth]{Figures/Fritzing/Transmitter.pdf} 
+\caption{Graphical circuit diagram of an Arduino with a transmitter.}
+\label{fig:Transmitter}   
+\end{figure}
+
+\begin{figure}[p]
+\centering
+\includegraphics[width=\linewidth]{Figures/Fritzing/Receiver.pdf} 
+\caption{Graphical circuit diagram of an Arduino with a receiver.}
+\label{fig:Receiver}   
+\end{figure}
+
+\subsubsection*{Results}
 The results of the test have been plotted in three separate graphs, this approach has been chosen so that it is easier to focus on the difference in antenna length on the receiving end.
 \figur{Graphs/0cm_ant.pdf}{0.9}{Package loss percentage at different distances with no antenna on the transmitter.}{0cm_ant}
 \figur{Graphs/12cm_ant.pdf}{0.9}{Package loss percentage at different distances with 12 cm antenna on the transmitter.}{12cm_ant}
 \figur{Graphs/17cm_ant.pdf}{0.9}{Package loss percentage at different distances with 17.3 cm antenna on the transmitter.}{17cm_ant}
 
-\section*{Analysis}
+\subsubsection*{Analysis}
 Across all three graphs the plots representing the receiver with an antenna length of 17.3 cm consistently shows the lowest package loss. 
 The only place where the results are different to distinguish from each other is in the graph where the transmitter has an antenna length of 17.3 cm (see \myref{fig:17cm_ant}); here all the different lengths of receiver antennas demonstrates a low package loss percentage compared to the other graphs.
 This could indicate that the transmitter and its antenna has a significant impact on the reliability of the transmission of data.
@@ -48,8 +60,6 @@ However the antenna length of 12 cm does not affect the reliability as negativel
 
 \begin{table}[ht]
 \centering
-\caption{Table of average package-loss in percentage for varying lengths of antennas.}
-\label{tbl:packageloss}
 \begin{tabular}{llclll}
  & \multicolumn{4}{c}{Receiver} &    \hspace{40pt}      \\ \cline{2-5}
 \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{c|}{0 cm} & \multicolumn{1}{c|}{12 cm} & \multicolumn{1}{l|}{17.3 cm} &  \\ \cline{2-5}
@@ -57,15 +67,18 @@ However the antenna length of 12 cm does not affect the reliability as negativel
 \multicolumn{1}{l|}{Transmitter} & \multicolumn{1}{l|}{12 cm} & \multicolumn{1}{c|}{7.14\%} & \multicolumn{1}{l|}{31.71\%} & \multicolumn{1}{l|}{1.21\%} &  \\ \cline{2-5}
 \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{17.3 cm} & \multicolumn{1}{c|}{0.93\%} & \multicolumn{1}{l|}{12.71\%} & \multicolumn{1}{l|}{1.29\%} &  \\ \cline{2-5}
 \end{tabular}
+\caption{Table of average package-loss in percentage for varying lengths of antennas.}
+\label{tbl:packageloss}
 \end{table}
 
+\noindent%
 In \myref{fig:0cm_ant} it is strongly indicated that the transmitter and whether it has an external antenna highly affects the reliability of the transmitted signal as we can observe that the lack of an external antenna on the transmitter produces a high package loss percentage on the receiving end.
 
 An average of the results from the graphs has been calculated and omitted into a table which can be found on \myref{tbl:packageloss}. 
 This shows that using antennas of the length 17.3 cm will cause the transmissions to have a package loss of ~1 \%.
 The results will be further concluded upon later.
 
-\section*{Sources of error}
+\subsubsection*{Sources of error}
 There are multiple possible source of error within the test, which all needs to be considered in order to conclude upon the results.
 The most significant and the ones that are most likely to occur are as follows:
 \begin{description}[labelindent=\parindent]
@@ -87,8 +100,9 @@ The most significant and the ones that are most likely to occur are as follows:
     However by testing all the used RF modules in \myref{cha:radio_frequency_module_difference_test}, this source of error is to be considered close to non existent, since all the RF modules used in this test, showed less package loss than 2 \%.
     This source of errors is hereby deemed insignificant for the results of this test.
 \end{description}
-
-\section*{Conclusion}
+  
+\newpage
+\subsubsection*{Conclusion}
 The 17.3 cm antenna on the transmitter has the biggest impact on the package loss rate.
 This is in line with the theory of using a quarter-wave monopole antenna.
 This implies that using a 17.3 cm antenna on both the receiver and transmitter will greatly benefit the connection, both for range, and reliability.

@@ -10,7 +10,7 @@ The variables and functions used to implement timing can be seen on \myref{lst:c
 This construction can accurately time the length of time-slots and its constituents. 
 Additionally when joining a network the device needs to wait for the next timeslot before entering the mainloop. 
 This is done with the function \texttt{waitForNextTimeslot} which takes the argument the size of the payload received, then calculates how much is left of the timeslot, and waits for that period. 
-It is possible to accurately calculate how long it took to send the payload, the formulae for this is found in the test, see \myref{ssub:radiohead_time_sent_test} \myref{cha:radiohead_time_sent_test}.
+It is possible to accurately calculate how long it took to send the payload, the formulae for this(\myref{eq:timeToSendFormular}) is found in the test in \myref{cha:radiohead_time_sent_test}.
 This function is also used every time a payload is received to ensure that the devices in the network remains synchronised. 
 
 \begin{figure}
