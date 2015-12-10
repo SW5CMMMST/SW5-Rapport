@@ -1,0 +1,33 @@
+\begin{tikzpicture}[node distance = 3.4cm, auto]
+    % Place nodes
+    \node [block] (wait) {User-code for $\delta_{proc}$};
+    \node [decision, right of=wait, node distance=3.4cm] (equal) {Is it my timeslot?};
+    \node [preDefProc, below of=wait] (missCount) {\nodepart{two}{Increment missed counter}};
+    \node [preDefProc, above of=equal, node distance=3cm] (reduce) {\nodepart{two}{Reduce Network}};
+    \node [block, above of=reduce, node distance=2cm] (make) {Make payload};
+    \node [block, left of=make] (tx) {Transmit};
+    \node [preDefProc, left of=tx, node distance=3.6cm] (overtake) {\nodepart{two}{Overtake}};
+    \node [decision, below of=missCount] (recieved) {Received message?};
+    \node [block, right of=recieved] (rx) {Recieve for max $\delta_{comm}$};
+    \node [preDefProc, left of=recieved, node distance = 3.6cm] (resetCount) {\nodepart{two}{Reset counter}};
+    \node [block, above of=resetCount] (compute) {Process message};
+    \node [block, left of=wait, node distance=3.6cm] (wait2) {Wait until end of timeslot};
+    \node [cloud, left of=wait2] (start) {Start};
+
+    % Draw edges
+    \path [line] (start) -- (wait2);
+    \path [line] (wait) -- (equal);
+    \path [line] (equal) -- node {no} (rx);
+    \path [line] (equal) -- node {yes} (reduce);
+    \path [line] (reduce) -- (make);
+    \path [line] (make) -- (tx);
+    \path [line] (tx) -- (overtake);
+    \path [line] (overtake) -- (wait2);
+    \path [line] (missCount) -- (wait);
+    \path [line] (compute) -- (wait2);
+    \path [line] (rx) -- (recieved);
+    \path [line] (recieved) -- node {yes} (resetCount);
+    \path [line] (resetCount) -- (compute);
+    \path [line] (recieved) -- node [near start] {no} (missCount);
+    \path [line] (wait2) -- (wait);
+\end{tikzpicture}
