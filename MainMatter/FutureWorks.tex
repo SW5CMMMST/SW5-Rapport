@@ -33,7 +33,7 @@ This would mean that every other library which uses timers would be incompatible
 
 \section{Improvements to Protocol Operating Speed}
 
-The protocol uses approximately $66 + (6 \times s)$ milliseconds to transmit a package of size $s$, as discovered in \myref{ssub:radiohead_time_sent_test}. 
+The protocol uses approximately $66 + (6 \times s)$ milliseconds to transmit a package of size $s$, as discovered in \myref{cha:radiohead_time_sent_test}. 
 This means that a payload of 16 bytes would take 162 milliseconds to transmit.
 If the user code takes up a quarter of the time slot then the time-slot length must be approximately 200 milliseconds.
 In a network with $n$ devices, this means that the frame length must be equal to $200 \times (n + 1)$.
