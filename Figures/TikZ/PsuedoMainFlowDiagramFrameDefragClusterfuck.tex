@@ -1,0 +1,50 @@
+\begin{tikzpicture}[node distance = 3.4cm, auto,
+        edge/.style = {draw, -stealth, shorten >= 1pt}
+    ]
+    % Place nodes
+    \node [block] (wait) {User-code for $\delta_{proc}$};
+    \node [decision, right of=wait, node distance=3.4cm] (equal) {Is it my timeslot?};
+    \node [block, below of=wait] (increment) {Increment missed counter};
+    \node [decision, below of=increment] (missCount) {If first or last device in frame?};
+    \node [block, above of=equal] (make) {Make payload};
+    \node [block, above of=make] (tx) {Transmit};
+    \node [decision, left of=tx] (od1) {Last device in frame?};
+    \node [decision, below of=missCount] (recieved) {Received message?};
+    \node [block, above of=wait2] (ob1) {Overtake its position};
+    \node [decision, above of=ob1] (od2) {Any device > counter?};
+    \node [block, right of=recieved] (rx) {Recieve for max $\delta_{comm}$};
+    \node [decision, left of=recieved] (resetCount) {If first or last device in frame?};
+    \node [block, above of=resetCount] (compute) {Process message};
+    \node [block, left of=wait] (wait2) {Wait until end of timeslot};
+    \node [cloud, left of=wait2, node distance=2cm] (start) {Start};
+    \node [decision, right of=equal] (red1) {If first device in frame?};
+    \node [decision, above of=red1] (red2) {If device above counter?};
+    \node [block, above of=red2] (red3) {Reduce size of network};
+
+
+    % Draw edges
+    \path [line] (start) -- (wait2);
+    \path [line] (wait) -- (equal);
+    \path [line] (equal) -- node {no} (rx);
+    \path [line] (equal) -- node {yes} (red1);
+    \path [line] (make) -- (tx);
+    \path [line] (tx) -- (od1);
+    \path [line] (od1) -- node {yes} (od2);
+    \path [line] (od1) -- node {no} (wait2);
+    \path [line] (od2) -- node {yes} (ob1);
+    \path [line] (ob1) -- (wait2);
+    \path [edge] (od2) edge[bend right=30] node [near end] {no} (wait2);
+    \path [edge] (missCount) edge[bend right=30] node [near end] {no} (wait);    
+    \path [line] (increment) -- (wait);
+    \path [line] (missCount) -- node {yes} (increment);
+    \path [line] (compute) -- (wait2);
+    \path [line] (rx) -- (recieved);
+    \path [line] (recieved) -- node {yes} (resetCount);
+    \path [line] (resetCount) -- node {yes} (compute);
+    \path [edge] (resetCount) edge[bend right=30] node [near end] {no} (wait2);  
+    \path [line] (recieved) -- node [near start] {no} (missCount);
+    \path [line] (wait2) -- (wait);
+    \path [line] (red1) -- node {yes} (red2);
+    \path [line] (red2) -- node {yes} (red3);
+    \path [line] (red3) -- node {yes} (make);
+\end{tikzpicture}
