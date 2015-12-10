@@ -10,7 +10,7 @@ As the tests in \myref{sec:hardware_tests} have shown, not all packages send are
 To estimate this a weight is given to each edge with a value between 0 and 1.
 These weights represents the probability of a given package being received with no corruptions.
 
-This gives us a weighted directed graph $G = (V, E, w)$, where $V$ is the set of devices as vertices $v$, $E$ is the set of communication paths as edges $e(v_i, v_j)$, and $w$ is a weight function representing the reliability of any communication path written as $w(v_i,v_j)$.
+This gives us a weighted directed graph $G = (V, E, w)$, where $V$ is the set of devices as vertices $v$, $E$ is the set of communication paths as edges $e(v_i, v_j)$, and $w$ is the weight function representing the reliability of any communication path written as $w(v_i,v_j)$.
 An example of this can be seen on \myref{fig:network}.
 
 In \myref{fig:examplenetworkgraphs} the two different network types are modelled as graphs; 
@@ -50,7 +50,7 @@ All the weights of the edges in this graph are 1, which means that all transmiss
 \begin{definition}
 	The \acrshort{ccrc}-problem:
 	\begin{align*}
-		\text{for all } \{v_i, v_j\} \text{ in } V \text{ where } v_i \neq v_j \text{exists a unique edge } e(v_i, v_j) \\
+		\text{for all } \{v_i, v_j\} \text{ in } V \text{ where } v_i \neq v_j \text{exists a unique edge } e(v_i, v_j) \text{ in } E\\
 		\text{where } w(v_i, v_j) = 1
 	\end{align*}
 \end{definition}
@@ -60,7 +60,7 @@ All the weights of the edges in this graph are 1, which means that all transmiss
 \begin{definition}
 	The \acrshort{ccuc}-problem:
 	\begin{align*}
-		\text{for all } \{v_i, v_j\} \text{ in } V \text{ where } v_i \neq v_j \text{exists a unique edge } e(v_i, v_j) \\
+		\text{for all } \{v_i, v_j\} \text{ in } V \text{ where } v_i \neq v_j \text{exists a unique edge } e(v_i, v_j) \text{ in } E\\
 		\text{where } w(v_i, v_j) \in\ ]0, 1]
 	\end{align*}
 \end{definition} 
