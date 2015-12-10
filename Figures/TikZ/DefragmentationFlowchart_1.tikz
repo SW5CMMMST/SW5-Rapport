@@ -1,23 +1,34 @@
-\resizebox{1\textwidth}{!}{
-\begin{tikzpicture}[auto]
-    \node [decision]        (iflastdevice) at (0,0)  {If first or last device in frame?};    
-    \node [block, right = of iflastdevice]       (increment)     {Increment Missed Counter};
-
-    \node [cloud_nospace, right = of increment]       (dummy1)     {To user-code};
-    \node [cloud_nospace, left = of iflastdevice, text width=7em, text centered]       (dummy2)     {After timeout \\ while receiving};
-    \path [line] (iflastdevice) -- node {yes} (increment);
-    \path [line] (iflastdevice.north) -| node [near start] {no} (dummy1);
-    \path [line] (increment) -- (dummy1);
-    \path [line] (dummy2) -- (iflastdevice);
-
-    \node [decision]        (ifrecieved) at (0,-4)  {If first or last device in frame?};    
-    \node [block, right = of ifrecieved]       (reset)     {Reset counter for device received from};
-    \node [cloud_nospace, right = of reset]       (dummy3)     {Process message};
-    \node [cloud_nospace, left = of ifrecieved, text width=7em, text centered]       (dummy4)     {Recieved message?};
-    \path [line] (ifrecieved) -- node {yes} (reset);
-    \path [line] (ifrecieved.north) -| node [near start] {no} (dummy3);
-    \path [line] (dummy4) -- node {yes} (ifrecieved);
-
-    \path [line] (reset) -- (dummy3);
-\end{tikzpicture}
-}
+\begin{figure}[!h]
+    \begin{subfigure}{\linewidth}
+        \centering
+        \begin{tikzpicture}[auto]
+            \node [decision]        (iflastdevice) at (0,0)  {If first or last device in frame?};    
+            \node [block, right = of iflastdevice]       (increment)     {Increment missed counter};
+            \node [cloud_nospace, right = of increment]       (dummy1)     {End};
+            \node [cloud_nospace, left = of iflastdevice]       (dummy2)     {Start};
+            \path [line] (iflastdevice) -- node {yes} (increment);
+            \path [line] (iflastdevice.north) -| node [near start] {no} (dummy1);
+            \path [line] (increment) -- (dummy1);
+            \path [line] (dummy2) -- (iflastdevice);
+        \end{tikzpicture}
+        \caption{CAP 1}
+        \label{fig:cho}
+    \end{subfigure}\hfill
+    \begin{subfigure}{\linewidth}
+        \centering
+        \begin{tikzpicture}[auto]
+            \node [decision]        (ifrecieved) at (0,-4)  {If first or last device in frame?};    
+            \node [block, right = of ifrecieved] (reset)     {Reset counter for device received from};
+            \node [cloud_nospace, right = of reset] (dummy3) {End};
+            \node [cloud_nospace, left = of ifrecieved] (dummy4) {Start};
+            \path [line] (ifrecieved) -- (reset);
+            \path [line] (ifrecieved.north) -| node [near start] {no} (dummy3);
+            \path [line] (dummy4) -- node {yes} (ifrecieved);
+            \path [line] (reset) -- (dummy3);
+        \end{tikzpicture}
+        \caption{Serial monitor after uploading code}
+        \label{fig:serinitor}
+    \end{subfigure}
+    \caption{Screenshots from the Arduino IDE.}
+    \label{fig:Arduits}
+\end{figure}

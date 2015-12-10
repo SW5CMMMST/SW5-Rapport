@@ -35,7 +35,7 @@ Since there is no device in the same frame before the first device, whose time-s
 \bigskip
 
 This is a simple solution, which defragments the frame one device at a time, the worst case scenario is that the first device of the frame is unable to transmit, then the second device will take its spot, and so on until the new first device reduces the amount of time-slots in the frame by one. 
-This will always take $(n - k) * m_{max}$ frames to remove a device, where k is the time-slot with the disconnected device, assuming it is the only change to the network in the meantime. 
+This will always take $(n - k) * m_{max}$ frames to remove a device, where $k$ is the time-slot with the disconnected device, assuming it is the only change to the network in the meantime. 
 %Under the assumptions of the CCRC-problem, no transmissions should be missed, and therefore $m_{max}$ can be set to $1$. 
 The device reducing the time-slots in the frame by one will not cause new devices to be unable to join the network, as the free time-slot will simply be placed in the previous time-slot. 
 
