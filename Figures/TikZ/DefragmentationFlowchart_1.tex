@@ -1,30 +1,35 @@
-\begin{figure}[!h]
-    \begin{subfigure}{\linewidth}
+\begin{figure}[p]
+    \footnotesize
+    \begin{subfigure}{0.48\linewidth}
         \centering
-        \begin{tikzpicture}[auto]
-            \node [decision]        (iflastdevice) at (0,0)  {If first or last device in frame?};    
-            \node [block, right = of iflastdevice]       (increment)     {Increment missed counter};
-            \node [cloud_nospace, right = of increment]       (dummy1)     {End};
-            \node [cloud_nospace, left = of iflastdevice]       (dummy2)     {Start};
-            \path [line] (iflastdevice) -- node {yes} (increment);
-            \path [line] (iflastdevice.north) -| node [near start] {no} (dummy1);
-            \path [line] (increment) -- (dummy1);
-            \path [line] (dummy2) -- (iflastdevice);
+        \begin{tikzpicture}[auto, on grid]           
+            \node [cloud] (start) {Start};
+            \node [decision, below =2.2cm of start] (decide) {Is first or last device in frame?};    
+            \node [draw=none, below =2.2cm of decide] (a) {};
+            \node [block, left =1.8cm of a] (increment) {Increment missed counter};   
+            \node [cloud, right =1.8cm of a] (end) {End};
+            
+            \path [line] (start) -- (decide);
+            \path [line] (decide) -| node [near end] {yes} (increment);
+            \path [line] (decide) -| node [near end] {no} (end);
+            \path [line] (increment) -- (end);
         \end{tikzpicture}
         \caption{Increment missed counter subroutine}
         \label{fig:jd1a}
-    \end{subfigure}
-    \begin{subfigure}{\linewidth}
+    \end{subfigure} \hfill
+    \begin{subfigure}{0.48\linewidth}
         \centering
-        \begin{tikzpicture}[auto]
-            \node [decision]        (ifrecieved) at (0,-4)  {If first or last device in frame?};    
-            \node [block, right = of ifrecieved] (reset)     {Reset counter for device received from};
-            \node [cloud_nospace, right = of reset] (dummy3) {End};
-            \node [cloud_nospace, left = of ifrecieved] (dummy4) {Start};
-            \path [line] (ifrecieved) -- node {yes} (reset);
-            \path [line] (ifrecieved.north) -| node [near start] {no} (dummy3);
-            \path [line] (dummy4) -- (ifrecieved);
-            \path [line] (reset) -- (dummy3);
+        \begin{tikzpicture}[auto, on grid]
+            \node [cloud] (start) {Start};
+            \node [decision, below =2.2cm of start] (decide) {Is first or last device in frame?};    
+            \node [draw=none, below =2.2cm of decide] (a) {};
+            \node [block, left =1.8cm of a] (reset) {Reset counter for device received from};   
+            \node [cloud, right =1.8cm of a] (end) {End};
+            
+            \path [line] (start) -- (decide);
+            \path [line] (decide) -| node [near end] {yes} (reset);
+            \path [line] (decide) -| node [near end] {no} (end);
+            \path [line] (reset) -- (end); 
         \end{tikzpicture}
         \caption{Increment counter subroutine}
         \label{fig:jd1b}

@@ -1,33 +1,34 @@
-\begin{tikzpicture}[node distance = 3.4cm, auto]
-    % Place nodes
-    \node [block] (wait) {User-code for $\delta_{proc}$};
-    \node [decision, right of=wait, node distance=3.4cm] (equal) {Is it my timeslot?};
-    \node [preDefProc, below of=wait] (missCount) {\nodepart{two}{Increment missed counter}};
-    \node [preDefProc, above of=equal, node distance=3cm] (reduce) {\nodepart{two}{Reduce Network}};
-    \node [block, above of=reduce, node distance=2cm] (make) {Make payload};
-    \node [block, left of=make] (tx) {Transmit};
-    \node [preDefProc, left of=tx, node distance=3.6cm] (overtake) {\nodepart{two}{Overtake}};
-    \node [decision, below of=missCount] (recieved) {Received message?};
-    \node [block, right of=recieved] (rx) {Recieve for max $\delta_{comm}$};
-    \node [preDefProc, left of=recieved, node distance = 3.6cm] (resetCount) {\nodepart{two}{Reset counter}};
-    \node [block, above of=resetCount] (compute) {Process message};
-    \node [block, left of=wait, node distance=3.6cm] (wait2) {Wait until end of timeslot};
-    \node [cloud, left of=wait2] (start) {Start};
-
+\begin{tikzpicture}[node distance = 3cm, on grid, auto]
+    % Place noded   
+    \node [cloud] (start) {Start};
+    \node [block, right of= start, node distance = 2.5cm] (waittime) {Wait until end of timeslot};
+    \node [block, right of= waittime, node distance = 3.4cm] (waituser) {User-code for $\delta_{proc}$};
+    \node [decision, right of= waituser] (mytime) {Is it my timeslot?};
+    \node [block, below of= waittime, node distance = 2cm] (pmsg) {Process message};
+    \node [preDefProc, below of= pmsg] (resetcnt) {\nodepart{two}{\begin{tabular}{c} Reset \\ counter \end{tabular}}};
+    \node [preDefProc, below of= waituser, node distance = 2cm] (misscnt) {\nodepart{two}{\begin{tabular}{c} Increment \\ missed \\ counter \end{tabular}}};
+    \node [decision, below of= misscnt] (received) {Received message?};  
+    \node [block, right of= received] (rx) {Recieve for max $\delta_{comm}$};
+    \node [preDefProc, above of= mytime] (reduce) {\nodepart{two}{Reduce Network}};
+    \node [block, above of= reduce, node distance = 2cm] (make) {Make payload}; 
+    \node [block, left of= make] (tx) {Transmit}; 
+    \node [preDefProc, left of= tx, node distance = 3.4cm] (overtake) {\nodepart{two}{\begin{tabular}{c} Overtake \\ frame \\ position \end{tabular}}};
+     
     % Draw edges
-    \path [line] (start) -- (wait2);
-    \path [line] (wait) -- (equal);
-    \path [line] (equal) -- node {no} (rx);
-    \path [line] (equal) -- node {yes} (reduce);
+    \path [line] (start) -- (waittime);
+    \path [line] (waittime) -- (waituser);
+    \path [line] (waituser) -- (mytime);
+    \path [line] (mytime) -- node {yes} (reduce);
     \path [line] (reduce) -- (make);
     \path [line] (make) -- (tx);
     \path [line] (tx) -- (overtake);
-    \path [line] (overtake) -- (wait2);
-    \path [line] (missCount) -- (wait);
-    \path [line] (compute) -- (wait2);
-    \path [line] (rx) -- (recieved);
-    \path [line] (recieved) -- node {yes} (resetCount);
-    \path [line] (resetCount) -- (compute);
-    \path [line] (recieved) -- node [near start] {no} (missCount);
-    \path [line] (wait2) -- (wait);
+    \path [line] (overtake) -- (waittime);
+    \path [line] (mytime) -- node [near start] {no} (rx); 
+    \path [line] (rx) -- (received);
+    \path [line] (received) -- node [near start] {yes} (resetcnt); 
+    \path [line] (resetcnt) -- (pmsg);
+    \path [line] (pmsg) -- (waittime);
+    \path [line] (received) -- node [near start] {no} (misscnt);
+    \path [line] (misscnt) -- (waituser);
+    
 \end{tikzpicture}

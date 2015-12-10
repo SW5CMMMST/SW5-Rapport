@@ -1,7 +1,6 @@
-\resizebox{1\textwidth}{!}{
 \begin{tikzpicture}[auto]
-    \node [decision] (iffirstdevice) at (0,0)  {If first device in frame?};
-    \node [decision, above = 1cm and 1cm of iffirstdevice]        (iflastslot)  {If last device above counter?};
+    \node [decision] (iffirstdevice) at (0,0)  {Is first device in frame?};
+    \node [decision, above = 1cm and 1cm of iffirstdevice]        (iflastslot)  {Is last device above counter?};
     \node [block, right = of iflastslot]       (reduce)     {Reduce size of network};
     \node [cloud_nospace, right = of reduce]       (dummy3)     {End};
     \node [cloud_nospace, left = of iffirstdevice]       (dummy4)     {Start};
@@ -14,4 +13,3 @@
     \path [line] (dummy4) -- (iffirstdevice);
 
 \end{tikzpicture}
-}
