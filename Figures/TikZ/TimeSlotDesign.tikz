@@ -5,19 +5,19 @@
 		minimum height=10mm] 
 	(communicating) at (0,0)
 	{\textbf{Communication phase}};
-\node[draw, right = 0cm of communicating,
-		minimum width=0.35\textwidth, 
-		minimum height=10mm,
-		label=below:$\delta_{proc}$]
-	(processing)
-	{\textbf{Processing phase}};
 \node[draw, left = 0 cm of communicating,
 		minimum width=0.1\textwidth, 
 		minimum height=10mm]
 		(payload) {\textbf{Make payload}};
+\node[draw, left = 0cm of payload,
+        minimum width=0.35\textwidth, 
+        minimum height=10mm,
+        label=below:$\delta_{proc}$]
+    (processing)
+    {\textbf{Processing phase}};
 
 \draw [decoration={brace, amplitude=+20pt}, decorate]
-    (payload.north west) -- (processing.north east) node [black,midway,above=+22pt] 
+    (processing.north west) -- (communicating.north east) node [black,midway,above=+22pt] 
     (linename)
     {\textbf{Time Slot}};	
 

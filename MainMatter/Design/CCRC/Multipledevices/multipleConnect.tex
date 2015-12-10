@@ -1,4 +1,4 @@
-\clearpage
+%\clearpage
 \section{Simultaneous Connect} % (fold)
 \label{sec:simultaneous_connect}
 
@@ -74,8 +74,8 @@ In the modified pseudocode some new variables and constants are introduced, thes
         Name                & Type      & Description & Constraint \\
         \midrule
         $valid$             & boolean   & Indication of validation              \\
-        $c$                 & integer   & Number of failed announcements        & $0 \leq c \geq c_{max}$ \\
-        $c_{max}$           & integer   & Ceiling of $c$                        \\
+        $c$                 & integer   & Number of failed announcements        & $0 \leq c \leq c_{max}$ \\
+        $c_{max}$           & constant   & Maximum value of $c$                        \\
         $b$                 & integer   & Number of frames to wait              & $b \in [0, 2^c-1]$ \\
         \bottomrule
     \end{tabularx}}

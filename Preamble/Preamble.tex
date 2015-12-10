@@ -6,6 +6,7 @@
 \usepackage{lmodern} 
 \usepackage[T1]{fontenc}   
 \usepackage[scaled=0.85]{beramono}
+\usepackage{fixltx2e}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Graphics and tables
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -16,7 +17,8 @@
 \usepackage{subcaption}
 \usepackage{caption}
 \captionsetup{  font=footnotesize, 
-                labelfont=bf}
+                labelfont=bf,
+                justification=centering}
 \usepackage[nounderscore]{syntax} 
 \usepackage{array,booktabs,arydshln}
 \usepackage{tabularx}
@@ -87,7 +89,6 @@
 \usepackage{xargs}
 \usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
 \usepackage{csquotes}
-
 \usepackage{booktabs}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Pseudocode
@@ -99,9 +100,11 @@
 \captionsetup[algorithm]{font=footnotesize}
 \makeatletter
 \renewcommand{\ALG@beginalgorithmic}{\footnotesize}
-\makeatother  
-\algdef{SE}[DOWHILE]{Do}{DoWhile}{\algorithmicdo}[1]{\algorithmicwhile\ #1}% 
+\makeatother 
 \algrenewcommand{\alglinenumber}[1]{\color{black!50!}\scriptsize#1}
+\algrenewcommand{\algorithmiccomment}[1]{\hfill$\triangleright$ #1\hspace{0.3em}~}
+%HighLighting
+\input{Preamble/AlgoHighLight.tex} 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MyRef
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -163,19 +166,3 @@ literate={{−>}{{$\leadsto$} }2 {−−>}{{$\longrightarrow$} }2
 
 \overfullrule=2cm
 
-
-%\usepackage{linehighlight}
-\definecolor{codehighlight}{rgb}{0.95,0.8,0.8}
-\definecolor{codebackground}{rgb}{0.95,0.95,0.95}
-
-%Use this command to highlight code:
-% add ", escapechar=\%" to lstlisting options
-% then add: "%\HilightGreen%"
-% or: "%\HilightRed%" to the start of a line
-
-%\newcommand{\HilightGreen}{\makebox[0pt][l]{\color{green!15}\rule[-4pt]{0.80\linewidth}{14pt}}}
-\newcommand{\HilightGreen}{\makebox[0pt][l]{\color{green!15}\rule[-4pt]{\linewidth}{14pt}}}
-
-\newcommand{\HilightRed}{\makebox[0pt][l]{\color{red!15}\rule[-4pt]{\linewidth}{14pt}}}
-
-\input{Preamble/AlgoHighLight.tex}
