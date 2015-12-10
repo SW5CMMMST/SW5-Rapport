@@ -144,6 +144,8 @@ These statements can be written as queries in UPPAAL, which the tool will then d
 The queries described here will be tested with a system consisting of up to 6 devices, it is recommended to not go much higher than 6 in one system as the queries computation time increase dramatically.
 The queries for the system will be given one by one with along with a description of what they represent.
 
+The computer used for all the tests is a laptop with an Intel i3 processor with a clock speed of 2.3 GHz, and 4 GB ram, running Windows 8.
+
 \noindent\begin{minipage}{\textwidth}
 \begin{lstlisting}[style=UPPAAL, title={This query requires that eventually if all devices are connected, then no pair of devices have the same \texttt{k}, unless the pair consists of the same two devices.}]
 1. A<> forall(i : id_t) forall(j : id_t) Device(i).Connected and
@@ -151,8 +153,10 @@ The queries for the system will be given one by one with along with a descriptio
 \end{lstlisting}
 \end{minipage}
 
-When this query is run, UPPAAL will give a false result.
-It is possible to ask UPPAAL for the trace for why the property was not true, this feature shows that it was not true because if no device ever leaves the initial state, no device will ever be connected, and therefore it will never be true.
+When UPPAAL runs this query on the model it will return false.
+It is possible to ask UPPAAL for the trace for why the property was not true.
+This feature shows that it was not true because in the case that no device ever leaves the initial state. 
+Then no device will ever be connected, making the query false.
 To counteract this an invariant has been added to the model as shown on \myref{UPPAALInvariant}.
 
 \begin{wrapfigure}[11]{r}{0.5\textwidth}
@@ -182,15 +186,15 @@ clock startup;
 \end{wrapfigure}
 
 The final additions can be seen on \myref{fig:OneStartUp}.
-If query number 1 is run once again with 6 devices on a laptop with a cpu speed of 2.3 GHz and 4 GB ram, it will result in true after a computation-time time of 37.7 seconds.
+If query number 1 is run once again with 6 devices on the tests setup, it will return true after a computation-time time of 37.7 seconds.
 This means that with these changes to the model, a network will be created correctly.
 However, it is a problem that multiple devices cannot be turned on at the same time, therefore this problem will be investigated further in \myref{chap:MDA-CCRC}, but for now the rest of the queries will be introduced and explained.
 
-\begin{lstlisting}[style=UPPAAL, title={The query requires that there is no deadlock in the system, when run with 6 devices on the same laptop as before, it will result in true with a computation-time of 84.8 seconds when run on the same laptop as before.}]
+\begin{lstlisting}[style=UPPAAL, title={The query requires that there is no deadlock in the system, it will result in true with a computation-time of 84.8 seconds when run on the test setup with 6 devices.}]
 2. A[] not deadlock
 \end{lstlisting}
 
-\begin{lstlisting}[style=UPPAAL, title={This query requires that no pair of devices are in the ``Transmitting'' state at the same time. The query will, when run with 6 devices and the same laptop, result in true with a computation-time of 67.7 seconds.}]
+\begin{lstlisting}[style=UPPAAL, title={This query requires that no pair of devices are in the \enquote*{Transmitting} state at the same time. The query will, when run with 6 devices on the test setup, result in true with a computation-time of 67.7 seconds.}]
 3. A[] forall(i : id_t) forall(j : id_t) 
       ((Device(i).Transmitting and Device(j).Transmitting) 
     or (Device(i).Transmitting and Device(j).Transmitting_Not_Connected) 
@@ -203,7 +207,7 @@ However, it is a problem that multiple devices cannot be turned on at the same t
         Device(j).User_Code imply Device(i).local_i == Device(j).local_i
 \end{lstlisting}
 
-\begin{lstlisting}[style=UPPAAL, title={This query requires that if a device \texttt{i} and a device \texttt{j} is both connected, they then have the same value of their \texttt{local\_n}. If they were different it would mean that they are not in the same network, and as such would have different numbers of time-slots in their networks. But the system model makes sure that this is not the case. when run with 6 devices it will results in true and with a computation-time of 86.6 seconds. }]
+\begin{lstlisting}[style=UPPAAL, title={This query requires that if a device \texttt{i} and a device \texttt{j} is both connected, they then have the same value of their \texttt{local\_n}. If they were different it would mean that they are not in the same network, and as such would have different numbers of time-slots in their networks. But the system model makes sure that this is not the case. When run with 6 devices it will return true after 86.6 seconds.}]
 5. A[] forall(i : id_t) forall(j : id_t) 
     Device(i).Connected and Device(j).Connected 
     imply Device(i).local_n == Device(j).local_n

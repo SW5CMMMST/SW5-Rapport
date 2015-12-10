@@ -105,11 +105,14 @@ if (foundNetwork) {
 \subsection{Main Loop: Normal Network Operation}
 The main loop executes both the processing phase and the communication phase.
 First user-code is executed, this is seen as \texttt{userCodeRunOnce()}, and \texttt{userCodeRepeat()}.
+
 The whole phase should not take longer than \texttt{DELTA\_PROC} time, which is $\delta_{proc}$ in the design.
 \texttt{userCodeRunOnce()}, should be finished well before \texttt{DELTA\_PROC}, which leaves time to run \texttt{userCodeRepeat()}.
 \texttt{userCodeRepeat()} should be a very fast function, and should be strictly shorter in run-time than the time \texttt{GUARD\_TIME\_BEFORE\_TX}, since if \texttt{userCodeRepeat()} is called just before \texttt{DELTA\_PROC} time has passed, the function should finish with time remaining until this guard time before transmitting has been reached.
 If this is not the case the device which takes too long in user-code, might not receive the first part of the transmission which will results in a missed transmission entirely.
+
 This is why the guard time is there, it is there to make sure that out-of-sync devices will still have time to receive the transmission, but this is only possible if \texttt{userCodeRepeat()} does not take very long, something like $\frac{1}{5}$ of \texttt{GUARD\_TIME\_BEFORE\_TX}.
+
 Firstly each device should either transmit or receive depending on the current timeslot. 
 If the current timeslot belongs to a device then that device should transmit otherwise it should receive, note that there is no special case for the empty slot in which new devices can join the network.
 There exists no special case for a device to join as communication is perfect thus the device can simply transmit in the empty slot letting everyone know that the network has increased, and the device is seizing the former empty slot.
