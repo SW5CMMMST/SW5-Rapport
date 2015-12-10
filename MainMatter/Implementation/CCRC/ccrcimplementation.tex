@@ -23,9 +23,9 @@ This is true because incrementing an 8-bit number 5 times starting from 252 will
 
 For the implementation the same thing happens when using \texttt{millis()} in the case of the implementation the same thing will happen, where the difference will be correctly calculated.
 
-Additionally when joining a network the device needs to wait for the next timeslot before entering the mainloop. 
-This is done with the function \texttt{waitForNextTimeslot} which takes the size of the payload received as an argument, then calculates how much time is left of the timeslot, and waits for that period. 
-It is possible to accurately calculate how long it took to send the payload, the formulae for this is found in the test, see \myref{ssub:radiohead_time_sent_test} \myref{cha:radiohead_time_sent_test}.
+Additionally when joining a network the device needs to wait for the next time-slot before entering the mainloop. 
+This is done with the function \texttt{waitForNextTimeslot} which takes the size of the payload received as an argument, then calculates how much time is left of the time-slot, and waits for that period. 
+It is possible to accurately calculate how long it took to send the payload, the formulae for this is found in the test, see \myref{sub:radiohead_time_sent_test}.
 This function is also used every time a payload is received to ensure that the devices in the network remains synchronised. 
 
 \begin{figure}[ht]
@@ -113,8 +113,8 @@ If this is not the case the device which takes too long in user-code, might not 
 
 This is why the guard time is there, it is there to make sure that out-of-sync devices will still have time to receive the transmission, but this is only possible if \texttt{userCodeRepeat()} does not take very long, something like $\frac{1}{5}$ of \texttt{GUARD\_TIME\_BEFORE\_TX}.
 
-Firstly each device should either transmit or receive depending on the current timeslot. 
-If the current timeslot belongs to a device then that device should transmit otherwise it should receive, note that there is no special case for the empty slot in which new devices can join the network.
+Firstly each device should either transmit or receive depending on the current time-slot. 
+If the current time-slot belongs to a device then that device should transmit otherwise it should receive, note that there is no special case for the empty slot in which new devices can join the network.
 There exists no special case for a device to join as communication is perfect thus the device can simply transmit in the empty slot letting everyone know that the network has increased, and the device is seizing the former empty slot.
 \begin{figure}
 \begin{lstlisting}[style=customc,caption={Important parts of the main loop.},label={lst:ccrc:rxortx}]

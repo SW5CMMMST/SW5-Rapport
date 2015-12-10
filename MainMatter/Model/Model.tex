@@ -144,7 +144,7 @@ These statements can be written as queries in UPPAAL, which the tool will then d
 The queries described here will be tested with a system consisting of up to 6 devices, it is recommended to not go much higher than 6 in one system as the queries computation time increase dramatically.
 The queries for the system will be given one by one with along with a description of what they represent.
 
-The computer used for all the tests is a laptop with an Intel i3 processor with a clock speed of 2.3 GHz, and 4 GB ram, running Windows 8.
+The computer used for all the tests is a laptop with an Intel i3 processor with a clock speed of 2.3 GHz, and 4 GB ram, running Windows 8.1.
 
 \noindent\begin{minipage}{\textwidth}
 \begin{lstlisting}[style=UPPAAL, title={This query requires that eventually if all devices are connected, then no pair of devices have the same \texttt{k}, unless the pair consists of the same two devices.}]
@@ -186,7 +186,7 @@ clock startup;
 \end{wrapfigure}
 
 The final additions can be seen on \myref{fig:OneStartUp}.
-If query number 1 is run once again with 6 devices on the tests setup, it will return true after a computation-time time of 37.7 seconds.
+If Query 1 is run once again with 6 devices on the tests setup, it will return true after a computation-time time of 37.7 seconds.
 This means that with these changes to the model, a network will be created correctly.
 However, it is a problem that multiple devices cannot be turned on at the same time, therefore this problem will be investigated further in \myref{chap:MDA-CCRC}, but for now the rest of the queries will be introduced and explained.
 
