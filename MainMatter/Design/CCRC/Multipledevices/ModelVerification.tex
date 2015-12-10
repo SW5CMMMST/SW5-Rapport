@@ -110,6 +110,12 @@ The first query is the only query which was also used on the earlier model, and 
     imply (Device(j).Just_Received or i==j)))
 \end{lstlisting}
 
+A comparison has been made for this model with the previous model in \myref{??} \todo{UPPAAL kapitel 7}, when reverting back to allowing the devices to start at the same time.
+Query 4 can be run on both models, but on the older simpler model, it will when run with 5 devices yield the result [0.0,0.019], which means that it will probably never succeed.
+So a change to the model allows the devices to leave the initial location at any moment between 0 and 30 seconds, and different results occur the devices will now sometimes have enough interval between activation so that a stable network will be created. 
+The probability result is [0.75,0.77].
+So this shows that if they are seperated in the old model, there is still a good successrate, but as soon as they start at the same time everything collapses.
+
 %GRAPHS
 
 \begin{figure}[ht]
@@ -118,11 +124,11 @@ The first query is the only query which was also used on the earlier model, and 
 \label{fig:ConnectQueryTime}
 \end{figure}
 
-\todo{Redo this graph.}
-
-As can be seen the change in probability approaches one as time increases, and appears to be a logarithmic growth, and will according to UPPAAL eventually connect, however it might take some time for it to do so.
+\myref{fig:ConnectQueryTime} shows a graph of all the queries.
+As can be seen the change in probability for the new model approaches one as time increases, and appears to be a logarithmic growth, and will according to UPPAAL eventually connect, however it might take some time for it to do so.
 This is because in the worst case the random numbers generated will keep causing collisions, or maybe they will take a long time before eventually killing their networks.
 There are many possible explanations for what causes the longer runs, but it it important to note the fact that, the longer the devices are running the bigger the chances are of establishing a stable network.
+The old model performs poorly, and will not always reach a stable correctly created network, and this is as mentioned only possible whenever there is a interval between activation of the devices.
 
 
 \section{Conclusion}
