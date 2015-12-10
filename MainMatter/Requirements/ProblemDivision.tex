@@ -10,12 +10,12 @@ As the tests in \myref{sec:hardware_tests} have shown, not all packages send are
 To estimate this a weight is given to each edge with a value between 0 and 1.
 These weights represents the probability of a given package being received with no corruptions.
 
-This gives us a weighted directed graph $G = (V, E, w)$, where $V$ is the devices as vertices, $E$ is the communication paths, and $w$ is the weight representing the reliability of the communication paths.
+This gives us a weighted directed graph $G = (V, E, w)$, where $V$ is the set of devices as vertices $v$, $E$ is the set of communication paths as edges $e(v_i, v_j)$, and $w$ is a weight function representing the reliability of any communication path written as $w(v_i,v_j)$.
 An example of this can be seen on \myref{fig:network}.
 
 In \myref{fig:examplenetworkgraphs} the two different network types are modelled as graphs; 
 \myref{fig:ccrcnetworkgraph} is an example of a \emph{completely connected graph} where every vertex has a direct edge to every other vertex.
-\myref{fig:network} is an example of a \emph{strongly connected graph} which can be described as: $E \subseteq V \times ]0,1] \times V$ where for any $v_i, v_j$ there exists a directed path from $v_i$ to $v_j$ where all edges in the path has a reliability greater than 0.
+\myref{fig:network} is an example of a \emph{strongly connected graph} which is defined in \myref{SCUC}.
 
 \begin{figure}[h]
     \begin{subfigure}{0.5\linewidth}
@@ -50,8 +50,8 @@ All the weights of the edges in this graph are 1, which means that all transmiss
 \begin{definition}
 	The \acrshort{ccrc}-problem:
 	\begin{align*}
-		\text{for all } \{v_i, v_j\} \text{ in } V \text{ where } v_i \neq v_j \text{ a unique edge } (v_i, v_j) \text{ exists}\\
-		\text{where the weight } w(v_i, v_j) = 1
+		\text{for all } \{v_i, v_j\} \text{ in } V \text{ where } v_i \neq v_j \text{exists a unique edge } e(v_i, v_j) \\
+		\text{where } w(v_i, v_j) = 1
 	\end{align*}
 \end{definition}
 
@@ -60,8 +60,8 @@ All the weights of the edges in this graph are 1, which means that all transmiss
 \begin{definition}
 	The \acrshort{ccuc}-problem:
 	\begin{align*}
-		\text{for all } \{v_i, v_j\} \text{ in } V \text{ where } v_i \neq v_j \text{ a unique edge } (v_i, v_j) \text{ exists}\\
-		\text{where the weight } w(v_i, v_j) \in\ ]0, 1]
+		\text{for all } \{v_i, v_j\} \text{ in } V \text{ where } v_i \neq v_j \text{exists a unique edge } e(v_i, v_j) \\
+		\text{where } w(v_i, v_j) \in\ ]0, 1]
 	\end{align*}
 \end{definition} 
 
@@ -72,17 +72,17 @@ In this example communication is once again reliable such that all transmissions
 	The \acrshort{scrc}-problem:
 	\begin{align*}
 		\text{for all } \{v_i, v_j\} \text{ in } V \text{ where } v_i \neq v_j \text{ there is a directed path from } v_i \text{ to } v_j\\
-		\text{ where all edges } (v_q, v_r) \text{ in the path has the weight } w(v_q, v_r) = 1
+		\text{ and for all edges } e(v_{q}, v_{r}) \text{ in E } w(v_{q}, v_{r}) = 1
 	\end{align*}
 \end{definition}
 
 \noindent The \gls{scuc}-problem describes the most realistic scenario, a strongly connected network with a chance of not receiving transmissions. 
 
-\begin{definition}
+\begin{definition}\label{SCUC}
 	The \acrshort{scuc}-problem:
 	\begin{align*}
 		\text{for all } \{v_i, v_j\} \text{ in } V \text{ where } v_i \neq v_j \text{ there is a directed path from } v_i \text{ to } v_j\\
-		\text{where all edges } (v_q, v_r) \text{ in the path has the weight } w(v_q, v_r) \in\ ]0,1]
+		\text{ and for all edges } e(v_{q}, v_{r}) \text{ in E } w(v_{q}, v_{r}) \in\ ]0,1]
 	\end{align*}
 \end{definition}
 
