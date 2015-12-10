@@ -1,16 +1,18 @@
 \section{Additions to the Flowchart}
-These changes are to be put into the flowchart from \myref{fig:main_psuedo_flow}.
+There are added four changes to the main loop flowchart from \myref{fig:main_psuedo_flow}, as can be seen in \myref{fig:mainFrameDefrag}.
 
-\tikzfigure{PsuedoMainFlowDiagramFrameDefragmaybe}{Placeholder txt.}{mainFrameDefrag}
+\tikzfigure{PsuedoMainFlowDiagramFrameDefragmaybe}{The main loop loop with the four additional processes.}{mainFrameDefrag}
 
 
-The first flowchart, \myref{fig:jd1}, is necessary for the fist and last device to monitor if they should change the frame, here the last device increments a counter for each device from which it does not receive a payload.
+The first additions can be seen detailed on the flowchart in, \myref{fig:jd1},
+It is necessary for the fist and last device to monitor if they should change the frame, in \myref{fig:jd1a} the last device increments a counter for each device from which it does not receive a payload.
+In \myref{fig::jd1b} the counter is reset for a device when a payload is received.
 \input{Figures/TikZ/DefragmentationFlowchart_1.tex}
 
-The second flowchart, \myref{fig:jd2}, is the jump itself.
-If the counter for any timeslot is higher than $m_{max}$, then it should change its $k$ to the $k$ of the device which missed counter was higher than $m_{max}$.
-This makes the last device of the frame now have a new k, and thus it has performed the jump.	
-\tikzfigure{DefragmentationFlowchart_2.tikz}{The Overtake subroutine. The needed changes to main loop to performing the jump.}{jd2}
+The additions presented in \myref{fig:jd2}, is the jump itself.
+If the counter for any timeslot is higher than $m_{max}$, then it should change its place in the frame, $k$, to the $k$ of the device which missed counter was higher than $m_{max}$.
+This makes the last device of the frame now have a new $k$, and thus it has performed the jump.	
+\tikzfigure{DefragmentationFlowchart_2.tikz}{The Overtake subroutine, the changes to main loop to performing the jump.}{jd2}
 
-The third flowchart, \myref{fig:jd3}, shows how to handle the last device of the frame leaving.
+The last additions seen in \myref{fig:jd3}, shows how to handle the last device of the frame leaving the network and thus reducing the number of time-slots.
 \tikzfigure{DefragmentationFlowchart_3.tikz}{The Reduce subroutine. The needed changes to main loop to decrease the number of time-slots in the network.}{jd3}
