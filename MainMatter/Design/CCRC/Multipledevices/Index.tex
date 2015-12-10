@@ -15,7 +15,7 @@ The method of exponential backoff described here is based on the ethernet standa
 \end{enumerate*}
 These properties of the exponential backoff can be expressed as follows:
 \begin{equation}
-     x \in [0, 2^c - 1] \text{ where } c \in \mathbb{N}_{<c_{max}}
+     x \in [0, 2^c - 1] \text{ where } c \in \mathbb{N} \text{ and } {c \leq c_{max}}
 \end{equation}
 
 Where $x$ is the result, a randomly chosen value from the range, and $c$ is the number of attempts starting at 1. 
