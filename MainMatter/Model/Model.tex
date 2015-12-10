@@ -149,7 +149,7 @@ The computer used for all the tests is a laptop with an Intel i3 processor with 
 \noindent\begin{minipage}{\textwidth}
 \begin{lstlisting}[style=UPPAAL, title={This query requires that eventually if all devices are connected, then no pair of devices have the same \texttt{k}, unless the pair consists of the same two devices.}]
 1. A<> forall(i : id_t) forall(j : id_t) Device(i).Connected and
-         Device(j).Connected and (Device(i).k == Device(j).k imply i == j)
+         Device(j).Connected and Device(i).k == Device(j).k imply i == j
 \end{lstlisting}
 \end{minipage}
 
