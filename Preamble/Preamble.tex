@@ -9,7 +9,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Graphics and tables
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage[table]{xcolor}
+\usepackage[table, dvipsnames]{xcolor}
 \definecolor{aaublue}{RGB}{33,26,82}
 \definecolor{OliveGreen}{rgb}{0,0.6,0}
 \usepackage{graphicx}
@@ -99,16 +99,16 @@
 \captionsetup[algorithm]{font=footnotesize}
 \makeatletter
 \renewcommand{\ALG@beginalgorithmic}{\footnotesize}
-\makeatother  
-\algdef{SE}[DOWHILE]{Do}{DoWhile}{\algorithmicdo}[1]{\algorithmicwhile\ #1}% 
+\makeatother 
 \algrenewcommand{\alglinenumber}[1]{\color{black!50!}\scriptsize#1}
+\algrenewcommand{\algorithmiccomment}[1]{\hfill$\triangleright$ #1\hspace{0.3em}~}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MyRef
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage[english]{cleveref}
 \crefname{exa}{example}{examples}
 \crefname{algorithm}{pseudocode}{pseudocodes}
-\newcommand{\myref}[1]{\cref{#1}}
+\newcommand{\myref}[1]{\Cref{#1}}
 \newcommand{\Myref}[1]{\Cref{#1}}
 \newcommand{\lowercaseref}[1]{\cref{#1}}
 
@@ -179,3 +179,4 @@ literate={{−>}{{$\leadsto$} }2 {−−>}{{$\longrightarrow$} }2
 
 \newcommand{\HilightRed}{\makebox[0pt][l]{\color{red!15}\rule[-4pt]{\linewidth}{14pt}}}
 
+\input{Preamble/AlgoHighLight.tex}
