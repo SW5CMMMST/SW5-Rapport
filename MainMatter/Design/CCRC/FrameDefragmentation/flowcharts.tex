@@ -11,17 +11,18 @@ This makes the last device of the frame now have a new $k$, and thus it has perf
 
 The last additions seen in \myref{fig:jd3}, shows how to handle the last device of the frame leaving the network and thus reducing the number of time-slots.
                                                                          
-\begin{figure}[p]
+\begin{figure}[!p] 
+\vspace{-15pt} 
 \centering
 \footnotesize
 \input{Figures/TikZ/PsuedoMainFlowDiagramFrameDefrag.tex}
 \caption{The main loop loop with the four additional processes.}
-\label{fig:mainFrameDefrag}    
+\label{fig:mainFrameDefrag}   
 \end{figure}  
 
 \input{Figures/TikZ/DefragmentationFlowchart_1.tex}  
 
-\begin{figure}[p]
+\begin{figure}[!p]
 \centering
 \footnotesize
 \input{Figures/TikZ/DefragmentationFlowchart_2.tikz}
@@ -29,11 +30,10 @@ The last additions seen in \myref{fig:jd3}, shows how to handle the last device 
 \label{fig:jd2}    
 \end{figure}
 
-\begin{figure}[p]
+\begin{figure}[!p]
 \centering
 \footnotesize
 \input{Figures/TikZ/DefragmentationFlowchart_3.tikz}
 \caption{The Reduce subroutine. The needed changes to main loop to decrease the number of time-slots in the network.}
 \label{fig:jd3}    
 \end{figure}   
-
