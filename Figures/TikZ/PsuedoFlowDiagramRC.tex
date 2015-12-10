@@ -10,7 +10,7 @@
 
 \begin{tikzpicture}[node distance = 2.8cm, auto]
     \node [cloud] (start) {Start};
-    \node [block, right of=start] (search) {Search for network};
+    \node [block, right of=start] (search) {Search for network for $\delta \times 3$};
     \node [decision, right of=search] (found) {Found network?};
     \node [block, below of=found] (init) {Initialize network};
     \node [preDefProc, left of=init] (end){\nodepart{two}{Main loop}};
