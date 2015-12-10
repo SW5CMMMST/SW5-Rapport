@@ -8,10 +8,9 @@ By this it follows that if one can guarantee that devices start with an offset o
 In an effort to solve this problem several different approaches can help, however none of them can guarantee that a multiple of networks will never occur with 100 \% certainty. 
 As such implementing concepts from several of the following approaches may yield the best result.
 
-\subsection{Deterministic (non-random) solutions}
-First the solutions where the result can always be determined.
-These solutions are fast to check for errors as the result of any operation are always predicable.
-This means that the number of possible statespace is limited to the amount of start configurations possible.
+\subsection{Definite Solutions}
+Firstly definite solutions will be described.
+These solutions are easy to check for errors as the result of any operation is predictable, as this limits the statespace to the amount of start configurations possible.
 
 \subsubsection{Unique Offset}
 Unique offset is when each device listens for a network for a uniquely specified amount of $\delta$ rather than the initial wait time of $\delta \times 3$.
@@ -22,7 +21,7 @@ In the case where initially the device with ID 2 is turned on and exactly $\delt
 However this approach could significantly increase the chance of only creating only one network in situations where all the devices are started simultaneously, e.g. a scenario where a multiple of devices are connected to the same power grid, which is then turned off and on again.
 Hereby making it appropriate for a uniform startup process.
 
-\subsubsection{Kill the network}\label{KtN}
+\subsubsection{Kill the Network (Definite)}\label{KtN}
 If a device is alone in a network for too long it may decide to kill the current network and start listening again.
 This works as a recovery technique, allowing two networks to be established but then solving that very problem.
 The technique has the network disassemble itself once some factor determines it needs to.
@@ -30,14 +29,13 @@ The technique has the network disassemble itself once some factor determines it 
 This factor could be when a number of frames has passed without hearing from any other device.
 For this to actually work there would have to be implemented something which guarantees that networks would not follow the same pattern, as that could result in a loop of killing and creating networks.
 Another problem that occurs is that if more than two networks are created, for this to work all but one network must die within two frames due to the previously set time spent listening.
-
 For the random version it would work similarly to random create, except the outcome would be killing the network rather than creating one.
 
-\subsection{Random solutions}
-The deterministic solutions could be used, but there will always be a chance for ending up in an infinite loop.
-To avoid this a random factor can be introduced.
-This would mean that eventually any situation that has a chance of going right, will.
-Because nothing goes wrong forever when there is a random chance, regardless of how mall, of it going right.
+\subsection{Stochastic Solutions}
+The definite solutions could be used, but there will always be a chance for ending up in an infinite loop.
+In order to avoid that a random factor is introduced.
+With the a stochastic approach whether or not the network is established is now based on probability.
+This does not guarantee that a network is never established it is however extremely improbable but not impossible.
 
 \subsubsection{Randomly Create}\label{RCreate}
 Once a device is done listening for a network it either creates its own network or resets and starts listening again.
@@ -46,22 +44,22 @@ This could be determined by running an algorithm on the result of a random seed,
 
 The problem with this is while it gives the opportunity for two devices to start within the same time-slot without both creating a network at the same time, this is no guarantee; as such this would further require the implementation of a recovery method much like unique offset would.
 
-\subsubsection{Kill the network (random)}\label{KtNR}
+\subsubsection{Kill the Network (Stochastic)}\label{KtNR}
 A version of kill the network could be implementet using a random chance to kill the network if the device is alone.
 This would avoid the problem of multiple devices following the same patteren.
 As the patteren would be random a soulution is inevitable given enough tries.
 The same is true for more than two networks trying to create a network.
 At some point an isolated network should exist.
 
-\subsection{Exponential backoff} 
+\subsection{Exponential Backoff} 
 Using the idea of an increasing exponent, similarly to the technique in exponential backoff as described in \myref{sec:exponential_backoff} can be applied to randomly create, killing the network and unique offset to increase odds of success.
 
-\subsubsection{Kill the network (Exponential backoff)}
+\subsubsection{Kill the Network (Exponential Backoff)}
 Once again the random solution here would be implemented similarly to randomly create.
-For the deterministic approach the unique factor chosen would be altered exponentially.
+For the non-random deterministic approach the unique factor chosen would be altered exponentially.
 A complication in doing so would be that networks would be active for exponential lengths of time, and with the specific requirement of networks having to die within two frames it could worsen the time it takes to successfully establish a single network exponentially; for this reason one might consider using another factor to guarantee unique outcomes for each device, such as an exponential change in listening time which might also be uniquely offset, which also solves the problem with the two frames limitation.
 
-\subsection{Modifications to the Upstart phase}                 
+\subsection{Modifications to the Upstart Phase}                 
 Based on the aforementioned possibilities a new upstart phase have been designed which minimises the probabilities of devices creating several networks.
 The changes are explained in the following text, as well as in the flowchart in \myref{fig:pseudo_flowMultiStart} representing the new design.
 
