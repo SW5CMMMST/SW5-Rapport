@@ -1,4 +1,23 @@
-\chapter{Discussion}
+\chapter{Discussion}\label{Discussion}
+This chapter will reflect on the choices made throughout this paper in respect to the problem statement in \myref{sec:problemStatement}, which was derived from wanting to find a cheaper alternative to Wi-Fi communication in simpler systems.
+Following this chapter the \myref{conclusion} will conclude on the success, or lack thereof, for those choices.
+
+\bigskip \noindent
+Prior to development both hardware and single-frequency communication methods were taken into account.
+For communication the choice ended on TDMA, while there exists enough methods to fill this entire paper with just that, most are merely mutations of TDMA adapted to more specific scenarios, as such TDMA was chosen as the primary inspiration for the protocol development.
+As for hardware several embedded systems were considered including the popular Raspberry Pi yet the choice still fell onto Arduino as it fit better in the scope of the project due to price, hardware specifications and availability.
+
+Tests were run on the hardware showing just how unreliable the wireless technology in the RF-modules was.
+To counter this an antenna was constructed adhering to the physics of radio communication, this was further tested against an antenna of random length and proved to be significantly better than both none and the antenna of random length.
+Any multiple of the chosen antenna length would fit according to the physics used in \myref{rfmodule}.
+This however would be unnecessary as the antenna proved to work upwards of 28 meters without any significant change in package loss.
+28 meters happens to be more than enough when applications considered are alarms, home automation or similar systems.
+
+\bigskip \noindent
+Following the hardware analysis and testing the problem was split into sub-problems all represented using graph theory.
+Graph Theory
+
+
 How realistic is the assumptions made for protocol? Particularly the CC scenario in constrast to the SC scenario
 
 Realistic application use - consider length of a frame
@@ -27,4 +46,5 @@ Real code how does it even work
 UC expansion
 Double send, value?
 Alternatives
-Things that were designed but not implemented
+Things that were designed but not implemented+
+
