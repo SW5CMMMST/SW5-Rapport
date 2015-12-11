@@ -72,6 +72,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Hyperlinks
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{varioref}
 \usepackage{hyperref}
 \usepackage{lastpage}
 \usepackage[toc]{glossaries}
@@ -91,7 +92,8 @@
 \usepackage{xargs}
 \usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
 \usepackage{csquotes}
-\usepackage{booktabs}
+\usepackage{booktabs}   
+\usepackage{xstring}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Pseudocode
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
@@ -113,7 +115,11 @@
 \usepackage[english]{cleveref}
 \crefname{exa}{example}{examples}
 \crefname{algorithm}{pseudocode}{pseudocodes}
-\newcommand{\myref}[1]{\Cref{#1}}
+
+\newcommandx{\myref}[2][1=]{%
+\IfStrEq{#1}{name}{\nameref{#2} - \Cref{#2} \vpageref{#2}}{\Cref{#2} \vpageref{#2}}%
+} 
+
 \newcommand{\Myref}[1]{\Cref{#1}}
 \newcommand{\lowercaseref}[1]{\cref{#1}}
 

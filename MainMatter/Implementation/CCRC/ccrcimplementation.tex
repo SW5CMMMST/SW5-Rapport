@@ -25,7 +25,7 @@ For the implementation the same thing happens when using \texttt{millis()} in th
 
 Additionally when joining a network the device needs to wait for the next time-slot before entering the mainloop. 
 This is done with the function \texttt{waitForNextTimeslot} which takes the size of the payload received as an argument, then calculates how much time is left of the time-slot, and waits for that period. 
-It is possible to accurately calculate how long it took to send the payload, the formulae for this is found in the test, see \myref{sub:radiohead_time_sent_test}.
+It is possible to accurately calculate how long it took to send the payload, the formulae for this is found in the test, see \myref[name]{sub:radiohead_time_sent_test}.
 This function is also used every time a payload is received to ensure that the devices in the network remains synchronised. 
 
 \begin{figure}[ht]

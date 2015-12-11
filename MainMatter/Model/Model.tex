@@ -172,10 +172,10 @@ When looking through the trace it shows that the devices left the initial locati
 In order to fix this, very little has to change.
 A global clock \texttt{startup} will be added, and a guard on the edge leaving the initial location will require the clock being greater or equal to \texttt{Startup\_Time}, and when a device fires this edge, it will then update the clock \texttt{startup} to zero, which makes sure that a device will only leave the initial location in the interval which is \texttt{Startup\_Time}.
 
-The change in the code will be an addition of the clock, which can be seen on \myref{lst:Clock_Addition}
-\begin{lstlisting}[style=UPPAAL, caption={Addition of the \texttt{startup} clock}, label={lst:Clock_Addition}]
-clock startup;
-\end{lstlisting}
+% The change in the code will be an addition of the clock, which can be seen on \myref{lst:ClockAddition}
+% \begin{lstlisting}[style=UPPAAL, caption={Addition of the \texttt{startup} clock}, label={lst:ClockAddition}]
+% clock startup;
+% \end{lstlisting} 
 
 \begin{wrapfigure}[12]{r}{0.5\textwidth}
     \hspace{-10pt}
