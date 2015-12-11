@@ -32,15 +32,15 @@ Setting these parameters closer to zero will cause the time it takes to verify a
 
 \info[inline]{Syndes der er meget svag opdeling i dette afsnit, man kunne lave en subsub med ``Removing assumptions'', ``multi-start changes'', ``multi-connect changes'' - Troels}
 
-The UPPAAL model shown in \myref{sec:themodel} has gone through extensive changes to accomodate the challenges posed of multiple devices starting at the same time.
+The UPPAAL model shown in \myref[name]{sec:themodel} has gone through extensive changes to accomodate the challenges posed of multiple devices starting at the same time.
 The complete model can be seen in the back of the project report printed on a A3-paper, and it can also be found on the CD, which is also in the back of the project folder.
 
 \paragraph{Jamming} can now occur since multiple devices are turned on at the same time, which means that more than one device is now able to transmit at the same time.
-If two or more devices transmit at the same time, i.e. a jam, then none of the receiving devices will be able to receive any payloads, this is also mentioned in \myref{subsubsec:RadioHead}, this needs to be modelled in UPPAAL. 
-%When this happens, it has been mentioned in \myref{subsubsec:RadioHead}, that nothing is detected by the receivers, therefore a mechanism making sure that when two devices are trying to transmit at the same time, nothing will be received by anyone are needed in UPPAAL. 
+If two or more devices transmit at the same time, i.e. a jam, then none of the receiving devices will be able to receive any payloads, this is also mentioned in \myref[name]{subsubsec:RadioHead}, this needs to be modelled in UPPAAL. 
+%When this happens, it has been mentioned in \myref[name]{subsubsec:RadioHead}, that nothing is detected by the receivers, therefore a mechanism making sure that when two devices are trying to transmit at the same time, nothing will be received by anyone are needed in UPPAAL. 
 
 \paragraph{Multiple Startup.}
-In the previous model presented in \myref{sec:themodel} only one device was able to start at a time, as there was nothing to handle multiple starting at the same time.
+In the previous model presented in \myref[name]{sec:themodel} only one device was able to start at a time, as there was nothing to handle multiple starting at the same time.
 \begin{wrapfigure}[18]{r}{0.5\textwidth}
 \centering
   \includegraphics[width=0.5\textwidth]{Figures/Model/Screenshot_Of_Kill.png} 
@@ -49,7 +49,7 @@ In the previous model presented in \myref{sec:themodel} only one device was able
 \end{wrapfigure}
 
 This limitation will be removed in this model.
-%The devices can now start at the same time again, as was possible before the mechanism controlling when a device was released was implemented, as presented in \myref{sec:verifyingTheModel}.
+%The devices can now start at the same time again, as was possible before the mechanism controlling when a device was released was implemented, as presented in \myref[name]{sec:verifyingTheModel}.
 To stop devices from being alone in a network forever, a split node is made when nothing is received in a time slot, where the device is alone in the network, i.e. the \texttt{local\_n} of the device is equal to 2.
 This split node has 2 outgoing edges, one edge which has a probability weight of 90, which makes the device go back into its main loop, and another edge with a probability of \texttt{kill\_chance} (10 \%), which make the device kill the network, and start listening again.
 When this happens the exponential backoff method is used, which means for each time a device kills the network it will have a chance of listening for a longer period of time, according to the specification in the previous sections.
@@ -68,7 +68,7 @@ This is the only change needed for handling multiple devices connecting to the n
 
 \subsection*{Verifying using SMC}
 
-Some of the queries presented in the previous UPPAAL section, \myref{sec:verifyingTheModel}, make no sense for the new model, as now multiple networks should be running at the same time when the devices first start up, and therefore checking if the value of \texttt{i} is the same for all devices in a certain state makes no sense.
+Some of the queries presented in the previous UPPAAL section, \myref[name]{sec:verifyingTheModel}, make no sense for the new model, as now multiple networks should be running at the same time when the devices first start up, and therefore checking if the value of \texttt{i} is the same for all devices in a certain state makes no sense.
 When verifying using SMC then the querys will yield a probability of being true within a given confidence interval, rather than true or false as in the normal UPPAAL.
 Therefore the queries will all except for one be checking for the probability of them being true over time, when at least 3000 UPPAAL time units has passed.
 The choice of 3000 time units is because this gives enough time for all devices to start up, and at least as some of them should have started a network. 
@@ -110,7 +110,7 @@ The first query is the only query which was also used on the earlier model, and 
     imply (Device(j).Just_Received or i==j)))
 \end{lstlisting}
 
-A comparison has been made for this model with the previous model in \myref{sec:themodel}, when reverting back to allowing the devices to start at the same time.
+A comparison has been made for this model with the previous model in \myref[name]{sec:themodel}, when reverting back to allowing the devices to start at the same time.
 Query 4 can be run on both models, but on the older simpler model it will, when run with five devices, yield the result [0.0,0.019], which means that it will probably never succeed.
 So a change to the model allows the devices to leave the initial location at any moment between 0 and 30 seconds, and different results occur; the devices will now sometimes have enough interval between activation so that a stable network will be created. 
 The probability result is [0.75,0.77].

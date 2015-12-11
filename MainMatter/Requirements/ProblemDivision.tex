@@ -2,22 +2,20 @@
 This chapter will determine how the further work on the protocol will be handled, by defining how to describe the problem using mathematics. 
 By expanding on the definition and the problem statement, a number of system requirements will be defined which must be at least partially satistfied to solve the overall problem.
 
-
 \section{Development Plan \& Problem Exploration}\label{chp:Problems}
-Networks are often described in mathematics in the form of a graph. 
-In the case of the protocol the edges are essential for the problem as these represents the available communication.
-As the tests in \myref{sec:hardware_tests} have shown, not all packages send are guaranteed to arrive.
-To estimate this a weight is given to each edge with a value between 0 and 1.
-These weights represents the probability of a given package being received with no corruptions.
-
-This gives us a weighted directed graph $G = (V, E, w)$, where $V$ is the set of devices as vertices $v$, $E$ is the set of communication paths as edges $e(v_i, v_j)$, and $w$ is the weight function representing the reliability of any communication path written as $w(v_i,v_j)$.
+Networks can be described as graphs using graph theory. 
+In the case of the protocol the edges are essential for the problem as these represent the available communication.
+As the tests in \myref[name]{sec:hardware_tests} have shown, not all sent packages are guaranteed to arrive; hence a weight is given to each edge with a value between 0 and 1.
+These weights represents the probability of a given package being received.
+This yields a weighted directed graph $G = (V, E, w)$, where $V$ is the set of devices as vertices $v$, $E$ is the set of communication paths as edges $e(v_i, v_j)$, and $w$ is the weight function representing the reliability of any communication path written as $w(v_i,v_j)$.
 An example of this can be seen on \myref{fig:network}.
 
 In \myref{fig:examplenetworkgraphs} the two different network types are modelled as graphs; 
 \myref{fig:ccrcnetworkgraph} is an example of a \emph{completely connected graph} where every vertex has a direct edge to every other vertex.
 \myref{fig:network} is an example of a \emph{strongly connected graph} which is defined in \myref{SCUC}.
 
-\begin{figure}[h]
+\begin{figure}[H]
+    \footnotesize
     \begin{subfigure}{0.5\linewidth}
         \centering
         \input{Figures/TikZ/completelyConnectedGraph.tex}
@@ -31,16 +29,18 @@ In \myref{fig:examplenetworkgraphs} the two different network types are modelled
         \label{fig:network}
     \end{subfigure}
     \caption{Examples of networks modelled as graphs.}
-    \label{fig:examplenetworkgraphs} 
+    \label{fig:examplenetworkgraphs}
+    \vspace{-20pt}
 \end{figure}
 
+\noindent
 Creating a protocol for networks as shown in \myref{fig:network} is a complex problem to solve and many issues will become apparent throughout analysis of the problem.
 In order to simplify the problem some assumptions are made about the network.
 
 During development of the system, the system could be set up to give \textasciitilde100 \% probability of successfully receiving the message, by wiring the Arduinos together instead of using radio communication; this gives more room to work on the baseline communication issues without having to consider the unreliability of the radio frequency modules.
 
 For this project only networks which can be depicted as completely (as in \myref{fig:ccrcnetworkgraph}) or strongly connected graphs (as in \myref{fig:network}) will be considered, to ensure that all devices will have the possibility to exchange information with every other device.
-As a consequence of this, four sub problems will be considered and modelled as graphs:
+As a consequence of this, four sub problems will be considered and modelled as graphs.
 
 \bigskip
 

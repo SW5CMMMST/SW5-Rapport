@@ -5,7 +5,7 @@ In order to achieve wireless communication between the devices a \gls{rf} module
 The module used in this project communicates at 433 MHz; its datasheet specifies the range is 20 to 200 meters, depending on the input voltage, which ranges from 3.5 to 12 volts. 
 The Arduino provides 3.3 volts and 5 volts output, and the 5 volts output will be used.
 The maximum bandwidth is 4 kilobytes/secound. 
-The signal is sent using \gls{ask}, this will be further explained in \myref{subsub:ask}.
+The signal is sent using \gls{ask}, this will be further explained in \myref[name]{subsub:ask}.
 These values will be tested, to ensure the reliability of the information. 
 
 The \gls{rf} system consists of a \gls{tx} and a \gls{rx}, see \myref{fig:arduino_rf}.
@@ -16,7 +16,7 @@ The \gls{rx} module has the same pins as the transmitting module, however the DA
 
 \figur{arduino_rf.jpg}{0.4}{The 433MHz \gls{rf} receiver (left) and transmitter (right)}{arduino_rf}
 
-\subsubsection{Antenna}
+\subsection{Antenna}
 It is possible to attach an antenna to both \gls{rf} modules. 
 The benefits of using an antenna is an improvement in both maximum distance and accuracy of transmissions.
 Attaching an antenna is done by soldering the antenna to the ANT port on both the receiver and the transmitter. 
@@ -38,9 +38,9 @@ l = \frac{c}{f \times 2}
 \noindent
 Using the frequency, 433 MHz, the quarter- and half-monopole antenna lengths are 17.3 cm and 34.6 cm respectively \cite{AntennaLength}.
 
-The efficiency of using such antennas will be tested in \myref{cha:radio_frequency_module_reception_test}.
+The efficiency of using such antennas will be tested in \myref[name]{cha:radio_frequency_module_reception_test}.
 
-\subsubsection{Amplitude Shift Keying}\label{subsub:ask}
+\subsection{Amplitude Shift Keying}\label{subsub:ask}
 As mentioned the \gls{rf} module sends its signal using \gls{ask}.
 \gls{ask} is a form of modulation where the digital input is a radio wave where the digital high (also known as \enquote*{1}) is a greater amplitude than the digital low (also known as \enquote*{0}).
 This principle can also be used with light, here digital high would be a short pulse, and a digital low would be the absence of light. 
