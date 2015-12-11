@@ -1,5 +1,5 @@
 \subsection{The Model}\label{sec:themodel}
-This section will showcase the model made to express the design from \myref{cha:Design}.
+This section will showcase the model made to express the design from \myref[name]{cha:Design}.
 For simplicity the the model in this chapter has been split into two parts, an initializing phase and the main loop.
 Before the template is shown the code for the system will be presented.
 The template has local code which can be seen on \myref{device_local}.
@@ -111,11 +111,11 @@ The device will move onwards towards the main loop, which will be shown later.
 When the devices listen and find the newly created network, they will fire the other edge, where the broadcast channel \texttt{transmit} is seen.
 The device will stay in this location until the communication phase of the time-slot is complete, which is until \texttt{Delta}, and then it will continue towards the committed location \texttt{Network\_Found} and reset the clock \texttt{x} to zero.
 This location is committed as its purpose is simply visual working as a context switch between having found a network and entering the loop to wait for the empty slot.
-When it has just received a transmission, the device which just transmitted will according to \myref{cha:Design} be performing user code, and therefore the device trying to connect should be waiting for the next time-slot so the other devices are ready to receive again.
+When it has just received a transmission, the device which just transmitted will according to \myref[name]{cha:Design} be performing user code, and therefore the device trying to connect should be waiting for the next time-slot so the other devices are ready to receive again.
 
 \bigskip \noindent
 When \texttt{x} is equal to \texttt{Delta\_Proc}, the time designated to perform user code, the device will fire the edge to the committed location directly under \texttt{User\_Code\_Not\_Connected} once again.
-In this location when \texttt{x} is not zero, the device checks whether \texttt{i}, the current time-slot, is the empty-time slot, if it is the device will transmit and ultimately connect to the network increasing the number of time-slots in the network according to the specifications in \myref{cha:Design}.
+In this location when \texttt{x} is not zero, the device checks whether \texttt{i}, the current time-slot, is the empty-time slot, if it is the device will transmit and ultimately connect to the network increasing the number of time-slots in the network according to the specifications in \myref[name]{cha:Design}.
 If the empty slot was not the current time-slot, the device will instead go to the location \texttt{Receiving\_Not\_Connected} where it will receive the other devices' transmissions, once again reset \texttt{x} to zero and loop until eventually the empty slot occurs, where it will connect to the network.
 The model can be seen on \myref{fig:UPPAAL_Connected}.
 
@@ -125,7 +125,7 @@ The model can be seen on \myref{fig:UPPAAL_Connected}.
 \label{fig:UPPAAL_Connected}
 \end{figure}
 
-When a device has been connected to a network it will instantly move to the location main loop, where it will perform the actions as described in the pseudocode of \myref{cha:Design}.
+When a device has been connected to a network it will instantly move to the location main loop, where it will perform the actions as described in the pseudocode of \myref[name]{cha:Design}.
 
 First it moves to a location \texttt{User\_Code} where it will perform user code until the the clock \texttt{x} is equal to \texttt{Delta\_Proc}.
 As soon as this is the case the device will move on to a committed location where it will choose to either transmit or receive depending on whether or not the current time-slot belongs to the device or not.
@@ -133,13 +133,13 @@ When a device has transmitted a transmission, it will move to a waiting location
 This also happens when the device in the empty slot is transmitting, the device waits before starting the main loop.
 When the device is in the location \texttt{Receiving}, if nothing has been transmitted and the clock \texttt{x} is equal to \texttt{Delta} the device will go increment its \texttt{i\_local} value reset the clock \texttt{x} and restart the main loop. 
 This case happens whenever the empty slot is the current time-slot and no new device is trying to connect to the network.
-According to the specification of \myref{cha:Design} devices which receive a transmission will synchronize to the clock of the transmitting device, this is implemented in the system as the update \texttt{x:=Tx\_Time}, where \texttt{Tx\_Time} is the sum of \texttt{Delta\_Proc} and \texttt{Real\_Tx\_Time}, so it is the time the transmitting device has spent until it is done transmitting.
+According to the specification of \myref[name]{cha:Design} devices which receive a transmission will synchronize to the clock of the transmitting device, this is implemented in the system as the update \texttt{x:=Tx\_Time}, where \texttt{Tx\_Time} is the sum of \texttt{Delta\_Proc} and \texttt{Real\_Tx\_Time}, so it is the time the transmitting device has spent until it is done transmitting.
 A function to calculate this synchronized time will be require to implement the model on an Arduino.
 
 \subsection{Verifying the Model}\label{sec:verifyingTheModel}
 
-As mentioned in \myref{subsec:uppaal} it is possible to make queries to verify that some given properties are true.
-\myref{sec:Pseudo} contains statements which should be true for a correctly connected network.
+As mentioned in \myref[name]{subsec:uppaal} it is possible to make queries to verify that some given properties are true.
+\myref[name]{sec:Pseudo} contains statements which should be true for a correctly connected network.
 These statements can be written as queries in UPPAAL, which the tool will then determine to be correct or not. 
 The queries described here will be tested with a system consisting of up to 6 devices, it is recommended to not go much higher than 6 in one system as the queries computation time increase dramatically.
 The queries for the system will be given one by one with along with a description of what they represent.
@@ -172,10 +172,10 @@ When looking through the trace it shows that the devices left the initial locati
 In order to fix this, very little has to change.
 A global clock \texttt{startup} will be added, and a guard on the edge leaving the initial location will require the clock being greater or equal to \texttt{Startup\_Time}, and when a device fires this edge, it will then update the clock \texttt{startup} to zero, which makes sure that a device will only leave the initial location in the interval which is \texttt{Startup\_Time}.
 
-The change in the code will be an addition of the clock, which can be seen on \myref{lst:Clock_Addition}
-\begin{lstlisting}[style=UPPAAL, caption={Addition of the \texttt{startup} clock}, label={lst:Clock_Addition}]
-clock startup;
-\end{lstlisting}
+% The change in the code will be an addition of the clock, which can be seen on \myref{lst:ClockAddition}
+% \begin{lstlisting}[style=UPPAAL, caption={Addition of the \texttt{startup} clock}, label={lst:ClockAddition}]
+% clock startup;
+% \end{lstlisting} 
 
 \begin{wrapfigure}[12]{r}{0.5\textwidth}
     \hspace{-10pt}
@@ -188,7 +188,7 @@ clock startup;
 The final additions can be seen on \myref{fig:OneStartUp}.
 If Query 1 is run once again with 6 devices on the tests setup, it will return true after a computation-time time of 37.7 seconds.
 This means that with these changes to the model, a network will be created correctly.
-However, it is a problem that multiple devices cannot be turned on at the same time, therefore this problem will be investigated further in \myref{chap:MDA-CCRC}, but for now the rest of the queries will be introduced and explained.
+However, it is a problem that multiple devices cannot be turned on at the same time, therefore this problem will be investigated further in \myref[name]{chap:MDA-CCRC}, but for now the rest of the queries will be introduced and explained.
 
 \begin{lstlisting}[style=UPPAAL, title={The query requires that there is no deadlock in the system, it will result in true with a computation-time of 84.8 seconds when run on the test setup with 6 devices.}]
 2. A[] not deadlock
@@ -229,10 +229,10 @@ However, it is a problem that multiple devices cannot be turned on at the same t
 
 All of these queries will now yield a true result, after the changes shown in this section making sure there is a interval between each activation of a device, when run with 6 devices on the model presented in this chapter.
 All the queries were run on the same laptop.
-Note that queries have been added to verify the model beyond the ones derived from the statements in \myref{sec:Pseudo}, an example is query 2.
+Note that queries have been added to verify the model beyond the ones derived from the statements in \myref[name]{sec:Pseudo}, an example is query 2.
 
-The queries 1, 7 and 8 together make up the statement (e) from \myref{sec:Pseudo}, since if no devices have the same time-slot k and if the number of devices is one less than the number of time-slots and all time-slots in the range $[1, N-1]$ corresponds to an occupied time-slot in the network.
+The queries 1, 7 and 8 together make up the statement (e) from \myref[name]{sec:Pseudo}, since if no devices have the same time-slot k and if the number of devices is one less than the number of time-slots and all time-slots in the range $[1, N-1]$ corresponds to an occupied time-slot in the network.
 
 Since all of these statements hold true, it is concluded that the model does indeed do what it was designed to do, and an implementation according to the specification should theoretically work and be possible to create, under the assumptions of single device startup, with a minimaal interval.
-Handling the startup of multiple devices at the same time will be designed in \myref{chap:MDA-CCRC}.
+Handling the startup of multiple devices at the same time will be designed in \myref[name]{chap:MDA-CCRC}.
 \newpage
