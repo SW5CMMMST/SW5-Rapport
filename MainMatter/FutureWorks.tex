@@ -3,20 +3,20 @@ This chapter describes problems yet to be solved, the solutions for which could 
 Some of these problems were also described in \myref{chp:Problems}, yet not solved due to their complexity.
 
 \section{Strongly Connected Networks}
-During the analysis phase of the project, an issue of strongly connected networks arose.  
-Techniques from the unreliable networks would work in most cases, e.g. when connecting to a network. \todo{Pure hypothesis, also no it would not}
-In a strongly connected network communication between devices is significantly more complex.
+During the analysis phase of the project, an issue of strongly connected networks arose.
+A protocol for strongly connected networks would need to work different form how the protocol developed for completely connected networks work.
+This is due to the structure of a strongly connected networks, in which a protocol would need a method of delivering information between devices which are not directly connected.
+An example of a simple strongly connected network can be seen on \myref{fig:linearNetwork}, here data can only travel directly between devices in three instances  (A-B, B-C and C-D) and would need a forwarding function in three other cases (A-C, A-D and B-D). 
+Because of this need of forwarding in a strongly connected network a solution would be significantly more complex.
 
 \tikzfigure{LinearNetwork.tikz}{A linearly connected network where every node has at most two connections.}{linearNetwork}
 \noindent
-In this case the other devices in the network must figure out whether to act as a relay for other devices. 
-The simple solution is to repeat all known information, which would increase the payload size and by extension also the frame length.
-Hence communication between devices would take longer.
+The worst case for the network illustrated in \myref{fig:linearNetwork} is when device A wants to send a message to device D, the message needs to go through both device B and C.
 
-The worst case for a network of four devices is illustrated by \myref{fig:linearNetwork}.
-When device 1 wants to send a message to device 4, the message needs to go through device 2 and 3 first.
-The implementation of this would be applicable for other use cases in the protocol. 
-\todo{write more about this! Very sudden ending...}
+The simple solution to solving the forwarding problem is to repeat all known information.
+This solution would increase the payload size and by extension also the frame length, hence communication between devices would take longer.
+A solution for strongly connected networks could also consider which devices in a network needs what information.
+The use case of the protocol should be greatly considered when designed the protocol for such a network, since this i.e determines whether every devices needs to be fully informed or whether speed is an important part of the protocol.
 
 \section{Timer Interrupt Based Library}
 The Arduino platform includes support for timer interrupt based programming.
@@ -33,10 +33,10 @@ This would mean that every other library which uses timers would be incompatible
 
 \section{Improvements to Protocol Operating Speed}
 
-The protocol uses approximately $66 + (6 \times s)$ milliseconds to transmit a package of size $s$, as discovered in \myref{cha:radiohead_time_sent_test}. 
+The protocol uses approximately $66 + (6 \times s)$ milliseconds to transmit a package of size $s$, as discovered in \myref{sub:radiohead_time_sent_test}. 
 This means that a payload of 16 bytes would take 162 milliseconds to transmit.
 If the user code takes up a quarter of the time slot then the time-slot length must be approximately 200 milliseconds.
-In a network with $n$ devices, this means that the frame length must be equal to $200 \times (n + 1)$.
+In a network with $n$ devices, this means that the frame length must be equal to $200 \times (n + 1)$ milliseconds.
 Due to which a network of four devices would have a frame length of one second.
 There is a wide range of ways to improve the speed at which the protocol operates, but this section will focus on the following possible improvements:
 \begin{enumerate}[label=\itshape \alph*\upshape)]
