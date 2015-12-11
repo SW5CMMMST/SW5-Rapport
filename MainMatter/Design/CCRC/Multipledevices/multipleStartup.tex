@@ -52,7 +52,7 @@ The same is true for more than two networks trying to create a network.
 At some point an isolated network should exist.
 
 \subsection{Exponential Backoff} 
-Using the idea of an increasing exponent, similarly to the technique in exponential backoff as described in \myref{sec:exponential_backoff} can be applied to randomly create, killing the network and unique offset to increase odds of success.
+Using the idea of an increasing exponent, similarly to the technique in exponential backoff as described in \myref[name]{sec:exponential_backoff} can be applied to randomly create, killing the network and unique offset to increase odds of success.
 
 \subsubsection{Kill the Network (Exponential Backoff)}
 Once again the random solution here would be implemented similarly to randomly create.
@@ -66,7 +66,7 @@ The changes are explained in the following text, as well as in the flowchart in 
 \begin{description}[labelindent=\parindent]
     \item[Search for network]\hfill\\
     The initial action after starting a device states to search for a network.
-    This is done for $\text{\textit{initial wait time}} + \delta \times b$ where $b$ denotes a random number chosen using the method of exponential backoff from \myref{sec:exponential_backoff}, i.e. $b \in [0, 2^c-1]$, where $c$ is the number of attempts of creating a network.
+    This is done for $\text{\textit{initial wait time}} + \delta \times b$ where $b$ denotes a random number chosen using the method of exponential backoff from \myref[name]{sec:exponential_backoff}, i.e. $b \in [0, 2^c-1]$, where $c$ is the number of attempts of creating a network.
     This expression ensures that devices will not listen for the same amount of time when they are started, and this difference will increase with each attempt, ensuring the existence scenarios in which only one device will create a network while others are still listening, also in the case where they died at the same time.
     \item[Chance of creating a network]\hfill\\
     This method will not be used in order to keep the method of handling multiple startup deterministic.
