@@ -15,7 +15,14 @@ This however would be unnecessary as the antenna proved to work upwards of 28 me
 
 \bigskip \noindent
 Following the hardware analysis and testing the problem was split into sub-problems all represented using graph theory.
-Graph Theory
+The four sub-problems were the result of considering two variables, communication and device placement.
+While the device placement was a sensible consideration as the two scenarios are significantly different one can argue as to whether the communication considering was as well, or perhaps it should have been more explicit.
+As it happens the CCUC-solution has not been implemented, but merely designed.
+This is partly due to unforeseen sub-iterations in the CCRC-solution pertaining to certain edge cases requiring entire design structures.
+One of these in particular would cause a complication in when expanding into the CCUC-problem as a consequence of the consensus idea, the sub-iteration in question is removal of dead devices and by extension reduction of time-slots.
+What really causes the problem here is that this requires that value can both rise and fall, instead of only rise.
+If one had spotted these edge cases in the initial partition of problems one could have defined which sub-iterations to consider for each problem such that sub-iterations which would require a significant change once expanding the problem, would not be designed in the former problem as to avoid a rework of an entire sub-iteration.
+
 
 
 How realistic is the assumptions made for protocol? Particularly the CC scenario in constrast to the SC scenario
