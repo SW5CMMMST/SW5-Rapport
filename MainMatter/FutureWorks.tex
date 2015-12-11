@@ -47,22 +47,24 @@ There is a wide range of ways to improve the speed at which the protocol operate
 \end{enumerate} 
 
 \begin{description}[labelindent=\parindent]
-    \item [Skip unnecessary transmissions]\hfill\\\todo{One would have to skip an entire time-slot not just transmission, this would mean dynamic time-slots, this description mentions nothing of this}
+    \item [Skip unnecessary transmissions]\hfill\\
 When the protocol is fully functioning there is a chance that a device will not have anything new to transmit in its time-slot.
 Currently the device would transmit the previous payload again filling the slot with information that might be redundant.
 However some kind of signal that indicates to the other devices that this slot should be skipped is needed to implement this idea.
+The signal could be in a device's previous times-slot, indicating that it wound not have anything to transmit for some time. 
+Another solution could be variable time-slots lengths, such that a a device could occupy a shorter time-slot if it has nothing to transmit. 
 
     \item[Increase the bit rate]\hfill\\ 
 An obvious way to increase communication speed is to increase the bit rate.
 This could introduce unreliability for the communication at higher bit rates, but even for smaller increases to the bit rate it could be a significant improvement.
 The best way to implement this would be to have the user be in control of the bit rate.
 This way the user could set the rate according to the requirements of a given application.
+However one must adhere to the limitations of the hardware.
 
     \item[Reduce overhead]\hfill\\
-\todo{Author plz try writing this again, no sense was made}
 As discussed in \myref{subsubsec:RadioHead}, RadioHead introduces some overhead associated with using the library.
-It is possible that by reducing the initial signal of 3 4to6 bytes. 
-However the performance increase is negligible.
+The library uses both several bits to calibrate the modules as well as encoding each byte as two 6-bit symbols.
+These can most likely be improved upon, hovever we deem the performance increase archived is negligible.
 Another place to look is what extra work RadioHead does before transmitting the payload which might not be necessary.
 But this would not be the best place to look for an performance increase.
 
@@ -70,11 +72,13 @@ But this would not be the best place to look for an performance increase.
     \todo{wouldn't this require some designated ``router'' device?}
 This fourth possible improvement assumes a strongly connected network in which at least two nodes cannot hear each other nor their respective neighbours.
 If a network adheres to this assumption there would be no reason not to have them share a time-slot.
-This would require some way for a device to know which time-slot its neighbours and its neighbours-neighbours occupy.
+This would require a way for a device to know which time-slot its neighbours and its neighbours-neighbours occupy.
 One way of implementing this would be with a rearrange phase.
-In this phase every device tries to rearrange the assigned time-slots.\todo{Every device attempting to rearrange the time-slot of each device? that wont work}
-When a new device connects to the network, the network enters this phase.
-The problem with this is that the communication is paused during this phase in the entire network.
-This has the added advantage of a build-in garbage collector for dead devices.\todo{how so?}
+This frame could be designed as a three step phase. 
+First the devices would gather information describing the structure of the network.
+Secondly the network would design the new time-slot layout and third could be a frame where every device rearrange the newly assigned time-slots.
+When a new device connects to the network, the network could enters this phase.
+The problem with this is that the communication is paused during this phase in the entire network and it is a complex problem.
+In this solution it would be obvious to build in a garbage collector for dead devices.
 \end{description}
 
