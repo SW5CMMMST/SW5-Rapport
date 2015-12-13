@@ -119,13 +119,35 @@ There are many possible explanations for what causes the longer runs, but it it 
 \label{fig:ConnectQueryTime}
 \end{figure}
 
+\bigskip
 A comparison has been made for this model with the previous model in \myref{sec:themodel}, when reverting the model back to allowing the devices to start at the same time.
 Query 4 can be run on both models, but on the older simpler model it will, when run with five devices, yield the result [0.0,0.019], which means that it will probably never succeed.
-So a change to the models allow the devices to leave the initial location at any moment between 0 and 30 seconds, and different results occur; the devices will now sometimes have enough interval between activation so that a stable network will be created. 
+So a change to the models allow the devices to leave the initial location at any moment between 0 30000 uppaal time units, and different results occur; the devices will now sometimes have enough interval between activation so that a stable network will be created. 
 The probability result is [0.75,0.77].
 Therefore this shows that if they are seperated in the old model, there still is a high successrate, but as soon as they start at the same time everything collapses.
 
+The changes are the same for both models and can be seen on \myref{startuptimeChanceListing}.
+
+
+\begin{lstlisting}[style=UPPAAL, title={Change in the start up time for devices.}, label={startuptimeChanceListing}]
+//Original
+int Startup_Time = Initial_Wait_Time*2;
+
+//Change
+int Startup_Time = Initial_Wait_Time*20;
+\end{lstlisting}
+
+
 The old model performs significantly worse that the new one, and will not always reach a stable correctly created network, and this is as mentioned only possible whenever there is a interval between activation of the devices.
+
+The changes in the new model which handles that devices start at the same time also improves from the fact that they may start with bigger intervals, the results of running the query can be seen on \myref{CompareGraph}.
+Changing the new model's startup time is done so the two models can be compared in speed aswell as success probability under the same circumstances.
+
+\begin{figure}[ht]
+  \includegraphics[width=1\textwidth]{Figures/Graphs/gnuplot/uppaal_Compare/graph.pdf} 
+\caption{Graph of the query number 4, for both the old and the new model so their successrate and speed can be compared.}
+\label{CompareGraph}
+\end{figure}
 
 
 \section{Conclusion}
