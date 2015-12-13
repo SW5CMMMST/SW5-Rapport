@@ -57,7 +57,7 @@ void waitForNextTimeslot(uint32_t payloadSize) {
 \subsection{Upstart: Creating or Joining a Network}
 When each Arduino starts it determines if there is a network in progress and join it. 
 If it cannot find a network then it should create its own network, so that others can join it. 
-The worst case time required to determine whether a network exists is roughly $3 \times \delta \leq t_0$ for the CCRC-problem, as determined in \myref{sub:setupCCRC}, where $t_0$ is the maximum time. 
+The worst case time required to determine whether a network exists is roughly $3 \times \delta \leq t_0$ for the CCRC-problem, as determined in \myref[name]{sub:setupCCRC}, where $t_0$ is the maximum time. 
 This is referred to as \texttt{INIT\_WAIT} in the code and sets the limit for how long an Arduino listens before creating its own network. 
 In \myref{lst:ccrc:startup} the startup code is shown. 
 \begin{figure}

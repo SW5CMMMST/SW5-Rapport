@@ -19,6 +19,7 @@
 \captionsetup{  font=footnotesize, 
                 labelfont=bf,
                 justification=centering}
+\captionsetup[subfigure]{font=footnotesize}
 \usepackage[nounderscore]{syntax} 
 \usepackage{array,booktabs,arydshln}
 \usepackage{tabularx}
@@ -115,12 +116,10 @@
 \usepackage[english]{cleveref}
 \crefname{exa}{example}{examples}
 \crefname{algorithm}{pseudocode}{pseudocodes}
-
+\renewcommand{\reftextcurrent}{}
 \newcommandx{\myref}[2][1=]{%
-\IfStrEq{#1}{name}{\nameref{#2} - \Cref{#2} \vpageref{#2}}{\Cref{#2} \vpageref{#2}}%
-} 
-
-\newcommand{\Myref}[1]{\Cref{#1}}
+\IfStrEq{#1}{name}{\Cref{#2} \nameref{#2} \vpageref{#2}}{\Cref{#2} \vpageref{#2}}%
+}
 \newcommand{\lowercaseref}[1]{\cref{#1}}
 
 \usepackage{latexsym,multicol,color,pstricks}
@@ -157,6 +156,7 @@ literate={{−>}{{$\leadsto$} }2 {−−>}{{$\longrightarrow$} }2
 \usepackage{microtype}
 
 \usepackage{pgfplots}
+\pgfplotsset{compat=1.8}
 \definecolor{Offline}{HTML}{8B49A6}
 \definecolor{Connecting}{HTML}{2488CB}
 \definecolor{usercode}{HTML}{0EBC31}
