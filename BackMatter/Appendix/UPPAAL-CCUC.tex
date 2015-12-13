@@ -1,0 +1,135 @@
+\chapter{UPPAAL-CCUC Code}\label{UPPAAL-CCUC-Code}
+This Appendix contains the code used for the UPPAAL CCUC model.
+
+\begin{lstlisting}[style=UPPAAL,
+caption={Local code for Device in CCUC.}, ]
+// Place local declarations here.
+clock x;
+clock transmit_time;
+int k = -1;                     //Timeslot
+bool Connected = false;
+int join_Count = 0;      
+int Min_Units_For_Join = 0;
+int WaitLoopCount = 0;
+int backoff = 0;
+int FailCount = 0;
+int StartLoopCount = 0;
+int StartAttempts = 0;
+int FrameCount = 0;
+int randomBackoff;
+int local_network_id= -1;
+int transmissionNumber = 1;
+
+// Local copies of globals
+int local_n = 0;                // Number of devices connected
+int local_i = 0;               // Current time slot in the frame
+
+void increment_Slot(){
+    local_i = (local_i % local_n)+1;
+}
+
+void receive()
+{
+    local_i = i;
+    local_n = n;
+    local_network_id = network_id;
+    x:=Delta_Proc+(Real_Tx_Time*global_transmissionNumber);
+}
+
+void attempt_Join_Network(){
+    global_transmissionNumber = transmissionNumber;
+    i = local_i;
+    joining_ID = id;
+}
+
+void join_Network(){
+    if(transmissionNumber == 1){
+        k=n;
+        n = n+1;
+        i = local_i;
+        local_n = local_n+1;
+        Connected = true;
+        joining_ID = -1;
+        Connected_Counter++;
+    }
+    global_transmissionNumber = transmissionNumber;
+}
+
+void calc_Min_Validate(){
+    if(local_n == 2) {
+        Min_Units_For_Join = 1;
+    } else {
+        Min_Units_For_Join = (local_n-1)/2;
+    }
+}
+
+void create_Network(){
+    k = 1;
+    i = 0;
+    local_i = 0;
+    local_n = 2;
+    Connected = true;
+    x:=0;
+    Connected_Counter++;
+    local_network_id = id;
+}
+
+void make_Payload(){
+    global_transmissionNumber = transmissionNumber;
+    i = local_i;
+    n = local_n;
+    network_id = local_network_id;
+}
+
+void ClearJoiningID(){
+    if(joining_ID == id)
+        joining_ID = -1;
+}
+\end{lstlisting}
+
+\begin{lstlisting}[style=UPPAAL,
+caption={Code for the global declarations in CCUC}]
+// Place global declarations here.
+int n = 0;                             // Number of Timeslots connected
+int i = 0;                             // Current time slot in the frame
+int joining_ID = -1;                   // The ID of the device joining       
+int Connected_Counter = 0;             //Global Counter for Connected Devices
+int global_transmissionNumber = 1;     // Indicating the number of transmission being sent
+int network_id;                        // id of the network being transmitted from
+
+//States how reliable the  network is
+const int Number_Of_Transmits_Pr_Slot = 1;
+const int receiveChance = 98;
+const int missChance = 100 - receiveChance;
+
+//Chance of killing the network when alone
+const int StayAliveChance = 90;
+const int KillChance = 100 - StayAliveChance;
+
+//Time values
+const int Real_Tx_Time = 150;                           //Transmit time for one transmit
+const int Delta = 250 + (Real_Tx_Time*Number_Of_Transmits_Pr_Slot);    //Timeslot Length
+const int Delta_Proc = Delta/10;
+const int Initial_Wait_Time = Delta*3;
+int Startup_Time = Initial_Wait_Time*2;
+clock startup;
+clock time;
+
+//Number of current transmitters transmitting
+int Transmitters = 0;
+
+//Random Backoff
+typedef int[0,1]  firstBackoff;
+typedef int[0,3]  SecondBackoff;
+typedef int[0,7]  thirdBackoff;
+typedef int[0,15] fourthBackoff;
+typedef int[0,31] fifthBackoff;
+
+//Channel
+broadcast chan transmit;
+broadcast chan join;
+
+//Device Creation
+const int N = 5;
+typedef int[1,N] id_t;
+\end{lstlisting}
