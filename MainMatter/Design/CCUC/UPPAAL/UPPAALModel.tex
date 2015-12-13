@@ -1,5 +1,5 @@
 \section{Model Checking the CCUCprotocol}
-This section will explore to what degree issues caused by unreliability affects the UPPAAL model previously developed.
+This section will explore to what degree issues caused by unreliability affects the UPPAAL model developed previously in \myref[name]{cha:validationAndImplementation}.
 
 To do this, every edge which is fired when receiving a message should be changed to have a chance of not receiving anything. 
 This can be modeled in UPPAAL SMC using the branch points previously mentioned in \myref[name]{subsec:uppaalsmc}.
@@ -21,6 +21,7 @@ const int missChance = 100 - receiveChance;
 \end{minipage}
 \end{figure*}
 
+\noindent
 The values of \texttt{missChance} and \texttt{receiveChance} are such that their sum is 100, in order to be the same as percentages, their assignments are shown in \myref{unreliability-UPPAAL}.
 
 When the branch points are used everywhere a transmission could be received, the devices will have a miss chance on every transmission received much like in the real world examples, as with the Arduinos and the RF modules used for this project. \todo{Har vi dokumenteret at pakketab er på modtager siden,? Skal vi? - Troels}
@@ -33,6 +34,7 @@ Pr[<=300000] ( <>  forall(i : id_t) forall(j : id_t) (time > 3000)
   and Device(i).local_network_id == Device(j).local_network_id)))
 \end{lstlisting}
 
+\noindent
 With a confidence of 99\% the probability range lies in the range [0.933723, 0.95372], which means that the somewhere in that range lies the probability of a successful network being created.
 This means that the impact of this reliability is actually quite large, and something should be done.
 As stated earlier in \myref{??}\todo{KILDE TIL CCUC DESIGN}, one could make the devices transmit more than once in order to reduce the chance of a transmission being completely missed.
@@ -54,28 +56,23 @@ The complete model for the CCUC-protocol can also be found printed on a A3-paper
 The model has then been tested with the query seen in \myref{query-SuccesfulCreate}, with varying miss chance, and with varying number of transmissions in a time-slot.
 This should show how the change of transmitting more than once would efffect the model.
 
-The results of this test can be seen on \myref{CCUC-Graph-UPPAAL}.
-
-\begin{figure}[ht]
-  \includegraphics[width=1\textwidth]{Figures/Graphs/gnuplot/uppaal/graph.pdf} 
+\begin{figure}[h]
+  \includegraphics[width=1\textwidth]{Figures/Graphs/gnuplot/ccucChance/graph2.pdf} 
 \caption{Block-diagram of the query that requires a succesful network creating, with varying miss chance, and varying number of transmissions.}
 \label{CCUC-Graph-UPPAAL}
 \end{figure}
-\todo[inline]{Sass er i gang med at lave den rigtige figur... HUSK AT ÆNDRE DEN}
 
-The results shows that transmitting more than once is actually a viable option, as it increases the probability of a network containing all devices will be made.
+The results of this test can be seen on \myref{CCUC-Graph-UPPAAL}; and they show that transmitting more than once is actually a viable option, as it increases the probability of a network containing all devices will be made.
 \todo[inline]{Er lidt i tvivl om jeg forstår den sidste del herfra og ned korrekt. - Troels}
 The problems with unreliability do however lie in the creation of the network, as the model in UPPAAL will work correctly in the main loop.
 This was tested by instantiating a network of 4 devices which were when the system started all connected to the same network, and had been given different $k$ values. 
 This means that a network is successfully created.
 A query was asked to this system, which can be seen on \myref{stable-network-query}.
+The results of the query will be a probability in the range [0.980056, 1] with a confidence of 99\%, which means that the problem truly does lie in connecting to the network, with unreliable transmission. 
 
-\begin{minipage}{\linewidth}
-\begin{lstlisting}[style=UPPAAL, caption={Query for UPPAAL asking if for all devices i and j, when they are in the location \texttt{User\_Code} will they have they then have the same value for \texttt{local\_i}.}, label={stable-network-query}]
+\begin{lstlisting}[style=UPPAAL, caption={Query for UPPAAL asking if for all devices i and j, when they are in the location \texttt{User\_Code} will they have they then have the same value for \texttt{local\_i}.}, label={stable-network-query}, float, floatplacement='h']
 Pr[<=300000] ( <> forall(i : id_t) forall(j : id_t)  (time > 3000) 
   and  ((Device(i).User_Code and Device(j).User_Code) 
   imply (Device(i).local_i == Device(j).local_i)))
 \end{lstlisting}
-\end{minipage}
-The results of the query will be a probability in the range [0.980056, 1] with a confidence of 99\%, which means that the problem truly does lie in connecting to the network, with unreliable transmission.
 
