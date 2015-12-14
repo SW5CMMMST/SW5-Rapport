@@ -1,7 +1,7 @@
 Each device stores certain local variables which preferably should be consistent across devices by the end of a time-slot.
 If this is not the case, it is the result of one or more devices either not knowing that a new device has joined, or that one has been removed.
 
-These variables should essentially be ``global'' but as this is not possible they are stored as local variables and transmitted in each payload.
+These variables should essentially be globally available but as this is not possible, they are stored as local variables and transmitted in each payload.
 With the CCRC-problem one could blindly trust that all information which had been transmitted would also be received which is not the case with the CCUC-problem.
 
 \bigskip \noindent
@@ -10,11 +10,11 @@ After having been validated, the device will in the empty slot join the network 
 In the earlier CCRC solution one would simply overwrite local variables with the new values as one was sure all had received the payload.
 In the case where one device did not hear the addition, it would be transmitting the old variables and in doing so cause the change to revert back again, which by extension causes a conflict in the network.
 It is worth mentioning this is only a problem if it possible for n to be reduced, i.e. the removal of devices is possible.
-If the removal of a device from a time-slot is not enabled, anytime an $n$ larger than the local $n$ is being transmitted, this should just overwrite thie local value. 
+If the removal of a device from a time-slot is not enabled, anytime an $n$ larger than the local $n$ is being transmitted, this should just overwrite the local value. 
 However as soon as removal is also an option, a device cannot just trust any n-value as variables can both increase and decrease, and a device transmitting a lower value, might just do to because it does not know about the new device yet.
 
-If one instead establishes a consensus by listening to the majority of the network one device will no longer be able to create a conflict.
+If one instead establishes a consensus by listening to the majority of the network; one device will no longer be able to create a conflict.
 The majority would have to be determined by the following frame as all removals and additions to the network are handled in the second to last and last time-slot respectively.
-Furthermore one could introduce a code which denotes that a device wants to either increment or decrement $n$, once the device that initiated the change has received a payload with a response to the code from all other devices, $n$ should be changed for the entire network, and devices will then accept any change according to the code from any device.
-Until all devices have responded to the code it will keep being transmitted until all devices respond that they are ready to either increment or decrement their $n$ value.
-Furthermore whilst this code is being transmitted, no new device should be able to join the network, and the other devices in the network should also transmit the code, to increase the speed of which the code will be spread throughout the network.
+Furthermore one could introduce a mode which denotes that a device wants to either increment or decrement $n$, once the device that initiated the change has received a payload with a response to the request from all other devices, $n$ should be changed for the entire network, and devices will then accept any change according to the request from any device.
+The request it will keep being transmitted until all devices respond that they are ready to act upon it by either incrementing or decrementing their $n$ value.
+Furthermore whilst this request is being transmitted, no new device should be able to join the network, and the other devices in the network should also transmit the request, to increase the speed of which it will be spread throughout the network.
