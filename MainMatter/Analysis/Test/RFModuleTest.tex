@@ -60,18 +60,20 @@ However the antenna length of 12 cm does not affect the reliability as negativel
 
 \begin{table}[ht]
 \centering
-\begin{tabular}{llclll}
- & \multicolumn{4}{c}{Receiver} &    \hspace{40pt}      \\ \cline{2-5}
-\multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{c|}{0 cm} & \multicolumn{1}{c|}{12 cm} & \multicolumn{1}{l|}{17.3 cm} &  \\ \cline{2-5}
-\multicolumn{1}{l|}{} & \multicolumn{1}{l|}{0 cm} & \multicolumn{1}{c|}{55.00\%} & \multicolumn{1}{l|}{60.86\%} & \multicolumn{1}{l|}{21.86\%} &  \\ \cline{2-5}
-\multicolumn{1}{l|}{Transmitter} & \multicolumn{1}{l|}{12 cm} & \multicolumn{1}{c|}{7.14\%} & \multicolumn{1}{l|}{31.71\%} & \multicolumn{1}{l|}{1.21\%} &  \\ \cline{2-5}
-\multicolumn{1}{l|}{} & \multicolumn{1}{l|}{17.3 cm} & \multicolumn{1}{c|}{0.93\%} & \multicolumn{1}{l|}{12.71\%} & \multicolumn{1}{l|}{1.29\%} &  \\ \cline{2-5}
-\end{tabular}
+\begin{tabular}{r r r r r}    \toprule
+ && \multicolumn{3}{c}{\textbf{Rx module}}\\
+ && \textbf{0 cm}    & \textbf{12 cm}    & \textbf{17.3 cm}  \\\midrule
+\multirow{3}{*}{\textbf{Tx module}}  &\textbf{0 cm} & 55.00 \%   & 60.86 \% & 21.68 \% \\ 
+ &\textbf{12 cm} & 7.14 \% & 31.71 \% & 1.21 \%  \\ 
+ &\textbf{17.3 cm} & 0.93 \% & 12.71 \% & 1.29 \%  \\\bottomrule
+ \hline
+\end{tabular} 
 \caption{Table of average package-loss in percentage for varying lengths of antennas.}
 \label{tbl:packageloss}
 \end{table}
 
-\noindent%
+\bigskip
+\noindent
 In \myref{fig:0cm_ant} it is strongly indicated that the transmitter and whether it has an external antenna highly affects the reliability of the transmitted signal as we can observe that the lack of an external antenna on the transmitter produces a high package loss percentage on the receiving end.
 
 An average of the results from the graphs has been calculated and omitted into a table which can be found on \myref{tbl:packageloss}. 
@@ -110,8 +112,7 @@ The most significant and the ones that are most likely to occur are as follows:
     However by testing all the used RF modules in \myref[name]{cha:radio_frequency_module_difference_test}, this source of error is to be considered close to non existent, since all the RF modules used in this test, showed less package loss than 2 \%.
     This source of errors is hereby deemed insignificant for the results of this test.
 \end{description}
-  
-\newpage
+
 \subsubsection*{Conclusion}
 The 17.3 cm antenna on the transmitter has the biggest impact on the package loss rate.
 This is in line with the theory of using a quarter-wave monopole antenna.

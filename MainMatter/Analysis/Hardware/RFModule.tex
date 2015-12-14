@@ -14,7 +14,15 @@ The pins are VCC, meaning the power supply pin, the GND meaning ground, and DATA
 The DATA pin is turned on by having the same difference in voltage between GND and DATA as VCC and GND. 
 The \gls{rx} module has the same pins as the transmitting module, however the DATA pins is being read from instead of transmitted to.
 
-\figur{arduino_rf.jpg}{0.4}{The 433MHz \gls{rf} receiver (left) and transmitter (right)}{arduino_rf}
+\begin{figure}[h] 
+\vspace{-5pt} 
+\centering
+\includegraphics[width=0.4\textwidth]{Figures/arduino_rf.jpg}
+\vspace{-5pt} 
+\caption{The 433MHz \gls{rf} receiver (left) and transmitter (right)}
+\label{fig:arduino_rf}
+\vspace{-5pt}    
+\end{figure}
 
 \subsection{Antenna}
 It is possible to attach an antenna to both \gls{rf} modules. 
@@ -37,7 +45,6 @@ l = \frac{c}{f \times 2}
 
 \noindent
 Using the frequency, 433 MHz, the quarter- and half-monopole antenna lengths are 17.3 cm and 34.6 cm respectively \cite{AntennaLength}.
-
 The efficiency of using such antennas will be tested in \myref[name]{cha:radio_frequency_module_reception_test}.
 
 \subsection{Amplitude Shift Keying}\label{subsub:ask}
