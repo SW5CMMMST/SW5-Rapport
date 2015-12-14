@@ -5,13 +5,15 @@ To do this, every edge which is fired when receiving a message should be changed
 This can be modeled in UPPAAL SMC using the branch points previously mentioned in \myref[name]{subsec:uppaalsmc}.
 
 \begin{figure*}[h]
+\vspace{-5pt} 
 \begin{minipage}{.48\textwidth}
 \centering
-\includegraphics[width=0.7\textwidth]{Figures/Model/MissChance_2.png} 
+\includegraphics[width=0.7\textwidth]{Figures/Model/MissChance_2.png}
+\vspace{-10pt} 
 \caption{Model in UPPAAL showing the branch node after receiving, where there is a chance for the device to miss the transmission and go back to the previous location.}
 \label{fig:missTransmission}
-\end{minipage}
-\begin{minipage}{.48\textwidth}
+\end{minipage} \hfill
+\begin{minipage}{.45\textwidth}
 \vspace{82pt}
 \begin{lstlisting}[style=UPPAAL, caption={Specifying the reliability of the transmissions, the current numbers result in a 2 \% miss chance.}, label={unreliability-UPPAAL}]
 // States how reliable the network is
@@ -19,7 +21,7 @@ const int receiveChance = 98;
 const int missChance = 100 - receiveChance;
 \end{lstlisting}
 \end{minipage}
-\end{figure*}
+\end{figure*} 
 
 \noindent
 The values of \texttt{missChance} and \texttt{receiveChance} are such that their sum is 100, in order to be the same as percentages, their assignments are shown in \myref{unreliability-UPPAAL}.
@@ -35,7 +37,7 @@ Pr[<=300000] ( <>  forall(i : id_t) forall(j : id_t) (time > 3000)
 \end{lstlisting}
 
 \noindent
-With a confidence of 99\% the probability range lies in the range [0.933723, 0.95372], which means that the somewhere in that range lies the probability of a successful network being created.
+With a confidence of 99~\% the probability range lies in the range [0.933723, 0.95372], which means that the somewhere in that range lies the probability of a successful network being created.
 This means that the impact of this reliability is actually quite large, and something should be done.
 As stated earlier in \myref[name]{sub:avoidance}, one could make the devices transmit more than once in order to reduce the chance of a transmission being completely missed.
 To implement this further changes to the model is required.
@@ -43,10 +45,10 @@ Whenever a transmission is sent, it should be able to loop in the same location,
 This also means that the time-slots' length will have to be increased to make up for the increased transmission time.
 One of these loops can be seen on \myref{LoopTransmitUPPAAL}.
 
-\begin{wrapfigure}{r}{0.5\textwidth}
+\begin{wrapfigure}{r}{0.55\textwidth}
+\vspace{12pt}
 \centering
-	\vspace{-20pt}
-  \includegraphics[width=0.4\textwidth]{Figures/Model/Transmit_Loop.png} 
+  \includegraphics[width=0.55\textwidth]{Figures/Model/Transmit_Loop.png} 
 \caption{Model in UPPAAL showing the loop, where it transmits for the amount of times specified minus one. The last transmission in a time-slot will occur when it finally leaves the location.}
 \label{LoopTransmitUPPAAL}
 \end{wrapfigure}
@@ -57,7 +59,7 @@ The complete model for the CCUC-protocol can also be found printed on a A3-paper
 The model has then been tested with the query seen in \myref{query-SuccesfulCreate}, with varying miss chance, and with varying number of transmissions in a time-slot.
 This should show how the change of transmitting more than once would affect the model.
 
-The results of this test can be seen on \myref{CCUC-Graph-UPPAAL}; and they show that transmitting more than once is actually a viable option, as it drastically increases the probability of a network containing all devices will be made, which is close to 99\% probable whenever transmitting more than once.
+The results of this test can be seen on \myref{CCUC-Graph-UPPAAL}; and they show that transmitting more than once is actually a viable option, as it drastically increases the probability of a network containing all devices will be made, which is close to 99~\% probable whenever transmitting more than once.
 
 A further test has been made to see the changes when the chance of receiving are drastically worse than in the first test.
 The result can be seen on \myref{fig:crazy_graph}, where it can be seen just how much it helps transmitting more than once in each time-slot, but it does cost a lot in regards of the speed of the network.
@@ -68,21 +70,23 @@ The problems with unreliability do however lie in the creation of the network, a
 This was tested by instantiating a network of 4 devices which were when the system started all connected to the same network, and had been given different $k$ values. 
 This means that a network is successfully created.
 A query was asked to this system, which can be seen on \myref{stable-network-query}.
-The results of the query will be a probability in the range [0.980056, 1] with a confidence of 99\%, which means that the problem truly does lie in connecting to the network, with unreliable transmission. 
+The results of the query will be a probability in the range [0.980056, 1] with a confidence of 99~\%, which means that the problem truly does lie in connecting to the network, with unreliable transmission. 
 
-\begin{lstlisting}[style=UPPAAL, caption={Query for UPPAAL asking if for all devices i and j, when they are in the location \texttt{User\_Code} will they have they then have the same value for \texttt{local\_i}.}, label={stable-network-query}, float=!hb]
+\begin{lstlisting}[style=UPPAAL, caption={Query for UPPAAL asking if for all devices i and j, when they are in the location \texttt{User\_Code} will they have they then have the same value for \texttt{local\_i}.}, label={stable-network-query}, float=p]
 Pr[<=300000] ( <> forall(i : id_t) forall(j : id_t)  (time > 3000) 
   and  ((Device(i).User_Code and Device(j).User_Code) 
   imply (Device(i).local_i == Device(j).local_i)))
-\end{lstlisting}
+\end{lstlisting} 
  
 \begin{figure}[p]
-	\begin{subfigure}{\linewidth}
-  \includegraphics{Figures/Graphs/gnuplot/ccucChance/graph2.pdf} 
+\begin{subfigure}{\linewidth}
+\centering
+\includegraphics{Figures/Graphs/gnuplot/ccucChance/graph2.pdf} 
 \caption{Realistic miss chance}
 \label{CCUC-Graph-UPPAAL}
 \end{subfigure}\\
 \begin{subfigure}{\linewidth}
+\centering
 \includegraphics{Figures/Graphs/gnuplot/ccucChance/graph3.pdf} 
 \caption{Higher miss chance}
 \label{fig:crazy_graph}
