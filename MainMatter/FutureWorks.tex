@@ -18,59 +18,7 @@ This solution would increase the payload size and by extension also the frame le
 A solution for strongly connected networks could also consider which devices in a network needs what information.
 The use case of the protocol should be greatly considered when designed the protocol for such a network, since this i.e determines whether every devices needs to be fully informed or whether speed is an important part of the protocol.
 
-\section{Timer Interrupt Based Library}
-The Arduino platform includes support for timer interrupt based programming.
-This means that once for every time-slot an interrupt in the user program could occur.
-Such an interrupt could handle protocol specific details, such as transmitting, receiving and maintenance.
-
-The main advantage of this would be that the interrupt gives a better guarantee that the user code will not exceed the expected duration, since usercode which would take to long would be interrupted by the timer.
-The disadvantage of this would be that the interface to the usercode could become less obvious, and it would make the code vulnerable to race conditions.
-Moreover the user code would need to be preempt-able and context switching would have to be implemented correctly.
-
-Another thing to note is that on the Arduino Nano and Uno there are three timer interrupts.
-One is used by the delay function another is used by the RadioHead library leaving exactly one left for the protocol.
-This would limit every other library or usercode which uses timers to be incompatible.
-A solution could be to alter RadioHead and the protocol to share interrupts, which we anticipate would require a lot of changes to both libraries.
-
-\section{Improving the Protocol's Operating Speed}
-The protocol uses approximately $66 + (6 \times s)$ milliseconds to transmit a package of size $s$, as discovered in  \myref[name]{sub:radiohead_time_sent_test}. 
-This means that a payload of 16 bytes would take 162 milliseconds to transmit.
-If a quarter of the time slot is left for the usercode the length must be approximately 200 milliseconds.
-In a network with $n$ devices, this means that the frame length must be equal to $200 \times (n + 1)$ milliseconds.
-Due to which a network of four devices would have a frame length of one second.
-There is a wide range of ways to improve the speed at which the protocol operates, but this section will focus on the following possible improvements:
-\begin{enumerate}[label=\itshape \alph*\upshape)]
-    \item Skip unnecessary transmissions,
-    \item increase the bit rate, 
-    \item reduce overhead, and
-    \item parallelise communication for devices not completely but only strongly connected.
-\end{enumerate} 
-
-\begin{description}[labelindent=\parindent]
-    \item [Skip unnecessary transmissions]\hfill\\
-When the protocol is fully functioning there is a chance that a device will not have anything new to transmit in its time-slot.
-Currently the device would transmit the previous payload again filling the slot with information that might be redundant.
-However some kind of signal that indicates to the other devices that this slot should be skipped is needed to implement this idea.
-The signal could be in a device's previous times-slot, indicating that it wound not have anything to transmit for some time. 
-Another solution could be variable time-slots lengths, such that a a device could occupy a shorter time-slot if it has nothing to transmit. 
-
-    \item[Increase the bit rate]\hfill\\ 
-An obvious way to increase communication speed is to increase the bit rate.
-This could introduce unreliability for the communication at higher bit rates, but even for smaller increases to the bit rate it could be a significant improvement.
-The best way to implement this would be to have the user be in control of the bit rate.
-This way the user could set the rate according to the requirements of a given application.
-However one must adhere to the limitations of the hardware.
-
-    \item[Reduce overhead]\hfill\\
-As discussed in \myref[name]{subsubsec:RadioHead}, RadioHead introduces some overhead associated with using the library.
-The library uses both several bits to calibrate the modules as well as encoding each byte as two 6-bit symbols.
-These can most likely be improved upon, hovever we deem the performance increase archived is negligible.
-Another place to look is what extra work RadioHead does before transmitting the payload which might not be necessary.
-But this would not be the best place to look for an performance increase.
-
-    \item[Parallelise communication]\hfill\\
-    \todo{wouldn't this require some designated ``router'' device?}
-This fourth possible improvement assumes a strongly connected network in which at least two nodes cannot hear each other nor their respective neighbours.
+A possible improvement to the protocol which assume a strongly connected network in which at least two nodes cannot hear each other nor their respective neighbours, is the following.
 If a network adheres to this assumption there would be no reason not to have them share a time-slot.
 This would require a way for a device to know which time-slot its neighbours and its neighbours-neighbours occupy.
 One way of implementing this would be with a rearrange phase.
@@ -80,5 +28,5 @@ Secondly the network would design the new time-slot layout and third could be a 
 When a new device connects to the network, the network could enters this phase.
 The problem with this is that the communication is paused during this phase in the entire network and it is a complex problem.
 In this solution it would be obvious to build in a garbage collector for dead devices.
-\end{description}
+
 
