@@ -1,0 +1,39 @@
+%!TEX root = ../../../../master.tex
+\section{Testing on Arduino}\label{sec:ccrc_test}
+\todo[inline]{Har ingen ide om hvad der skal ske i denne section - Troels}
+The solution for the Simultaneous Connect Problem described in \myref[name]{sec:simultaneous_connect} have been implemented on the Arduino platform.
+This is to test if the protocol works in a real life scenario. 
+
+Only the Simultaneous Connect Problem of the \myref[name]{chap:MDA-CCRC} have been implemented, this is done because of its complexity and because of time-constraints posed due to the focus on model-checking.
+The code can be found on the CD attached in the back of the paper.
+
+The test consisted of four devices and the following method was used:
+\begin{eletterate}
+	\item Start a single device.
+	\item After a small time period start the other three devices
+	\item Log timestamps for when each device joins.
+\end{eletterate}
+
+\subsection{Results of Test}
+The results of the test is shown in \myref{tab:ccrc_test}.
+It shows that out of the five test runs, the lowest time it took to make a network of all devices took $13 358$ milliseconds and the highest took $31 959$ milliseconds.
+The average was $18780$ and the median $17131$.
+
+The \myref[name]{sec:simultaneous_connect} which was confirmed to be working in UPPAAL SMC also works on Arduinos, where they will eventually connect to the same network, each with different time-slots assigned to each Arduino.
+
+The test also suffers from the fact that the Arduinos do have a chance to miss transmissions, which might result in the devices not being verified to join, and going into backoff without being jammed by another device.
+This is not really a problem in terms of correction, but it does impact the speed of the network.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lllll}
+                            & Device 0                  & Device 1                   & Device 2                   & Device 3                   \\ \cline{2-5} 
+\multicolumn{1}{r|}{Test 1} & \multicolumn{1}{r|}{$1251$} & \multicolumn{1}{r|}{$6374$}  & \multicolumn{1}{r|}{$10019$} & \multicolumn{1}{r|}{$14081$} \\ \cline{2-5} 
+\multicolumn{1}{r|}{Test 2} & \multicolumn{1}{r|}{$1251$} & \multicolumn{1}{r|}{$6373$}  & \multicolumn{1}{r|}{$11948$} & \multicolumn{1}{r|}{$13358$} \\ \cline{2-5} 
+\multicolumn{1}{r|}{Test 3} & \multicolumn{1}{r|}{$1251$} & \multicolumn{1}{r|}{$10278$} & \multicolumn{1}{r|}{$10831$} & \multicolumn{1}{r|}{$31959$} \\ \cline{2-5} 
+\multicolumn{1}{r|}{Test 4} & \multicolumn{1}{r|}{$1251$} & \multicolumn{1}{r|}{$13658$} & \multicolumn{1}{r|}{$16080$} & \multicolumn{1}{r|}{$17372$} \\ \cline{2-5} 
+\multicolumn{1}{r|}{Test 5} & \multicolumn{1}{r|}{$1251$} & \multicolumn{1}{r|}{$8572$}  & \multicolumn{1}{r|}{$12502$} & \multicolumn{1}{r|}{$17131$} \\ \cline{2-5} 
+\end{tabular}
+\caption{Table showing how long time it took, in milliseconds, (relatively to device 0) for other devices to join the network it made. Note that device 1-3 is not the same in each of the tests, but are sorted in order of joining the network.}
+\label{tab:ccrc_test}
+\end{table}

@@ -1,5 +1,6 @@
-\chapter{Future Works}
-This chapter describes problems yet to be solved from the problems described in \myref[name]{chp:Problems}, this will encompass strongly connected networks.
+\chapter{Future Works}\label{futureWorks}
+This chapter describes problems yet to be solved, the solutions for which could improve upon the solution to the problem statement as stated in \myref[name]{sec:problemStatement}. 
+Some of these problems were also described in \myref{chp:Problems}, yet not solved due to their complexity.
 
 During the analysis phase of the project, an issue of strongly connected networks arose.
 A protocol for strongly connected networks would need to work different form how the protocol developed for completely connected networks work.
@@ -17,7 +18,6 @@ This solution would increase the payload size and by extension also the frame le
 A solution for strongly connected networks could also consider which devices in a network needs what information.
 The use case of the protocol should be greatly considered when designed the protocol for such a network, since this i.e determines whether every devices needs to be fully informed or whether speed is an important part of the protocol.
 
-
 A possible improvement to the protocol which assume a strongly connected network in which at least two nodes cannot hear each other nor their respective neighbours, is the following.
 If a network adheres to this assumption there would be no reason not to have them share a time-slot.
 This would require a way for a device to know which time-slot its neighbours and its neighbours-neighbours occupy.
@@ -28,5 +28,3 @@ Secondly the network would design the new time-slot layout and third could be a 
 When a new device connects to the network, the network could enters this phase.
 The problem with this is that the communication is paused during this phase in the entire network and it is a complex problem.
 In this solution it would be obvious to build in a garbage collector for dead devices.
-
-

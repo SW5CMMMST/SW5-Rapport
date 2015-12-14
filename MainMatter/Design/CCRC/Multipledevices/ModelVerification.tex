@@ -151,10 +151,3 @@ The old model has a cut-off point at $30 000$ UPPAAL time units, this
 \label{CompareGraph}
 \end{figure}
 
-
-\section{Conclusion}
-This chapter presented a way to handle the startup of multiple devices, which made use of the method exponential backoff, which results in an increasingly randomly generated number of wait time for the devices. 
-The randomness results in all devices eventually becoming connected to the network since they will be split up and thus stop jamming each other.
-The UPPAAL model created data, which can be seen on \myref{fig:ConnectQueryTime}.
-The data shows that the Arduinos will eventually be connected to the same network, however it does take some time, approximately $150 000$ UPPAAL time units.
-This means that an implementation of this design should be able to solve the issues of turning on more Arduinos at the same time, assuming our assumptions are correct.

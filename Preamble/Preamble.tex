@@ -118,7 +118,7 @@
 \crefname{algorithm}{pseudocode}{pseudocodes}
 \renewcommand{\reftextcurrent}{}
 \newcommandx{\myref}[2][1=]{%
-\IfStrEq{#1}{name}{\Cref{#2} \nameref{#2} \vpageref{#2}}{\Cref{#2} \vpageref{#2}}%
+\IfStrEq{#1}{name}{\Cref{#2} \emph{\nameref{#2}} \vpageref{#2}}{\Cref{#2} \vpageref{#2}}%
 }
 \newcommand{\lowercaseref}[1]{\cref{#1}}
 
