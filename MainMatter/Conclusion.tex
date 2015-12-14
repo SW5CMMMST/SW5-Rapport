@@ -1,10 +1,25 @@
 \chapter{Conclusion}
 
+The work in the project resulted in a protocol where each device takes turns to communicate in a cyclic manner with an empty slot where empty.
+
+%The work in the project worked on single frequency networks. %Might be stating a new thesis
+
+How can a network of devices with radio transceivers of a single frequency communicate, such that any devices can send messages to other devices in the network, in a reliable and time-critical way?
+
+As the models have shown the network created by the protocol will be reliable by almost always sending the correct message after a period.
+
+
+In doing that the protocol sacreficed some of the time critical aspect as they always wait before sending.
+As currently, the total duration of a frame would be $(n + 1) \times \delta$ where $n$ is the number of devices and $\delta$ is the slot length.
+With our tests with only 6 devices and a $\delta$ of 200 miliseconds.
+This would result in a frame length af 1.4 seconds.
+This grows linear with the number of devices, which would result in slow responsetime for larger networks.
+
+
+
 \todo{metatekst}
 
 \todo{ecco introduktionen}
-
-During the 
 
 \todo{Opsummering af problem formulering}
 
@@ -12,11 +27,7 @@ During the
 
 \todo{Weak parts}
 
-The weakest part of the system would be the time critical part.
-As currently, the total duration of a frame would be $(n + 1) \times \delta$ where $n$ is the number of devices and $\delta$ is the slot length.
-With our tests with only 6 devices and a $\delta$ of 200 miliseconds.
-This would result in a frame length af 1.4 seconds.
-This grows linear with the number of devices, which would result in slow responsetime for larger networks.
+\todo{So what?}
 
 \todo{videre i virkeligheden}
 
@@ -24,3 +35,7 @@ This grows linear with the number of devices, which would result in slow respons
 
 \todo{look @ the future}
 
+This work could be a step towards making an easier way to setup local networks.
+For example imagine a world where when taking a device home the setup process would be as easy as powering it on.
+Then it would figure out what todo about the local network.
+This would not only be useful in home automation, but also in 
