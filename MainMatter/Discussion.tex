@@ -1,6 +1,6 @@
 \chapter{Discussion}\label{Discussion}
 This chapter will reflect on the choices made throughout this paper in respect to the problem statement in \myref[name]{sec:problemStatement}, which was derived from wanting to communicate on the same frequency in simpler systems, as the number of frequencies in Wi-Fi are limited, and at some point communicating on the same frequency might be necessary.
-Following this chapter, \myref[name]{cha:conclusion} will conclude on the success, or lack thereof, for these choices.
+Following this discussion, \myref[name]{cha:conclusion} will conclude on the success, or lack thereof, of these choices.
 
 %Analysis and hardware test
 \bigskip \noindent
@@ -10,13 +10,13 @@ As for the hardware several embedded systems were considered including the popul
 
 Tests were run on the hardware showing just how unreliable the wireless technology in the RF-modules was.
 To counter this an antenna was attached adhering to the physics of radio communication, this was further tested against an antenna of random length and proved to be significantly better than both no antenna and the antenna of random length.
-Any multiple of the chosen antenna length would fit according to the physics used in \myref[name]{rfmodule}.
+Any multiple of the chosen antenna length would fit according to the theory described in \myref[name]{rfmodule}.
 This however would be unnecessary as the antenna proved to work stably upwards to 28 meters without any significant change in package loss.
-28 meters happens to be more than enough when applications considered are alarms, home automation or similar systems.
+28 meters happens to be more than enough when considering applications and use cases such as alarms, home automation and similar systems.
 
 %Sub-problem split and dilemma
 \bigskip \noindent
-Following the hardware analysis and testing the problem was split into sub-problems all represented using graph theory.
+Following the hardware analysis and testing, the problem was split into sub-problems all represented using graph theory.
 The four sub-problems were the result of considering two variables, communication and device placement according to which devices they are in range of.
 While the device placement was a sensible consideration as the two scenarios, strongly and completely connected networks, are significantly different one can argue as to whether the communication consideration was well enough, or perhaps it should have been more thorough.
 As it happens the CCUC-solution has not been fully implemented, but merely designed and somewhat tested in UPPAAL SMC.
