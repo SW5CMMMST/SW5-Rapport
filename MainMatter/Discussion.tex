@@ -1,6 +1,7 @@
+<<<<<<< HEAD
 \chapter{Discussion}\label{Discussion}
-This chapter will reflect on the choices made throughout this paper in respect to the problem statement in \myref{sec:problemStatement}, which was derived from wanting to communicate on the same frequency in simpler systems, as the number of frequencies in Wi-Fi are limited, and at some point communicating on the same frequency might be necessary.
-Following this chapter, \myref{cha:conclusion} will conclude on the success, or lack thereof, for these choices.
+This chapter will reflect on the choices made throughout this paper in respect to the problem statement in \myref[name]{sec:problemStatement}, which was derived from wanting to communicate on the same frequency in simpler systems, as the number of frequencies in Wi-Fi are limited, and at some point communicating on the same frequency might be necessary.
+Following this chapter, \myref[name]{cha:conclusion} will conclude on the success, or lack thereof, for these choices.
 
 %Analysis and hardware test
 \bigskip \noindent
@@ -10,7 +11,7 @@ As for the hardware several embedded systems were considered including the popul
 
 Tests were run on the hardware showing just how unreliable the wireless technology in the RF-modules was.
 To counter this an antenna was attached adhering to the physics of radio communication, this was further tested against an antenna of random length and proved to be significantly better than both no antenna and the antenna of random length.
-Any multiple of the chosen antenna length would fit according to the physics used in \myref{rfmodule}.
+Any multiple of the chosen antenna length would fit according to the physics used in \myref[name]{rfmodule}.
 This however would be unnecessary as the antenna proved to work stably upwards to 28 meters without any significant change in package loss.
 28 meters happens to be more than enough when applications considered are alarms, home automation or similar systems.
 
@@ -45,7 +46,7 @@ One could combine the code with the model checker, but creating a model to check
 \bigskip \noindent
 In expanding to the CCUC-problem several ideas on handling this were presented, both in regard to avoidance and damage control.
 While only one of the avoidance ideas, redundant messaging, has been applied it is not a reason to disregard the rest as possible techniques.
-In choosing an idea to use one must also consider the cost, for both of the ideas mentioned in \myref{AvoidanceCCUC} it becomes a strain on the time-slot length, thus for an application one might not want to use these particular ideas.
+In choosing an idea to use one must also consider the cost, for both of the ideas mentioned in \myref[name]{sub:avoidance} it becomes a strain on the time-slot length, thus for an application one might not want to use these particular ideas.
 This is particularly worth considering if the network is already running with a high reliability, in that case it may be better to perform some sort of damage control on devices that become desynchronised, whether this is by restarting or using one of the designed damage control ideas. 
 
 If the reliability is low, but reducing the time-slot length is of importance, it further becomes important to consider the impact of losing a package for a given application in order to decide whether increasing reliability by increasing time-slot length is worth it.
@@ -54,4 +55,4 @@ For the opposite scenario where reliability is of extreme importance it may also
 %Ending the chapter
 \bigskip \noindent
 Ideas for damage control were not the only things not implemented which had been designed, this is an unfortunate side effect of the time constraints on the project.
-Ideas that fall under that category, as well as ideas for possible improvements are discussed further in \myref{futureWorks} and \myref{mortensStuff}\todo{Kilde her!!!}
+Ideas that fall under that category, as well as ideas for possible improvements are discussed further in \myref[name]{futureWorks} and \myref[name]{mortensStuff}.

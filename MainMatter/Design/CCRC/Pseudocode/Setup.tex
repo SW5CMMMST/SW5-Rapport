@@ -22,7 +22,7 @@ This scenario involves a connecting device starting to connect after the last de
 The minimum is calculated from the case where the device is turned on after the $n-1$'th slot has started, but not yet ended.
 It is worth noting here that this minimum is only true for this case, both strongly connected and non-reliable communication present their own reasons for this not being true for those cases.
 
-If a network is found prior to \textit{x} exceeding $t_0$ the device will process the data and use this to properly obtain a slot in the network, this is done in the function \textsc{ProtocolMaintenance} which was explained in \myref{subsec:protocolmaintanaince}.
+If a network is found prior to \textit{x} exceeding $t_0$ the device will process the data and use this to properly obtain a slot in the network, this is done in the function \textsc{ProtocolMaintenance} which was explained in \myref[name]{subsec:protocolmaintanaince}.
 Should it occur that no network is found the device will start its own network with the initial configuration that lines 35 - 38 in \myref{lst:setupCCRC} shows.
 
 \begin{algorithm}[h]

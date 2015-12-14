@@ -7,7 +7,7 @@ In order to use the \gls{rf} modules with good results, some way of synchronisin
 A library called RadioHead does exactly that, and this section explores how it works.
 The official specification and documentation of RadioHead can be found here \cite{2015ArduinoRadioHead}.
 
-RadioHead transmits each message, using \gls{ask} as previously described in \myref{subsub:ask}, in the following way:
+RadioHead transmits each message, using \gls{ask} as previously described in \myref[name]{subsub:ask}, in the following way:
 Each byte (8-bits) gets encoded as two 6-bit symbols, such that the 6-bit symbols will never contain more than three of the same signal in a row (high or low).
 This is to ensure that the receiver can decode the signal properly as it needs to differentiate the high and low signals.
 When a message for example the string \enquote{Hello}, several steps are taken, and they are as follows:
@@ -50,7 +50,7 @@ The recommended bit-rate for the transceiver is 2000 bit/sec, this means the mes
 \end{equation}
 
 One thing to note is that when multiple transmissions are received at the same time, i.e. when two transmitters in proximity of eachother transmit at the same time, any receiver receiving both transmissions, will when using Radiohead not know that anything was transmitted.
-This means that it is not possible when using RadioHead to detect a collision of transmissions.
+This means that it is not possible when using RadioHead to detect a collision of transmissions, since a collision will result in jamming the signal.
 
 % Af: Troels 
 % D. 2015-09-17

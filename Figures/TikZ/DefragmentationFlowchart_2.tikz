@@ -1,10 +1,9 @@
-\resizebox{1\textwidth}{!}{
 \begin{tikzpicture}[auto]
-    \node [decision]        (iflastdevice2) at (0,0)  {If last device in frame?};
-    \node [decision, below = 1cm of iflastdevice2]        (ifabovecounter)  {Is any device above counter?};
+    \node [decision] (iflastdevice2) at (0,0)  {Last device in frame?};
+    \node [decision, below = 1cm of iflastdevice2] (ifabovecounter)  {Any device above counter?};
     \node [block, right = of ifabovecounter] (overtake) {Overtake its position};
-    \node [cloud_nospace, right = of overtake, text width=7em, text centered] (dummy5) {Wait until end of timeslot};
-    \node [cloud_nospace, left = of iflastdevice2] (dummy6) {Transmit};
+    \node [cloud_nospace, right = of overtake] (dummy5) {End};
+    \node [cloud_nospace, left = of iflastdevice2] (dummy6) {Start};
 
 
     \path [line] (ifabovecounter) -- node {yes} (overtake);
@@ -12,9 +11,7 @@
 
     \path [line] (ifabovecounter.south) -| node [near start]  {no} (dummy5);
     \path [line] (iflastdevice2) -| node [near start] {no} (dummy5);
-
     \path [line] (overtake) -- (dummy5);
     \path [line] (dummy6) -- (iflastdevice2);    
 
 \end{tikzpicture}
-}

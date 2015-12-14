@@ -8,50 +8,65 @@ By this it follows that if one can guarantee that devices start with an offset o
 In an effort to solve this problem several different approaches can help, however none of them can guarantee that a multiple of networks will never occur with 100 \% certainty. 
 As such implementing concepts from several of the following approaches may yield the best result.
 
-\subsection{Unique Offset}
+\subsection{Definite Solutions}
+Firstly definite solutions will be described.
+These solutions are easy to check for errors as the result of any operation is predictable, as this limits the statespace to the amount of start configurations possible.
+
+\subsubsection{Unique Offset}
 Unique offset is when each device listens for a network for a uniquely specified amount of $\delta$ rather than the initial wait time of $\delta \times 3$.
 Using the ID of each device one could guarantee that no device used the same multiple of $\delta$ prior to establishing their network by the formula $\text{\textit{initial wait time}} + \delta \times ID$.
+
 This however assumes device are activated either simultaneously or continuously with rising addresses for it to work.
 In the case where initially the device with ID 2 is turned on and exactly $\delta$ time later the device with ID 1 is turned on they would still both create a network, as such this is not a valid solution in itself to the problem.
 However this approach could significantly increase the chance of only creating only one network in situations where all the devices are started simultaneously, e.g. a scenario where a multiple of devices are connected to the same power grid, which is then turned off and on again.
 Hereby making it appropriate for a uniform startup process.
 
-\subsection{Randomly Create}\label{RCreate}
+\subsubsection{Kill the Network (Definite)}\label{KtN}
+If a device is alone in a network for too long it may decide to kill the current network and start listening again.
+This works as a recovery technique, allowing two networks to be established but then solving that very problem.
+The technique has the network disassemble itself once some factor determines it needs to.
+
+This factor could be when a number of frames has passed without hearing from any other device.
+For this to actually work there would have to be implemented something which guarantees that networks would not follow the same pattern, as that could result in a loop of killing and creating networks.
+Another problem that occurs is that if more than two networks are created, for this to work all but one network must die within two frames due to the previously set time spent listening.
+For the random version it would work similarly to random create, except the outcome would be killing the network rather than creating one.
+
+\subsection{Stochastic Solutions}
+The definite solutions could be used, but there will always be a chance for ending up in an infinite loop.
+In order to avoid that a random factor is introduced.
+With the a stochastic approach whether or not the network is established is now based on probability.
+This does not guarantee that a network is never established it is however extremely improbable but not impossible.
+
+\subsubsection{Randomly Create}\label{RCreate}
 Once a device is done listening for a network it either creates its own network or resets and starts listening again.
 For this each device would need to implement a chance factor to determine whether or not to create a network.
 This could be determined by running an algorithm on the result of a random seed, depending on how the algorithm is designed one can obtain whichever chance is preferred.
+
 The problem with this is while it gives the opportunity for two devices to start within the same time-slot without both creating a network at the same time, this is no guarantee; as such this would further require the implementation of a recovery method much like unique offset would.
 
-\subsection{Kill the network}\label{KtN}
-If a device is alone in a network for too long it may decide to kill the network and start listening again.
-This works as a recovery technique, allowing two networks to be established but then solving that very problem.
-The technique has the network disassemble itself once some factor determines it needs to.
-This can be done either deterministic or non-deterministic.
-For the non-determinism it would work similarly to random create, except the outcome would be killing the network rather than creating one.
-For determinism some variable should be incremented until it reaches a limit where it forces the network to kill itself.
-For this to actually work there would have to be implemented something which guarantees that networks would not follow the same pattern, as that could result in a loop of killing and creating networks.
-Another problem that occurs is if more than two networks are created, for it to work all but one network must die within two frames due to the previously set time spent listening.
+\subsubsection{Kill the Network (Stochastic)}\label{KtNR}
+A version of kill the network could be implementet using a random chance to kill the network if the device is alone.
+This would avoid the problem of multiple devices following the same patteren.
+As the patteren would be random a soulution is inevitable given enough tries.
+The same is true for more than two networks trying to create a network.
+At some point an isolated network should exist.
 
-\subsection{Exponential variables} 
-Using the idea of an increasing exponent, similarly to the technique in exponential backoff as described in \myref{sec:exponential_backoff} can be applied to randomly create, killing the network and unique offset to increase odds of success.
-\subsubsection*{Randomly Create}
-For the idea of using an exponent in randomly create, the chance of creating should start relatively low.
-Starting with a lower chance the algorithm would for each unsuccessful attempt of creating a network increase the chance.
-In an effort to end up with different chances for each device trying to create a network, the algorithm would have to work on a unique value such as the address of each device.
-While this does not remove the chance of two networks still starting at the same time, it does reduce the chance as one device will have better odds of creating than any other device turned on in the same moment.
-\subsubsection*{Kill the network}
-Once again the non-deterministic solution here would be implemented similarly to randomly create.
-For the deterministic approach the unique factor chosen would be altered exponentially.
+\subsection{Exponential Backoff} 
+Using the idea of an increasing exponent, similarly to the technique in exponential backoff as described in \myref[name]{sec:exponential_backoff} can be applied to randomly create, killing the network and unique offset to increase odds of success.
+
+\subsubsection{Kill the Network (Exponential Backoff)}
+Once again the random solution here would be implemented similarly to randomly create.
+For the non-random deterministic approach the unique factor chosen would be altered exponentially.
 A complication in doing so would be that networks would be active for exponential lengths of time, and with the specific requirement of networks having to die within two frames it could worsen the time it takes to successfully establish a single network exponentially; for this reason one might consider using another factor to guarantee unique outcomes for each device, such as an exponential change in listening time which might also be uniquely offset, which also solves the problem with the two frames limitation.
 
-\subsection{Modifications to the Upstart phase}                 
+\subsection{Modifications to the Upstart Phase}                 
 Based on the aforementioned possibilities a new upstart phase have been designed which minimises the probabilities of devices creating several networks.
 The changes are explained in the following text, as well as in the flowchart in \myref{fig:pseudo_flowMultiStart} representing the new design.
 
 \begin{description}[labelindent=\parindent]
     \item[Search for network]\hfill\\
     The initial action after starting a device states to search for a network.
-    This is done for $\text{\textit{initial wait time}} + \delta \times b$ where $b$ denotes a random number chosen using the method of exponential backoff from \myref{sec:exponential_backoff}, i.e. $b \in [0, 2^c-1]$, where $c$ is the number of attempts of creating a network.
+    This is done for $\text{\textit{initial wait time}} + \delta \times b$ where $b$ denotes a random number chosen using the method of exponential backoff from \myref[name]{sec:exponential_backoff}, i.e. $b \in [0, 2^c-1]$, where $c$ is the number of attempts of creating a network.
     This expression ensures that devices will not listen for the same amount of time when they are started, and this difference will increase with each attempt, ensuring the existence scenarios in which only one device will create a network while others are still listening, also in the case where they died at the same time.
     \item[Chance of creating a network]\hfill\\
     This method will not be used in order to keep the method of handling multiple startup deterministic.
