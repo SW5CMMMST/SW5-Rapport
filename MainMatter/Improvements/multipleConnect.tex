@@ -20,7 +20,7 @@ On \myref{fig:pseudo_flowMultiConnectimp} it can be seen how said two-steps is m
 \end{figure}
 
 The flowchart in \myref{fig:pseudo_flowMultiConnectimp} shows that the random offset of sub slots is the first method of prevention for the issue of simultaneous connection of multiple devices.
-If a device hears another announcement before it has sent it's own in the chosen sub slot, it will abort the announce-phase and wait for the next empty slot before trying immediately again.
+If a device hears another announcement before it has sent its own in the chosen sub slot, it will abort the announce-phase and wait for the next empty slot before trying immediately again.
 However if a device announces it self and does not get validated by the network it will use exponential backoff to prevent further collisions as the most likely reason would be jamming.
 The following paragraphs will address the aforementioned concepts of random offset and sub slots as well as an altered payload which aims to decrease the length of the empty slot.
 
