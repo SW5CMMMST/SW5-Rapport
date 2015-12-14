@@ -1,4 +1,5 @@
 \chapter{Discussion}\label{Discussion}
+\todo[inline]{Underoverskrifter? do or don't? - Troels}
 This chapter will reflect on the choices made throughout this paper in respect to the problem statement in \myref[name]{sec:problemStatement}, which was derived from wanting to communicate on the same frequency in simpler systems, as the number of frequencies in Wi-Fi are limited, and at some point communicating on the same frequency might be necessary.
 Following this discussion, \myref[name]{cha:conclusion} will conclude on the success, or lack thereof, of these choices.
 
@@ -6,19 +7,19 @@ Following this discussion, \myref[name]{cha:conclusion} will conclude on the suc
 \bigskip \noindent
 Prior to development both hardware and single-frequency communication methods were taken into account.
 For communication the choice ended on TDMA, while there exists enough methods to fill this entire paper with just that, most are merely mutations of TDMA adapted to more specific scenarios, as such TDMA was chosen as the primary inspiration for the protocol development.
-As for the hardware several embedded systems were considered including the popular Raspberry Pi yet the choice still fell onto Arduino as it fit better in the scope of the project due to price, hardware specifications and availability.
+As for the hardware several embedded system platforms were considered including the popular Raspberry Pi yet the choice still fell onto Arduino as it fit better in the scope of the project due to price, hardware specifications, ease of development and availability.
 
 Tests were run on the hardware showing just how unreliable the wireless technology in the RF-modules was.
 To counter this an antenna was attached adhering to the physics of radio communication, this was further tested against an antenna of random length and proved to be significantly better than both no antenna and the antenna of random length.
 Any multiple of the chosen antenna length would fit according to the theory described in \myref[name]{rfmodule}.
 This however would be unnecessary as the antenna proved to work stably upwards to 28 meters without any significant change in package loss.
-28 meters happens to be more than enough when considering applications and use cases such as alarms, home automation and similar systems.
+28 meters happens to be more than enough when considering applications and use cases such as alarms, home automation and similar systems. 
 
 %Sub-problem split and dilemma
 \bigskip \noindent
-Following the hardware analysis and testing, the problem was split into sub-problems all represented using graph theory.
-The four sub-problems were the result of considering two variables, communication and device placement according to which devices they are in range of.
-While the device placement was a sensible consideration as the two scenarios, strongly and completely connected networks, are significantly different one can argue as to whether the communication consideration was well enough, or perhaps it should have been more thorough.
+Following the hardware analysis and testing the problem was split into sub-problems all represented using graph theory.
+The four sub-problems were the result of considering two variables, communication reliability and device placement according to which devices they are in range of.
+While the device placement was a sensible consideration as the two scenarios, strongly and completely connected networks, are significantly different one can argue as to whether the communication reliability consideration was well enough, or perhaps it should have been more thorough.
 As it happens the CCUC-solution has not been fully implemented, but merely designed and somewhat tested in UPPAAL SMC.
 This is partly due to unforeseen sub-iterations in the CCRC-solution pertaining to certain edge cases requiring entire design structures.
 
@@ -34,12 +35,12 @@ This is reflected in the design chapters where there is a heavy focus on flow di
 In order to develop a protocol for the CCRC-problem, with multiple device activation, both stochastic and definite ideas were considered.
 Neither of the approaches were able to provide a solution which would work 100 \% of the time, however since the stochastic solution could not hit a scenario for which it would loop without a chance of working, it was chosen as the better approach.
 
-By developing a complete theoretical solution and using a model checker the solution was able to be validated; ensuring, as long as the code fit the model, the code would work every time for the CCRC-problem and within a certain probability for the CCUC-problem.
+By developing a complete theoretical solution and using a model checker to verify that the solution was valid; ensuring, as long as the code fit the model, the code would work every time for the CCRC-problem and within a certain probability for the CCUC-problem.
 The CCRC-problem being an implausible scenario, simply proves that the theoretical problem was solved, however for the CCUC-solution the model checking provides proof that the protocol works in most of the thousands of possible scenarios, something one could not prove through a practical example.
 
-The alternative method of development for a solution would be developing through coding then proceeding to model check the already created code.
+The alternative method of development for a solution would be developing through coding then proceeding to model check the code already created.
 The work flow of doing this however would quite possibly increase the work done, as finding an error, edge case or other potential issues are significantly more difficult to do in 500 lines of code, rather than using a model checker on already designed pseudocode and flow diagrams.
-One could combine the code with the model checker, but creating a model to check, is significantly more problematic to do from 500 lines of code rather than a flow diagram.
+One could combine the code with the model checker, but creating a model to check, is significantly more problematic to do from 500 lines of code rather than from a flow diagram.
 
 %CCUC Expansion
 \bigskip \noindent
