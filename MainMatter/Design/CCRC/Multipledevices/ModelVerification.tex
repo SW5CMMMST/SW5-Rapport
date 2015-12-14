@@ -5,7 +5,7 @@ When a model rely on stochastic behaviours, such as randomness, its state-space 
 Instead one can estimate a percentage chance a property holds, within a given probability of uncertainty, with a Statistical Model Chcker (SMC). 
 
 %UPPAAL SMC Explanation
-\subsection{UPPAAL SMC}
+\subsection{UPPAAL SMC}\label{subsec:uppaalsmc}
 \begin{wrapfigure}[18]{r}{0.3\textwidth}
 \centering
   \includegraphics[width=0.3\textwidth]{Figures/Model/Simple_SMC.pdf} 
@@ -30,10 +30,9 @@ Setting these parameters closer to zero will cause the time it takes to verify a
 
 \subsection*{Changes to the model}
 
-\info[inline]{Syndes der er meget svag opdeling i dette afsnit, man kunne lave en subsub med ``Removing assumptions'', ``multi-start changes'', ``multi-connect changes'' - Troels}
+The UPPAAL model shown in \myref{sec:themodel} has gone through extensive changes to accomodate the challenges posed of multiple devices starting at the same time.
+The complete model can be seen in the back of the project report printed on a A3-paper, and it can also be found on the CD, which is also in the back of the project folder, however the code for the model can be found in \myref{UPPAAL-CCRC-Code}.
 
-The UPPAAL model shown in \myref[name]{sec:themodel} has gone through extensive changes to accomodate the challenges posed of multiple devices starting at the same time.
-The complete model can be seen in the back of the project report printed on a A3-paper, and it can also be found on the CD, which is also in the back of the project folder.
 
 \paragraph{Jamming} can now occur since multiple devices are turned on at the same time, which means that more than one device is now able to transmit at the same time.
 If two or more devices transmit at the same time, i.e. a jam, then none of the receiving devices will be able to receive any payloads, this is also mentioned in \myref[name]{subsubsec:RadioHead}, this needs to be modelled in UPPAAL. 
@@ -41,21 +40,20 @@ If two or more devices transmit at the same time, i.e. a jam, then none of the r
 
 \paragraph{Multiple Startup.}
 In the previous model presented in \myref[name]{sec:themodel} only one device was able to start at a time, as there was nothing to handle multiple starting at the same time.
-\begin{wrapfigure}[18]{r}{0.5\textwidth}
-\centering
-  \includegraphics[width=0.5\textwidth]{Figures/Model/Screenshot_Of_Kill.png} 
-\caption{Graph showing the split node after not receiving, where there is a chance for the device to start over and kill the network.}
-\label{fig:Screenshot_Of_Kill}
+
+\begin{wrapfigure}[21]{r}{0.5\textwidth}
+    \centering
+    \includegraphics[width=0.5\textwidth]{Figures/Model/Screenshot_Of_Kill.png} 
+    \caption{Graph showing the split node after not receiving, where there is a chance for the device to start over and kill the network.}
+    \label{fig:Screenshot_Of_Kill}
 \end{wrapfigure}
 
 This limitation will be removed in this model.
-%The devices can now start at the same time again, as was possible before the mechanism controlling when a device was released was implemented, as presented in \myref[name]{sec:verifyingTheModel}.
 To stop devices from being alone in a network forever, a split node is made when nothing is received in a time slot, where the device is alone in the network, i.e. the \texttt{local\_n} of the device is equal to 2.
 This split node has 2 outgoing edges, one edge which has a probability weight of 90, which makes the device go back into its main loop, and another edge with a probability of \texttt{kill\_chance} (10 \%), which make the device kill the network, and start listening again.
 When this happens the exponential backoff method is used, which means for each time a device kills the network it will have a chance of listening for a longer period of time, according to the specification in the previous sections.
 This are the changes needed for the model, in order for the devices to start trying to connect to the same network instead of multiple networks.
 \myref{fig:Screenshot_Of_Kill} shows the split node leaving the location after not receiving a transmission.
-
 
 
 \paragraph{Multile Devices Connecting.}
@@ -110,29 +108,52 @@ The first query is the only query which was also used on the earlier model, and 
     imply (Device(j).Just_Received or i==j)))
 \end{lstlisting}
 
-A comparison has been made for this model with the previous model in \myref[name]{sec:themodel}, when reverting back to allowing the devices to start at the same time.
-Query 4 can be run on both models, but on the older simpler model it will, when run with five devices, yield the result [0.0,0.019], which means that it will probably never succeed.
-So a change to the model allows the devices to leave the initial location at any moment between 0 and 30 seconds, and different results occur; the devices will now sometimes have enough interval between activation so that a stable network will be created. 
-The probability result is [0.75,0.77].
-Therefore this shows that if they are seperated in the old model, there still is a high successrate, but as soon as they start at the same time everything collapses.
-
-%GRAPHS
+\myref{fig:ConnectQueryTime} shows a graph of all the queries.
+As can be seen the change in probability for the new model approaches one as time increases, and appears to be a logarithmic growth.
+So according to UPPAAL the new model will eventually connect all the devices, however it might take some time for it to do so.
+In the worst case the random numbers generated will keep causing collisions, however this happening is very unlikely. 
+It it important to note that the longer the devices are running the greater the probability is of establishing a stable network.
 
 \begin{figure}[ht]
   \includegraphics[width=1\textwidth]{Figures/Graphs/gnuplot/uppaal/graph.pdf} 
-\caption{Graph of the UPPAAL SMC queries, in which the cumulative probability increase over time.}
+\caption{Graph of the UPPAAL SMC queries, in which the cumulative probability increase over time. With 99.9 \% confidence and five devices.}
 \label{fig:ConnectQueryTime}
 \end{figure}
 
-\myref{fig:ConnectQueryTime} shows a graph of all the queries.
-As can be seen the change in probability for the new model approaches one as time increases, and appears to be a logarithmic growth, and will according to UPPAAL eventually connect, however it might take some time for it to do so.
-This is because in the worst case the random numbers generated will keep causing collisions, or maybe they will take a long time before eventually killing their networks.
-There are many possible explanations for what causes the longer runs, but it it important to note the fact that, the longer the devices are running the bigger the chances are of establishing a stable network.
+\bigskip
+A comparison has been made for this model with the previous model in \myref{sec:themodel}, while allowing the devices to start at the same time.
+Query 4 can be run on both models, but on the older simpler model it will, when run with five devices, yield the result [0.0, 0.019], which means that it will probably never succeed.
+So a change to the models allow the devices to leave the initial location at any moment between 0 and 30000 UPPAAL time units, and different results occur; the devices will now sometimes have enough interval between activation so that a stable network will be created. 
+30 000 has been chosen as it leaves a big time period for devices to start up in, which means that a successful network will be created.
+The probability result is [0.75,0.77], if the startup time was greater it would result in a higher probability.
+Therefore this shows that if the devices are started with an interval in the old model, there still is a reasonable success rate, but as soon as they start at the same time, it doesn't work. 
+
+The changes are the same for both models and can be seen on \myref{lst:startuptimeChanceListing}. 
+
+\begin{lstlisting}[style=UPPAAL, caption={Change in the start up time for devices.}, label={lst:startuptimeChanceListing}]
+//Original
+int Startup_Time = Initial_Wait_Time*2;
+
+//Change
+int Startup_Time = Initial_Wait_Time*20;
+\end{lstlisting}
+
+
 The old model performs significantly worse that the new one, and will not always reach a stable correctly created network, and this is as mentioned only possible whenever there is a interval between activation of the devices.
+
+Starting each device separately with a time interval causes an increase in speed for the new model, and ensures that the old model will succeed in some cases, therefore the new model has also been changed for the sake of this comparison. 
+To compare these two models query number 4 is used, the result is shown in \myref{CompareGraph}.
+The old model has a cut-off point at $30 000$ UPPAAL time units, this
+
+\begin{figure}[ht]
+  \includegraphics[width=1\textwidth]{Figures/Graphs/gnuplot/uppaal_Compare/graph.pdf} 
+\caption{Graph of the query number 4, with five devices, for both the old and the new model so their successrate and speed can be compared.}
+\label{CompareGraph}
+\end{figure}
 
 
 \section{Conclusion}
-This chapter presented a way to handle the startup of multiple devices, which made use of the method exponential backoff, which results in an increasingly randomly generated number of wait time for the devices. 
+This chapter presented a way to handle the startup of multiple devices, which made use of the method exponential back-off, which results in an increasingly randomly generated number of wait time for the devices. 
 The randomness results in all devices eventually becoming connected to the network since they will be split up and thus stop jamming each other.
 The UPPAAL model created data, which can be seen on \myref{fig:ConnectQueryTime}.
 The data shows that the Arduinos will eventually be connected to the same network, however it does take some time, approximately $150 000$ UPPAAL time units.
