@@ -11,13 +11,14 @@ We make two distinctions; \gls{erp} and \gls{irp}.
 A solution to this problem should ideally handle both of these sub-problems, however a solution to the \gls{irp} will also solve the \gls{erp}.
 Therefore it is sufficient to solve \gls{irp}, which means that the rest of this chapter will only focus on \gls{irp}.  
 
-The design in this chapter inherits the assumptions of the \gls{ccrc}-problem. 
+The design in this chapter inherits the assumptions of the \gls{ccuc}-problem, however to get an idea of the different solutions performance we will consider them in respect to \gls{ccrc}. 
 
 \subsection{Methods of defragmenting a network}
 
 The value $m_{max}$ is the number of times no device hears from a given device, after which it is considered inactive. 
 In \gls{ccrc} $m_{max} = 1$ should be a possibility if one assumes that the only cause of not receiving transmissions is a device is offline, and no jamming will occur since a network of more than one device is established.
-In practice however, it would be risky using this assumption, but \gls{ccrc} is not a realistic assumption anyhow.
+In \gls{ccuc} and in practice however, it would be risky using this assumption.
+This leads to a design where a device should have consensus from a majority of the network.
 
 \subsubsection{Decremental Gradual Defragmentation}
 This design moves devices to the previous slot if it is empty. 
@@ -25,25 +26,24 @@ Thereby gradually reducing the fragmentation of the frame.
 The proposed design has a special case for the first device in the frame, and a general case for the rest of the devices.
 
 \paragraph{The General case}applies to any device which is part of a network and not the first device in the frame, i.e. $k \neq 1$.
-If the device does not receive any payload from the device before it (i.e. device $k - 1$) a given number of times in a row, called $m_{max}$, then the device should transmit in the time-slot of the device which it did not receive from, instead of its own time-slot from this frame on onward. 
+If the device does not receive any payload from the device before it (i.e. device $k - 1$) a given number of times in a row, called $m_{max}$, then the device should ask other devices for consensus to transmit in the time-slot of the device which it did not receive from, instead of its own time-slot from this frame on onward. 
 This will create another missing slot to be handled by another device, however a problem arises when the unused time-slot in $n - 1$, i.e. the last time-slot of the frame, which will be explained in the following paragraph.
 
 \paragraph{The Special case}applies to the first device of the frame, i.e. $k = 1$. 
-Since there is no device in the same frame before the first device, whose time-slot it can move to, it should instead reduce the number of time-slots in the frame by one, if it does not receive any payload from the last device of the frame, i.e. $k = n - 1$, a given number of times, called $m_{max}$. 
+Since there is no device in the same frame before the first device, whose time-slot it can move to, it should instead reduce the number of time-slots in the frame by one, if it does not receive any payload from the last device of the frame, i.e. $k = n - 1$, a given number of times, called $m_{max}$ and gets consensus from the network. 
 
 \tikzfigure{dgd.tikz}{Decremental Gradual Defragmentation, removal of device in slot 2.}{dgd} 
 
 \bigskip
 
 This is a simple solution, which defragments the frame one device at a time, the worst case scenario is that the first device of the frame is unable to transmit, then the second device will take its spot, and so on until the new first device reduces the amount of time-slots in the frame by one. 
-This will always take $(n - k) \times m_{max}$ frames to remove a device, where $k$ is the time-slot with the disconnected device, assuming it is the only change to the network in the meantime. 
-%Under the assumptions of the CCRC-problem, no transmissions should be missed, and therefore $m_{max}$ can be set to $1$. 
+This will always take at least $(n - k) \times m_{max}$ frames to remove a device, where $k$ is the time-slot with the disconnected device, assuming it is the only change to the network in the meantime. 
 The device reducing the time-slots in the frame by one will not cause new devices to be unable to join the network, as the free time-slot will simply be placed in the previous time-slot. 
 
 \subsubsection{Jumping Defragmentation}
 Jumping defragmentation reduces fragmentation by moving the last device of a frame to an unused time-slot. Further if the last time-slot is unused then the first device should reduce the size of the frame.
 
-\paragraph{The last device} of the frame should monitor which time-slots is unused for $m_{max}$ time-slots. 
+\paragraph{The last device} of the frame should monitor which time-slots is unused for $m_{max}$ time-slots and then get consensus from the network. 
 If such a time-slot is found, then it should take that time-slot and reduce the size of the frame by one. 
 It is preferred to be the first available time-slot, but is not a strict necessity.   
 
@@ -65,7 +65,8 @@ Where as in the same case Jumping Defragmentation takes $m_{max} \times 2$ frame
 Another solution is for new devices to insert themselves in unused time-slot of an existing network.
 
 \paragraph{Addition to start-up}
-This would change the start-up procedure to require new devices, which discovers a network, to listen for at-least one whole frame, then insert themselves in an unoccupied time-slot, and if no unoccupied time-slot is found then in the empty slot. 
+This would change the start-up procedure to require new devices, which discovers a network, to listen for at-least $m_{max}$ then insert themselves in an unoccupied time-slot, and if no unoccupied time-slot is found then in the empty slot.
+A device would then wait for confirmation that it, indeed had taken an empty slot or otherwise leave the network and try again.
 
 \tikzfigure{aiut.tikz}{Automatic insertion in slot 2.}{aiut} 
 
@@ -73,7 +74,7 @@ This would change the start-up procedure to require new devices, which discovers
 
 This will in some cases reduce or even remove fragmentation from a network. 
 For example the case in which a device restarts unexpectedly, then it would retake its old time-slot, assuming no other parts of the network changed in the downtime.
-It is a relatively simple change to the existing protocol, and would therefore be easy to implement.  
+It is a relatively simple change to the existing protocol, and would therefore be easy to implement. 
 However this would not be a solution for networks which decrease in size, and would leave them with empty time-slots until a new device joins the network, which effectively increase the frame length unnecessarily.
 
 \subsection{Changes to the Protocol}
@@ -83,5 +84,5 @@ The Automatic Insertion in Unused Time-slots-method increases the time it takes 
 However it will not defragment a network which decrease in size. 
 The last method: Jumping Defragmentation is fast, it will only take $m_{max} \times 2$ frames to defragment any single device leaving the network, and defragments the network in all cases. 
 
-Therefore the Jumping Defragmentation-method will be described in greater detail with pseudocode and flowcharts which describes the changes to the existing protocol. 
+Therefore the Jumping Defragmentation-method is seen a the best of the above solutions to add to the existing protocol. 
 

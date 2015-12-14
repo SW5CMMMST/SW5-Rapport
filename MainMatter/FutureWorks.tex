@@ -1,10 +1,9 @@
 \chapter{Future Works}
-This chapter describes problems yet to be solved, the solutions for which could improve upon the solution to the problem statement as stated in \myref[name]{sec:problemStatement}. 
-Some of these problems were also described in \myref[name]{chp:Problems}, yet not solved due to their complexity.
+This chapter describes problems yet to be solved from the problems described in \myref[name]{chp:Problems}, this will encompass strongly connected networks.
 
-\section{Strongly Connected Networks}
 During the analysis phase of the project, an issue of strongly connected networks arose.
 A protocol for strongly connected networks would need to work different form how the protocol developed for completely connected networks work.
+
 This is due to the structure of a strongly connected networks, in which a protocol would need a method of delivering information between devices which are not directly connected.
 An example of a simple strongly connected network can be seen on \myref{fig:linearNetwork}, here data can only travel directly between devices in three instances  (A-B, B-C and C-D) and would need a forwarding function in three other cases (A-C, A-D and B-D). 
 Because of this need of forwarding in a strongly connected network a solution would be significantly more complex.
@@ -17,6 +16,7 @@ The simple solution to solving the forwarding problem is to repeat all known inf
 This solution would increase the payload size and by extension also the frame length, hence communication between devices would take longer.
 A solution for strongly connected networks could also consider which devices in a network needs what information.
 The use case of the protocol should be greatly considered when designed the protocol for such a network, since this i.e determines whether every devices needs to be fully informed or whether speed is an important part of the protocol.
+
 
 A possible improvement to the protocol which assume a strongly connected network in which at least two nodes cannot hear each other nor their respective neighbours, is the following.
 If a network adheres to this assumption there would be no reason not to have them share a time-slot.

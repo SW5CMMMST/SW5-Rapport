@@ -1,4 +1,6 @@
-\section{Timer Interrupt Based Library}
+\section{Additional Performance Improvements}
+The following section will briefly explain other thoughts on how to improve the performance of the protocol.
+\subsection{Timer Interrupt Based Library}
 The Arduino platform includes support for timer interrupt based programming.
 This means that once for every time-slot an interrupt in the user program could occur.
 Such an interrupt could handle protocol specific details, such as transmitting, receiving and maintenance.
@@ -12,7 +14,7 @@ One is used by the delay function another is used by the RadioHead library leavi
 This would limit every other library or usercode which uses timers to be incompatible.
 A solution could be to alter RadioHead and the protocol to share interrupts, which we anticipate would require a lot of changes to both libraries.
 
-\section{Improving the Protocol's Operating Speed}
+\subsection{Improving the Protocol's Operating Speed}
 The protocol uses approximately $66 + (6 \times s)$ milliseconds to transmit a package of size $s$, as discovered in  \myref[name]{sub:radiohead_time_sent_test}. 
 This means that a payload of 16 bytes would take 162 milliseconds to transmit.
 If a quarter of the time slot is left for the usercode the length must be approximately 200 milliseconds.
@@ -43,8 +45,7 @@ However one must adhere to the limitations of the hardware.
     \item[Reduce overhead]\hfill\\
 As discussed in \myref[name]{subsubsec:RadioHead}, RadioHead introduces some overhead associated with using the library.
 The library uses both several bits to calibrate the modules as well as encoding each byte as two 6-bit symbols.
-These can most likely be improved upon, hovever we deem the performance increase archived is negligible.
+These can most likely be improved upon, however we deem the performance increase archived is negligible.
 Another place to look is what extra work RadioHead does before transmitting the payload which might not be necessary.
-But this would not be the best place to look for an performance increase.
 \end{description}
 

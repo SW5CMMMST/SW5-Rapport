@@ -1,12 +1,12 @@
 \subsection{Additions to the Flowchart}
-There are added four changes to the main loop flowchart from \myref{fig:main_psuedo_flow}, as can be seen in \myref{fig:mainFrameDefrag}.
+There are added four changes to the main loop flowchart from \myref{fig:main_psuedo_flow} (note that the flowchart form CCRC is used again for simplicity sake), as can be seen in \myref{fig:mainFrameDefrag}.
 
 The first additions can be seen detailed on the flowchart in, \myref{fig:jd1},
 It is necessary for the fist and last device to monitor if they should change the frame, in \myref{fig:jd1a} the last device increments a counter for each device from which it does not receive a payload.
 In \myref{fig:jd1b} the counter is reset for a device when a payload is received.
 
 The additions presented in \myref{fig:jd2}, is the jump itself.
-If the counter for any timeslot is higher than $m_{max}$, then it should change its place in the frame, $k$, to the $k$ of the device which missed counter was higher than $m_{max}$.
+If the counter for any time slot is higher than $m_{max}$, then it should change its place in the frame, $k$, to the $k$ of the device which missed counter was higher than $m_{max}$.
 This makes the last device of the frame now have a new $k$, and thus it has performed the jump.	
 
 The last additions seen in \myref{fig:jd3}, shows how to handle the last device of the frame leaving the network and thus reducing the number of time-slots.
