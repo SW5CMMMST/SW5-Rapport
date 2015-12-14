@@ -1,5 +1,5 @@
 \begin{tikzpicture}[auto]
-    \node [decision] (iflastdevice2) at (0,0)  {Last device in frame?};
+    \node [decision] (iflastdevice2) at (0,0)  {$k = n-1$?};
     \node [decision, below = 1cm of iflastdevice2] (ifabovecounter)  {Any device above counter?};
     \node [block, right = of ifabovecounter] (overtake) {Overtake its position};
     \node [cloud_nospace, right = of overtake] (dummy5) {End};
