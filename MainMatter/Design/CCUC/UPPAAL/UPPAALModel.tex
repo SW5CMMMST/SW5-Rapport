@@ -1,4 +1,4 @@
-\section{Model Checking the CCUCprotocol}
+\section{Model Checking the CCUC-protocol}\label{sec:uppalccuc}
 This section will explore to what degree issues caused by unreliability affects the UPPAAL model developed previously in \myref[name]{cha:validationAndImplementation}.
 
 To do this, every edge which is fired when receiving a message should be changed to have a chance of not receiving anything. 
@@ -13,7 +13,7 @@ This can be modeled in UPPAAL SMC using the branch points previously mentioned i
 \end{minipage}
 \begin{minipage}{.48\textwidth}
 \vspace{82pt}
-\begin{lstlisting}[style=UPPAAL, caption={Specifying the realiability of the transmissions, the current numbers result in a 2 \% miss chance.}, label={unreliability-UPPAAL}]
+\begin{lstlisting}[style=UPPAAL, caption={Specifying the reliability of the transmissions, the current numbers result in a 2 \% miss chance.}, label={unreliability-UPPAAL}]
 // States how reliable the network is
 const int receiveChance = 98;
 const int missChance = 100 - receiveChance;
@@ -63,7 +63,8 @@ This should show how the change of transmitting more than once would efffect the
 \end{figure}
 
 The results of this test can be seen on \myref{CCUC-Graph-UPPAAL}; and they show that transmitting more than once is actually a viable option, as it increases the probability of a network containing all devices will be made.
-\todo[inline]{Er lidt i tvivl om jeg forstår den sidste del herfra og ned korrekt. - Troels}
+\paragraph{Package Loss in the Main Loop}\hfill \\
+The most significant problems regarding the stability of the network, occurs when package loss happens during the startup phase of the network
 The problems with unreliability do however lie in the creation of the network, as the model in UPPAAL will work correctly in the main loop.
 This was tested by instantiating a network of 4 devices which were when the system started all connected to the same network, and had been given different $k$ values. 
 This means that a network is successfully created.

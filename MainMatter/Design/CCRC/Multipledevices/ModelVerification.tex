@@ -111,12 +111,12 @@ The first query is the only query which was also used on the earlier model, and 
 \myref{fig:ConnectQueryTime} shows a graph of all the queries.
 As can be seen the change in probability for the new model approaches one as time increases, and appears to be a logarithmic growth.
 So according to UPPAAL the new model will eventually connect all the devices, however it might take some time for it to do so.
-In the worst case the random numbers generated will keep causing collisions\todo{Skriver vi collisions eller jam, generelt?  - Troels}, however this happening is very unlikely. 
-There are many possible explanations\todo{Hvilke og hvorfor? - Troels} for what causes the longer runs, but it it important to note that, the longer the devices are running the greater the probability is of establishing a stable network.
+In the worst case the random numbers generated will keep causing collisions, however this happening is very unlikely. 
+It it important to note that the longer the devices are running the greater the probability is of establishing a stable network.
 
 \begin{figure}[ht]
   \includegraphics[width=1\textwidth]{Figures/Graphs/gnuplot/uppaal/graph.pdf} 
-\caption{Graph of the UPPAAL SMC queries, in which the cumulative probability increase over time.}
+\caption{Graph of the UPPAAL SMC queries, in which the cumulative probability increase over time. With 99.9 \% confidence and five devices.}
 \label{fig:ConnectQueryTime}
 \end{figure}
 
@@ -124,13 +124,13 @@ There are many possible explanations\todo{Hvilke og hvorfor? - Troels} for what 
 A comparison has been made for this model with the previous model in \myref{sec:themodel}, while allowing the devices to start at the same time.
 Query 4 can be run on both models, but on the older simpler model it will, when run with five devices, yield the result [0.0, 0.019], which means that it will probably never succeed.
 So a change to the models allow the devices to leave the initial location at any moment between 0 and 30000 UPPAAL time units, and different results occur; the devices will now sometimes have enough interval between activation so that a stable network will be created. 
-The probability result is [0.75,0.77].
+30 000 has been chosen as it leaves a big time period for devices to start up in, which means that a successful network will be created.
+The probability result is [0.75,0.77], if the startup time was greater it would result in a higher probability.
 Therefore this shows that if the devices are started with an interval in the old model, there still is a reasonable success rate, but as soon as they start at the same time, it doesn't work. 
 
-The changes are the same for both models and can be seen on \myref{lst:startuptimeChanceListing}. \todo{Denne myref referer til en listing som var den en section. ??? - Troels}
+The changes are the same for both models and can be seen on \myref{lst:startuptimeChanceListing}. 
 
-
-\begin{lstlisting}[style=UPPAAL, title={Change in the start up time for devices.}, label={lst:startuptimeChanceListing}]
+\begin{lstlisting}[style=UPPAAL, caption={Change in the start up time for devices.}, label={lst:startuptimeChanceListing}]
 //Original
 int Startup_Time = Initial_Wait_Time*2;
 
@@ -141,18 +141,19 @@ int Startup_Time = Initial_Wait_Time*20;
 
 The old model performs significantly worse that the new one, and will not always reach a stable correctly created network, and this is as mentioned only possible whenever there is a interval between activation of the devices.
 
-The changes in the new model which handles that devices start at the same time also improves, in sense of speed, from the fact that they may start with bigger intervals, the results of running the query can be seen on \myref{CompareGraph}. \todo{Hvad menes der med denne sætning? - Troels}
-Changing the new model's startup time is done so the two models can be compared in speed as-well as probability of creating a stable network under the same circumstances.
+Starting each device separately with a time interval causes an increase in speed for the new model, and ensures that the old model will succeed in some cases, therefore the new model has also been changed for the sake of this comparison. 
+To compare these two models query number 4 is used, the result is shown in \myref{CompareGraph}.
+The old model has a cut-off point at $30 000$ UPPAAL time units, this
 
 \begin{figure}[ht]
   \includegraphics[width=1\textwidth]{Figures/Graphs/gnuplot/uppaal_Compare/graph.pdf} 
-\caption{Graph of the query number 4, for both the old and the new model so their successrate and speed can be compared.}
+\caption{Graph of the query number 4, with five devices, for both the old and the new model so their successrate and speed can be compared.}
 \label{CompareGraph}
 \end{figure}
 
 
 \section{Conclusion}
-This chapter presented a way to handle the startup of multiple devices, which made use of the method exponential backoff, which results in an increasingly randomly generated number of wait time for the devices. 
+This chapter presented a way to handle the startup of multiple devices, which made use of the method exponential back-off, which results in an increasingly randomly generated number of wait time for the devices. 
 The randomness results in all devices eventually becoming connected to the network since they will be split up and thus stop jamming each other.
 The UPPAAL model created data, which can be seen on \myref{fig:ConnectQueryTime}.
 The data shows that the Arduinos will eventually be connected to the same network, however it does take some time, approximately $150 000$ UPPAAL time units.
