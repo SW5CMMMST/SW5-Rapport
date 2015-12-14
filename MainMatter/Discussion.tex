@@ -2,6 +2,7 @@
 This chapter will reflect on the choices made throughout this paper in respect to the problem statement in \myref{sec:problemStatement}, which was derived from wanting to find a cheaper alternative to Wi-Fi communication in simpler systems.
 Following this chapter the \myref{conclusion} will conclude on the success, or lack thereof, for those choices.
 
+%Analysis and hardware test
 \bigskip \noindent
 Prior to development both hardware and single-frequency communication methods were taken into account.
 For communication the choice ended on TDMA, while there exists enough methods to fill this entire paper with just that, most are merely mutations of TDMA adapted to more specific scenarios, as such TDMA was chosen as the primary inspiration for the protocol development.
@@ -13,6 +14,7 @@ Any multiple of the chosen antenna length would fit according to the physics use
 This however would be unnecessary as the antenna proved to work upwards of 28 meters without any significant change in package loss.
 28 meters happens to be more than enough when applications considered are alarms, home automation or similar systems.
 
+%Sub-problem split and dilemma
 \bigskip \noindent
 Following the hardware analysis and testing the problem was split into sub-problems all represented using graph theory.
 The four sub-problems were the result of considering two variables, communication and device placement.
@@ -24,6 +26,7 @@ One of these in particular would cause a complication in when expanding into the
 What really causes the problem here is that this requires that a value can both rise and fall, instead of only rise.
 If one had spotted these edge cases in the initial partition of problems one could have defined which sub-iterations to consider for each problem such that sub-iterations which would require a significant change once expanding the problem, would not be designed in the former problem as to avoid a rework of an entire sub-iteration.
 
+%General Design methodology
 \bigskip \noindent
 Throughout designing the protocol there was a heavy focus on developing and designing the solution theoretically completely rather than writing code once an idea was presented, and then solving whatever issues the idea may have had in the code.
 This is reflected in the design chapters where there is a heavy focus on flow diagrams, pseudocode and model checking.
@@ -38,6 +41,7 @@ The alternative method of development for a solution would be developing through
 The work flow of doing this however would quite possibly increase the work done, as finding an error, edge case or other potential issues are significantly more difficult to do in 500 lines of code, rather than using a model checker on already designed pseudocode and flow diagrams.
 One could combine the code with the model checker, but creating a model to check, is significantly more problematic to do from 500 lines of code rather than a flow diagram.
 
+%CCUC Expansion
 \bigskip \noindent
 In expanding to the CCUC-problem several ideas on handling this were presented, both in regard to avoidance and damage control.
 While only one of the avoidance ideas, redundant messaging, has been applied it is not a reason to disregard as the rest as possible techniques.
@@ -47,6 +51,7 @@ This is particularly worth considering if the network is already running with a 
 If the reliability is low, but reducing the time-slot length is of importance, it becomes further important to consider the impact of losing a package for a given application in order to decide whether increasing reliability by increasing time-slot length is worth it.
 For the opposite scenario where reliability is of extreme importance it may also be worth increasing the time-slot length even further by sending the message more than twice while also implementing a damage control idea which is not to simply reset the device.
 
+%Ending the chapter
 \bigskip \noindent
 Ideas for damage control were not the only things not implemented which had been designed, this is an unfortunate side effect of the time constraint on the project.
 Ideas that fall under that category, as well as ideas for possible improvements are discussed further in \myref{futureWorks} and \myref{mortensStuff}
