@@ -11,47 +11,9 @@ The second part is the \enquote{...in a reliable and time-critical way?}.
 This is a trade-off, you can increase the reliability by using more time to ensure that the messages are valid.
 This project focused on the reliability since much of the time aspect could be improved later on by optimizing on the protocol.
 
-
-
-
-
-
-
-
-%The work in the project worked on single frequency networks. %Might be stating a new thesis
-
-How can a network of devices with radio transceivers of a single frequency communicate, such that any devices can send messages to other devices in the network, in a reliable and time-critical way?
-
-As the models have shown the network created by the protocol will be reliable by almost always sending the correct message after a period.
-
-
-In doing that the protocol sacreficed some of the time critical aspect as they always wait before sending.
-As currently, the total duration of a frame would be $(n + 1) \times \delta$ where $n$ is the number of devices and $\delta$ is the slot length.
-With our tests with only 6 devices and a $\delta$ of 200 miliseconds.
-This would result in a frame length af 1.4 seconds.
-This grows linear with the number of devices, which would result in slow responsetime for larger networks.
-
-
-
-\todo{metatekst}
-
-\todo{ecco introduktionen}
-
-\todo{Opsummering af problem formulering}
-
-\todo{Strong parts}
-
-\todo{Weak parts}
-
-\todo{So what?}
-
-\todo{videre i virkeligheden}
-
-\todo{brændalarm}
-
-\todo{look @ the future}
+The requirements will also vary from system to system so by allowing the user to determine the desired balance would satistfy this problem.
 
 This work could be a step towards making an easier way to setup local networks.
 For example imagine a world where when taking a device home the setup process would be as easy as powering it on.
 Then it would figure out what todo about the local network.
-This would not only be useful in home automation, but also in 
+This would not only be useful in home automation, but also in other systems such as the main protagonist of this paper; the fire alarm system.
