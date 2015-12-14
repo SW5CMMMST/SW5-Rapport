@@ -23,7 +23,7 @@
     \node [block, right of=listenvalidate] (announce) {Announce in sub empty slot};
     \node [block, left of=validated] (expbackoffcalc) {Determine an exponential backoff}; 
     \node [block, left of=listen] (backoff) {Wait for back-off amount of frames}; 
-    \node [block, below of=validated] (join) {Take k after what the empty slot had}; 
+    \node [block, below of=validated] (join) {Set network values $k \leftarrow n$  $n \leftarrow n+1$}; 
     \node [preproc, left of=join] (mainloop) {\nodepart{two} Main loop};
 
     % Draw edges
