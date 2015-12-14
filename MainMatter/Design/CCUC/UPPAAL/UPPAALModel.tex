@@ -1,4 +1,4 @@
-\section{Model Checking the CCUC-protocol}\label{sec:uppalccuc}
+\section{Model Checking the CCUC-protocol}\label{sec:uppaalccuc}
 This section will explore to what degree issues caused by unreliability affects the UPPAAL model developed previously in \myref[name]{cha:validationAndImplementation}.
 
 To do this, every edge which is fired when receiving a message should be changed to have a chance of not receiving anything. 
@@ -24,7 +24,7 @@ const int missChance = 100 - receiveChance;
 \noindent
 The values of \texttt{missChance} and \texttt{receiveChance} are such that their sum is 100, in order to be the same as percentages, their assignments are shown in \myref{unreliability-UPPAAL}.
 
-When the branch points are used everywhere a transmission could be received, the devices will have a miss chance on every transmission received much like in the real world examples, as with the Arduinos and the RF modules used for this project. \todo{Har vi dokumenteret at pakketab er på modtager siden,? Skal vi? - Troels}
+When the branch points are used everywhere a transmission could be received, the devices will have a miss chance on every transmission received much like in the real world examples, as with the Arduinos and the RF modules used for this project.
 To explore the effect of going from CCRC to CCUC, with the changes to the model mentioned above, the same query from earlier which checks if a network is created can be reused. 
 The query is listed in \myref{query-SuccesfulCreate}.
 
@@ -37,13 +37,13 @@ Pr[<=300000] ( <>  forall(i : id_t) forall(j : id_t) (time > 3000)
 \noindent
 With a confidence of 99\% the probability range lies in the range [0.933723, 0.95372], which means that the somewhere in that range lies the probability of a successful network being created.
 This means that the impact of this reliability is actually quite large, and something should be done.
-As stated earlier in \myref{??}\todo{KILDE TIL CCUC DESIGN}, one could make the devices transmit more than once in order to reduce the chance of a transmission being completely missed.
+As stated earlier in \myref[name]{sub:avoidance}, one could make the devices transmit more than once in order to reduce the chance of a transmission being completely missed.
 To implement this further changes to the model is required.
 Whenever a transmission is sent, it should be able to loop in the same location, transmitting each time, for the number of times it should transmit, before finishing its time-slot. 
 This also means that the time-slots' length will have to be increased to make up for the increased transmission time.
 One of these loops can be seen on \myref{LoopTransmitUPPAAL}.
 
-\begin{wrapfigure}{R}{0.4\textwidth}
+\begin{wrapfigure}{r}{0.5\textwidth}
 \centering
 	\vspace{-20pt}
   \includegraphics[width=0.4\textwidth]{Figures/Model/Transmit_Loop.png} 
@@ -55,13 +55,7 @@ This also requires changes to the code in UPPAAL, which can be found in \myref{U
 The complete model for the CCUC-protocol can also be found printed on a A3-paper in the back of the report.
 
 The model has then been tested with the query seen in \myref{query-SuccesfulCreate}, with varying miss chance, and with varying number of transmissions in a time-slot.
-This should show how the change of transmitting more than once would efffect the model.
-
-\begin{figure}[h]
-  \includegraphics[width=1\textwidth]{Figures/Graphs/gnuplot/ccucChance/graph2.pdf} 
-\caption{Block-diagram of the query that requires a succesful network creating, with varying miss chance, and varying number of transmissions.}
-\label{CCUC-Graph-UPPAAL}
-\end{figure}
+This should show how the change of transmitting more than once would affect the model.
 
 The results of this test can be seen on \myref{CCUC-Graph-UPPAAL}; and they show that transmitting more than once is actually a viable option, as it drastically increases the probability of a network containing all devices will be made, which is close to 99\% probable whenever transmitting more than once.
 
@@ -73,9 +67,15 @@ This means that a network is successfully created.
 A query was asked to this system, which can be seen on \myref{stable-network-query}.
 The results of the query will be a probability in the range [0.980056, 1] with a confidence of 99\%, which means that the problem truly does lie in connecting to the network, with unreliable transmission. 
 
-\begin{lstlisting}[style=UPPAAL, caption={Query for UPPAAL asking if for all devices i and j, when they are in the location \texttt{User\_Code} will they have they then have the same value for \texttt{local\_i}.}, label={stable-network-query}, float, floatplacement='h']
+\begin{lstlisting}[style=UPPAAL, caption={Query for UPPAAL asking if for all devices i and j, when they are in the location \texttt{User\_Code} will they have they then have the same value for \texttt{local\_i}.}, label={stable-network-query}, float=hb]
 Pr[<=300000] ( <> forall(i : id_t) forall(j : id_t)  (time > 3000) 
   and  ((Device(i).User_Code and Device(j).User_Code) 
   imply (Device(i).local_i == Device(j).local_i)))
 \end{lstlisting}
+ 
+\begin{figure}[p]
+  \includegraphics[width=1\textwidth]{Figures/Graphs/gnuplot/ccucChance/graph2.pdf} 
+\caption{Block-diagram of the query that requires a successful network creating, with varying miss chance, and varying number of transmissions.}
+\label{CCUC-Graph-UPPAAL}
+\end{figure} 
 
