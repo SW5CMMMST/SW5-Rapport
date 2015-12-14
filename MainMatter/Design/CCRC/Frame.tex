@@ -1,7 +1,7 @@
 \subsection{Frames}\label{GCRC:frame}
 While the concept of \gls{tdma} is widespread, a general implementation is not; which is partly why so many variations of \gls{tdma} exist.
-For this section we will focus on the design and requirements set by the frame as well as an individual time slot.
-The design of the frame itself refers to the relative location of each occupied time slot including one or more unused slots which new devices would seize.
+For this section we will focus on the design and requirements set by the frame as well as an individual time-slot.
+The design of the frame itself refers to the relative location of each occupied time-slot including one or more unused slots which new devices would seize.
 
 The specifics of adding and removing devices from the network and how those actions affect the frame will be discussed in sections referring to those individual problems.
 
@@ -14,22 +14,22 @@ However if we once again return to the example of a fire alarm, several devices 
 Also since the only effect is a slight delay in joining the network, and this would rarely occur outside of the startup network, it is less significant; as such the design will only contain one empty slot at a time as portrayed on \myref{fig:CCFrame}.
 As the figure also shows each device will have one slot per frame, in the case where the network is not completely connected but strongly connected one may consider changing this.
 
-\tikzfigure{SimpleFrame.tikz}{A visual representation of the frame with 5 time slots where of one is empty}{CCFrame} 
+\tikzfigure{SimpleFrame.tikz}{A visual representation of the frame with 5 time-slots where of one is empty}{CCFrame} 
 
-\subsubsection*{Time Slot}
-For every time slot only one device may transmit.
-Because of this it is important that the time slot provides enough time for a device to transmit data, and equally as important that any computations can be executed before the next time slot.
-As such each time slot is composed of two phases; communication and processing.
-In the communication phase the device will either have to transmit or receive data thus the length of this phase should be long enough to receive data from the device that may take the longest to transmit, i.e. this phase has to be uniform across all time slots.
+\subsubsection*{Time-Slot}
+For every time-slot only one device may transmit.
+Because of this it is important that the time-slot provides enough time for a device to transmit data, and equally as important that any computations can be executed before the next time-slot.
+As such each time-slot is composed of two phases; communication and processing.
+In the communication phase the device will either have to transmit or receive data thus the length of this phase should be long enough to receive data from the device that may take the longest to transmit, which is determined by the programmer who implements the protocol, i.e. this phase has to be uniform across all time-slots.
 The length of the communication phase is denoted by: $\delta_{comm}$.
 
 \bigskip \noindent
-For the processing phase one should be able to ensure that a transmission is possible in each time slot.
+For the processing phase one should be able to ensure that a transmission is possible in each time-slot.
 To achieve this several possibilities of how to determine the length of this phase present themselves; in an effort to broaden the applicability of the protocol it has been chosen that this too, should be uniform and determined by a worst case scenario.%\todo{Which worst case senario?}
-The processing phase in each time slot will be determined by comparing worst time scenarios for each device and using the worst of these.
+The processing phase in each time-slot should be determined by the programmer at the development phase, such that it is the worst time scenario for all devices.
 The length of the processing phase is denoted by: $\delta_{proc}$.
-This ensures that a device can perform its computation within its own time slot, while allowing for the opportunity to receive and compute commands when it is not the turn of the device, \myref{fig:SlotDesign} represents the design of the time slot.
+This ensures that a device can perform its computation within its own time-slot, while allowing for the opportunity to receive and compute commands when it is not the device's designated time-slot, \myref{fig:SlotDesign} represents the design of the time-slot.
 %This time slot design will also be dynamic, which means that in the case a device joins with a worst case computation longer than what the time slot provides in computation time, every time slot in the frame will have to be altered.
-The total time of each timeslot is denoted by: $\delta$.
+The total time of each time-slot is denoted by: $\delta$.
 
-\tikzfigure{TimeSlotDesign.tikz}{A visual representation of the time slot, $\delta_{comm}$ and $\delta_{proc}$ denotes the time dedicated to each phase. The size of the boxes are not to scale.}{SlotDesign} 
+\tikzfigure{TimeSlotDesign.tikz}{A visual representation of the time-slot, $\delta_{comm}$ and $\delta_{proc}$ denotes the time dedicated to each phase. The size of the boxes are not to scale.}{SlotDesign} 
