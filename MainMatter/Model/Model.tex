@@ -102,8 +102,8 @@ system Device;
 \label{fig:UPPAAL_Intitialization}
 \end{figure}
 
-\bigskip \noindent
-
+\newpage
+\noindent
 Firstly the devices will nondeterministically leave the initial stage, and start listening for a network.
 When they are done listening and have not found a network, they will create a network themselves, by firing the edge towards the \texttt{Connected\_To\_Network} location.
 The device will setup the initial values for the network, change its boolean \texttt{Connected} to true, this all happens in the function \texttt{create\_Network()}. 
@@ -153,6 +153,7 @@ The computer used for all the tests is a laptop with an Intel i3 processor with 
 \end{lstlisting}
 \end{minipage}
 
+\noindent
 When UPPAAL runs this query on the model it will return false.
 It is possible to ask UPPAAL for the trace for why the property was not true.
 This feature shows that it was not true because in the case that no device ever leaves the initial state. 

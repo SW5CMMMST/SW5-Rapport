@@ -11,7 +11,6 @@ This construction can accurately time the length of time-slots and its constitue
 The \texttt{getGlock} function also handles overflowing of the \texttt{millis()} function. 
 \texttt{millis()} returns an unsigned integer (\texttt{uint32\_t}) and so is the clock variable.
 Therefore calculation involving both of these uses unsigned arithmetic.
-
 Consider the following two calculations in unsigned 8-bit arithmetic:
 
 \begin{align*}
@@ -19,6 +18,7 @@ Consider the following two calculations in unsigned 8-bit arithmetic:
 1 - 252     &= 5 && \text{(In 8-bit math)}
 \end{align*}
 
+\noindent
 This is true because incrementing an 8-bit number 5 times starting from 252 will yield the sequence: $253, 254, 255, 0, 1$. 
 
 For the implementation the same thing happens when using \texttt{millis()} in the case of the implementation the same thing will happen, where the difference will be correctly calculated.
