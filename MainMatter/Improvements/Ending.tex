@@ -5,10 +5,8 @@ The Arduino platform includes support for timer interrupt based programming.
 This means that once for every time-slot an interrupt in the user program could occur.
 Such an interrupt could handle protocol specific details, such as transmitting, receiving and maintenance.
 
-The main advantage of this would be that the interrupt gives a better guarantee that the user code will not exceed the expected duration, since usercode which would take to long would be interrupted by the timer.\todo{så hele advantagen er garbage eftersom vi har skrevet ``The processing
-phase in each time slot will be determined by comparing worst time scenarios for each device
-and using the worst of these.'' tidligere hvilket betyder at det scenario som bruges som eksempel ikke sker. - m}
-The disadvantage of this would be that the interface to the usercode could become less obvious, and it would make the code vulnerable to race conditions.\todo{Jeg spørger her igen hvilket interface? interface er nævnt 2 gange før, arduino uno debugging interface s. 11 og omkring UPPAAL tool s.42 - m}
+The main advantage of this would be that the interrupt provides a simplified way of ensuring that user code does not exceed the time partitioned for it to run.
+The disadvantage of this would be that the interface from the usercode to the protocol would become less obvious, and it would make the code vulnerable to race conditions.
 Moreover the user code would need to be preempt-able and context switching would have to be implemented correctly.
 
 Another thing to note is that on the Arduino Nano and Uno there are three timer interrupts.
@@ -26,7 +24,6 @@ There is a wide range of ways to improve the speed at which the protocol operate
 \begin{enumerate}[label=\itshape \alph*\upshape)]
     \item Skip unnecessary transmissions,
     \item increase the bit rate, 
-    \item reduce overhead, and
 \end{enumerate} 
 
 \begin{description}[labelindent=\parindent]
@@ -44,11 +41,5 @@ This could introduce unreliability for the communication at higher bit rates, bu
 The best way to implement this would be to have the user be in control of the bit rate.
 This way the user could set the rate according to the requirements of a given application.
 However one must adhere to the limitations of the hardware.
-
-    \item[Reduce overhead]\hfill\\
-As discussed in \myref[name]{subsubsec:RadioHead}, RadioHead introduces some overhead associated with using the library.
-The library uses several bits to calibrate the modules as well as encoding for each byte as two 6-bit symbols.
-These can most likely be improved upon, however we deem the performance increase achieved negligible.\todo{``most likely'' synes ikke vi skal nævne optimering af områder hvorpå vi ikke engang ved om det er muligt - M}
-Another place to look is what extra work RadioHead does before transmitting the payload which might not be necessary.
 \end{description}
 
