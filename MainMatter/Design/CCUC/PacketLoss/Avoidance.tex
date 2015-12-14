@@ -1,0 +1,37 @@
+\section{Package Loss}
+As we are now working with a realistic scenario of unreliable communication one must also realise that this is an impossible problem to solve completely.
+As one can never guarantee that a packet will be received, the best one can do is reduce the odds of it happening.
+Adjusting the UPPAAL model in, \myref[name]{sec:uppaalccuc}, to account for a 2~\% packet loss, which is more than the results in \myref{tbl:packageloss} show, the network works approximately 96~\% of the time.
+As mentioned one cannot reach 100~\% when considering unreliable communication, however this does not mean that nothing can be done.
+By employing different methods to increase the odds of packets being received one can attempt to approximate a reliability of \textasciitilde100~\%.
+
+Another aspect of unreliable communication is the effect of packet loss.
+Depending on what data is being transferred the impact of packet loss differs.
+In regards to small data packages such as those this protocol uses for network management, packet loss completely corrupts the payload.
+As such aside from implementing methods to decrease the odds of packet loss, one must also consider what the repercussions of packet loss will bring and if possible reduce this as much as possible. 
+
+\subsection{Methods of Avoidance}\label{sub:avoidance}
+As aforesmentioned one can attempt to approximate 100 \% reliability in a network by reducing the odds of package loss.
+In an effort to reduce package loss two ideas will be presented, both based on the concept of conditional probability, a subject of probability theory.
+\myref{eq:conditionalProb} shows the formula for conditional probability in the form where it is used to calculate the odds of both event A and B occurring given they are not independent.
+One might notice that given the probability of A and B individually is the same, which is the case for our assumed packet loss, the result may also be described as \myref{eq:conditionalProb2}.
+\begin{align}
+P(A \land B) &= P(A)P(B|A) \label{eq:conditionalProb} \\  
+P(A \land B) &= P^{events} \label{eq:conditionalProb2}
+\end{align}
+
+\subsubsection*{Message Redundancy}\label{redundancy}
+Considering conditional probability one might transmit the same payload more than once in $\delta_{comm}$.
+While this would increase the length of $\delta_{comm}$ it would also decrease the odds of any given message being lost as per conditional probability.
+Each message would provide an exponential decrease in the odds of a packet being lost as is evident by \myref{eq:conditionalProb2} where $events$ would simply be the multiple of redundant messages $+ 1$, an example would be by simply sending each message twice, that would give one redundant message, with a packet loss of 2 \% this would change to a $0.02^2$ chance i.e. 0.04 \% chance of both messages being lost.
+
+\subsubsection*{Multimessage Echo}
+In essence this is the same idea as message redundancy but spread out to several devices.
+For this idea each device would save a number of previously received messages and make them part of its own payload.
+This would echo messages from devices several times over, but from different devices which in the case that the problem is between two devices could help where Message Redundancy might not.       Avoidance
+An echo would have to be at least two previous messages for it to affect all cases.
+This is such that if a device misses the message from the previous device, and it is the following device, it can still acquire that message from the device following itself.
+Furthermore this would allow for devices to hear whether or not another device heard them, given their time-slots are within the amounts of messages echoed.
+With three devices this yields the same packet loss as before.
+Moreover echoing increases the message length greatly, and thus will also reduce the speed of the network as message redundancy would.
+If it requires less time than message redundancy, greatly depends on the size of the messages being sent.
