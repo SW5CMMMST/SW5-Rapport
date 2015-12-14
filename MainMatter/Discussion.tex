@@ -16,42 +16,37 @@ This however would be unnecessary as the antenna proved to work upwards of 28 me
 \bigskip \noindent
 Following the hardware analysis and testing the problem was split into sub-problems all represented using graph theory.
 The four sub-problems were the result of considering two variables, communication and device placement.
-While the device placement was a sensible consideration as the two scenarios are significantly different one can argue as to whether the communication considering was as well, or perhaps it should have been more explicit.
-As it happens the CCUC-solution has not been implemented, but merely designed.
+While the device placement was a sensible consideration as the two scenarios are significantly different one can argue as to whether the communication consideration was well enough, or perhaps it should have been more thorough.
+As it happens the CCUC-solution has not been fully implemented, but merely designed.
 This is partly due to unforeseen sub-iterations in the CCRC-solution pertaining to certain edge cases requiring entire design structures.
+
 One of these in particular would cause a complication in when expanding into the CCUC-problem as a consequence of the consensus idea, the sub-iteration in question is removal of dead devices and by extension reduction of time-slots.
-What really causes the problem here is that this requires that value can both rise and fall, instead of only rise.
+What really causes the problem here is that this requires that a value can both rise and fall, instead of only rise.
 If one had spotted these edge cases in the initial partition of problems one could have defined which sub-iterations to consider for each problem such that sub-iterations which would require a significant change once expanding the problem, would not be designed in the former problem as to avoid a rework of an entire sub-iteration.
 
+\bigskip \noindent
+Throughout designing the protocol there was a heavy focus on developing and designing the solution theoretically completely rather than writing code once an idea was presented, and then solving whatever issues the idea may have had in the code.
+This is reflected in the design chapters where there is a heavy focus on flow diagrams, pseudocode and model checking.
 
+In order to develop a protocol for the CCRC-problem both stochastic and definite ideas were considered.
+Neither of the approaches were able to provide a solution which would work 100 \% of the time, however the since the stochastic solution could not hit a a scenario for which it would loop without a chance of working, it was chosen as the better approach.
 
-How realistic is the assumptions made for protocol? Particularly the CC scenario in constrast to the SC scenario
+By developing a complete theoretical solution and using a model checker the solution was able to be validated; ensuring, as long as the code fit the model, the code would work every time for the CCRC-problem and within a certain probability for the CCUC-problem.
+The CCRC-problem being an impossible scenario, simply proves that the theoretical problem was solved, however for the CCUC-solution the model checking provides proof that the protocol works in most of the thousands of possible scenarios, something one could not prove through a practical example.
 
-Realistic application use - consider length of a frame
+The alternative method of development for a solution would be developing through coding then proceeding to model check the already created code.
+The work flow of doing this however would quite possibly increase the work done, as finding an error, edge case or other potential issues are significantly more difficult to do in 500 lines of code, rather than using a model checker on already designed pseudocode and flow diagrams.
+One could combine the code with the model checker, but creating a model to check, is significantly more problematic to do from 500 lines of code rather than a flow diagram.
 
-Success of the project, practical example
+\bigskip \noindent
+In expanding to the CCUC-problem several ideas on handling this were presented, both in regard to avoidance and damage control.
+While only one of the avoidance ideas, redundant messaging, has been applied it is not a reason to disregard as the rest as possible techniques.
+In choosing an idea to use one must also consider the cost, for both of the ideas mentioned in \myref{AvoidanceCCUC} it becomes a strain on the time-slot length, thus for an application one might not want to use these particular ideas.
+This is particularly worth considering if the network is already running with a high reliability, in that case it may be better to perform some sort of damage control on devices that become desynchronised, whether this be restarting or using one of the designed damage control ideas. 
 
+If the reliability is low, but reducing the time-slot length is of importance, it becomes further important to consider the impact of losing a package for a given application in order to decide whether increasing reliability by increasing time-slot length is worth it.
+For the opposite scenario where reliability is of extreme importance it may also be worth increasing the time-slot length even further by sending the message more than twice while also implementing a damage control idea which is not to simply reset the device.
 
-Do your results provide answers to your testable hypotheses? If so, how do you interpret your findings?
-Do your findings agree with what others have shown? If not, do they suggest an alternative explanation or perhaps a unforseen design flaw in your experiment (or theirs?)
-Given your conclusions, what is our new understanding of the problem you investigated and outlined in the Introduction?
-If warranted, what would be the next step in your study, e.g., what experiments would you do next?
-
-Disc: Intro to nao
-
-Problem, alrdy solved so why bother?
-Hardware choice
-Hardware tests, point and outcome
-Math models, why the split?
-Reqs, where they met? how well?
-CCRC alot more its than expected
-Edge cases
-CCUC addition so slight, why bother splitting UC and RC?
-UPPAAL to real code how?
-Real code how does it even work
-
-UC expansion
-Double send, value?
-Alternatives
-Things that were designed but not implemented+
-
+\bigskip \noindent
+Ideas for damage control were not the only things not implemented which had been designed, this is an unfortunate side effect of the time constraint on the project.
+Ideas that fall under that category, as well as ideas for possible improvements are discussed further in \myref{futureWorks} and \myref{mortensStuff}
