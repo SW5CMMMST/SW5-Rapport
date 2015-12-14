@@ -1,10 +1,10 @@
-This paper explore the possibilities of designing, model checking and implementing an wireless single frequency communication protocol for embedded devices on cheap RF modules.
-During the paper a simple protocol is designed and then further expanded to account for many problems which arises in real world settings.
+This paper explores the possibilities of designing and implementing a wireless single frequency communication protocol for embedded devices using cheap RF-modules.
+A simple protocol is designed and further expanded to account for scenarios which can arise in a real world setting.
 
-The hardware is tested in regards o reliability and the protocol is designed and is then implemented as a model in UPPALL tool to verify the correctness of the design and to calculate probabilities of successful networks.
-The design is then implemented onto Arduino boards witch attached RF-modules.
+\medskip
+The hardware is tested in regards to reliability; the protocol is designed in regards to a naive scenario and iterated upon to account for more realistic scenarios.
+Each scenario is implemented as a model in UPPALL tool to verify the validity of the design and to calculate probabilities of successful networks being established.
+Lastly the design is implemented onto Arduino devices with attached RF-modules.
 
-The protocol allows for usercode to be run along side the protocol and allows for different use-cases such as a fire alarm network or home automation. 
-
-
-
+\medskip
+The protocol is not specified to any distinct use case and allows for user-code to be run along side the protocol as well as modifiable payloads to allow for different use cases such as a fire alarm network or home automation. 
