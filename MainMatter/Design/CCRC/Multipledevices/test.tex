@@ -2,23 +2,27 @@
 \section{Testing on Arduino}\label{sec:ccrc_test}
 \todo[inline]{Har ingen ide om hvad der skal ske i denne section - Troels}
 The solution for the Simultaneous Connect Problem described in \myref[name]{sec:simultaneous_connect} have been implemented on the Arduino platform.
-This is to test if it works in a real life scenario. 
+This is to test if the protocol works in a real life scenario. 
 
-Only the Simultaneous Connect Problem of the \myref[name]{chap:MDA-CCRC} have been implemented, this is done because of its complicity and because of time-constraints.
+Only the Simultaneous Connect Problem of the \myref[name]{chap:MDA-CCRC} have been implemented, this is done because of its complexity and because of time-constraints posed due to the focus on model-checking.
+The code can be found on the CD attached in the back of the paper.
 
 The test consisted of four devices and the following method was used:
 \begin{eletterate}
 	\item Start a single device.
-	\item After a small timer period start the other three.
+	\item After a small time period start the other three devices
 	\item Log timestamps for when each device joins.
 \end{eletterate}
 
-This resulted of the test is shown in \myref{tab:ccrc_test}.
+\subsection{Results of Test}
+The results of the test is shown in \myref{tab:ccrc_test}.
 It shows that out of the five test runs, the lowest time it took to make a network of all devices took $13 358$ milliseconds and the highest took $31 959$ milliseconds.
 The average was $18780$ and the median $17131$.
 
-\subsection{Conclusion}
-The \myref[name]{sec:simultaneous_connect} which was confirmed to be working in UPPAAL SMC also works on Arduinos. 
+The \myref[name]{sec:simultaneous_connect} which was confirmed to be working in UPPAAL SMC also works on Arduinos, where they will eventually connect to the same network, each with different time-slots assigned to each Arduino.
+
+The test also suffers from the fact that the Arduinos do have a chance to miss transmissions, which might result in the devices not being verified to join, and going into backoff without being jammed by another device.
+This is not really a problem in terms of correction, but it does impact the speed of the network.
 
 \begin{table}[h]
 \centering
