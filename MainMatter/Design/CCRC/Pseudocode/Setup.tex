@@ -25,7 +25,7 @@ It is worth noting here that this minimum is only true for this case, both stron
 If a network is found prior to \textit{x} exceeding $t_0$ the device will process the data and use this to properly obtain a slot in the network, this is done in the function \textsc{ProtocolMaintenance} which was explained in \myref[name]{subsec:protocolmaintanaince}.
 Should it occur that no network is found the device will start its own network with the initial configuration that lines 35 - 38 in \myref{lst:setupCCRC} shows.
 
-\begin{algorithm}[h]
+\begin{algorithm}[ht]
 \caption{Pseudocode example of the special case procedure Initialise()}
 \label{lst:setupCCRC}
 \begin{algorithmic}[1]
