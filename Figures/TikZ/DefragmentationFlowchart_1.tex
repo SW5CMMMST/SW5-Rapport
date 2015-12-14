@@ -4,7 +4,7 @@
         \centering
         \begin{tikzpicture}[auto, on grid]           
             \node [cloud] (start) {Start};
-            \node [decision, below =2.2cm of start] (decide) {Is first or last device in frame?};    
+            \node [decision, below =2.2cm of start] (decide) {$k = 1 \lor k = n-1$?};    
             \node [draw=none, below =2.2cm of decide] (a) {};
             \node [block, left =1.8cm of a] (increment) {Increment missed counter};   
             \node [cloud, right =1.8cm of a] (end) {End};
@@ -21,7 +21,7 @@
         \centering
         \begin{tikzpicture}[auto, on grid]
             \node [cloud] (start) {Start};
-            \node [decision, below =2.2cm of start] (decide) {Is first or last device in frame?};    
+            \node [decision, below =2.2cm of start] (decide) {$k = 1 \lor k = n-1$?};    
             \node [draw=none, below =2.2cm of decide] (a) {};
             \node [block, left =1.8cm of a] (reset) {Reset counter for device received from};   
             \node [cloud, right =1.8cm of a] (end) {End};
