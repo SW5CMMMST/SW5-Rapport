@@ -59,6 +59,9 @@ This should show how the change of transmitting more than once would affect the 
 
 The results of this test can be seen on \myref{CCUC-Graph-UPPAAL}; and they show that transmitting more than once is actually a viable option, as it drastically increases the probability of a network containing all devices will be made, which is close to 99\% probable whenever transmitting more than once.
 
+A further test has been made to see the changes when the chance of receiving are drastically worse than in the first test.
+The result can be seen on \myref{fig:crazy_graph}, where it can be seen just how much it helps transmitting more than once in each time-slot, but it does cost a lot in regards of the speed of the network.
+
 \paragraph{Package Loss in the Main Loop}\hfill \\
 The most significant problems regarding the stability of the network, occurs when package loss happens during the startup phase of the network
 The problems with unreliability do however lie in the creation of the network, as the model in UPPAAL will work correctly in the main loop.
@@ -67,15 +70,24 @@ This means that a network is successfully created.
 A query was asked to this system, which can be seen on \myref{stable-network-query}.
 The results of the query will be a probability in the range [0.980056, 1] with a confidence of 99\%, which means that the problem truly does lie in connecting to the network, with unreliable transmission. 
 
-\begin{lstlisting}[style=UPPAAL, caption={Query for UPPAAL asking if for all devices i and j, when they are in the location \texttt{User\_Code} will they have they then have the same value for \texttt{local\_i}.}, label={stable-network-query}, float=hb]
+\begin{lstlisting}[style=UPPAAL, caption={Query for UPPAAL asking if for all devices i and j, when they are in the location \texttt{User\_Code} will they have they then have the same value for \texttt{local\_i}.}, label={stable-network-query}, float=!hb]
 Pr[<=300000] ( <> forall(i : id_t) forall(j : id_t)  (time > 3000) 
   and  ((Device(i).User_Code and Device(j).User_Code) 
   imply (Device(i).local_i == Device(j).local_i)))
 \end{lstlisting}
  
 \begin{figure}[p]
-  \includegraphics[width=1\textwidth]{Figures/Graphs/gnuplot/ccucChance/graph2.pdf} 
-\caption{Block-diagram of the query that requires a successful network creating, with varying miss chance, and varying number of transmissions.}
+	\begin{subfigure}{\linewidth}
+  \includegraphics{Figures/Graphs/gnuplot/ccucChance/graph2.pdf} 
+\caption{Realistic miss chance}
 \label{CCUC-Graph-UPPAAL}
+\end{subfigure}\\
+\begin{subfigure}{\linewidth}
+\includegraphics{Figures/Graphs/gnuplot/ccucChance/graph3.pdf} 
+\caption{Higher miss chance}
+\label{fig:crazy_graph}
+\end{subfigure}
+\caption{Block-diagrams of the query that requires a successful network creating, with varying miss chance, and varying number of transmissions.}
 \end{figure} 
+
 
