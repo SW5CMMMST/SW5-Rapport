@@ -14,9 +14,9 @@ That device can only know its local variables and what it receives via the \enqu
         $n$                 & integer   & The number of slots in the network                        & $2 \leq n \leq 256$\\
         $k$                 & integer   & The slot claimed by this device                           & $1 \leq k \leq n - 1$\\
         $i$                 & integer   & The current slot                                          & $1 \leq i \leq n$\\
-        $\delta$            & integer   & The duration of a time slot                               & $\delta = \delta_{comm} + \delta_{proc}$\\
-        $\delta_{comm}$     & integer   & The duration of a time slot reserved for communication    & $0 < \delta_{comm}$ \\
-        $\delta_{proc}$     & integer   & The duration of a time slot reserved for processing       & $0 < \delta_{proc}$ \\
+        $\delta$            & constant   & The duration of a time slot                               & $\delta = \delta_{comm} + \delta_{proc}$\\
+        $\delta_{comm}$     & constant   & The duration of a time slot reserved for communication    & $0 < \delta_{comm}$ \\
+        $\delta_{proc}$     & constant   & The duration of a time slot reserved for processing       & $0 < \delta_{proc}$ \\
         $t_0$               & constant  & The minimum time to determine if a network exists         & $3 \times \delta \leq t_0$ \\
         $x$                 & clock     & A clock used for timing\\
         \bottomrule
