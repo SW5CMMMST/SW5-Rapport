@@ -1,7 +1,7 @@
 set term pdfcairo enhanced size 5.00in, 3.00in 
 set output 'graph2.pdf'
 
-set ylabel 'Chance of every device receiving transmission'
+set ylabel 'Chance of query on Listing 9.2 being true'
 set xlabel 'Number of identical transmission per timeslot'
 set grid ytics lc rgb "#88607D8B" lt 1
 set tic scale 0
