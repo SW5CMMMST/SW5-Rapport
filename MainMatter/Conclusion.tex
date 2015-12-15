@@ -1,1 +1,19 @@
 \chapter{Conclusion}\label{cha:conclusion}
+
+The work in the project resulted in a protocol where each device takes turns to communicate in a cyclic manner with an empty slot where new devices can join.
+This is the main idea of the protocol.
+Other than that the protocol includes mesures to assure that the intended message was recieved regardless of ureliability.
+
+The protocol does not require more than one channel of transmission as all communication is done in turn.
+This is first part of the problem statement as stated in \myref{sec:problemStatement}.
+
+The second part is the \enquote{...in a reliable and time-critical way?}.
+This is a trade-off, you can increase the reliability by using more time to ensure that the messages are valid.
+This project focused on the reliability since much of the time aspect could be improved later on by optimizing on the protocol.
+
+The requirements will also vary from system to system so by allowing the user to determine the desired balance would satistfy this problem.
+
+This work could be a step towards making an easier way to setup local networks.
+For example imagine a world where when taking a device home the setup process would be as easy as powering it on.
+Then it would figure out what todo about the local network.
+This would not only be useful in home automation, but also in other systems such as the main protagonist of this paper; the fire alarm system.
