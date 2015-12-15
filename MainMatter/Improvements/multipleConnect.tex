@@ -24,7 +24,7 @@ If a device hears another announcement before it has sent its own in the chosen 
 However if a device announces it self and does not get validated by the network it will use exponential backoff to prevent further collisions as the most likely reason would be jamming.
 The following paragraphs will address the aforementioned concepts of random offset and sub slots as well as an altered payload which aims to decrease the length of the empty slot.
 
-\subsubsection*{Random Offset}\label{roff}
+\subsubsection{Random Offset}\label{roff}
 When a device is announcing itself in the empty slot, it randomly chooses an offset for when to send the announcement payload.
 The random offset is not defined by time but sub slots. 
 In the rest of the empty slot it listens for other possible devices announcing themselves.

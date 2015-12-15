@@ -109,6 +109,7 @@ The first query is the only query which was also used on the earlier model, and 
     imply (Device(j).Just_Received or i==j)))
 \end{lstlisting}
 
+\noindent
 \myref{fig:ConnectQueryTime} shows a graph of all the queries.
 As can be seen the change in probability for the new model approaches one as time increases, and appears to be a logarithmic growth.
 So according to UPPAAL the new model will eventually connect all the devices, however it might take some time for it to do so.
@@ -122,16 +123,16 @@ It it important to note that the longer the devices are running the greater the 
 \end{figure}
 
 \bigskip
+\noindent
 A comparison has been made for this model with the previous model in \myref{sec:themodel}, while allowing the devices to start at the same time.
 Query 4 can be run on both models, but on the older simpler model it will, when run with five devices, yield the result [0.0, 0.019], which means that it will probably never succeed.
 So a change to the models allow the devices to leave the initial location at any moment between 0 and 30000 UPPAAL time units, and different results occur; the devices will now sometimes have enough interval between activation so that a stable network will be created. 
 30 000 has been chosen as it leaves a big time period for devices tostart-up in, which means that a successful network will be created.
 The probability result is [0.75,0.77], if the start-up time was greater it would result in a higher probability.
 Therefore this shows that if the devices are started with an interval in the old model, there still is a reasonable success rate, but as soon as they start at the same time, it doesn't work. 
-
 The changes are the same for both models and can be seen on \myref{lst:startuptimeChanceListing}. 
 
-\begin{lstlisting}[style=UPPAAL, caption={Change in thestart-up time for devices.}, label={lst:startuptimeChanceListing}]
+\begin{lstlisting}[style=UPPAAL, caption={Change in thestart-up time for devices.}, label={lst:startuptimeChanceListing}, float=h]
 //Original
 int Start-up_Time = Initial_Wait_Time*2;
 
@@ -139,6 +140,7 @@ int Start-up_Time = Initial_Wait_Time*2;
 int Start-up_Time = Initial_Wait_Time*20;
 \end{lstlisting}
 
+\newpage
 \noindent
 The old model performs significantly worse that the new one, and will not always reach a stable correctly created network, and this is as mentioned only possible whenever there is a interval between activation of the devices.
 

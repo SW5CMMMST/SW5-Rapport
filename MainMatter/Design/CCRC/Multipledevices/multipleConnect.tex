@@ -67,7 +67,7 @@ Because the problem of multiple devices connecting simultaneously only exists du
 Therefore the following modification will focus on line 15-32 (both inclusive) from \myref{lst:setupCCRC}, which deals with what happens if a network is found.
 In the modified pseudocode some new variables and constants are introduced, these are presented and explained in \myref{tab:locals_wmulticonnect}.
 
-\begin{table}[ht]
+\begin{table}[H]
     {\setlength{\extrarowheight}{1ex}%
     \begin{tabularx}{\textwidth}{l|l|X|l}
         \toprule
@@ -80,14 +80,16 @@ In the modified pseudocode some new variables and constants are introduced, thes
         \bottomrule
     \end{tabularx}}
     \caption{Additional local variables every device has access to.}
-    \label{tab:locals_wmulticonnect}
+    \label{tab:locals_wmulticonnect} 
+    \vspace{-10pt}
 \end{table}
 
+\noindent
 The modified pseudocode is significantly more complex than the previous verison of the connecting phase.
 This is the case because of the two-step strategy previously discussed, which requires addition of several looping and conditional constructs.
 In \myref{lst:pseudoInitMulti} the 17 lines from \myref{lst:setupCCRC}, which concerned connecting, have been expanded to 54 lines of code. 
 
-\begin{algorithm}[ht]
+\begin{algorithm}[H]
 \caption{Modified section of initialise procedure for when network found.}
 \label{lst:pseudoInitMulti}
 \begin{algorithmic}[1]
