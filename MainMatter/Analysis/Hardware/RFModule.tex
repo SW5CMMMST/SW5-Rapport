@@ -1,18 +1,18 @@
 %author:        Troels
 %1st review:    Sass
 \section{Radio Frequency Module} \label{rfmodule}
-In order to achieve wireless communication between the devices a \gls{rf} module is used.
+To achieve wireless communication between the devices a \gls{rf} module is used.
 The module used in this project communicates at 433 MHz; its datasheet specifies the range is 20 to 200 meters, depending on the input voltage, which ranges from 3.5 to 12 volts. 
 The Arduino provides 3.3 volts and 5 volts output, and the 5 volts output will be used.
-The maximum bandwidth is 4 kilobytes/secound. 
+The largest bandwidth is 4 kilobytes/second. 
 The signal is sent using \gls{ask}, this will be further explained in \myref[name]{subsub:ask}.
 These values will be tested, to ensure the reliability of the information. 
 
 The \gls{rf} system consists of a \gls{tx} and a \gls{rx}, see \myref{fig:arduino_rf}.
-The \gls{tx} module have three connector pins.
+The \gls{tx} module has three connector pins.
 The pins are VCC, meaning the power supply pin, the GND meaning ground, and DATA.
 The DATA pin is turned on by having the same difference in voltage between GND and DATA as VCC and GND. 
-The \gls{rx} module has the same pins as the transmitting module, however the DATA pins is being read from instead of transmitted to.
+The \gls{rx} module has the same pins as the transmitting module, but the DATA pins are being read from instead of transmitted to.
 
 \begin{figure}[h] 
 \vspace{-5pt} 
@@ -25,26 +25,27 @@ The \gls{rx} module has the same pins as the transmitting module, however the DA
 \end{figure}
 
 \subsection{Antenna}
-It is possible to attach an antenna to both \gls{rf} modules. 
-The benefits of using an antenna is an improvement in both maximum distance and accuracy of transmissions.
+It is possible to attach an antenna to both \gls{rf}-modules. 
+The benefit of using an antenna is an improvement in both greatest distance and accuracy of transmissions.
 Attaching an antenna is done by soldering the antenna to the ANT port on both the receiver and the transmitter. 
 In \myref{fig:arduino_rf} these are visible; one in the upper left corner on the receiver and one in the upper right corner on the transmitter. 
 
-A wire acts like a monopole antenna, which works by acting like an open resonator for the signal, its length can greatly affect its effect. 
-Candidates for the length of this can be calculated based on the frequency of the signal, for the RF modules this is 433 MHz.
+A wire acts like a monopole antenna, which works by acting like an open resonator for the signal, its length can affect its effect. 
+Candidates for the length of this can be calculated based on the frequency of the signal.
+For the \gls{rf}-modules, this is 433 MHz.
 The formula for a quarter-monopole antenna is: 
 \begin{equation} \label{QMA}
 l = \frac{c}{f \times 4}
 \end{equation}
 where c is the speed of light, and f is the frequency of the wave.
-Similarly the formula for a half-monopole antenna is: 
+The formula for a half-monopole antenna is: 
 
 \begin{equation}
 l = \frac{c}{f \times 2}
 \end{equation}
 
 \noindent
-Using the frequency, 433 MHz, the quarter- and half-monopole antenna lengths are 17.3 cm and 34.6 cm respectively \cite{AntennaLength}.
+Using the frequency, 433 MHz, the quarter- and half-monopole antenna lengths are 17.3 cm and 34.6 cm  \cite{AntennaLength}.
 The efficiency of using such antennas will be tested in \myref[name]{cha:radio_frequency_module_reception_test}.
 
 \subsection{Amplitude Shift Keying}\label{subsub:ask}

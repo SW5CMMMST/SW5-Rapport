@@ -3,24 +3,24 @@
 % Review: Søren 21. 09.
 \subsection{The RadioHead Library}\label{subsubsec:RadioHead}
 
-In order to use the \gls{rf} modules with good results, some way of synchronising and encoding the transmissions can be used to reduce faults, like package loss.
+To use the \gls{rf}-modules with good results, some way of synchronising and encoding the transmissions can be used to reduce faults, like package loss.
 A library called RadioHead does exactly that, and this section explores how it works.
-The official specification and documentation of RadioHead can be found here \cite{2015ArduinoRadioHead}.
+The official specification and documentation of RadioHead can be found at the official site \cite{2015ArduinoRadioHead}.
 
-RadioHead transmits each message, using \gls{ask} as previously described in \myref[name]{subsub:ask}, in the following way:
+RadioHead transmits each message, using \gls{ask} as described in \myref[name]{subsub:ask}, in the following way:
 Each byte (8-bits) gets encoded as two 6-bit symbols, such that the 6-bit symbols will never contain more than three of the same signal in a row (high or low).
-This is to ensure that the receiver can decode the signal properly as it needs to differentiate the high and low signals.
-When a message for example the string \enquote{Hello}, several steps are taken, and they are as follows:
+This is to ensure that the receiver can decode the signal as it needs to differentiate the high and low signals.
+When a message, for example, the string \enquote{Hello}, several steps are taken, and they are as follows:
 
-First a preamble consisting of the the binary pattern \enquote{1010} six times. 
+First a preamble consisting of the binary pattern \enquote{1010} six times. 
 This is so the receiver can synchronise its timer to the timer of the sender, and the receiver can calibrate its sensors to the high and low value of the message.
 Then the pattern \enquote{111000} once, and then \enquote{101100}, and then the start symbol \enquote{101100111000}. 
 This is the start code of the message. 
 
 Every four bit from now is encoded as the six bit encoding mentioned before.
-The next byte (effectively 12 bits) is the message length including itself and the check-sum bytes.
+The next byte (effectively 12 bits) is the message length including itself and the checksum bytes.
 Then the message \enquote{Hello}, this doesn't need to be terminated as the length is known, has the size 5 bytes $(5 \times 12\ bits/byte = 60\ bits)$.
-Then a check-sum is appended to the message to validate the integrity of the message, consisting of 24 bits after encoding.
+Then a checksum is appended to the message to validate the integrity of the message, consisting of 24 bits after encoding.
 
 \begin{table}[ht]
 	\centering
@@ -50,15 +50,15 @@ The recommended bit-rate for the transceiver is 2000 bit/sec, this means the mes
 \end{equation}
 
 \noindent%
-One thing to note is that when multiple transmissions are received at the same time, i.e. when two transmitters in proximity of eachother transmit at the same time, any receiver receiving both transmissions, will when using Radiohead not know that anything was transmitted.
-This means that it is not possible when using RadioHead to detect a collision of transmissions, since a collision will result in jamming the signal.
+One thing to note is that when multiple transmissions are received at the same time, i.e. when two transmitters within proximity of each other transmit at the same time, any receiver receiving both transmissions, will when using Radiohead not know that anything was transmitted.
+This means that it is not possible when using RadioHead to detect a collision of transmissions since a collision will result in jamming the signal.
 
 % Af: Troels 
 % D. 2015-09-17
 %Review Søren 21. 09.
 \paragraph{Timing} \hfill \\
 After calculating the contents of the package to be sent, the Arduino needs to write it to the \gls{rf} transmitter. 
-To time this the built in timer; \enquote*{timer1}, on the Arduino is used, to trigger an interrupt with a relatively high consistency.
+To time this the built in timer; \enquote*{timer1}, on the Arduino is used, to trigger an interrupt with a high consistency.
 Every eighth interrupt the signal is changed to the next bit and written via a digital pin. 
-On the receiving end, the signal is sampled eight times pr. period, if five or more of these eight is high then, it is declared a 0-bit, otherwise it is declared a 1-bit. % Dette er ikke en skrivefejl RH_ASK.cpp L. 619
+On the receiving end, the signal is sampled eight times pr. period, if five or more of these eight is high then, it is declared a 0-bit; otherwise, it is declared a 1-bit. % Dette er ikke en skrivefejl RH_ASK.cpp L. 619
 This is because the process of sending the signal inverts the value.
