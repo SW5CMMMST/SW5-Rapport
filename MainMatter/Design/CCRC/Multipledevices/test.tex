@@ -41,7 +41,7 @@ The simultaneous start-up of devices has also been implemented, where a device h
 This has simply been tested by having two identical Arduinos turn on at the same time by connecting their reset pins with a wire, and measuring the time it takes for them to connect to the same network.
 The time it took for the two devices to connect to the same network can be seen on \myref{graphConnectime}.
 From the data you can determine that the average time to connect to a network is 4458.8 ms with a minimum of 2733 ms and a maximum of 7862 ms.
-
+This time could be improved by implementing a method of avoidance, i.e. starting $c$ greater zero, thus the time before each device creates the first network is random as well, in addition to the recovery used by killing the network.
 
 \begin{table}[ht]
 \centering\scriptsize
