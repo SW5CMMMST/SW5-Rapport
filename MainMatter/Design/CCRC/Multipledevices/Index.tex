@@ -18,6 +18,7 @@ These properties of the exponential backoff can be expressed as follows:
      x \in [0, 2^c - 1] \text{ where } c \in \mathbb{N} \text{ and } {c \leq c_{max}}
 \end{equation}
 
+\noindent
 Where $x$ is the result, a randomly chosen value from the range, and $c$ is the number of attempts starting at 1. 
 The value $x$ can represent a number of frames or any other feasible time period.
 With this method a device will wait 0 to 1 time periods after the first failed action, 0 to 3 after the second, 0 to 7 after the third and so on. 

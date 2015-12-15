@@ -52,7 +52,7 @@ The strategy of using exponential backoff only applies if jamming occurs.
 On \myref{fig:pseudo_flowMultiConnect} it can be seen how method is merged into the existing flow chart (\myref{fig:psuedo_flowCCRC}) from \myref[name]{sub:setupCCRC}.
 The flow chart in \myref{fig:pseudo_flowMultiConnect} shows that if a device announces it self and does not get validated by the network, because the announcement was jammed, it will use exponential backoff to prevent further collisions.  
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering \footnotesize
     \input{Figures/TikZ/PsuedoFlowDiagramMULTI_CONNECT.tex}
     \caption{Revised flow diagram showing how a device acts during the Initialization phase}
@@ -67,7 +67,7 @@ Because the problem of multiple devices connecting simultaneously only exists du
 Therefore the following modification will focus on line 15-32 (both inclusive) from \myref{lst:setupCCRC}, which deals with what happens if a network is found.
 In the modified pseudocode some new variables and constants are introduced, these are presented and explained in \myref{tab:locals_wmulticonnect}.
 
-\begin{table}[h]
+\begin{table}[ht]
     {\setlength{\extrarowheight}{1ex}%
     \begin{tabularx}{\textwidth}{l|l|X|l}
         \toprule
@@ -87,7 +87,7 @@ The modified pseudocode is significantly more complex than the previous verison 
 This is the case because of the two-step strategy previously discussed, which requires addition of several looping and conditional constructs.
 In \myref{lst:pseudoInitMulti} the 17 lines from \myref{lst:setupCCRC}, which concerned connecting, have been expanded to 54 lines of code. 
 
-\begin{algorithm}[h]
+\begin{algorithm}[ht]
 \caption{Modified section of initialise procedure for when network found.}
 \label{lst:pseudoInitMulti}
 \begin{algorithmic}[1]

@@ -102,8 +102,8 @@ system Device;
 \label{fig:UPPAAL_Intitialization}
 \end{figure}
 
-\bigskip \noindent
-
+\newpage
+\noindent
 Firstly the devices will nondeterministically leave the initial stage, and start listening for a network.
 When they are done listening and have not found a network, they will create a network themselves, by firing the edge towards the \texttt{Connected\_To\_Network} location.
 The device will setup the initial values for the network, change its boolean \texttt{Connected} to true, this all happens in the function \texttt{create\_Network()}. 
@@ -153,6 +153,7 @@ The computer used for all the tests is a laptop with an Intel i3 processor with 
 \end{lstlisting}
 \end{minipage}
 
+\noindent
 When UPPAAL runs this query on the model it will return false.
 It is possible to ask UPPAAL for the trace for why the property was not true.
 This feature shows that it was not true because in the case that no device ever leaves the initial state. 
@@ -160,7 +161,7 @@ Then no device will ever be connected, making the query false.
 To counteract this an invariant has been added to the model as shown on \myref{UPPAALInvariant}.
 
 \begin{wrapfigure}[11]{r}{0.5\textwidth}
-  \includegraphics[width=0.5\textwidth]{Figures/Model/InvariantOnStartup.png} 
+  \includegraphics[width=0.5\textwidth]{Figures/Model/InvariantOnStartup.PNG} 
 \caption{Addition of an invariant on the initial location.}
 \label{UPPAALInvariant}
 \end{wrapfigure}
@@ -180,7 +181,7 @@ A global clock \texttt{startup} will be added, and a guard on the edge leaving t
 \begin{wrapfigure}[12]{r}{0.5\textwidth}
     \hspace{-10pt}
     \vspace{-10pt}
-  \includegraphics[width=0.5\textwidth]{Figures/Model/IntervalStartup.png} 
+  \includegraphics[width=0.5\textwidth]{Figures/Model/IntervalStartup.PNG} 
 \caption{The additions to the model to implement that a device will leave the initial location with a minimum interval equal to \texttt{Startup\_Time}.}
 \label{fig:OneStartUp}
 \end{wrapfigure}
