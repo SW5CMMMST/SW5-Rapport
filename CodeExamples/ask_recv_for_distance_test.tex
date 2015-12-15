@@ -1,0 +1,40 @@
+#include <RH_ASK.h>
+#include <SPI.h> // Not actualy used but needed to compile
+
+RH_ASK driver;
+int num = 0;
+
+void setup()
+{
+    pinMode(13, OUTPUT);
+    Serial.begin(9600);	// Test output
+    if (!driver.init())
+         Serial.println("init failed");
+    digitalWrite(13, HIGH);
+}
+
+void loop()
+{
+    uint8_t buf[RH_ASK_MAX_MESSAGE_LEN];
+    uint8_t buflen = sizeof(buf);
+
+    if (driver.recv(buf, &buflen)) // Non-blocking
+    {
+      int i;
+      if(containsCheck((char*) buf, "abcdefghijklmno"))
+        num++;
+      Serial.print(millis());
+      Serial.print("\t");
+      Serial.println(num);
+    }
+}
+ 
+//Starting from the first character of buf
+//check if buf string contains check string 
+bool containsCheck(const char* buf, const char* check){
+  for(int i = 0; i < strlen(check); i++)
+    if(buf[i] != check[i])
+      return 0;
+      
+  return 1;  
+}

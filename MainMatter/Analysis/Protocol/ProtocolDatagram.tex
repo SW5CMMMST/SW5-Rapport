@@ -1,0 +1,17 @@
+%original @ Marc
+\subsection{Protocol Data Transfer} %Working Title
+When developing a protocol for data transfer one must consider the importance of different aspects; evaluate what aspect is more important, such that if they conflict one has priority over the other.
+For the data transfer part of the protocol two primary aspects to consider are timely delivery and accurate delivery.
+Timely delivery refers to the idea of data being transferred with a consistently high transfer speed, whereas accurate delivery refers to assuring that all data arrives and is in order.
+These two aspects of data transfer conflict with each other.
+To ensure that the data is intact, will arrive, and is in order; the unit sending the data must ensure that the unit receiving data is available. 
+Furthermore the unit receiving must check that all data arrived and is ordered.
+This process is a time-constraint upon the data transfer process, and should the system heavily rely on meeting certain deadlines this time-constraint may be too expensive for the system to handle.
+
+%Two existing protocols that represent each of these aspects would be \textbf{User Datagram Protocol} (\textbf{UDP}) and \textbf{Transmission Control Protocol} (\textbf{TCP}).
+%TCP guarantees reliable, ordered and error-checked data transfer in its protocol.
+%This is done through first establishing that the connection is valid before sending data and then spending time letting the receiving unit recognise that all data is received.
+%The receiving unit knows this through flags and acknowledgement bits in the data packages.
+%UDP in contrast to TCP completely disregards certainty of delivery.
+%UDP provides no guarantee of data integrity, nor does it perform any sort of handshaking with the receiving unit prior to sending data.
+%As such UDP is provides no real reliability but instead lowers its latency, which in turn is better for timely delivery.
