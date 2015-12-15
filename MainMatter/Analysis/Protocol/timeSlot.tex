@@ -1,0 +1,44 @@
+%Author: Marc
+%Review: Søren
+\subsection{Frames}
+For the network to work all devices must adhere to the same protocol, part of this protocol using TDMA is to design the time slots and the frame.
+For the two cases in \myref{AddDev} a frame can have different designs.
+When the network pings, there are no requirements for the number of time slots other than at least one for each device in the network.
+For the case where the new device pings, the number of time slots must be at least one greater than the number of devices in the network such that a new device can append itself to the network in the free time slot.
+A new device will attempt to append itself to an empty slot.
+For a smaller network there is hardly need for more than one such open time slot, however for a larger network one might consider multiple open time slots spread out throughout the entire frame.
+This would ensure that for a network of significant size, the waiting period for appending to the network could be reduced, it might also reduce the risk of having multiple devices waiting to append itself to the network.
+At the beginning of each time slot some guard time is inserted, as described in \myref{TDMA}.
+
+\subsubsection{Time Slots}
+For the design of each time slot three possibilities have been thought of.
+\begin{itemize}
+    \item Static Time Slots
+    \item Uniform Dynamic Time Slots
+    \item Non-Uniform Dynamic Time Slots
+\end{itemize}
+First off the shared qualities between the three will be presented followed by their differences.
+A time slot will be divided into two phases, one phase in which the device appropriately transmits or listens for messages depending on the time slot and another phase in which there should be no communication allowing all devices time to do whatever computations the system may require.
+The phase in which the device either transmits or receives should for all devices be the worst of the worst case computation times for transmitting a message for all of the device in the network.
+
+\bigskip
+\noindent The three aforementioned design ideas determines how the size of this computation phase should be determined.
+The first idea, Static Time Slots, suggests that each time slot is statically defined no matter what computations or messages may have to be send.
+As a result this would mean very little overhead when a new device joins the network, as the specifics of its time slot are predetermined.
+This may work very well in a network where all devices have the same purpose and as such has the same requirements, such as a network of sensors simply transmitting their status.
+If the network is not of such behaviour it may cause a device to miss deadlines as a result of not having enough computation time causing it to perhaps only be ready every second frame.
+
+The second idea, Uniform Dynamic Time Slots, would solve this problem by being able to alter the time slots when a new device joins the network.
+When a new device joins the network, a worst case computation time for that device would be run, the combined time for computation phases for all time slots in the frame, should then exceed the new device's worst case computation time by a certain amount, so there is room for urgent computation. 
+In the case where there is enough time, a new slot with the same amount of time is added.
+If one wants to reduce the worst time transmission time, the computation time of all time slots should be reduced, since more computation time is added in the new time slot, even though it is not needed for the devices.
+In the case where there is not enough combined computation time for the new device, all the time slots would be redefined assuring that the combined time of the computation phases exceeds the worst case scenario by an arbitrarily predetermined amount of time.
+
+The third idea, Non-Uniform Dynamic Time Slots, is very similar to the second one, but with a small altercation.
+Rather than all time slots being of the same design, when a new device joined it would not require that all time slots be uniform, instead it would simply adjust its own time slot if there was a lack of computation time.
+For this there are two idea, either it would do as the aforementioned idea and simply check its worst case scenario against the combined computation time, this would lead to the shortest time slot and perhaps even deem that phase redundant in some time slots.
+The alternative is that it would simply make sure it had enough time to run a worst case scenario in its own frame.
+This may cause long time slots, but could also provide the possibility of receiving commands from other devices and execution those in their time slots.
+
+\bigskip
+\noindent Which idea is the best depends entirely on the requirements and limitations of the system, however Uniform Dynamic Time Slots is the most generally applicable solution as it always attempts to reduce the worst case transmission time.

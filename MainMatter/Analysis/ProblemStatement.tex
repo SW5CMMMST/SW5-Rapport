@@ -1,0 +1,34 @@
+\newpage
+\chapter{Problem Statement}\label{sec:problemStatement}
+
+\myref{Analysis} has sought to analyse and discover what devices to use for communicating via radio frequencies, and also how these work.
+The choice of device fell upon the Arduino, not because it has any clear advantages compared to any other Atmega based micro controller, but because they were easily obtainable for the project.
+They are cheap, and the University already had some available for the project.
+
+The Arduinos fitted with 433 MHz receivers and transmitters were tested, to show the accuracy of the RF modules fitted with different antennas over varying ranges. 
+The result showed that the modules are not 100\% reliable when communicating, which means that a protocol for communicating between multiple Arduinos will have to take this into account.
+Another test showed the speed of transmitting and receiving data depending on the size of the data, this information is critical for designing a protocol using TDMA.
+To use TDMA the information of the speed of transmission is needed to design the single timeslot. 
+With the information obtained throughout \myref{Analysis} a problem statement can be formulated.
+
+\bigskip
+
+{\addtolength{\leftskip}{10mm}\addtolength{\rightskip}{10mm}\noindent\hrulefill\it
+
+\noindent How can a peer-to-peer network of Arduino-like devices with radio transceivers of a single frequency communicate, such that any devices can send messages to any other device in the network even while not directly connected to every other device, in a reliable and time-critical way? 
+
+\noindent\hrulefill
+
+}
+
+\bigskip
+
+% Explaination and ending of section
+% One of such systems could be fire alarms.
+
+
+
+
+
+
+

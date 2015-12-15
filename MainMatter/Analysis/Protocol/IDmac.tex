@@ -1,0 +1,11 @@
+%Author: Marc
+%review: Søren
+To acquire unique IDs for each device in a network another possibility would be to look at MAC address'.
+These are unique identifiers assigned to the hardware device.
+The noticeable problem here is that it requires a unique ID for not just each device in the network, but for each device produced which is why standard MAC address' are six byte address' allowing for $2^{48}$ unique IDs.
+Considering a one byte ID size this only allows for 256 devices to be produced, which may well work on a development scale, but not on a market scale.
+As an alternative to installing a MAC address onto the hardware one could simulate this by hard-coding each Arduino to have a unique address.
+Should this work in reality the ID size would have to be significantly more than one byte to ensure each unit is unique, however for development of a protocol this would suffice and allow for solving alternative problems, without being hindered by unique IDs, which then in turn could be solved later as well.
+For this purpose EEPROM is used, which is memory where values are saved even when turned off.
+It is worth noticing that the simulation using EEPROM, can be manually changed by the user. 
+As a result one can work with this as an ID, and enlighten the user that should two or more devices have the same value stored in EEPROM, it can be changed by the user.

@@ -1,0 +1,5 @@
+void decodeStatus(uint8_t *status, uint8_t *ok, uint16_t *sync) {
+	                           // Bit masks
+	*ok   = status[0]          & 0x80;
+	*sync = *(uint16_t*)status & 0x7FFF;
+}
