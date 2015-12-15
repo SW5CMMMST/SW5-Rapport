@@ -59,9 +59,9 @@ When each Arduino starts it determines if there is a network in progress and joi
 If it cannot find a network then it should create its own network, so that others can join it. 
 The worst case time required to determine whether a network exists is roughly $3 \times \delta \leq t_0$ for the CCRC-problem, as determined in \myref[name]{sub:setupCCRC}, where $t_0$ is the maximum time. 
 This is referred to as \texttt{INIT\_WAIT} in the code and sets the limit for how long an Arduino listens before creating its own network. 
-In \myref{lst:ccrc:startup} the startup code is shown. 
+In \myref{lst:ccrc:startup} the start-up code is shown. 
 \begin{figure}
-\begin{lstlisting}[style=customc,caption={Startup, if a network is found join it, if not create one.},label={lst:ccrc:startup}]
+\begin{lstlisting}[style=customc,caption={Start-up, if a network is found join it, if not create one.},label={lst:ccrc:startup}]
 bool foundNetwork = false;
 while (getClock(&x) <= INIT_WAIT && !foundNetwork) {
     if (rx()) {

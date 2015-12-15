@@ -1,6 +1,6 @@
 %!TEX root = ../../../../master.tex
 \section{Testing on Arduino}\label{sec:ccrc_test}
-The solution for the Simultaneous Connect Problem described in \myref[name]{sec:simultaneous_connect} have been implemented on the Arduino platform along with the multiple startup.
+The solution for the Simultaneous Connect Problem described in \myref[name]{sec:simultaneous_connect} have been implemented on the Arduino platform along with the multiple start-up.
 This is to test if the protocol works in a real life scenario. 
 
 The code can be found on the CD attached in the back of the paper.
@@ -36,8 +36,8 @@ This is not really a problem in terms of correction, but it does impact the spee
 \label{tab:ccrc_test}
 \end{table}
 
-\subsection{Testing Simultaneous Startup of Arduinos}
-The simultaneous startup of devices has also been implemented, where a device has a chance of killing the network it has created if it is alone after the empty-slot.
+\subsection{Testing Simultaneous Start-up of Arduinos}
+The simultaneous start-up of devices has also been implemented, where a device has a chance of killing the network it has created if it is alone after the empty-slot.
 This has simply been tested by having two identical Arduinos turn on at the same time by connecting their reset pins with a wire, and measuring the time it takes for them to connect to the same network.
 The time it took for the two devices to connect to the same network can be seen on \myref{graphConnectime}.
 From the data you can determine that the average time to connect to a network is 4,458.8 ms. 
