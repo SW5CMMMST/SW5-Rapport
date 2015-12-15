@@ -1,46 +1,45 @@
 \chapter{Conclusion}\label{cha:conclusion}
 %ProblemStatement
 Throughout this paper, efforts to find a solution to the problem statement in \myref{sec:problemStatement} has been made.
-Which in short is to develop a protocol for multiple devices to communicate over a single radio frequency in a reliable and time-critical way, without jamming each other.
+In short the problem statement is to develop a protocol for multiple devices to communicate over a single radio frequency in a reliable and time-critical way, without jamming each other.
 In order to develop a protocol for this particular problem a choice in hardware was made, which was to use the Arduino.
 
 % Hardware
 Using the Arduino platform limits the hardware and computational options although as the protocol would require neither intense computation or powerful hardware; the Arduino platform proved to be a good fit for the purpose of this paper and the resources available.
-For real world applications unreliability is also a factor to consider and \gls{rf}-modules are no exception, furthermore as the problem statement states cost-efficiency, cheaper \gls{rf}-modules are chosen which in turn affects the quality.
+For real world applications unreliability is also a factor to consider and \gls{rf}-modules are no exception, furthermore as the problem statement states cost-efficiency, cheaper \gls{rf}-modules were chosen, which in turn affects the quality.
 
 % Problems: CCRC CCUC SCRC SCUC
 \bigskip \noindent
-The project group used graph theory to split the problem domain into four separate issues, in order to handle one sub-problem at a time, these are \acrfull{ccrc}, \acrfull{ccuc}, \acrfull{scrc}, and \acrfull{scuc}, which can all be further read about in \myref{chp:Problems}.
+Graph theory was used to split the problem domain into four separate issues, in order to handle one sub-problem at a time, these were \acrfull{ccrc}, \acrfull{ccuc}, \acrfull{scrc}, and \acrfull{scuc}, which can all be further read about in \myref{chp:Problems}.
 
-% TDMA
-The design of the protocol is based on the concept \acrfull{tdma}.
-Which is the state-of-the-art protocol for single-frequency multiple device communication.
-
-% CCRC
-UPPAAL was used to check if the protocol uphold different statements and queries.
+% TDMA  
+The design of the protocol is based on the concept of \acrfull{tdma}, which is the de facto standard protocol for single-frequency multiple device communication.
+UPPAAL was used to check if the protocol upheld different statements through queries.
 The first protocol successfully arranged all devices into a network, where no two devices would transmit at the same time, thus causing no jamming.
 
 % Multistartup & Results UPPAAL
 The first design intended for \acrshort{ccrc} did not handle the activation of multiple devices at the same time, as shown by UPPAAL.
-The project group split the multiple device activation problem into two sub-problems: \myref[name]{sec:MSI-CCRC} and \myref[name]{sec:simultaneous_connect}.
+The multiple device activation was split problem into two sub-problems: \myref[name]{sec:MSI-CCRC} and \myref[name]{sec:simultaneous_connect}.
 This was not in the original plan, and the time it took to design and implement this was underestimated, which caused time-constraints in the end.
 
 % Results Implementation
 The protocol was implemented to work on the Arduinos and a test showed that if one Arduino had made a network, and three other Arduinos were turned on at the same time, a network was successfully created.
-The part of the protocol from \myref[name]{sec:MSI-CCRC} has not been implemented, but it has been shown by UPPAAL that the protocol works as intended.
+It was also tested if two Arduinos turned on at the same time, they would eventually connect to the same network, which was also the case.
+The test data can be found in \myref{sec:ccrc_test}.
 
 % Design CCUC
+\bigskip \noindent
 For the \acrshort{ccuc}-protocol not much had to change for it to still work properly.
-It was discovered using UPPAAL that it was only creating and connecting the network, which causes problems in \acrshort{ccuc}, when a network was created, the protocol still had a high probability of success.
-It was chosen that transmitting twice every time a transmission should be transmitted could increase this probability.
-UPPAAL was used to check this hypothesis, and it showed that this was actually the case, as can be seen in \myref[name]{sec:uppaalccuc}.
+Using UPPAAL it was discovered that it was only creating and connecting the network which caused problems for \acrshort{ccuc}, once a network was created the protocol still had a high probability of success.
+Based on conditional probability theory it was hypothesised that transmitting every payload twice could increase this probability.
+UPPAAL was used to check this hypothesis, and it showed that this indeed was the case, as can be seen in \myref[name]{sec:uppaalccuc}.
 % Results UPPAAL
 
 % Optimisations
 %   Delete, Multi-Subslots
 % Time-constraints -> Not made all of the design
-Further optimisations to the protocol were designed in \myref[name]{mortenStuff}, but were not implemented, due to time-constraints posed by the unforseen time it took to develop multiple startup of devices.
-These included a way to remove \enquote{dead} devices, and defragmenting the frame to make the frame length the smallest possible.
+Further improvements for the protocol were designed in \myref[name]{mortenStuff}, but were not implemented due to time-constraints posed by the unforeseen time it took to solve problems posed by multiple device activation.
+The improvements included a way to remove \enquote{dead} devices and defragmenting the frame.
 
 % If more time Future works.
 \bigskip \noindent
