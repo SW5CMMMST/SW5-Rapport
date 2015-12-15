@@ -1,6 +1,5 @@
 %!TEX root = ../../../../master.tex
 \section{Testing on Arduino}\label{sec:ccrc_test}
-\todo[inline]{Har ingen ide om hvad der skal ske i denne section - Troels}
 The solution for the Simultaneous Connect Problem described in \myref[name]{sec:simultaneous_connect} have been implemented on the Arduino platform.
 This is to test if the protocol works in a real life scenario. 
 
@@ -24,7 +23,7 @@ The \myref[name]{sec:simultaneous_connect} which was confirmed to be working in 
 The test also suffers from the fact that the Arduinos do have a chance to miss transmissions, which might result in the devices not being verified to join, and going into backoff without being jammed by another device.
 This is not really a problem in terms of correction, but it does impact the speed of the network.
 
-\begin{table}[h]
+\begin{table}[ht]
 \centering
 \begin{tabular}{lllll}
                             & Device 0                  & Device 1                   & Device 2                   & Device 3                   \\ \cline{2-5} 

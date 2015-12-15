@@ -6,7 +6,7 @@ Instead one can estimate a percentage chance a property holds, within a given pr
 
 %UPPAAL SMC Explanation
 \subsection{UPPAAL SMC}\label{subsec:uppaalsmc}
-\begin{wrapfigure}[18]{r}{0.3\textwidth}
+\begin{wrapfigure}{r}{0.3\textwidth}
 \centering
   \includegraphics[width=0.3\textwidth]{Figures/Model/Simple_SMC.pdf} 
 \caption{A simple UPPAAL SMC model with weighted edges. }
@@ -41,11 +41,12 @@ If two or more devices transmit at the same time, i.e. a jam, then none of the r
 \paragraph{Multiple Startup.}
 In the previous model presented in \myref[name]{sec:themodel} only one device was able to start at a time, as there was nothing to handle multiple starting at the same time.
 
-\begin{wrapfigure}[21]{r}{0.5\textwidth}
+\begin{wrapfigure}{r}{0.5\textwidth}
     \centering
-    \includegraphics[width=0.5\textwidth]{Figures/Model/Screenshot_Of_Kill.png} 
+    \includegraphics[width=0.5\textwidth]{Figures/Model/Screenshot_Of_Kill.PNG} 
     \caption{Graph showing the split node after not receiving, where there is a chance for the device to start over and kill the network.}
-    \label{fig:Screenshot_Of_Kill}
+    \label{fig:Screenshot_Of_Kill} 
+    \vspace{10pt}
 \end{wrapfigure}
 
 This limitation will be removed in this model.
@@ -138,7 +139,7 @@ int Startup_Time = Initial_Wait_Time*2;
 int Startup_Time = Initial_Wait_Time*20;
 \end{lstlisting}
 
-
+\noindent
 The old model performs significantly worse that the new one, and will not always reach a stable correctly created network, and this is as mentioned only possible whenever there is a interval between activation of the devices.
 
 Starting each device separately with a time interval causes an increase in speed for the new model, and ensures that the old model will succeed in some cases, therefore the new model has also been changed for the sake of this comparison. 
@@ -147,7 +148,7 @@ The old model has a cut-off point at $30 000$ UPPAAL time units, this
 
 \begin{figure}[ht]
   \includegraphics[width=1\textwidth]{Figures/Graphs/gnuplot/uppaal_Compare/graph.pdf} 
-\caption{Graph of the query number 4, with five devices, for both the old and the new model so their successrate and speed can be compared.}
+\caption{Graph of the query number 4, with five devices, for both the old and the new model so their success rate and speed can be compared.}
 \label{CompareGraph}
 \end{figure}
 

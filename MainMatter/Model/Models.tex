@@ -2,16 +2,16 @@
 \subsection{UPPAAL Models}\label{UPPAAL_Models}
 This section will specify what a UPPAAL model consists of, how it is constructed and how it works.
 
+\bigskip\noindent%
 A UPPAAL model consists of one or more templates, which are timed automata, all templates can have local code, while it is also possible to create global code available to all templates, which are simply called declarations in the UPPAAL GUI.
 Both the global and the local code, which is written in a language made for UPPAAL, can have variables and functions which can be called by instances of their respective templates.
+
 The UPPAAL modelling language has certain special types like \texttt{clock} and \texttt{channels}.
 A clock is what makes the automatas timed, and is a variable which can consist of natural numbers, it is continuously incremented to indicate that time is passing.
 A channel is used to synchronise instances of templates so edges fire at the same time.
 Instances of the templates are created in system declarations, which is used to setup the system for testing.
 The templates all have an initial location like other automatas.
 All locations and edges can have certain properties to control the transitions in the automata which is how the model for the protocol can be checked.
-
-\bigskip\noindent
 The properties of a locations are the following: 
 
 \begin{description}[labelindent=\parindent]
