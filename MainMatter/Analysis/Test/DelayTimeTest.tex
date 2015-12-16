@@ -1,16 +1,16 @@
 \subsection{RadioHead Time Sent Test} % (fold)
 \label{sub:radiohead_time_sent_test}
-The purpose of this test is to determine how long it takes to send a message of a given length.
-This information is useful at later points during a real-time analysis.\todo{a waht - SF}
-The result is therefore a formulae which given the message length outputs the time it takes to send said message. 
+The purpose of this test is to determine how long it takes to transmit a payload of a given length.
+This information is useful at later points during the design and implementation phase. 
+The result is therefore a formulae which given the payload length outputs the time it takes to transmit said payload. 
 
 \subsubsection*{Theory}
-As described in \myref[name]{subsubsec:RadioHead} there is an overhead of 104 bits for each message, along with the 4-to-6 bit conversion.
-The bit-rate is 2000 bits pr. second, which gives the theoretical minimum time it takes to send a message:
+As described in \myref[name]{subsubsec:RadioHead} there is an overhead of 104 bits for each payload, along with the 4-to-6 bit conversion.
+The bit-rate is 2000 bits pr. second, which gives the theoretical minimum time it takes to transmit a payload:
 \begin{align*}
 t(n,c)=c+\frac { 104 bit+n*\frac { 6 }{ 4 } *\frac { 8 bit }{ 1 byte }  }{ 2000\frac { bit }{ second }  } 
 \end{align*}
-Where \textit{n} is the length of the message in bytes, \textit{c} is some constant in seconds which is the processing of the message. This equation could result in the following examples:
+Where \textit{n} is the length of the payload in bytes, \textit{c} is some constant in seconds which is the processing of the payload. This equation could result in the following examples:
 \begin{align*}
 t(10 byte, 0.01 second) = 0.122 second\\
 t(20 byte, 0.01 second) = 0.182 second\\
@@ -20,11 +20,11 @@ t(40 byte, 0.01 second) = 0.302 second
 
 \subsubsection*{Test Setup}
 The hardware setup used in this test is the same as the one used in the test presented in \myref[name]{cha:radio_frequency_module_reception_test}.
-However this test was only performed at the distance of 1 metre, but this should not affect the time it takes to send a message, as this is determined by the timer on the Arduino.
+However this test was only performed at the distance of 1 metre, but this should not affect the time it takes to transmit a payload, as this is determined by the timer on the Arduino.
 
 The software used on the Arduinos for this test was different than the other test in \myref[name]{cha:radio_frequency_module_reception_test}. 
 The full source code is in \myref{app:t2receiver} and \myref{app:t2transmitter}.
-In the software the message lengths of 1 to 60 bytes was set as the range to be tested. This can be seen in a fragment of the transmitter code in \myref{lst:transtestcore}.
+In the software the payload lengths of 1 to 60 bytes was set as the range to be tested. This can be seen in a fragment of the transmitter code in \myref{lst:transtestcore}.
 
 \begin{lstlisting}[style=customc,float,floatplacement=!h,caption={The core of the transmitter code.},label={lst:transtestcore}]
 void loop() {
@@ -35,16 +35,16 @@ void loop() {
 }
 \end{lstlisting}
 
-The transmitter will send a message of length \texttt{len}, wait 100 milliseconds, then send a message of length \texttt{len + 1}, and redefine \texttt{len} to \texttt{len + 1}.
+The transmitter will transmit a payload of length \texttt{len}, wait 100 milliseconds, then transmit a payload of length \texttt{len + 1}, and redefine \texttt{len} to \texttt{len + 1}.
 If \texttt{len} is 60 then the next value will be 1. 
-There is placed a delay, of 100 milliseconds, in the end of the loop so the receiver has some time to process the received message; this will have to be subtracted when processing the test results.
+There is placed a delay, of 100 milliseconds, in the end of the loop so the receiver has some time to process the received payload; this will have to be subtracted when processing the test results.
 Code for the receiver can be seen in \myref{lst:recvtestcore}.
 The \texttt{millis} function returns the time in milliseconds since the Arduino was powered on. 
 This code prints the length of a package received and the time, in milliseconds, since the last package was received.
 
 \begin{lstlisting}[style=customc,float,floatplacement=!h,caption={The core of the receiver code.},label={lst:recvtestcore}]
 void loop() {
-  uint8_t buf[RH_ASK_MAX_MESSAGE_LEN];
+  uint8_t buf[RH_ASK_MAX_payload_LEN];
   uint8_t buflen = sizeof(buf);
 
   if (driver.recv(buf, &buflen)) { // Non-blocking
@@ -63,15 +63,15 @@ These results are gathered over 800 data points, so each point is the worst-case
 In this plot the 100 milliseconds delay as seen in the transmitter code has not been removed.
 The worst-case value for 1 byte is 171 milliseconds, and for 60 bytes it its 526 milliseconds. 
 Linear regression was performed on the data collected which yielded the formulae $f(x)=6.0101 * x + 165.7826$ with $R^2 = 1$. 
-The time it takes to send a message of length x bytes is therefore $f(x)=6.0101 * x + 65.7826$, when the 100 millisecond delay is removed.
+The time it takes to transmit a payload of length x bytes is therefore $f(x)=6.0101 * x + 65.7826$, when the 100 millisecond delay is removed.
 
 \subsubsection*{Conclusion}
-This test shows that minimising the message length has a linear impact on the time it takes to send a message. 
-Furthermore the time it takes to send such a message can be estimated in milliseconds, using the formulae: 
+This test shows that minimising the payload length has a linear impact on the time it takes to transmit a payload. 
+Furthermore the time it takes to transmit such a payload can be estimated in milliseconds, using the formulae: 
 \begin{equation}
 f(x)=6.0101 \times x + 65.7826 
 \label{eq:timeToSendFormular}   
 \end{equation}
-where x is the length of the message in bytes. 
+where x is the length of the payload in bytes. 
 This result will impact the timing of the system as a whole.  
 % chapter radiohead_time_sent_test (end)  

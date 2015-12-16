@@ -18,43 +18,41 @@ Many receivers can receive the same message, therefore all receivers can be test
 We have tested with distances from 2 metres to 28 metres, except for the test with a 0 cm antenna on the transmitter where a high package loss was occurring even at ranges of 14 metres. 
 
 The transmitter was placed on a table 1 meter above the ground.
-A graphical circuit diagram of an Arduino fitted with a transmitter can be seen on \myref{fig:Transmitter}.
-As is shown on the figure an LED was also connected to the Arduino.
-This LED was used as a visual aid blinking every time a package was sent, this has no real influence on the test and was used as a convenience for those who tested.
+The LED connected to the Arduino was used as a visual aid blinking every time a package was sent
+This has no real influence on the test and was used as a convenience for those who tested.
 
 The receivers were placed on a table 1 meter above the ground, each 15 cm away from the others.
-A graphical circuit diagram of this setup can be seen on \myref{fig:Receiver}.
-An LED was applied to the receivers, blinking whenever a package was received.
+The LED on those devices was set to blink whenever a package was received.
 
 First the transmitters and receivers were 2 meters from each other then a test with 100 packets containing 16 bytes was sent, the contents of a single message was the index of the packages being sent. 
 The receivers counted the messages received and wrote the final result to the computer over USB. 
 This was repeated every 2 metres. 
 The code run on the Arduinos can be found in \myref{app:PkgLossRxCode} and \myref{app:PkgLossTxCode}.  
 
-\begin{figure}[p]
-\centering
-\includegraphics[width=\linewidth]{Figures/Fritzing/Transmitter.pdf} 
-\caption{Graphical circuit diagram of an Arduino with a transmitter.}
-\label{fig:Transmitter}   
-\end{figure}
+% \begin{figure}[p]
+% \centering
+% \includegraphics[width=\linewidth]{Figures/Fritzing/Transmitter.pdf} 
+% \caption{Graphical circuit diagram of an Arduino with a transmitter.}
+% \label{fig:Transmitter}   
+% \end{figure}
 
-\begin{figure}[p]
-\centering
-\includegraphics[width=\linewidth]{Figures/Fritzing/Receiver.pdf} 
-\caption{Graphical circuit diagram of an Arduino with a receiver.}
-\label{fig:Receiver}   
-\end{figure}
+% \begin{figure}[p]
+% \centering
+% \includegraphics[width=\linewidth]{Figures/Fritzing/Receiver.pdf} 
+% \caption{Graphical circuit diagram of an Arduino with a receiver.}
+% \label{fig:Receiver}   
+% \end{figure}
 
 \subsubsection*{Results}
 The results of the test have been plotted in three separate graphs, this approach has been chosen so that it is easier to focus on the difference in antenna length on the receiving end.
 \figur{Graphs/0cm_ant.pdf}{0.9}{Package loss percentage at different distances with no antenna on the transmitter.}{0cm_ant}
 \figur{Graphs/12cm_ant.pdf}{0.9}{Package loss percentage at different distances with 12 cm antenna on the transmitter.}{12cm_ant}
 \figur{Graphs/17cm_ant.pdf}{0.9}{Package loss percentage at different distances with 17.3 cm antenna on the transmitter.}{17cm_ant}
-\todo{ what is caption placement even?? -SF}
+
 
 \subsubsection*{Analysis}
 Across all three graphs, the plots representing the receiver with an antenna length of 17.3 cm shows the lowest package loss. 
-The only place where the results are different \todo{Forstår ikke lige den sætning, skal der står difficult her istedet eller hvad ? -sf } to distinguish from each other is in the graph where the transmitter has an antenna length of 17.3 cm (see \myref{fig:17cm_ant}); here all the different lengths of receiver antennas demonstrates a low package loss percentage compared to the other graphs.
+The only place where the results are difficult to distinguish from each other is in the graph where the transmitter has an antenna length of 17.3 cm (see \myref{fig:17cm_ant}); here all the different lengths of receiver antennas demonstrates a low package loss percentage compared to the other graphs.
 This could show that the transmitter and its antenna has a significant impact on the reliability of the transmission of data.
 In fact, the package loss of the receiver not fitted with any external antenna is indistinguishable from the receiver with 17.3 cm external antenna.
 
@@ -95,7 +93,7 @@ For the rest of this paper, it is assumed that whenever a transmission is not re
 But external factors can still play a role and cause package loss, this will be ignored.
 
 \subsubsection*{Sources of error}
-There are many possible source of error within the test with antenna lengths, which all needs to be considered in order to conclude upon the results.
+There are many possible source of error within the test with antenna lengths, which all needs to be considered to conclude upon the results.
 The most significant and the ones that are most likely to occur are as follows:
 \begin{description}[labelindent=\parindent]
     \item[Objects placed in the way of the signal] \hfill \\

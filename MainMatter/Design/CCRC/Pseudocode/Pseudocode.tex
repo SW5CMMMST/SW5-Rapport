@@ -54,10 +54,7 @@ It then returns true if a message was received; otherwise false.
                     
 \subsection{Main Loop} % (fold)
 \label{sub:general_case}
-
-During the lifetime of the devices, they should spend most of their time in this loop or in the user code\todo{User code is part of the loop? - Troels}. 
-This code determines whose turn it is, synchronises devices, and handles communication.
-
+This code determines whose turn it is, synchronises devices, handles communication, and executes user-code.
 As seen in \myref{fig:main_psuedo_flow} the flow of the code is a straightforward loop with a few logical checks. 
 \enquote{Make payload} and \enquote{Process message} are the only complicated processes. 
 \enquote{Make payload} collects the known data into a package, that is ready to send. 

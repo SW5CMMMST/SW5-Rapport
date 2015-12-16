@@ -1,12 +1,7 @@
 %Author; Marc 
 \section{Protocol}
 The design and development of a protocol is based on its purpose.
-For the protocol documented in this paper, the primary objective is to create a \acrlong{ccrc} network of Arduinos i.e. a network of Arduinos able to communicate with an arbitrary number of devices and allowing devices to join or leave. \todo{Vi skriver leave her, er det med henblik på device removal? eller skal det fjernes herfra? - Troels}
-
+For the protocol documented in this paper, the primary objective is to create a \acrlong{ccrc} network of Arduinos i.e. a network of Arduinos able to communicate with an arbitrary number of devices and allowing devices to join.
 The protocol should be general in purpose, with the possibles of using it for different use cases.
 This should be achieved by designing the protocol as a library and thus allowing user-code for the specific use cases.
 The design of the protocol will be described top-down, so the first element designed will be the frame, thereafter the time-slots, which a frame consists of and finally the payload which is transmitted in the time-slots. 
-
-At this point in the development of the protocol it is assumed that no two devices will start within a critical period of time (i.e. a multiple of the time it takes to send a message).
-To make sure that only one device will attempt to create a network at the same time, and only one device will attempt to connect to an existing network at the same time. 
-\todo{modstrider dette ikke med vores 'historie' i 6.1.3/6.1.4? MP}

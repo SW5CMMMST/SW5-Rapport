@@ -8,7 +8,7 @@ A library named RadioHead does exactly that, and this section explores how it wo
 The official specification and documentation of RadioHead can be found at the official site \cite{2015ArduinoRadioHead}.
 
 RadioHead transmits each message, using \gls{ask} as described in \myref[name]{subsub:ask}, in the following way:
-Each byte (8-bits) is encoded as two 6-bit symbols, such that the 6-bit symbols will never contain more than three of the same signal in a row (high or low).\todo{burde vi overveje et eksempel på hvordan 8 bit bliver til 2x6? - M}
+Each byte (8-bits) is encoded as two 6-bit symbols, such that the 6-bit symbols will never contain more than three of the same signal in a row (high or low).
 This is to ensure that the receiver can decode the signal as it needs to differentiate the high and low signals.
 When a message like the string \enquote{Hello} is to be transmitted several steps are taken and they are as follows:
 
@@ -24,24 +24,22 @@ Then a checksum is appended to the message to validate the integrity of the mess
 
 \begin{table}[ht]
 	\centering
-	\colorlet{shadecolor}{gray!20}
-	\rowcolors{1}{white}{shadecolor}
+	\rowcolors{2}{GoogleBlueGrey!50}{white}
+	\begin{tabularx}{\textwidth}{l X l r}
+	Name & Purpose & Content & Size [bit] \\\midrule
+	Preamble pt. 1 & Synchronisation & \enquote{1010} * 6 & 24 \\
+	Preamble pt. 2 & Syncronization & \enquote{111000} & 6 \\
+	Preamble pt. 3 & Syncronization & \enquote{101100} & 6 \\
+	Start symbol & Indicate start of transmission & \enquote{101100111000} & 12 \\
+	Message length & Indicate the length of the message & 4to6(\enquote{01101000}) & 12 \\
+	Message & The payload & 4to6(\enquote{Hello}) & 60 \\
+	Checksum & To verify the integrity & 4to6(\enquote{???}) & 12 \\
+	\end{tabularx}
 	\caption{A table view of the content of transmitting \enquote{Hello} with RadioHead.}
 	\label{table:RH}
-	\resizebox{\textwidth}{!}{
-		\begin{tabular}{lllll}
-			Name           & Purpose                               & Content                  & Size {[}bit{]} \\ \hline
-			Preamble pt. 1 & Syncronization                        & \enquote{1010} * 6       & 24             \\
-			Preamble pt. 2 & Syncronization                        & \enquote{111000}         & 6              \\
-			Preamble pt. 3 & Syncronization                        & \enquote{101100}         & 6              \\
-			Start symbol   & Indicate start of transmission        & \enquote{101100111000}   & 12             \\
-			Message length & To indicate the length of the message & 4to6(\enquote{01101000}) & 12             \\
-			Message        & The payload                           & 4to6(\enquote{Hello})    & 60             \\
-			Checksum       & To verify the integrity               & 4to6(\enquote{???})      & 12             \\		
-		\end{tabular}
-	}
 \end{table}
-\todo{nogen grund til at caption er i toppen? ellers burde den nok stå under som på de andre tables. MP}
+
+\noindent
 This brings the total size of the packet to 144 bit, while the message is 5 bytes or 40 bits.
 The recommended bit-rate for the transceiver is 2000 bit/sec, this means the message will take at least:
 
@@ -51,8 +49,8 @@ The recommended bit-rate for the transceiver is 2000 bit/sec, this means the mes
 
 \noindent%
 One thing to note is that when multiple transmissions are received at the same time, i.e. when two transmitters within proximity of each other transmit at the same time, any receiver receiving both transmissions, will when using Radiohead not know that anything was transmitted.
-This means that it is not possible when using RadioHead to detect a collision of transmissions since a collision will result in jamming the signal.
-\todo{allerede beskrevet i TDMA. MP - Ved ikke om det decideret er beskrevet der, det er mere koncepterne, andre typer devices kan godt opdage et collision, men der menes her at man med radiohead ikke kan opdage at der er sket et collision. - SF}
+This means that it is not possible when using RadioHead with our \gls{rf} to detect a collision of transmissions since a collision will result in jamming the signal.
+
 % Af: Troels 
 % D. 2015-09-17
 %Review Søren 21. 09.

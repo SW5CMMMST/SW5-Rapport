@@ -6,7 +6,7 @@ When programming for the Arduino it is possible to use the Arduino IDE developed
 This IDE uses a specific version of the GCC compiler which targets the AVR microcontrollers.
 The C or C++ code is first checked for errors and compiled to object code, which is then linked with the standard Arduino libraries and any custom libraries.
 The linked object code is then compiled to a single Intel Hex file, which is loaded onto the Arduino using the bootloader already situated on the microcontroller.
-A USB to serial converter is also implemented on most of the Arduino boards since it is through the serial connection that the microcontroller communicates. \todo{for debugging and stuff, right? MP}
+A USB to serial converter is also implemented on most of the Arduino boards since it is through the serial connection that the microcontroller communicates e.g. debugging.
 This toolchain is also shown on \myref{fig:arduino_flow}. 
 See \cite{2015ArduinoToolchain} for more information about the Arduino Toolchain.
 
@@ -16,8 +16,7 @@ See \cite{2015ArduinoToolchain} for more information about the Arduino Toolchain
 To show how to upload code to an Arduino some screenshots of the Arduino IDE have been taken.
 To upload any code to the Arduino the kind of Arduino being used has to be specified; how to do this can be seen on \myref{fig:choose_arduino}.
 
-The USB-hub where the Arudino is plugged in must be specified, a screenshot of this can be seen on figure \myref{fig:choose_port}.\todo{Er det meningen refs swapper mellem 
-on the following' og 'on the next' ? -SF}
+The USB-hub where the Arudino is plugged in must be specified, a screenshot of this can be seen on figure \myref{fig:choose_port}.
 
 When the code is ready to be uploaded to the Arduino a simple press of the arrow in the top of the IDE will upload and run the code as can be seen on \myref{fig:serial_monitor}. 
 The code being run in this screenshot is a simple program which turns on an LED on pin 13 of the Arduino with a varying delay, which is also printed to the serial monitor.
@@ -32,7 +31,6 @@ It is also possible to code in other languages for the Arduino as long as a comp
 NanoVM is an implementation of some of the Java virtual machine for the AVR processor, it does not contain all its features because of the limited resources the microcontrollers possess. 
 According to the creator, see \cite{NanoVM}, NanoVM will never contain all the features of the JVM, and C is still a much more powerful language when working with microcontrollers. 
 
-Thus Arduinos own IDE is the one used for the development of the protocol.\todo{er NanoVM da sin egen IDE? Det var slet ikke klart - M}
 
 \begin{figure}[!ht]
     \begin{subfigure}{0.47\linewidth}
