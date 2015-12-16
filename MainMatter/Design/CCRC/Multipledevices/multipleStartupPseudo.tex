@@ -52,7 +52,7 @@ Note that this no longer denotes the minimum time required to find a network, as
         Name                & Type       & Description & Constraint \\
         \midrule
         $c$                 & integer    & Number of attempts of creating a network, but capped at 5                         & $0 \leq c \leq 5$     \\
-        $t_1$               & integer    & The time spent searching for a network                                            & $t_1 = 3 \times \delta + id^c \times \delta$     \\
+        $t_1$               & integer    & The time spent searching for a network                                            & $t_1 = 3 \times \delta + 2^c \times \delta$     \\
         $kill_{chance}$     & percentage & The chance of a device killing it self                                            & $kill_{chance} = 5\%$  \\
         \bottomrule
     \end{tabularx}}
