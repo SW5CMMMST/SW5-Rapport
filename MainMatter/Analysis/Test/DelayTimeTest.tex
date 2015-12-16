@@ -1,8 +1,8 @@
 \subsection{RadioHead Time Sent Test} % (fold)
 \label{sub:radiohead_time_sent_test}
 The purpose of this test is to determine how long it takes to send a message of a given length.
-This information is useful at later points during a real-time analysis.
-The result is therefor a formulae which given the message length outputs the time it takes to send said message. 
+This information is useful at later points during a real-time analysis.\todo{a waht - SF}
+The result is therefore a formulae which given the message length outputs the time it takes to send said message. 
 
 \subsubsection*{Theory}
 As described in \myref[name]{subsubsec:RadioHead} there is an overhead of 104 bits for each message, along with the 4-to-6 bit conversion.
@@ -60,10 +60,10 @@ void loop() {
 \subsubsection*{Results}
 \figur{Graphs/time_length.pdf}{0.9}{Result of running the test.}{time_length}
 These results are gathered over 800 data points, so each point is the worst-case of at least 10 samples. 
-In this plot the 100 milliseconds delay as seen in the transmitter code is present.
+In this plot the 100 milliseconds delay as seen in the transmitter code has not been removed.
 The worst-case value for 1 byte is 171 milliseconds, and for 60 bytes it its 526 milliseconds. 
 Linear regression was performed on the data collected which yielded the formulae $f(x)=6.0101 * x + 165.7826$ with $R^2 = 1$. 
-The time it takes so send a message of length x bytes is therefore $f(x)=6.0101 * x + 65.7826$, when the 100 millisecond delay is removed.
+The time it takes to send a message of length x bytes is therefore $f(x)=6.0101 * x + 65.7826$, when the 100 millisecond delay is removed.
 
 \subsubsection*{Conclusion}
 This test shows that minimising the message length has a linear impact on the time it takes to send a message. 

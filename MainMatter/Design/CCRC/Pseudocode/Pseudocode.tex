@@ -33,13 +33,13 @@ This should ensure that no jam should occur.
 \begin{table}[H]
 	\centering
 	$\begin{array}{l l l}
-        (a)$For all $ & d_a, d_b \in Network $ we have $ & d_a.k = d_b.k  $ iff $ d_a=d_b\\
-		(b)$For all $ & d_a, d_b \in Network $ we have $ & d_a.n = d_b.n \\
-		(c)$For all $ & d_a, d_b \in Network $ we have $ & d_a.i = d_b.i \\[1ex]
-		(d)$For all $ & d \in Network $ we have $ & d.k \neq n \\[1ex]
-		(e)$For all $ & k \in \mathbb{N}_{<n} $ we have $ & \exists!\ d \in Network $ we have $ d.k = k 
+        (a) $For all $ & d_a, d_b \in Network $ we have $ & d_a.k = d_b.k  $ iff $ d_a=d_b\\
+		(b) $For all $ & d_a, d_b \in Network $ we have $ & d_a.n = d_b.n \\
+		(c) $For all $ & d_a, d_b \in Network $ we have $ & d_a.i = d_b.i \\[1ex]
+		(d) $For all $ & d \in Network $ we have $ & d.k \neq n \\[1ex]
+		(e) $For all $ & k \in \mathbb{N}_{<n} $ we have $ & \exists!\ d \in Network $ we have $ d.k = k 
 	\end{array}$
-	\caption{The requested situation where $Network$ is the set of devices currently connected in a network.}
+	\caption{The desired situation where $Network$ is the set of devices currently connected in a network.}
     \label{tab:invariants}
 \end{table}
 
@@ -55,7 +55,7 @@ It then returns true if a message was received; otherwise false.
 \subsection{Main Loop} % (fold)
 \label{sub:general_case}
 
-During the lifetime of the devices, they should spend most of their time in this loop or in the user code. 
+During the lifetime of the devices, they should spend most of their time in this loop or in the user code\todo{User code is part of the loop? - Troels}. 
 This code determines whose turn it is, synchronises devices, and handles communication.
 
 As seen in \myref{fig:main_psuedo_flow} the flow of the code is a straightforward loop with a few logical checks. 
@@ -80,7 +80,7 @@ These processes is described in \myref[name]{sub:setupCCRC}.
         \State \textbf{run} \Call{UserCode}{ } $\text{ \textbf{until} }x \ge \delta_{proc}$ 
         \State $i \gets (i \bmod n) + 1$
         \If {$i = k$}
-            \State \Call{MakePayload}{ } \Comment{Prepares protocol and application specific}
+            \State \Call{MakePayload}{ } \Comment{Prepares protocol and application specifics}
             \State \Call{Transmit}{$i, n, id, data$}
         \Else
             \While {$x \le \delta$}

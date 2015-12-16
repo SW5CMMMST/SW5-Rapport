@@ -1,24 +1,24 @@
 % Af: Troels
 
 \section{Development Platform Selection}
-To be able to develop an embedded system a development platform is needed. 
-There are some strict requirements for this development platform (``need to have'') and some which are advantageous but not critical (``nice to have'').
-The strict requirements must be upheld for a development platform to be usable in this project and are:
+In order to develop an embedded system a development platform is needed. 
+There are some strict requirements for this development platform (``need to have'') and some which are helpful but not critical (``nice to have'').
+The strict requirements must be upheld for a development platform to be usable in this project and these are:
 
 \begin{enumerate}[label=\itshape \alph*\upshape)]
-\item able to communicate using a single radio frequency, or have a way of using additional hardware to do so;
+\item able to communicate using a single radio frequency, or have a way of using other hardware to do so;
 \item the ability to debug and develop programs for rapid prototyping;
-\item a relatively low cost, within the constrains of the budget given by the institution;
+\item a low price, within the constraints of the budget given by the institution;
 and
 \item an ability to implement a real-time aspect.
 \end{enumerate}
 
 \noindent
-Furthermore the following parameters would be advantageous for this project and e.g. the real world application hereof:
+Furthermore, the following parameters would be helpful for this project and e.g. the real world application hereof:
 
 \begin{enumerate}[label=\itshape \alph*\upshape), resume]
-\item low power consumption, and possibility for running on batteries;
-\item small form factor of the device itself;
+\item low power consumption, and the possibility for running on batteries;
+\item small form factor;
 \item ability to minimise and customise into a production ready product;
 \item an extensive choice of useful and reliable libraries;
 and
@@ -27,18 +27,17 @@ and
 
 \bigskip
 \noindent
-After exploring the market the Arduino ATmega328P based development boards seems like an ideal choice.
-Specifically the Arduino Uno (see \cite{ArduinoUNO}), which is the recommended model for all around prototyping, seemed like a perfect fit.
+After exploring the market, the Arduino ATmega328P based development boards seems like an ideal choice.
+The Arduino Uno (see \cite{ArduinoUNO}), which is the recommended model for all around prototyping, seemed like a perfect fit.
 
-Another notable candidate is the Raspberry Pi (see \cite{RaspberryPI}), which features a much faster CPU, HDMI output, two USB ports etc.
+Another notable candidate is the Raspberry Pi (see \cite{RaspberryPI}), which features a  faster CPU, HDMI output, two USB ports etc.
 It falls short on the real-time aspect in conjunction with the ability to debug them. 
 There does exist a version of the real-time operating system \gls{rtos} for the Raspberry Pi.
-However each Raspberry Pi costs above 200 DKK each, this would only allow the project group to buy two devices, and this would severely limit the possibilities of the project.
-An Arduino compatible board can be bought from many manufacturers for the low cost of 38 DKK, which means many Arduinoes can be obtained for the project.
+A Raspberry Pi costs more than 200 DKK each, this would only allow the project group to buy two devices, and this would limit the possibilities of the project.
+An Arduino compatible board can be bought from many manufacturers for the low cost of 38 DKK, which means many Arduinos can be obtained for the project.
 
-The Teensy is another option, and it is a Arduino compilable device which size has been minimised.
+The Teensy is another option (see \cite{TeensyIsDopeMan} for further details), and it is an Arduino compatible  device which size has been minimised.
 This has almost the same features in all categories, and there is not a clear advantage of choosing this over the Arduino.
-For further details on the Teensy see \cite{TeensyIsDopeMan}.  
-Therefore it is decided that the Arduino will be the development platform for this project since it uphold the aforementioned requirements, while still being the cheapest platform.
-The Arduino community also offers many different libraries which hopefully can optimise the development process.
-The Arduino platform will be more thoroughly investigated in the follow section.
+Thus, it is decided that the Arduino will be the development platform for this project since it upholds the requirements while still being the cheapest platform.
+The Arduino community also offers many different libraries which can be helpful during the development process.
+The Arduino platform will be investigated in the follow section.

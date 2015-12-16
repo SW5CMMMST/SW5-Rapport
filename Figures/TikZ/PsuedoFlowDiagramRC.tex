@@ -13,7 +13,7 @@
     \node [block, right of=start] (search) {Search for network for $\delta \times 3$};
     \node [decision, right of=search] (found) {Found network?};
     \node [block, below of=found] (init) {Initialize network};
-    \node [preDefProc, left of=init] (end){\nodepart{two}{Main loop}};
+    \node [preDefProc, below of=init] (end){\nodepart{two}{Main loop}};
     \node [block, right of=found, node distance = 3.4cm] (listen) {Listen while waiting for empty slot};
     \node [block, below of=listen] (announce) {Announce};
     \node [block, below of=announce] (wait) {Wait for end of timeslot};
@@ -26,5 +26,5 @@
     \path [line] (init) -- (end);
     \path [line] (listen) -- (announce);
     \path [line] (announce) -- (wait);
-    \path [line] (wait) -| (end);
+    \path [line] (wait) -- (end);
 \end{tikzpicture}

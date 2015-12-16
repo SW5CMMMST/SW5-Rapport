@@ -1,4 +1,4 @@
-\section{Multiple Startup Issue}\label{sec:MSI-CCRC}
+\section{Multiple Start-up Issue}\label{sec:MSI-CCRC}
 %The activation of multiple devices at any point in time such that two or more devices are active but not in a network causes a problem that must be handled differently for each of the two aforementioned cases.
 The first case, handled in this section, is in the case where no network exists prior to the activation of devices.
 As it has been established earlier, the time required to guarantee no network exists is $\delta \times 3$.
@@ -19,7 +19,7 @@ Using the ID of each device one could guarantee that no device used the same mul
 This however assumes device are activated either simultaneously or continuously with rising addresses for it to work.
 In the case where initially the device with ID 2 is turned on and exactly $\delta$ time later the device with ID 1 is turned on they would still both create a network, as such this is not a valid solution in itself to the problem.
 However this approach could significantly increase the chance of only creating only one network in situations where all the devices are started simultaneously, e.g. a scenario where a multiple of devices are connected to the same power grid, which is then turned off and on again.
-Hereby making it appropriate for a uniform startup process.
+Hereby making it appropriate for a uniform start-up process.
 
 \subsubsection{Kill the Network (Definite)}\label{KtN}
 If a device is alone in a network for too long it may decide to kill the current network and start listening again.
@@ -69,12 +69,20 @@ The changes are explained in the following text, as well as in the flowchart in 
     This is done for $\text{\textit{initial wait time}} + \delta \times b$ where $b$ denotes a random number chosen using the method of exponential backoff from \myref[name]{sec:exponential_backoff}, i.e. $b \in [0, 2^c-1]$, where $c$ is the number of attempts of creating a network.
     This expression ensures that devices will not listen for the same amount of time when they are started, and this difference will increase with each attempt, ensuring the existence scenarios in which only one device will create a network while others are still listening, also in the case where they died at the same time.
     \item[Chance of creating a network]\hfill\\
-    This method will not be used in order to keep the method of handling multiple startup deterministic.
+    This method will not be used in order to keep the method of handling multiple start-up deterministic.
     \item[Alone in network?]\hfill\\
-    For this decision the device checks whether or not it is alone in the network; if it is an altered version of \texttt{mainLoop()} is run, making use of the kill network method depending on the result of \textbf{Time to Die?}, as two or more networks could be jamming each other.
+    For this decision the device checks whether or not it is alone in the network; if it is an altered version of \textsc{MainLoop()} is run, making use of the kill network method depending on the result of \textbf{Time to Die?}, as two or more networks could be jamming each other.
     \item[Time to Die?]\hfill\\
     This decision is completely random based on a given chance of killing the device.
 \end{description}
 
-\tikzfigure{PseudoFlowDiagramMultiStart}{Revised flow diagram showing how a device acts during the Initialization phase if no networks are detected.}{pseudo_flowMultiStart}
+\begin{figure}[p]
+\centering
+\footnotesize
+\input{Figures/TikZ/PseudoFlowDiagramMultiStart.tex}
+\vspace{-15pt}
+\caption{Revised flow diagram showing how a device acts during the Initialization phase if no networks are detected.}
+\label{fig:pseudo_flowMultiStart}
+\vspace{-10pt}    
+\end{figure}
 
