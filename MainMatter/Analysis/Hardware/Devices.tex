@@ -1,9 +1,9 @@
 % Af: Troels
 
 \section{Development Platform Selection}
-To be able to develop an embedded system a development platform is needed. 
+In order to develop an embedded system a development platform is needed. 
 There are some strict requirements for this development platform (``need to have'') and some which are helpful but not critical (``nice to have'').
-The strict requirements must be upheld for a development platform to be usable in this project and are:
+The strict requirements must be upheld for a development platform to be usable in this project and these are:
 
 \begin{enumerate}[label=\itshape \alph*\upshape)]
 \item able to communicate using a single radio frequency, or have a way of using other hardware to do so;
@@ -18,7 +18,7 @@ Furthermore, the following parameters would be helpful for this project and e.g.
 
 \begin{enumerate}[label=\itshape \alph*\upshape), resume]
 \item low power consumption, and the possibility for running on batteries;
-\item small form factor of the device itself;
+\item small form factor;
 \item ability to minimise and customise into a production ready product;
 \item an extensive choice of useful and reliable libraries;
 and
@@ -30,15 +30,14 @@ and
 After exploring the market, the Arduino ATmega328P based development boards seems like an ideal choice.
 The Arduino Uno (see \cite{ArduinoUNO}), which is the recommended model for all around prototyping, seemed like a perfect fit.
 
-Another notable candidate is the Raspberry Pi (see \cite{RaspberryPI}), which features a much faster CPU, HDMI output, two USB ports etc.
+Another notable candidate is the Raspberry Pi (see \cite{RaspberryPI}), which features a  faster CPU, HDMI output, two USB ports etc.
 It falls short on the real-time aspect in conjunction with the ability to debug them. 
 There does exist a version of the real-time operating system \gls{rtos} for the Raspberry Pi.
-But each Raspberry Pi costs above 200 DKK each, this would only allow the project group to buy two devices, and this would limit the possibilities of the project.
+A Raspberry Pi costs more than 200 DKK each, this would only allow the project group to buy two devices, and this would limit the possibilities of the project.
 An Arduino compatible board can be bought from many manufacturers for the low cost of 38 DKK, which means many Arduinos can be obtained for the project.
 
-The Teensy is another option, and it is an Arduino compilable device which size has been minimised.
+The Teensy is another option (see \cite{TeensyIsDopeMan} for further details), and it is an Arduino compatible  device which size has been minimised.
 This has almost the same features in all categories, and there is not a clear advantage of choosing this over the Arduino.
-For further details on the Teensy see \cite{TeensyIsDopeMan}.  
 Thus, it is decided that the Arduino will be the development platform for this project since it upholds the requirements while still being the cheapest platform.
 The Arduino community also offers many different libraries which can be helpful during the development process.
 The Arduino platform will be investigated in the follow section.

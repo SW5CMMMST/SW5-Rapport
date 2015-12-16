@@ -17,17 +17,18 @@ In the following section further explanation of \gls{tdma} is given.
     \footnotesize
     \resizebox{0.5\linewidth}{!}{%
 \input{Figures/TikZ/RangeDiagram.tex}}
-    \caption{The two devices (circles) communicate on the same frequency making the receiver (square) unable to read either signal.}
+    \caption{The two devices (circles) transmitting on the same frequency making the receiver (square) unable to read either signal.}
     \label{fig:rangediagram}
     \vspace{-10pt}    
 \end{SCfigure}
 
-If multiple radio devices transmits on the same frequency at the same time while within the range of each other, then interference occurs as can be seen on \myref{fig:rangediagram}. 
+If multiple radio devices transmit on the same frequency at the same time while within the range of each other interference occurs, as can be seen on \myref{fig:rangediagram}. 
 On the figure the device denoted by a square is within the range of both the devices denoted by circles. 
-If they broadcast on the same frequency at the same time then the square device will not be able to decode either of the signals \cite{networkencyclopedia2013time, networkencyclopedia2013advanced}.
-This is called a jam and should be avoided in all cases if possible.
+If they broadcast on the same frequency at the same time, what is called a collision occurs, then the square device will not be able to decode either of the signals \cite{networkencyclopedia2013time, networkencyclopedia2013advanced}.
+When a collision occurs the transmission is jammed and should be avoided in all cases if possible.
+\todo{Er det fint nok ? Før stod der ikke noget med collisions}
 
-\gls{tdma} addresses this problem by having the transmitters take turns transmitting their message in allocated time slots as seen on \myref{fig:tdmaoverview}.
+\gls{tdma} addresses this problem by having the devices take turns transmitting their message in allocated time slots as seen on \myref{fig:tdmaoverview}.
 The figure shows five devices which share the same frequency, and to do this, they get a time-slot each in the frame.
 A frame is the complete cycle of these time-slots.
 
@@ -39,7 +40,7 @@ Just like frames are divided into time slots; the following five parts are what 
 \begin{description}[labelindent=\parindent]
 	\item[Guard time]\hfill\\ 
 	A period where no important data is sent.
-	This is here to make sure that devices not synced to the loop are less likely to corrupt the signal of other senders.
+	This is here to make sure that devices not synchronised to the loop are less likely to corrupt the signal of other senders.
 
 	\item[Sync]\hfill\\ 
 	A possible extra delay before the signal depending on the distance to the receiver.
