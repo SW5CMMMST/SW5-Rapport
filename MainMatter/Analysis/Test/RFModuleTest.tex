@@ -97,29 +97,30 @@ There are many possible source of error within the test with antenna lengths, wh
 The most significant and the ones that are most likely to occur are as follows:
 \begin{description}[labelindent=\parindent]
     \item[Objects placed in the way of the signal] \hfill \\
-    In order for the results to represent real world scenarios, one could test the package loss with various different objects in between the transmitter and receiver. 
+    In order for the results to represent real world scenarios, one could test the package loss with different objects between the transmitter and receiver. 
     E.g. humans, construction objects, furniture.
-    However as this test was looking for quantitative data the results were gathered with no object in the way of the signal, so that the conditions and data of the tests would be comparable.
+    But as this test was looking for quantitative data the results were gathered with no object in the way of the signal, so that the conditions and data of the tests would be comparable.
     \item[Signal interference] \hfill \\
-    This category of errors is one of the most remarkable since any form of signal interference potentially could invalidate the data and even produce false positives.
-    To avoid as much signal interference as possible, the test was conducted in a basement with relatively thick concrete walls, and equipment that uses the same frequency e.i. 433 MHz was kept away from the test setup.
+    This category of errors is one of the most remarkable since any form of signal interference could invalidate the data and even produce false positives.
+    To avoid as much signal interference as possible, the test was conducted in a basement with thick concrete walls, and equipment that uses the same frequency e.i. 433 MHz was kept away from the test setup.
     \item[Inaccuracy in distance and antenna length] \hfill \\
     The margin of error on the measured distance between the probes is within a few centimetres, and since each probing was done in increments of two meters it is to be considered insignificant.
-    On the other hand, the tolerable margin of error when considering the length of the antennas is much smaller than two centimetres.
+    But, the tolerable margin of error when considering the length of the antennas is much smaller than two centimetres.
     Such varying in antenna length would have drastic consequences due to the antenna length's dependence upon the wavelength of the signal.
-    However, the antennas used in this test were carefully measured to specific lengths of 12 and 17.3 cm.
-    It is, however, noteworthy that the internal antennas of both the transmitter and receiver modules may affect the results.
+    The antennas used in this test were measured to specific lengths of 12 and 17.3 cm.
+    It is noteworthy that the internal antennas of both the transmitter and receiver modules may affect the results.
     \item[Difference in \acrshort{rf}-modules] \hfill \\
     To be able to compare the results of the different antennas, one must assure that the difference in results is not induced by differences in the \gls{rf}-modules.
-    However by testing all the used \gls{rf}-modules in \myref[name]{cha:radio_frequency_module_difference_test}, this source of error is to be considered close to non-existent, since all the \gls{rf}-modules used in this test, showed less package loss than 2 \%.
+    But, by testing all the used \gls{rf}-modules as done in \myref[name]{cha:radio_frequency_module_difference_test}, this source of error is to be considered close to non-existent, since all the \gls{rf}-modules used in this test, showed less package loss than 2 \%.
     This source of error is hereby deemed insignificant for the results of this test.
 \end{description}
 
 \subsubsection*{Conclusion}
 The 17.3 cm antenna on the transmitter has the biggest impact on the package loss rate.
 This is in line with the theory of using a quarter-wave monopole antenna.
-This implies that using a 17.3 cm antenna on both the receiver and transmitter will greatly benefit the connection, both for range, and reliability.
-The only downside is that the size will increase, however this trade-off is very well worth it for the project as a whole.
-The amount of package loss still occurring with the 17.3 cm antennas shows that it is not certain that a message being transmitted will be received.
-For the project this means that the technique used to control the communication between the Arduinos needs to take into account that a transmission might not be received.
+This implies that using a 17.3 cm antenna on both the receiver and transmitter will benefit the connection, both for range, and reliability.
+The only downside is that the size will increase.
+But, this trade-off is worth it for the project as a whole.
+The amount of package loss still occurring with the 17.3 cm antennas shows that it is uncertain that a message being transmitted will be received.
+For the project, this means that the technique used to control the communication between the Arduinos needs to take into account that a transmission might not be received.
 % chapter radio_frequency_module_reception_test (end) 

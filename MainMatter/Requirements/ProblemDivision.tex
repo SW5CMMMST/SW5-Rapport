@@ -7,7 +7,7 @@ Networks can be described as graphs using graph theory.
 In the case of the protocol the edges are essential for the problem as these represent the available communication in the network.
 As the tests in \myref[name]{sec:hardware_tests} have shown, not all sent packages are guaranteed to arrive; hence a weight is given to each edge with a value between 0 and 1.
 These weights represent the probability of a given package being received.
-This yields a weighted directed graph $G = (V, E, w)$, where $V$ is the set of devices as vertices $v$, $E$ is the set of communication paths as edges $e(v_i, v_j)$, and $w$ is the weight function representing the reliability of any communication path written as $w(e)$. 
+This yields a weighted directed graph $G = (V, E, w)$, where $V$ is the set of devices as vertices $v$, $E$ is the set of communication paths as edges $e(v_i, v_j)$, and $w$ is the weight function representing the reliability of any communication path written as $w = e \leftarrow (0,1]$. 
 An example of this can be seen on \myref{fig:network}.
 
 In \myref{fig:examplenetworkgraphs} the two different network types are modelled as graphs; 
@@ -19,7 +19,7 @@ In \myref{fig:examplenetworkgraphs} the two different network types are modelled
     \begin{subfigure}{0.47\linewidth}
         \centering
         \input{Figures/TikZ/completelyConnectedGraph.tex}
-        \caption{Completely connected reliable network with weights ignored as they are 1.}
+        \caption{Completely connected reliable network with weights ignored as they are all 1.}
         \label{fig:ccrcnetworkgraph}
     \end{subfigure}\hfill
     \begin{subfigure}{0.47\linewidth}

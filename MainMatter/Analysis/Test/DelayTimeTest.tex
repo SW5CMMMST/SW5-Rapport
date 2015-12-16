@@ -1,21 +1,21 @@
 \subsection{RadioHead Time Sent Test} % (fold)
 \label{sub:radiohead_time_sent_test}
-The purpose of this test is to determine how long it takes to transmit a payload of a given length.
+The purpose of this test is to determine how long it takes to send a package of a given length.
 This information is useful at later points during the design and implementation phase. 
-The result is therefore a formulae which given the payload length outputs the time it takes to transmit said payload. 
+The result is a formula which given the payload length outputs the time it takes to send said payload. 
 
 \subsubsection*{Theory}
 As described in \myref[name]{subsubsec:RadioHead} there is an overhead of 104 bits for each payload, along with the 4-to-6 bit conversion.
-The bit-rate is 2000 bits pr. second, which gives the theoretical minimum time it takes to transmit a payload:
+The bit-rate is 2000 bits per second, which gives the theoretical smallest time it takes to send a payload:
 \begin{align*}
-t(n,c)=c+\frac { 104 bit+n*\frac { 6 }{ 4 } *\frac { 8 bit }{ 1 byte }  }{ 2000\frac { bit }{ second }  } 
+t(n,c)=c+\frac { 104\ bit+n\times\frac { 6 }{ 4 }}{ 2000\ \frac { bit }{ sec }  } 
 \end{align*}
-Where \textit{n} is the length of the payload in bytes, \textit{c} is some constant in seconds which is the processing of the payload. This equation could result in the following examples:
+Where \textit{n} is the length of the payload in bits, and \textit{c} is some constant in seconds which is the processing of the payload. This equation could result in the following examples:
 \begin{align*}
-t(10 byte, 0.01 second) = 0.122 second\\
-t(20 byte, 0.01 second) = 0.182 second\\
-t(30 byte, 0.01 second) = 0.242 second\\
-t(40 byte, 0.01 second) = 0.302 second
+t(80\ bits,\ 0.01\ sec) &= 0.122\ sec\\
+t(160\ bits,\ 0.01\ sec) &= 0.182\ sec\\
+t(240\ bits,\ 0.01\ sec) &= 0.242\ sec\\
+t(320\ bits,\ 0.01\ sec) &= 0.302\ sec
 \end{align*}
 
 \subsubsection*{Test Setup}
