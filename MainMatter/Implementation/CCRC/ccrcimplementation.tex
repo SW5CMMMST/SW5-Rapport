@@ -54,7 +54,7 @@ void waitForNextTimeslot(uint32_t payloadSize) {
 \end{figure}
 
 \subsection{Upstart: Creating or Joining a Network}
-When each Arduino starts it determines if there is a network in progress and join it. 
+When each Arduino starts it determines if there is a network in progress and attempts to join it. 
 If it cannot find a network then it should create its own network, so that others can join it. 
 The worst case time required to determine whether a network exists is roughly $3 \times \delta \leq t_0$ for the CCRC-problem, as determined in \myref[name]{sub:setupCCRC}, where $t_0$ is the maximum time. 
 This is referred to as \texttt{INIT\_WAIT} in the code and sets the limit for how long an Arduino listens before creating its own network. 
@@ -105,12 +105,12 @@ if (foundNetwork) {
 The main loop executes both the processing phase and the communication phase.
 First user-code is executed, this is seen as \texttt{userCodeRunOnce()}, and \texttt{userCodeRepeat()}.
 
-The whole phase should not take longer than \texttt{DELTA\_PROC} time, which is $\delta_{proc}$ in the design.
-\texttt{userCodeRunOnce()}, should be finished well before \texttt{DELTA\_PROC}, which leaves time to run \texttt{userCodeRepeat()}.
-\texttt{userCodeRepeat()} should be a very fast function, and should be strictly shorter in run-time than the time \texttt{GUARD\_TIME\_BEFORE\_TX}, since if \texttt{userCodeRepeat()} is called just before \texttt{DELTA\_PROC} time has passed, the function should finish with time remaining until this guard time before transmitting has been reached.
+The whole phase should not exceed \texttt{DELTA\_PROC} time, which is $\delta_{proc}$ from the design.
+\texttt{userCodeRunOnce()} should be finished well before \texttt{DELTA\_PROC}, which leaves time to run \texttt{userCodeRepeat()}.
+\texttt{userCodeRepeat()} should not run for long, and should be strictly shorter in run-time than the time \texttt{GUARD\_TIME\_BEFORE\_TX}, since if \texttt{userCodeRepeat()} is called just before \texttt{DELTA\_PROC} time has passed, the function should finish with time remaining until this guard time before transmitting has been reached.
 If this is not the case the device which takes too long in user-code, might not receive the first part of the transmission which will results in a missed transmission entirely.
 
-This is why the guard time is there, it is there to make sure that out-of-sync devices will still have time to receive the transmission, but this is only possible if \texttt{userCodeRepeat()} does not take very long, something like $\frac{1}{5}$ of \texttt{GUARD\_TIME\_BEFORE\_TX}.
+As such guard time exists to make sure that out-of-sync devices will still have time to receive the transmission, but this is only possible if \texttt{userCodeRepeat()} does not take very long, something like $\frac{1}{5}$ of \texttt{GUARD\_TIME\_BEFORE\_TX}.
 
 Firstly each device should either transmit or receive depending on the current time-slot. 
 If the current time-slot belongs to a device then that device should transmit otherwise it should receive, note that there is no special case for the empty slot in which new devices can join the network.
@@ -151,8 +151,8 @@ if (netStat.i == netStat.k) {
 \end{lstlisting}
 \end{figure}
 
-The \texttt{tx()}-function prepares and transmits the payload, this can optionally include user-data, this is the first parameter, and the second is the length of the data.
-It then waits for the timeslot to end, as this is a static time for every timeslot, then it resets the clock on the device and the main loop starts over.
+The \texttt{tx()}-function prepares and transmits the payload, this can optionally include user-data, and is the first parameter, the second being the length of the data.
+\texttt{tx()} then waits for the timeslot to end, as this is a static time for every timeslot, and resets the clock on the device, lastly the main loop starts over.
 The \texttt{rx()}-function asks Radiohead whether a full payload has been received. 
 If a full payload has been received the payload is then copied to \texttt{inPayload} and then returns true.
 Following \texttt{rx()} the while-loop on line 16 in \myref{lst:ccrc:rxortx} will break, then it waits for the timeslot to end and then resets the clock and starts the loop over. 
