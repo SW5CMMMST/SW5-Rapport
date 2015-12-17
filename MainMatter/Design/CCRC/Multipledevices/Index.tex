@@ -5,7 +5,7 @@ The complications this brings will be solved in two sections; one pertaining to 
 Firstly a key concept used for solving the multiple device activation problem, will be presented.
 Following that the different parts of the problem will be discussed and the needed modifications to the existing design will be revealed.
 
-\section{Exponential Backoff} % (fold)
+\section{Exponential Backoff}
 \label{sec:exponential_backoff}
 The method of exponential backoff described here is based on the ethernet standard, see \citep{Ebackoff}, and consists of:
 \begin{enumerate*}[label=\itshape \alph*\upshape)]
@@ -19,14 +19,9 @@ These properties of the exponential backoff can be expressed as follows:
 
 \noindent
 Where $b$ is the result, a randomly chosen value from the range, and $c$ is the number of attempts starting at 1. 
-The value $x$ can represent a number of frames or any other feasible time period.
+The value $b$ can represent a number of frames or any other feasible time period.
 With this method a device will wait 0 to 1 time periods after the first failed action, 0 to 3 after the second, 0 to 7 after the third and so on. 
 To avoid an infinite increase of the wait time the $c$ should have an upper limit $c_{max}$, which would ensure a maximum wait of $2^{c_{max}}-1$ time periods.
-%Exponential backoff is already used in Ethernet to reschedule data transfer after collisions, see \citep{Ebackoff}.
-
-While waiting the device may listen incoming transmissions and act upon these, hence the device is allowed to pre-empt the wait period.
-This means that a device is authorised to e.g. stop the wait period to join a network. 
-% section exponential_backoff (end)
 
 \input{MainMatter/Design/CCRC/Multipledevices/multipleStartup.tex}
 \input{MainMatter/Design/CCRC/Multipledevices/multipleStartupPseudo.tex}

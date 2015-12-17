@@ -142,7 +142,7 @@ As mentioned in \myref[name]{subsec:uppaal} it is possible to make queries to ve
 \myref[name]{sec:Pseudo} contains statements which should be true for a correctly connected network.
 These statements can be written as queries in UPPAAL, which the tool will then determine to be correct or not. 
 The queries described here will be tested with a system consisting of up to 6 devices, it is recommended to not go much higher than 6 in one system as the queries computation time increase dramatically.
-The queries for the system will be given one by one with along with a description of what they represent.
+The queries for the system will be given one by one along with a description of what they represent.
 
 The computer used for all the tests is a laptop with an Intel i3 processor with a clock speed of 2.3 GHz, and 4 GB RAM, running Windows 8.1.
 
@@ -208,13 +208,13 @@ However, it is a problem that multiple devices cannot be turned on at the same t
         Device(j).User_Code imply Device(i).local_i == Device(j).local_i
 \end{lstlisting}
 
-\begin{lstlisting}[style=UPPAAL, title={This query requires that if a device \texttt{i} and a device \texttt{j} is both connected, they then have the same value of their \texttt{local\_n}. If they were different it would mean that they are not in the same network, and as such would have different numbers of time-slots in their networks. But the system model makes sure that this is not the case. When run with 6 devices it will return true after 86.6 seconds.}]
+\begin{lstlisting}[style=UPPAAL, title={This query requires that if a device \texttt{i} and a device \texttt{j} are both connected they then their \texttt{local\_n} value is equal to one another. If they were different it would mean that they are not in the same network, and as such would have different numbers of time-slots in their networks. But the system model makes sure that this is not the case. When run with 6 devices it will return true after 86.6 seconds.}]
 5. A[] forall(i : id_t) forall(j : id_t) 
     Device(i).Connected and Device(j).Connected 
     imply Device(i).local_n == Device(j).local_n
 \end{lstlisting}
 
-\begin{lstlisting}[style=UPPAAL, title={This query requires that it is always true that all devices never has the the time-slot which one of the devices has locally as the empty slot. If any device did have this, it would mean that a device was out of sync, since it did not know which time-slot would be the empty one. When run this query will when run with instances of the devices tempalte result in true after a computation-time of 66.0 seconds. }]
+\begin{lstlisting}[style=UPPAAL, title={This query requires that it is always true that all devices never has the the time-slot which one of the devices has locally as the empty slot. If any device did have this it would mean that a device was out of sync since it did not know which time-slot would be the empty one. When run this query will when run with instances of the devices tempalte result in true after a computation-time of 66.0 seconds. }]
 6. A[] forall(i : id_t) forall(j : id_t) Device(i).k != Device(j).local_n
 \end{lstlisting}
 
@@ -224,16 +224,17 @@ However, it is a problem that multiple devices cannot be turned on at the same t
     imply Device(i).k < n and Device(i).k > 0
 \end{lstlisting}
 
-\begin{lstlisting}[style=UPPAAL, title={The query requires that if a device is connected, is it then true that the number of devices connected to a network is equal to one less the number of time-slots in the frame of a network. When run with 6 devices the result of the query will be true with a computation-time of 23.8 seconds. }]
+\begin{lstlisting}[style=UPPAAL, title={The query requires that if a device is connected it is then true that the number of devices connected to a network is one less than the number of time-slots in the frame of a network. When run with 6 devices the result of the query will be true with a computation-time of 23.8 seconds. }]
 8. A[] forall(i : id_t) Device(i).Connected imply Connected_Counter == n-1
 \end{lstlisting}
 
+\noindent
 All of these queries will now yield a true result, after the changes shown in this section making sure there is a interval between each activation of a device, when run with 6 devices on the model presented in this chapter.
 All the queries were run on the same laptop.
-Note that queries have been added to verify the model beyond the ones derived from the statements in \myref[name]{sec:Pseudo}, an example is query 2.
+Note that some queries have been added to verify the model beyond the ones derived from the statements in \myref[name]{sec:Pseudo}, an example is query 2.
 
 The queries 1, 7 and 8 together make up the statement (e) from \myref[name]{sec:Pseudo}, since if no devices have the same time-slot k and if the number of devices is one less than the number of time-slots and all time-slots in the range $[1, N-1]$ corresponds to an occupied time-slot in the network.
 
-Since all of these statements hold true, it is concluded that the model does indeed do what it was designed to do, and an implementation according to the specification should theoretically work and be possible to create, under the assumptions of single device start-up, with a minimaal interval.
+Since all of these statements hold true it is concluded that the model does indeed do what it was designed to do, and an implementation according to the specification should theoretically work and be possible to create, under the assumptions of single device start-up, with a minimaal interval.
 Handling the start-up of multiple devices at the same time will be designed in \myref[name]{chap:MDA-CCRC}.
 \newpage

@@ -16,9 +16,9 @@ These solutions are easy to check for errors as the result of any operation is p
 Unique offset is when each device listens for a network for a uniquely specified amount of $\delta$ rather than the initial wait time of $\delta \times 3$.
 Using the ID of each device one could guarantee that no device used the same multiple of $\delta$ prior to establishing their network by the formula $\text{\textit{initial wait time}} + \delta \times ID$.
 
-This however assumes device are activated either simultaneously or continuously with rising addresses for it to work.
+This however assumes devices are activated either simultaneously or continuously with rising addresses for it to work.
 In the case where initially the device with ID 2 is turned on and exactly $\delta$ time later the device with ID 1 is turned on they would still both create a network, as such this is not a valid solution in itself to the problem.
-However this approach could significantly increase the chance of only creating only one network in situations where all the devices are started simultaneously, e.g. a scenario where a multiple of devices are connected to the same power grid, which is then turned off and on again.
+However this approach could significantly increase the chance of only creating one network in situations where all the devices are started simultaneously, e.g. a scenario where a multiple of devices are connected to the same power grid, which is then turned off and on again.
 Hereby making it appropriate for a uniform start-up process.
 
 \subsubsection{Kill the Network (Deterministic)}\label{KtN}
@@ -29,12 +29,11 @@ The technique has the network disassemble itself once some factor determines it 
 This factor could be when a number of frames has passed without hearing from any other device.
 For this to actually work there would have to be implemented something which guarantees that networks would not follow the same pattern, as that could result in a loop of killing and creating networks.
 Another problem that occurs is that if more than two networks are created, for this to work all but one network must die within two frames due to the previously set time spent listening.
-For the random version it would work similarly to random create, except the outcome would be killing the network rather than creating one.
 
 \subsection{Stochastic Solutions}
 The deterministic solutions could be used, but there will always be a chance for ending up in an infinite loop of unsuccessful network creations.
 In order to avoid that a random factor is introduced.
-With the a stochastic approach whether or not the network is established is now based on probability.
+With a stochastic approach whether or not the network is established is now based on probability.
 Using these methods will guarantee that a network will be created at some point.
 This might take a while but given infinite tries it is bound to be successful at some point.
 
