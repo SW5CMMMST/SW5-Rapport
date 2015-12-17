@@ -36,12 +36,12 @@ This payload only needs one field namely the unique identifier or address of the
 By shortening the payload significantly from the regular size down to 1 byte the time it takes to transmit the payload is decreased.
 % subsubsection announcements (end)
 
-\subsubsection{Sub Slots} % (fold)
+\subsubsection{Sub-slots} % (fold)
 \label{ssub:sub_slots}
 To avoid using the potentially time consuming exponential backoff, if a multiple of devices try to connect simultaneously, the empty slot will be partitioned into smaller sub slots, see \myref{fig:frame_wsubslots} for illustration. 
 The length of a sub slot should be slightly longer than the time it takes to transmit an announcement payload; it is important not to have overlapping announcements since none of them would be heard due to jamming.
 
-When determining how many sub slots the empty slot should be partitioned into, it should be considered that more sub slots will increase the overall frame length, and it has been set to three because it seems to be 
+When determining how many sub-slots the empty slot should be partitioned into, it should be considered that more sub-slots will increase the overall frame length, and it has been set to three because it is a a good fit, since it takes approximately $\delta_{comm}$-time to transmit three times with the payload of a size of one.
 
 \begin{figure}[h]
     \centering \footnotesize
@@ -51,4 +51,4 @@ When determining how many sub slots the empty slot should be partitioned into, i
 \end{figure}
 
 \noindent
-This method would in most cases perform faster connection of multiple new devices than the solution in \myref[name]{sec:simultaneous_connect} however when comparing the added value in regards to the added cost, the simpler method from \myref{chap:MDA-CCRC} is the better choice.
+This method would in most cases perform faster connection of multiple new devices than the solution in \myref[name]{sec:simultaneous_connect} however when comparing the added value in regards to the added cost, the simpler method from \myref{chap:MDA-CCRC} is the better choice when considering our time-constraints.

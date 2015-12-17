@@ -27,10 +27,11 @@ The proposed design has a special case for the first device in the frame, and a 
 \paragraph{The General case}applies to any device which is part of a network and not the first device in the frame, i.e. $k \neq 1$.
 If the device does not receive any payload from the device before it, i.e. device $k - 1$, a given number of times in a row, called $m_{max}$, then the device should ask other devices for consensus on the potentially faulty device.
 If a consensus can be established that the device is not transmitting all devices should be notified that the current device will transmit in the time-slot of the faulty device from which no one received any transmission, instead of its own time-slot in the next frame and onward. 
-This will create another missing slot to be handled by another device, however a problem arises when the unused time-slot in $n - 1$, i.e. the last time-slot of the frame, which will be explained in the following paragraph.
+This will create another missing slot to be handled by another device, however a problem arises when the unused time-slot is $n - 1$, i.e. the last time-slot of the frame, which device should take this time-slot?
+This will will be explained in the following paragraph.
 
 \paragraph{The Special case}applies to the first device of the frame, i.e. $k = 1$. 
-Since there is no device in the same frame before the first device, whose time-slot it can move to, it should instead reduce the number of time-slots in the frame by one, if it does not receive any payload from the last device of the frame, i.e. $k = n - 1$, a given number of times, $m_{max}$, and gets consensus from the network. 
+Since there is no device in the same frame before the first device, which time-slot it can move to, it should instead reduce the number of time-slots in the frame by one, if it does not receive any payload from the last device of the frame, i.e. $k = n - 1$, a given number of times, $m_{max}$, and gets consensus from the network. 
 
 \tikzfigure{dgd.tikz}{Decremental Gradual Defragmentation, removal of device in slot 2.}{dgd} 
 
