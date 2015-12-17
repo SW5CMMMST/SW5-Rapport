@@ -1,6 +1,6 @@
 \section{Multiple Start-up Issue}\label{sec:MSI-CCRC}
 %The activation of multiple devices at any point in time such that two or more devices are active but not in a network causes a problem that must be handled differently for each of the two aforementioned cases.
-The first case, handled in this section, is in the case where no network exists prior to the activation of devices.
+The first case handled in this section is in the case where no network exists prior to the activation of devices.
 As it has been established earlier, the time required to guarantee no network exists is $\delta \times 3$.
 From the moment a device has determined that no network exists, it spends $\delta$ time to announce the existence of a network.
 As such if several devices are activated within $\delta$ time, relative to the firstly activated device, multiple networks will be established.
@@ -10,14 +10,14 @@ As such implementing concepts from several of the following approaches may yield
 
 \subsection{Deterministic Solutions}
 Firstly deterministic solutions will be described.
-These solutions are easy to check for errors as the result of any operation is predictable, as this limits the statespace to the amount of start configurations possible.
+These solutions are easy to check for errors as the result of any operation is predictable, as this limits the state space to the amount of start configurations possible.
 
 \subsubsection{Unique Offset}
 Unique offset is when each device listens for a network for a uniquely specified amount of $\delta$ rather than the initial wait time of $\delta \times 3$.
-Using the ID of each device one could guarantee that no device used the same multiple of $\delta$ prior to establishing their network by the formula $\text{\textit{initial wait time}} + \delta \times ID$.
+Using the \textit{id} of each device one could guarantee that no device used the same multiple of $\delta$ prior to establishing their network by the formula $\text{\textit{initial wait time}} + \delta \times id$.
 
 This however assumes devices are activated either simultaneously or continuously with rising addresses for it to work.
-In the case where initially the device with ID 2 is turned on and exactly $\delta$ time later the device with ID 1 is turned on they would still both create a network, as such this is not a valid solution in itself to the problem.
+In the case where initially the device with \textit{id} 2 is turned on and exactly $\delta$ time later the device with \textit{id} 1 is turned on they would still both create a network, as such this is not a valid solution in itself to the problem.
 However this approach could significantly increase the chance of only creating one network in situations where all the devices are started simultaneously, e.g. a scenario where a multiple of devices are connected to the same power grid, which is then turned off and on again.
 Hereby making it appropriate for a uniform start-up process.
 
@@ -52,20 +52,18 @@ As the pattern would be random a scenario where only one device has created a ne
 In other words at some point an isolated network should exist to which other devices can join.
 
 One could also implement exponential backoff as described in \myref{sec:exponential_backoff}.
-Instead of just waiting for the backoff period, the devices could use the backoff period to lsiten for networks, for an exponentially increasing amount of time. 
+Instead of just waiting for the backoff period, the devices could use the backoff period to listen for networks, for an exponentially increasing amount of time. 
 This could worsen the time it takes to set-up at network exponentially.
-To avoid this one could use another factor which is unique for each device and use this to ensure that each device will eventually generate different numbers.
-This also solves the problem with the two frames limitation.
 
 \subsection{Modifications to the Upstart Phase}                 
-Based on the aforementioned possibilities a new upstart phase have been designed which minimises the probabilities of devices creating several networks.
+Based on the aforementioned possibilities a new upstart phase has been designed which minimises the probabilities of devices creating several networks.
 The changes are explained in the following text, as well as in the flowchart in \myref{fig:pseudo_flowMultiStart} representing the new design.
 
 \begin{description}[labelindent=\parindent]
     \item[Search for network]\hfill\\
     The initial action after starting a device states to search for a network.
     This is done for $\text{\textit{initial wait time}} + \delta \times b$ where $b$ denotes a random number chosen using the method of exponential backoff from \myref[name]{sec:exponential_backoff}, i.e. $b \in [0, 2^c-1]$, where $c$ is the number of attempts of creating a network.
-    This expression ensures that devices will not listen for the same amount of time when they are started, and this difference will increase with each attempt, ensuring the existence scenarios in which only one device will create a network while others are still listening, also in the case where they died at the same time.
+    This expression ensures that devices will eventually not listen for the same amount of time when they are reinitialised, and this difference will increase with each attempt, ensuring the existence scenarios in which only one device will create a network while others are still listening, also in the case where they died at the same time.
     \item[Chance of creating a network]\hfill\\
     This method will not be used in order to keep the method of handling multiple start-up deterministic.
     \item[Alone in network?]\hfill\\
