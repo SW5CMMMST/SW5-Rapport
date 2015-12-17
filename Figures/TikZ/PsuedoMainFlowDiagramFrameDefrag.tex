@@ -9,7 +9,7 @@
     \node [preDefProc, below of= waituser, node distance = 2cm] (misscnt) {\nodepart{two}{\begin{tabular}{c} Increment \\ missed \\ counter \end{tabular}}};
     \node [decision, below of= misscnt] (received) {Received message?};  
     \node [block, right of= received] (rx) {Recieve for max $\delta_{comm}$};
-    \node [preDefProc, above of= mytime] (reduce) {\nodepart{two}{Reduce Network}};
+    \node [preDefProc, above of= mytime] (reduce) {\nodepart{two}{\begin{tabular}{c} Reduce \\ network \\ size \end{tabular}}};
     \node [block, above of= reduce, node distance = 2cm] (make) {Make payload}; 
     \node [block, left of= make] (tx) {Transmit}; 
     \node [preDefProc, left of= tx, node distance = 3.4cm] (overtake) {\nodepart{two}{\begin{tabular}{c} Overtake \\ frame \\ position \end{tabular}}};

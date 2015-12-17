@@ -10,7 +10,7 @@ To improve the likelihood of a device connecting in the first frame the idea of 
 To ensure faster solving of conflicts if multiple devices try to connect simultaneously a random offset of sub slots to wait in the empty slot is used.
 The empty-slot is split into 3 parts, which can be done since all a device needs to transmit to announce itself is the address of itself.
 A device randomly choose a sub-slot to announce in, and if it is not the device's sub-slot it will receive any transmissions. 
-If a transmission is received while in a sub-slot the device will go back and listen for the empty-slot.
+If a transmission is received while in a sub-slot the device will go back and listen while waiting for the next empty-slot.
 This can be seen on \myref{fig:pseudo_flowMultiConnectimp} which is the flowdiagram from \myref[name]{sec:simultaneous_connect} expanded with the idea of sub-slots.
 
 \begin{figure}[p]
@@ -33,7 +33,7 @@ This method implies that the length of empty slot is a multiple of the time it t
 \label{ssub:announcements}
 To minimise the time it takes to announce oneself to a network a special announcement payload is introduced.
 This payload only needs one field namely the unique identifier or address of the device which is sending it.
-By shortening the payload significantly from the regular size down to 1 byte the time it takes to transmit the payload is decreased.
+By shortening the payload significantly from the regular size down to 1 byte the time it takes to transmit the payload is decreased, thus allowing several of such packages to be sent in a normal time-slot.
 % subsubsection announcements (end)
 
 \subsubsection{Sub-slots} % (fold)

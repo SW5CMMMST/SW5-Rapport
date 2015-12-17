@@ -64,13 +64,13 @@ Where as in the same case Jumping Defragmentation takes $m_{max} \times 2$ frame
 Another solution is for new devices to insert themselves in unused time-slot of an existing network.
 
 \paragraph{Addition to start-up}
-This would change the start-up procedure to require new devices, which discovers a network, to listen for at least $m_{max}$ frames then insert themselves in an unoccupied time-slot, and if no unoccupied time-slot is found then in the empty slot.
+This would change the start-up procedure to require new devices, which discovers a network, to listen for at least $m_{max}$ frames then insert themselves in an unoccupied time-slot, and if no unoccupied time-slot is found then insert themselves in the empty slot.
 A device would then wait for confirmation that it, indeed had taken an empty slot or otherwise leave the network and try again.
 
 \tikzfigure{aiut.tikz}{Automatic insertion in slot 2.}{aiut} 
 
 \bigskip \noindent
-This will only in some cases resolve fragmentation from a network as one cannot guarantee that a new device will connect. 
+This will only in some cases resolve fragmentation from a network as one cannot guarantee that a new device will connect for every unused time-slot. 
 For example the case in which a device restarts unexpectedly, then it would retake its old time-slot, assuming no other parts of the network changed in the downtime.
 On the other hand in the case where the device is effectively removed, the fragmentation will persist until a new device is added, which depending on the application could be a long time.
 It is a relatively simple change to the existing protocol, and would therefore be easy to implement however as it does not solve the problem fully, it is not used. 
@@ -78,7 +78,7 @@ It is a relatively simple change to the existing protocol, and would therefore b
 \subsection{Changes to the Protocol}
 To evaluate the methods above the following factors will be considered: Speed and ability to defragment.
 The Decremental Gradual Defragmentation-method will defragment the network, however it is slow, as it takes $(n - k) \times m_{max}$ frames to defragment, where $k$ is the time-slot which the device  that was removed had. 
-The Automatic Insertion in Unused Time-slots-method increases the time it takes to connect a new device by $m_{max} \times n$ time-slots from a new device is turned on as it must confirm that the new device is actually dead.
+The Automatic Insertion in the Unused Time-slots-method increases the time it takes to connect a new device by $m_{max} \times n$ time-slots from a new device is turned on as it must confirm that the new device is actually dead.
 This could be reduced by allowing the network to transmit that device $k$ is dead.
 However it will not defragment a network which decrease in size. 
 The last method: Jumping Defragmentation is fast, it will only take $m_{max} \times 2$ frames to defragment any single device leaving the network, and defragments the network in all cases. 
