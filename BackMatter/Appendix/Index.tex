@@ -1,36 +1,45 @@
 \appendix
-\part{Appendix}
+%\part{Appendix}
 
 \chapter{CD-rom}\label{cdrom}
-All the appendices are colleted on the CD-rom attached to this paper.
+All the appendices are collected on the CD-rom attached to this paper.
+Their paths are relative to the root of the CD-rom.
 These appendices include the following: 
 
 \begin{description}
 \item[Code for Transmitter in Package Loss Test\label{app:PkgLossTxCode}]\hfill\\
     Arduino code for the transmitter in our package loss test.
+    \\Path: \texttt{Arduino/Tests/PkgLossTx/PkgLossTx.ino}
 %\lstinputlisting[style=customc]{CodeExamples/PkgLossTx.tex}
     
 \item[Code for Receiver in Package Loss Test\label{app:PkgLossRxCode}]\hfill\\
     Arduino code for the receiver in our package loss test.
+    \\Path: \texttt{Arduino/Tests/PkgLossRx/PkgLossRx.ino}
     %\lstinputlisting[style=customc]{CodeExamples/PkgLossRx.tex}
     
 \item[Delay Test Receiver\label{app:t2receiver}]\hfill\\
     Arduino code for the delay test for the receiver.
+    \\Path: \texttt{Arduino/Tests/delayTestRx/delayTestRx.ino}
     %\lstinputlisting[style=customc]{CodeExamples/delayTestRx.tex}
     
 \item[Delay Test Transmitter\label{app:t2transmitter}]\hfill\\
     Arduino code for the delay test for the transmitter.
+    \\Path: \texttt{Arduino/Tests/delayTestTx/delayTestTx.ino}
     %\lstinputlisting[style=customc]{CodeExamples/delayTestTx.tex}
 
 \item[CCRC Full Source Code \label{app:CCRC_CODE}]\hfill\\
     Full Arduino code for the CCRC-problem.
+    Including user-code for single-press LED activation.
+    Note: This uses Radiohead and our Address handling library, which is also included.
+    \\Path: \texttt{Arduino/CCRC/CCRC.ino}
     %\lstinputlisting[style=customc]{CodeExamples/ccrcCode.tex}
     
-\item[UPPAAL-CCRC Code & Model\label{UPPAAL-CCRC-Code}]\hfill\\
-    UPPAAL code and model for the CCRC-problem with multi start solutions. The file i 
+\item[UPPAAL-CCRC Code \& Model\label{UPPAAL-CCRC-Code}]\hfill\\
+    UPPAAL code and model for the CCRC-problem with multi start solutions. The file is named : \texttt{CCRC\_Multistart}.
     %\lstinputlisting[style=customc]{CodeExamples/UPPAALccrcMulti.tex}
     
-\item[UPPAAL-CCUC Code & Model\label{UPPAAL-CCUC-Code}]\hfill\\
+\item[UPPAAL-CCUC Code \& Model\label{UPPAAL-CCUC-Code}]\hfill\\
     UPPAAL code and model for the CCUC-problem.
+    The file is named : \texttt{CCUC\_VariableTransmits}.
     %\lstinputlisting[style=customc]{CodeExamples/UPPAALccucCode.tex}
 \end{description}

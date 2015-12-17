@@ -88,7 +88,7 @@ typedef int[1,N] id_t;
 \end{lstlisting}
 \end{minipage}
 
-Finally to instantiate the system, a system declaration is needed which can be seen on \myref{UPPAAL_System_Dcl}.
+Finally to instantiate the system a system declaration is needed, which can be seen on \myref{UPPAAL_System_Dcl}.
 This creates $N$ devices each with a unique ID from $1 - N$ because of the code seen on \myref{uppaal_Global}, at the comment Device Creation.
 
 \begin{lstlisting}[style=UPPAAL,
@@ -105,13 +105,13 @@ system Device;
 \newpage
 \noindent
 Firstly the devices will nondeterministically leave the initial stage, and start listening for a network.
-When they are done listening and have not found a network, they will create a network themselves, by firing the edge towards the \texttt{Connected\_To\_Network} location.
+When they are done listening, and have not found a network they will create a network themselves by firing the edge towards the \texttt{Connected\_To\_Network} location.
 The device will setup the initial values for the network, change its boolean \texttt{Connected} to true, this all happens in the function \texttt{create\_Network()}. 
 The device will move onwards towards the main loop, which will be shown later.
 When the devices listen and find the newly created network, they will fire the other edge, where the broadcast channel \texttt{transmit} is seen.
 The device will stay in this location until the communication phase of the time-slot is complete, which is until \texttt{Delta}, and then it will continue towards the committed location \texttt{Network\_Found} and reset the clock \texttt{x} to zero.
 This location is committed as its purpose is simply visual working as a context switch between having found a network and entering the loop to wait for the empty slot.
-When it has just received a transmission, the device which just transmitted will according to \myref[name]{cha:Design} be performing user code, and therefore the device trying to connect should be waiting for the next time-slot so the other devices are ready to receive again.
+When it has just received a transmission the device which just transmitted will according to \myref[name]{cha:Design} be performing user code, and therefore the device trying to connect should be waiting for the next time-slot so the other devices are ready to receive again.
 
 \bigskip \noindent
 When \texttt{x} is equal to \texttt{Delta\_Proc}, the time designated to perform user code, the device will fire the edge to the committed location directly under \texttt{User\_Code\_Not\_Connected} once again.
@@ -128,8 +128,8 @@ The model can be seen on \myref{fig:UPPAAL_Connected}.
 When a device has been connected to a network it will instantly move to the location main loop, where it will perform the actions as described in the pseudocode of \myref[name]{cha:Design}.
 
 First it moves to a location \texttt{User\_Code} where it will perform user code until the the clock \texttt{x} is equal to \texttt{Delta\_Proc}.
-As soon as this is the case the device will move on to a committed location where it will choose to either transmit or receive depending on whether or not the current time-slot belongs to the device or not.
-When a device has transmitted a transmission, it will move to a waiting location where it will wait until the time-slot has officially ended, which is when the clock \texttt{x} is equal to \texttt{Delta}, reset the clock \texttt{x} and then it will execute the main loop once again.
+As soon as this is the case the device will move on to a committed location where it will choose to either transmit or receive, depending on whether or not the current time-slot belongs to the device or not.
+When a device has transmitted it will move to a waiting location where it will wait until the time-slot has officially ended, which is when the clock \texttt{x} is equal to \texttt{Delta}, reset the clock \texttt{x} and then it will execute the main loop once again.
 This also happens when the device in the empty slot is transmitting, the device waits before starting the main loop.
 When the device is in the location \texttt{Receiving}, if nothing has been transmitted and the clock \texttt{x} is equal to \texttt{Delta} the device will go increment its \texttt{i\_local} value reset the clock \texttt{x} and restart the main loop. 
 This case happens whenever the empty slot is the current time-slot and no new device is trying to connect to the network.
