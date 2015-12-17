@@ -22,12 +22,12 @@ There are changes to \texttt{mainLoop} and \texttt{protocolMaintenance}, additio
                 \CState \Call{JumpPosition}{ }
             \CEndIf
         \Else
-            \CState \textit{timeout}$ \gets \top$
+            \CState \textit{timeout} $\gets$ \textit{true}
             \While {$x \le \delta$}
                 \If {\Call{Received}{$i', n', id', data'$}}
                     \State \Call{ProtocolMaintenance}{$i', n', |data'|$}
-                    \State \Call{UserReceive}{$id', data'$}
-                    \CState \textit{timeout}$ \gets \bot$
+                    \State \Call{ProcessMessage}{$id', data'$}
+                    \CState \textit{timeout}$ \gets$  \textit{false}
                 \EndIf
             \EndWhile
             \CState \Call{HandleTimeout}{\textit{timeout,}$i, k, n$}

@@ -60,6 +60,7 @@ As seen in \myref{fig:main_psuedo_flow} the flow of the code is a straightforwar
 \enquote{Make payload} collects the known data into a package, that is ready to send. 
 \enquote{Process message} then receives one of such packages and unpacks it. 
 Unpacking would usually involve storing the data on the device.
+This should take exceptionally short time, as it is simply copying data from the incomming buffer to a place where user-code can access it. 
 
 \tikzfigure{PsuedoMainFlowDiagram}{Flow diagram showing how a device acts when connected to a network}{main_psuedo_flow}
 
@@ -83,7 +84,7 @@ These processes is described in \myref[name]{sub:setupCCRC}.
             \While {$x \le \delta$}
                 \If {\Call{Received}{$i', n', id', data'$}}
                     \State \Call{ProtocolMaintenance}{$i', n', |data'|$}
-                    \State \Call{UserReceive}{$id', data'$}
+                    \State \Call{ProcessMessage}{$id', data'$}
                 \EndIf
             \EndWhile
         \EndIf

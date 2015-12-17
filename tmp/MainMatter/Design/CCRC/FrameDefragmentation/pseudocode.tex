@@ -26,7 +26,7 @@ There are changes to \texttt{mainLoop} and \texttt{protocolMaintenance}, additio
             \While {$x \le \delta$}
                 \If {\Call{Received}{$i', n', id', data'$}}
                     \State \Call{ProtocolMaintenance}{$i', n', |data'|$}
-                    \State \Call{UserReceive}{$id', data'$}
+                    \State \Call{ProcessMessage}{$id', data'$}
                     \CState \textit{timeout}$ \gets \bot$
                 \EndIf
             \EndWhile

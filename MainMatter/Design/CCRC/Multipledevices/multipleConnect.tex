@@ -108,7 +108,7 @@ In \myref{lst:pseudoInitMulti} the 17 lines from \myref{lst:setupCCRC}, which co
         \State $x \gets 0$
     \EndWhile
     \State \Call{Transmit}{$i, n, id, data$} \Comment{Send announcement}
-    \State $x \gets 0,\, i \gets 0,\, valid \gets \bot$
+    \State $x \gets 0,\, i \gets 0,\, valid \gets$ \textit{false}
     \While {$i \neq n$}
         \State \textbf{run} \Call{UserCode}{ } $\text{ \textbf{until} }x \ge \delta_{proc}$
         \State $i \gets (i \bmod n) + 1$
@@ -116,7 +116,7 @@ In \myref{lst:pseudoInitMulti} the 17 lines from \myref{lst:setupCCRC}, which co
             \If {\Call{Received}{$i', n', id', mode', data'$}}
                 \State \Call{ProtocolMaintenance}{$i', n', |data'|$}
                 \If {\Call{Validated}{$mode', data'$}}
-                    \State $valid \gets \top$
+                    \State valid $\gets$ \textit{true}
                 \EndIf
             \EndIf
         \EndWhile
