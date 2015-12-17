@@ -20,7 +20,7 @@ The procedure seen in \myref{lst:networkMultiStartCCRC2} replaces lines 34 throu
             \While {$x \le \delta$}
                 \If {\Call{Received}{$i', n', id', data'$}}
                     \State \Call{ProtocolMaintenance}{$i', n', |data'|$}
-                    \State \Call{UserReceive}{$id', data'$}
+                    \State \Call{ProcessMessage}{$id', data'$}
                     \If {$n > 2$}
                         \State \textbf{wait until } $x \ge \delta$  
                         \State $x \gets 0$

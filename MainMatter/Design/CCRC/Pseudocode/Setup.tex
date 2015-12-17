@@ -34,11 +34,11 @@ Should it occur that no network is found the device will start its own network w
 \begin{algorithmic}[1]
 \Procedure {Initialise}{ } 
     \State $x \gets 0$
-    \State $found \gets \bot$
+    \State \textit{found} $\gets$ \textit{false}
     \While {$x \le t_0$}
         \If {\Call{Received}{$i', n', id', data'$}}
             \State \Call{ProtocolMaintenance}{$i', n', |data'|$} 
-            \State $found \gets \top$
+            \State \textit{found} $\gets$ \textit{true}
             \State \textbf{wait until } $x \ge \delta$
             \State $x \gets 0$
             \State \textbf{break}
