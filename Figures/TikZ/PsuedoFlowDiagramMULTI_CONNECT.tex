@@ -1,5 +1,5 @@
 \tikzstyle{decision} = [diamond, draw, fill=yellow!20, 
-    text width=4.5em, text badly centered, inner sep=3pt]
+    text width=5.5em, text badly centered, inner sep=3pt]
 \tikzstyle{block} = [rectangle, draw, fill=green!40, 
     text width=6em, text centered, rounded corners, minimum height=4em]
 \tikzstyle{line} = [draw, -latex']
@@ -9,30 +9,38 @@
 \begin{tikzpicture}[node distance = 2.8cm, auto]
     % Place nodes
     \node [cloud] (start) {Start};
-    \node [block, left of=start] (search) {Search for network};
+    \node [block, right of=start] (search) {Search for network};
     \node [decision, below of=search] (found) {Found network?};
-    \node [preproc, right of=found, node distance=3.5cm] (init) {\nodepart{two} Init network};
+    \node [preproc, right of=found, node distance=4.5cm] (init) {\nodepart{two} Initialize network};
     \node [block, below of=found] (listen) {Listen while waiting for empty slot};
-    \node [block, right of=listen] (announce) {Announce in empty slot}; 
-    \node [decision, below of=listen, node distance=2.5cm] (validated) {Validated?};
-    \node [block, right of=validated] (listenvalidate) {Listen for validation from the network};
+    \node [decision, right of=listen, node distance=3.5cm] (currentlyvalidating) {Currently Validating?};
+    \node [block, right of=currentlyvalidating, node distance=3.5cm] (announce) {Announce in empty slot}; 
+    \node [decision, below of=currentlyvalidating, node distance=3.5cm] (validated) {Validated?};
+    \node [block, below of=announce, node distance=3.5cm] (listenvalidate) {Listen for validation from the network};
     
-    \node [block, left of=validated] (expbackoffcalc) {Determine an exponential backoff}; 
     \node [block, left of=listen] (backoff) {Wait for backoff amount of frames}; 
+    \node [block, below of=backoff, node distance=3.5cm] (expbackoffcalc) {Determine an exponential backoff}; 
     \node [block, below of=validated] (join) {Take k after what the empty slot had}; 
-    \node [preproc, left of=join] (mainloop) {\nodepart{two} Main loop};
+    \node [preproc, left of=join, node distance=3.4cm] (mainloop) {\nodepart{two} Main loop};
 
     % Draw edges
     \path [line] (start) -- (search);
     \path [line] (search) -- (found);
     \path [line] (found) -- node {no} (init);
     \path [line] (found) -- node {yes} (listen);
-    \path [line] (listen) -- (announce);
+    \path [line] (listen) -- (currentlyvalidating);
     \path [line] (announce) -- (listenvalidate);
     \path [line] (listenvalidate) -- (validated);
     \path [line] (validated) -- node {no} (expbackoffcalc);
     \path [line] (validated) -- node {yes} (join);
     \path [line] (expbackoffcalc) -- (backoff);
-    \path [line] (backoff) |- (search);
     \path [line] (join) -- (mainloop); 
+
+    \node [draw=none, below of=search, node distance=0.60cm] (seap){};
+    \node [draw=none, left of=seap, node distance=1.05cm] (seapp){};
+    \path [line] (backoff) |- (seapp);
+
+
+    \path [line] (currentlyvalidating) -- node {no} (announce);
+    \path [line] (currentlyvalidating.south) -| node [near start] {yes} (listen.south);
 \end{tikzpicture}
