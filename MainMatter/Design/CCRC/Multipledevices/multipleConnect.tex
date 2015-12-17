@@ -12,7 +12,7 @@ However the payload should contain some information, which could be used in the 
 A combination of the following concepts could provide avoidance and recovery from jamming in the process of joining a network: 
 \begin{description}[labelindent=\parindent]
     \item[Validation]\hfill\\
-    One should always validate whether or not the announcement has been heard and accepted by the network (one device under CCRC) before joining the network.
+    One should always validate whether or not the announcement has been heard and accepted by the network (one device for CCRC) before joining the network.
     No other devices should try to join in an empty-slot if the network is validating another device in that frame, in order to ensure the transmission in the frame following a successful validation is not jammed.
     \item[Payload Mode]\hfill\\
     The header of the payload should contain an extra field, which can indicate different modes or some other variable.
@@ -64,7 +64,7 @@ The flow chart in \myref{fig:pseudo_flowMultiConnect} shows that if a device ann
 \subsection{Changes to the Pseudocode} % (fold)
 \label{sub:changes_to_the_pseudocode}
 Because the problem of multiple devices connecting simultaneously only exists during the initialisation phase, the change to the pseudocode from \myref[name]{sec:Pseudo} will only affect \myref[name]{sub:setupCCRC}.
-Therefore the following modification will focus on line 15-32 (both inclusive) from \myref{lst:setupCCRC}, which deals with what happens if a network is found.
+Therefore the following modification will focus on lines 15-32 (both inclusive) from \myref{lst:setupCCRC}, which deals with what happens if a network is found.
 In the modified pseudocode some new variables and constants are introduced, these are presented and explained in \myref{tab:locals_wmulticonnect}.
 
 \begin{table}[H]
