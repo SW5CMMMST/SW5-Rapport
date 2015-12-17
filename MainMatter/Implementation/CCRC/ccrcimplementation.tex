@@ -12,7 +12,6 @@ The \texttt{getGlock} function also handles overflowing of the \texttt{millis()}
 \texttt{millis()} returns an unsigned integer (\texttt{uint32\_t}) and so is the clock variable.
 Therefore calculation involving both of these uses unsigned arithmetic.
 Consider the following two calculations in unsigned 8-bit arithmetic:
-
 \begin{align*}
 257 - 252   &= 5 && \text{(257 is overflowing the 8-bit unsigned integer by 2)} \\
 1 - 252     &= 5 && \text{(In 8-bit math)}
@@ -27,7 +26,8 @@ This is done with the function \texttt{waitForNextTimeslot} which takes the size
 It is possible to accurately calculate how long it took to send the payload, the formula for this is found in the test, see \myref[name]{sub:radiohead_time_sent_test}.
 This function is also used every time a payload is received to ensure that the devices in the network remains synchronised. 
 
-\begin{figure}[ht]
+\begin{figure}[h]
+\vspace{-20pt}
 \begin{lstlisting}[style=customc,caption={The variables and functions used to implement timing.},label={lst:ccrc:timing}]
 uint32_t x = 0;
 
@@ -48,9 +48,8 @@ void waitForNextTimeslot(uint32_t payloadSize) {
   while (getClock(&x) <= timeLeft);
   resetClock(&x);
 }
-
 \end{lstlisting}
-\vspace{-20pt}
+\vspace{-30pt}
 \end{figure}
 
 \subsection{Upstart: Creating or Joining a Network}
@@ -59,8 +58,7 @@ If it cannot find a network then it should create its own network, so that other
 The worst case time required to determine whether a network exists is roughly $3 \times \delta \leq t_0$ for the CCRC-problem, as determined in \myref[name]{sub:setupCCRC}, where $t_0$ is the maximum time. 
 This is referred to as \texttt{INIT\_WAIT} in the code and sets the limit for how long an Arduino listens before creating its own network. 
 In \myref{lst:ccrc:startup} the start-up code is shown. 
-\begin{figure}
-\begin{lstlisting}[style=customc,caption={Start-up, if a network is found join it, if not create one.},label={lst:ccrc:startup}]
+\begin{lstlisting}[style=customc,caption={Start-up, if a network is found join it, if not create one.},label={lst:ccrc:startup}, float=h]
 bool foundNetwork = false;
 while (getClock(&x) <= INIT_WAIT && !foundNetwork) {
     if (rx()) {
@@ -100,7 +98,6 @@ if (foundNetwork) {
     resetClock(&x);
 }
 \end{lstlisting}
-\end{figure}
 \subsection{Main Loop: Normal Network Operation}
 The main loop executes both the processing phase and the communication phase.
 First user-code is executed, this is seen as \texttt{userCodeRunOnce()}, and \texttt{userCodeRepeat()}.
@@ -115,8 +112,7 @@ As such guard time exists to make sure that out-of-sync devices will still have 
 Firstly each device should either transmit or receive depending on the current time-slot. 
 If the current time-slot belongs to a device then that device should transmit otherwise it should receive, note that there is no special case for the empty slot in which new devices can join the network.
 There exists no special case for a device to join as communication is perfect thus the device can simply transmit in the empty slot letting everyone know that the network has increased, and the device is seizing the former empty slot.
-\begin{figure}
-\begin{lstlisting}[style=customc,caption={Important parts of the main loop.},label={lst:ccrc:rxortx}]
+\begin{lstlisting}[style=customc,caption={Important parts of the main loop.},label={lst:ccrc:rxortx}, float=h]
 userCodeRunonce();
 while (getClock(&x) <= DELTA_PROC) {
     userCodeRepeat();
@@ -149,7 +145,6 @@ if (netStat.i == netStat.k) {
     }
 }
 \end{lstlisting}
-\end{figure}
 
 The \texttt{tx()}-function prepares and transmits the payload, this can optionally include user-data, and is the first parameter, the second being the length of the data.
 \texttt{tx()} then waits for the timeslot to end, as this is a static time for every timeslot, and resets the clock on the device, lastly the main loop starts over.

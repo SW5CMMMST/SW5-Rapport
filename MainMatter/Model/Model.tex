@@ -146,12 +146,10 @@ The queries for the system will be given one by one along with a description of 
 
 The computer used for all the tests is a laptop with an Intel i3 processor with a clock speed of 2.3 GHz, and 4 GB RAM, running Windows 8.1.
 
-\noindent\begin{minipage}{\textwidth}
 \begin{lstlisting}[style=UPPAAL, title={This query requires that if all devices are connected, then no pair of devices have the same \texttt{k}, unless the pair consists of the same two devices.}]
 1. A[] forall(i: id_t) forall(j: id_t) Device(i).Connected and
   Device(j).Connected imply (Device(i).k == Device(j).k imply i == j)
 \end{lstlisting}
-\end{minipage}
 
 \noindent
 When UPPAAL runs this query on the model it will return false.
@@ -160,7 +158,8 @@ This feature shows that it was not true because in the case that no device ever 
 Then no device will ever be connected, making the query false.
 To counteract this an invariant has been added to the model as shown on \myref{UPPAALInvariant}.
 
-\begin{wrapfigure}[11]{r}{0.5\textwidth}
+\begin{wrapfigure}{r}{0.5\textwidth}
+  \vspace{-10pt}
   \includegraphics[width=0.5\textwidth]{Figures/Model/InvariantOnStartup.PNG} 
 \caption{Addition of an invariant on the initial location.}
 \label{UPPAALInvariant}
