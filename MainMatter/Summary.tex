@@ -1,19 +1,19 @@
 \section{Summary}\label{cha:conclusion}
 %ProblemStatement
-Throughout this paper, efforts to find a solution to the problem statement in \myref{sec:problemStatement} has been made.
+Throughout this paper efforts to find a solution to the problem statement in \myref{sec:problemStatement} has been made.
 In short the problem statement is to develop a protocol for multiple devices to communicate over a single radio frequency in a reliable and time-critical way, without jamming each other.
 In order to develop a protocol for this particular problem a choice in hardware was made, which was to use the Arduino.
 
 % Hardware
-Using the Arduino platform limits the hardware and computational options although as the protocol would require neither intense computation or powerful hardware; the Arduino platform proved to be a good fit for the purpose of this paper and the resources available.
-For real world applications unreliability is also a factor to consider and \gls{rf}-modules are no exception, furthermore as the problem statement states cost-efficiency, cheaper \gls{rf}-modules were chosen, which in turn affects the quality.
+Using the Arduino platform limits the hardware and computational options although as the protocol would require neither intense computation or powerful hardware, the Arduino platform proved a good fit for the purpose of this paper and the resources available.
+For real world applications unreliability is also a factor to consider and \gls{rf}-modules are no exception; furthermore as the problem statement states cost-efficiency, cheaper \gls{rf}-modules were chosen which in turn affects the quality.
 
 % Problems: CCRC CCUC SCRC SCUC
 \bigskip \noindent
-Graph theory was used to split the problem domain into four separate issues, in order to handle one sub-problem at a time, these were \acrfull{ccrc}, \acrfull{ccuc}, \acrfull{scrc}, and \acrfull{scuc}, which can all be further read about in \myref{chp:Problems}.
+Graph theory was used to split the problem domain into four separate issues in order to handle one sub-problem at a time; these were \acrfull{ccrc}, \acrfull{ccuc}, \acrfull{scrc}, and \acrfull{scuc}; which can all be further read about in \myref{chp:Problems}.
 
 % TDMA  
-The design of the protocol is based on the concept of \acrfull{tdma}, which is the de facto standard protocol for single-frequency multiple device communication.
+The design of the protocol is based on the concept of \acrfull{tdma} which is the de facto standard protocol for single-frequency multiple device communication.
 UPPAAL was used to check if the protocol upheld different statements through queries.
 The first protocol successfully arranged all devices into a network, where no two devices would transmit at the same time, thus causing no jamming.
 
