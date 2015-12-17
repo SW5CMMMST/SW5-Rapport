@@ -1,21 +1,15 @@
 \section{Model Driven Software Development}
-Because, reliability is the main focus points of the protocol.
-It is essential that it is possible to test the model in-depth during development.
+Since reliability is the main focus points of the protocol it is essential that it is possible to test the model in-depth during development.
 
 Model driven software development is one way to make this possible.
-The general idea is that the model is more abstract than its implementation.
-Therefore a programmer could write a model and have another program generate the code and any errors in the generated code is caused by the model itself or an error in the model to code compiler.
+The general idea, as described by \citet{beydeda2005model}, is that the model is more abstract than its implementation.
+Therefore a programmer could construct a model and have another program generate the code and any errors in the generated code is caused by the model itself or an error in the model-to-code compiler.
 Changes in the generated code should therefore be avoided.
 
+Making a model instead of an implementation makes it possible to test different ideas without worrying about the implementation details reducing the complexity of the task.
 
+Since a model is more abstract than the implementation, it is feasible that another program could simulate devices using the protocol.
+The result would be the possibility of testing a larger array of test-cases in a shorter period of time compared to tests using hardware.
 
-
-
-..
-
-
-Because a model is more abstract than the implementation, it is feasible that another program could simulate devices using the protocol.
-The result would be the possibility of testing a larger array of cases in a short period of time compared to tests using hardware.
-
-In pure model driven software development it would usually involve a generator which could generate code from the model. 
-This is not the focus of this paper, therefore, 
+In pure model driven software development, it would usually involve a generator which could generate code from the model. 
+This is not the focus of this paper, therefore the implementation is done manually, from thoroughly designed models.
