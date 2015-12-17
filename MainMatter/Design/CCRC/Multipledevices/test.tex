@@ -1,7 +1,6 @@
 %!TEX root = ../../../../master.tex
 \newpage
 \section{Testing on Arduino}\label{sec:ccrc_test}
-\todo[inline]{Skal vi have nogle fritzing diagrammer, billeder etc. her? - Troels}
 The solution for the Simultaneous Connect Problem described in \myref[name]{sec:simultaneous_connect} have been implemented on the Arduino platform along with the multiple start-up.
 This is to test if the protocol works in a real life scenario. 
 Sourcecode used in this test can be found on the CD attached in the back of the paper.
@@ -44,16 +43,20 @@ This has simply been tested by having two identical Arduinos turn on at the same
 The time it took for the two devices to connect to the same network can be seen on \myref{graphConnectime}.
 From the data you can determine that the average time to connect to a network is 4458.8 ms with a minimum of 2733 ms and a maximum of 7862 ms.
 This time could be improved by implementing a method of avoidance, i.e. starting $c$ greater zero, thus the time before each device creates the first network is random as well, in addition to the recovery used by killing the network.
+If the aforementioned test were to be run on the old implementation, which does not support simultaneous start-up, the two Arduinos would never succeed in creating a single network with both devices connected.
+Instead the Arduinos would both create a network, which in turn would collide with each other and as a result of that, jamming would constantly occur.
 
 \begin{table}[H]
-\centering\scriptsize
-\begin{tabularx}{\textwidth}{X|c c c c c c c c c c}
-                          & Test 1 & Test 2 & Test 3 & Test 4 & Test 5 & Test 6 & Test 7 & Test 8 & Test 9 & Test 10\\
-                          \midrule
-    Time to connect (ms)  & 6301   & 4458   & 3299   & 7862   & 3865   & 3299   & 3865   & 2733   & 4448   & 4458
-\end{tabularx}
-\caption{The result of test. Where two Arduinos are both trying to create a network.}
+\centering\footnotesize
+\begin{tabular}{c | c | c | c | c }
+Test 1 & Test 2 & Test 3 & Test 4 & Test 5 \\\midrule
+6301 ms & 4458 ms & 3299 ms & 7862 ms & 3865 ms \\\bottomrule
+\end{tabular}\\
+\vspace{20pt}
+\begin{tabular}{c | c | c | c | c }
+Test 6 & Test 7 & Test 8 & Test 9 & Test 10\\\midrule
+3299 ms & 3865 ms & 2733 ms & 4448 ms & 4458 ms \\\bottomrule
+\end{tabular}
+\caption{Data from test of simultaneous startup on Arduinos. Shows the time it takes two simultaneously started devices to connect to the same network.}
 \label{graphConnectime}
 \end{table} 
-\todo{This table is more or less useless... Should at least be redone - Sass}
-% MEDIAN 3865

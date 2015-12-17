@@ -27,7 +27,7 @@ The LED on those devices was set to blink whenever a package was received.
 First the transmitters and receivers were 2 meters from each other then a test with 100 packets containing 16 bytes was sent, the contents of a single message was the index of the packages being sent. 
 The receivers counted the messages received and wrote the final result to the computer over USB. 
 This was repeated every 2 metres. 
-The code run on the Arduinos can be found in \myref{app:PkgLossRxCode} and \myref{app:PkgLossTxCode}.  
+The code run on the Arduinos can be found in \myref{app:PkgLossRxCode}.  
 
 % \begin{figure}[p]
 % \centering
@@ -84,7 +84,7 @@ The results will be further concluded upon later.
 
 \paragraph{What Causes the Package Loss?}\label{par:wctpl}\hfill \\
 A small sub-test has been made to explore if when a package is lost for one device, is the same package lost amongst all other devices.
-This is done by having one Arduino with a transmitter, with an antenna length of 17.3 cm, transmitting the numbers from zero to 999, and having three Arduinos with an antenna length of 17.3 cm receiving the data. 
+This is done by having one Arduino with a transmitter with an antenna length of 17.3 cm, transmitting the numbers from zero to 999, and having three Arduinos with an antenna length of 17.3 cm receiving the data. 
 If a package is missed for one Arduino is it then the same number which is missed across all Arduinos.
 This will help discover if the problem of package loss is connected to the receivers or to the transmitters.
 

@@ -28,7 +28,7 @@ That device can only know its local variables and what it receives via the \enqu
 \noindent%
 The devices store their knowledge in their local variables as seen in \myref{tab:locals}. 
 The aim of the network should be to manipulate those values while running, such that by the end of each time-slot the statements seen in \myref{tab:invariants} are satisfied. 
-This should ensure that no jam should occur.
+This should ensure that no jam can occur.
 
 \begin{table}[H]
 	\centering
@@ -66,7 +66,7 @@ Unpacking would usually involve storing the data on the device.
 \noindent%
 This loop should only be stopped when the network is reconfigured. 
 Reconfiguration of the network involves setting up and connecting to a network. 
-These processes is described in \myref[name]{sub:setupCCRC}.
+These processes are described in \myref[name]{sub:setupCCRC}.
 
 \begin{algorithm}[ht]
 \caption{Design example of the main loop}
@@ -99,6 +99,6 @@ In the code, there are a few extra details but the main structure is the same.
 The code describes how a device knows whether it is its turn or not.  
 
 Another thing to realize is because the timing is static, the clock $x$ needs to be reset only after the duration of a full time-slot; $\delta$.
-Other resynchronisation is handled in the \textsc{ProtocolMaintenance} procedure.
+Other resynchronization is handled in the \textsc{ProtocolMaintenance} procedure.
 % subsection general_case (end)   
             

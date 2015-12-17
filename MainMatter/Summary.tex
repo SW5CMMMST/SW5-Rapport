@@ -13,25 +13,25 @@ For real world applications unreliability is also a factor to consider and \gls{
 Graph theory was used to split the problem domain into four separate issues in order to handle one sub-problem at a time; these were \acrfull{ccrc}, \acrfull{ccuc}, \acrfull{scrc}, and \acrfull{scuc}; which can all be further read about in \myref{chp:Problems}.
 
 % TDMA  
-The design of the protocol is based on the concept of \acrfull{tdma} which is the de facto standard protocol for single-frequency multiple device communication.
+The design of the protocol is based on the concept of \acrfull{tdma}, which is the de facto standard protocol for single-frequency multiple device communication.
 UPPAAL was used to check if the protocol upheld different statements through queries.
-The first protocol successfully arranged all devices into a network, where no two devices would transmit at the same time, thus causing no jamming.
+The first protocol successfully arranged all devices into a network such that no two devices would transmit at the same time thus causing no jam.
 
 % Multistartup & Results UPPAAL
 The first design intended for \acrshort{ccrc} did not handle the activation of multiple devices at the same time, as shown by UPPAAL.
-The multiple device activation was split problem into two sub-problems: \myref[name]{sec:MSI-CCRC} and \myref[name]{sec:simultaneous_connect}.
+The multiple device activation problem was split into two sub-problems: \myref[name]{sec:MSI-CCRC} and \myref[name]{sec:simultaneous_connect}.
 This was not in the original plan, and the time it took to design and implement this was underestimated, which caused time-constraints in the end.
 
 % Results Implementation
-The protocol was implemented to work on the Arduinos and a test showed that if one Arduino had made a network, and three other Arduinos were turned on at the same time, a network was successfully created.
-It was also tested if two Arduinos turned on at the same time, they would eventually connect to the same network, which was also the case.
+The protocol was implemented to work on the Arduinos, and a test showed that if one Arduino had made a network, and three other Arduinos were turned on at the same time a network was successfully created.
+It was also tested whether if two Arduinos turned on at the same time they would eventually connect to the same network, which was also the case.
 The test data can be found in \myref{sec:ccrc_test}.
 
 % Design CCUC
 \bigskip \noindent
-For the \acrshort{ccuc}-protocol not much had to change for it to still work properly.
-Using UPPAAL it was discovered that it was only creating and connecting the network which caused problems for \acrshort{ccuc}, once a network was created the protocol still had a high probability of success.
-Based on conditional probability theory it was hypothesised that transmitting every payload twice could increase this probability.
+For the \acrshort{ccuc}-protocol not much had to change for it to work properly.
+Using UPPAAL it was discovered that it was only creating and connecting the network which caused problems for \acrshort{ccuc}; once a network was created the protocol still had a high probability of success.
+It was hypothesised that transmitting every payload twice could increase the probability of success.
 UPPAAL was used to check this hypothesis, and it showed that this indeed was the case, as can be seen in \myref[name]{sec:uppaalccuc}.
 % Results UPPAAL
 
@@ -43,5 +43,5 @@ The improvements included a way to remove \enquote{dead} devices and defragmenti
 
 % If more time Future works.
 \bigskip \noindent
-If time was not a factor the next step for the project would be the implementation of strongly connected networks.
-The strategies for designing these will be explained in the following chapter.
+If time was not a factor the next step for the project would be implementing the designed solution for defragmentation followed altering to the protocol to also work for strongly connected networks.
+A closer look upon strongly connected networks follows in \myref{futureWorks}.
