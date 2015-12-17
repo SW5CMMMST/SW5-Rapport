@@ -1,22 +1,22 @@
 %\clearpage
 \section{Simultaneous Connect} % (fold)
 \label{sec:simultaneous_connect}
-
 Another problem arises when two or more devices are started simultaneously while a functioning network is up and running.
 If all new devices try to connect in the first empty slot, as they should, they will jam each others messages and neither will be heard.
 Moreover the jammed, and jamming, devices will never know that their message was not received by anyone, as there is no way of knowing if one transmission was disrupted or jammed.
 A device should always try to connect to a network immediately after starting up, to ensure that in non-jamming situations it is fast.
 This also means that jams are bound to happen sooner or later, so some measures must be taken to recover from such situations.
-When it comes to multiple devices trying to simultaneously connect to a network, each devices must be able to handle announce conflicts internally.
+When it comes to multiple devices trying to simultaneously connect to a network all devices must be able to handle announce conflicts internally.
 However the payload should contain some information, which could be used in the solution of these conflicts.
 
-A combination of the following concepts could provide avoidance and recovery from jamming, in the process of joining a network: 
+A combination of the following concepts could provide avoidance and recovery from jamming in the process of joining a network: 
 \begin{description}[labelindent=\parindent]
     \item[Validation]\hfill\\
-    One should always validate whether or not the announcement has been heard and accepted by the network (one device under CCRC), before joining the network.
+    One should always validate whether or not the announcement has been heard and accepted by the network (one device under CCRC) before joining the network.
+    No other devices should try to join in an empty-slot if the network is validating another device in that frame, in order to ensure the transmission in the frame following a successful validation is not jammed.
     \item[Payload Mode]\hfill\\
     The header of the payload should contain an extra field, which can indicate different modes or some other variable.
-    If the design using modes is chosen, it would be possible for other devices implementing the protocol to do various actions upon the data of the payload, e.g. the mode can indicate that the first byte of the data contains the address of a device, which is allowed to join the network.
+    If the design using modes is chosen it would be possible for other devices implementing the protocol to do various actions upon the data of the payload, e.g. the mode can indicate that the first byte of the data contains the address of a device, which is allowed to join the network.
     Further explanation will be presented in \myref[name]{ssub:modes_and_validation}
     \item[Exponential Backoff]\hfill\\ 
     If no one in the network responds to a device's announcement, or it is not validated, the device will use exponential backoff in regards to how many frames it should wait before trying again.
@@ -40,22 +40,22 @@ Such a modification with mode in the payload header can be seen on \myref{fig:pa
 \tikzfigure{Payload_wModes.tikz}{Modified payload containing an indicator for mode}{payloadwMode}
 
 \noindent
-Along side the possibility of sending validation payloads using modes, other functions could benefit from this in the future, e.g. targeted payloads, payload that should be echoed or other special cases.
+Alongside the possibility of sending validation payloads using modes, other functions could benefit from this in the future, e.g. targeted payloads, payloads that should be echoed or other special cases.
 % subsubsection modes_and_validation (end)
 
 % subsection modification_of_the_payload (end)
 
-\subsection{Introduction of Exponential Backoff} % (fold)
+\subsection{Recovery by Exponential Backoff} % (fold)
 \label{sub:introduction_of_sub_slots_and_exponential_backoff}
-To ensure a faster conflict solving if multiple devices try to connect simultaneously, the method of using exponential backoff is chosen.
-The strategy of using exponential backoff only applies if jamming occurs.
+To ensure faster conflict solving if multiple devices try to connect simultaneously, the method of using exponential backoff is chosen.
+The strategy of using exponential backoff only applies if a device is not validated after trying to join a network.
 On \myref{fig:pseudo_flowMultiConnect} it can be seen how method is merged into the existing flow chart (\myref{fig:psuedo_flowCCRC}) from \myref[name]{sub:setupCCRC}.
-The flow chart in \myref{fig:pseudo_flowMultiConnect} shows that if a device announces it self and does not get validated by the network, because the announcement was jammed, it will use exponential backoff to prevent further collisions.  
+The flow chart in \myref{fig:pseudo_flowMultiConnect} shows that if a device announces itself and does not get validated by the network, because the announcement was jammed, it will use exponential backoff to prevent further collisions.  
 
 \begin{figure}[ht]
     \centering \footnotesize
     \input{Figures/TikZ/PsuedoFlowDiagramMULTI_CONNECT.tex}
-    \caption{Revised flow diagram showing how a device acts during the Initialization phase}
+    \caption{Revised flow diagram showing how a device acts during the Initialisation phase}
     \label{fig:pseudo_flowMultiConnect}
 \end{figure}
 
@@ -85,7 +85,7 @@ In the modified pseudocode some new variables and constants are introduced, thes
 \end{table}
 
 \noindent
-The modified pseudocode is significantly more complex than the previous verison of the connecting phase.
+The modified pseudocode is significantly more complex than the previous version of the connecting phase.
 This is the case because of the two-step strategy previously discussed, which requires addition of several looping and conditional constructs.
 In \myref{lst:pseudoInitMulti} the 17 lines from \myref{lst:setupCCRC}, which concerned connecting, have been expanded to 54 lines of code. 
 

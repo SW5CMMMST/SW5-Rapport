@@ -1,29 +1,29 @@
 \section{Multiple Start-up Issue}\label{sec:MSI-CCRC}
 %The activation of multiple devices at any point in time such that two or more devices are active but not in a network causes a problem that must be handled differently for each of the two aforementioned cases.
-The first case handled in this section is in the case where no network exists prior to the activation of devices.
-As it has been established earlier, the time required to guarantee no network exists is $\delta \times 3$.
-From the moment a device has determined that no network exists, it spends $\delta$ time to announce the existence of a network.
+The first case handled in this section is the case where no network exists prior to the activation of devices.
+As it has been established earlier the time required to guarantee no network exists is $\delta \times 3$.
+From the moment a device has determined that no network exists it spends $\delta$ time to announce the existence of a network.
 As such if several devices are activated within $\delta$ time, relative to the firstly activated device, multiple networks will be established.
 By this it follows that if one can guarantee that devices start with an offset of at least $\delta$ the problem is solved for every case.
-In an effort to solve this problem several different approaches can help, however none of them can guarantee that a multiple of networks will never occur with 100 \% certainty. 
+In an effort to solve this problem several different approaches can help however none of them can guarantee that a multiple of networks will never occur with 100 \% certainty. 
 As such implementing concepts from several of the following approaches may yield the best result.
 
 \subsection{Deterministic Solutions}
 Firstly deterministic solutions will be described.
-These solutions are easy to check for errors as the result of any operation is predictable, as this limits the state space to the amount of start configurations possible.
+For these solutions it is possible to check whether or not they work, and with what certainty, as non-random deterministic solutions have a limited state space.
 
 \subsubsection{Unique Offset}
-Unique offset is when each device listens for a network for a uniquely specified amount of $\delta$ rather than the initial wait time of $\delta \times 3$.
+Unique offset suggests that each device listens for a network for a uniquely specified amount of $\delta$ rather than the initial wait time of $\delta \times 3$.
 Using the \textit{id} of each device one could guarantee that no device used the same multiple of $\delta$ prior to establishing their network by the formula $\text{\textit{initial wait time}} + \delta \times id$.
 
-This however assumes devices are activated either simultaneously or continuously with rising addresses for it to work.
+However assumes devices are activated either simultaneously, or continuously with rising addresses for it to work.
 In the case where initially the device with \textit{id} 2 is turned on and exactly $\delta$ time later the device with \textit{id} 1 is turned on they would still both create a network, as such this is not a valid solution in itself to the problem.
 However this approach could significantly increase the chance of only creating one network in situations where all the devices are started simultaneously, e.g. a scenario where a multiple of devices are connected to the same power grid, which is then turned off and on again.
 Hereby making it appropriate for a uniform start-up process.
 
 \subsubsection{Kill the Network (Deterministic)}\label{KtN}
 If a device is alone in a network for too long it may decide to kill the current network and start listening again.
-This works as a recovery technique, allowing two networks to be established but then solving that very problem.
+This works as a recovery technique allowing two networks to be established but then solving that very problem.
 The technique has the network disassemble itself once some factor determines it needs to.
 
 This factor could be when a number of frames has passed without hearing from any other device.
@@ -52,8 +52,8 @@ As the pattern would be random a scenario where only one device has created a ne
 In other words at some point an isolated network should exist to which other devices can join.
 
 One could also implement exponential backoff as described in \myref{sec:exponential_backoff}.
-Instead of just waiting for the backoff period, the devices could use the backoff period to listen for networks, for an exponentially increasing amount of time. 
-This could worsen the time it takes to set-up a network exponentially.
+Rather than the traditional wait time the backoff provides, it could be used to increase the time spend listening for networks.
+While this could potentially increase the time it takes to set up a network exponentially, that scenario is less likely to happen than all networks dieing off within two frames, as such it provides a better alternative.
 
 \subsection{Modifications to the Upstart Phase}                 
 Based on some of the aforementioned possibilities a new upstart phase has been designed which minimises the probabilities of devices creating several networks.

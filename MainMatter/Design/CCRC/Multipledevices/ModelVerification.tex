@@ -1,7 +1,7 @@
 \newpage
 \section{Statistical Model Checking}
-When a model rely on stochastic behaviours, such as randomness, its state-space grows exponentially (sometimes called a state-space explosion) therefore an exhaustive search determining whether if some property holds is not possible in reasonable time. 
-Instead one can estimate a percentage chance a property holds, within a given probability of uncertainty, with a Statistical Model Chcker (SMC). 
+When a model rely on stochastic behaviours, such as randomness, its state-space grows exponentially (sometimes called a state-space explosion) therefore an exhaustive search determining whether some property holds is not possible in reasonable time. 
+Instead one can estimate a percentage chance a property holds, within a given probability of uncertainty, with a Statistical Model Checker (SMC). 
 
 %UPPAAL SMC Explanation
 \subsection{UPPAAL SMC}\label{subsec:uppaalsmc}
@@ -17,10 +17,10 @@ To do this in UPPAAL there is an extension called UPPAAL SMC, a full tutorial is
 In UPPAAL SMC there is a new type of edge, this is a weighted edge and is shown as a dashed line. 
 An example of this can be seen in figure \myref{fig:simpleSMC}. 
 The figure shows a simple UPPAAL SMC model, following the initial state there is a ``branch point'' from which there are two weighted edges.
-The number by the weighted edges give their probability of being taken, this simple concept allows UPPAAL SMC to do randomness without having to explore the full state-space, as it can run simulations taking each edge a number of times corresponding to their weights. 
+The number by the weighted edges indicates the probability of the edge being fired, this simple concept allows UPPAAL SMC to do randomness without having to explore the full state-space, as it can run simulations taking each edge a number of times corresponding to their weights. 
 This example simulates a coin toss, giving 50 \% chance of heads and 50 \% chance of tails. 
 
-UPPAAL SMC can additionally draw several types of plots which shows what the chance of a given query being true after a given run duration.
+Additionally UPPAAL SMC can also draw several types of plots which shows what the chance of a given query being true after a given run duration is.
 
 It is possible to set the statistical parameters for UPPAAL SMC, such as: Probability uncertainty, Probability of false negatives and Probability of false positives. 
 Setting these parameters closer to zero will cause the time it takes to verify a query for a model to increase drastically, however it will also be more accurate. 
@@ -29,16 +29,15 @@ Setting these parameters closer to zero will cause the time it takes to verify a
 
 \subsection*{Changes to the model}
 
-The UPPAAL model shown in \myref{sec:themodel} has gone through extensive changes to accomodate the challenges posed of multiple devices starting at the same time.
-The complete model can be seen in the back of the project report printed on a A3-paper, and it can also be found on the CD, which is also in the back of the project folder, however the code for the model can be found in \myref{UPPAAL-CCRC-Code}.
+The UPPAAL model shown in \myref{sec:themodel} has gone through extensive changes to accommodate the challenges posed of multiple devices starting at the same time.
+The complete model can be seen in the back of the project report printed on a piece of A3-paper, and it can also be found as specified in  \myref{UPPAAL-CCRC-Code}.
 
 
 \paragraph{Jamming} can now occur since multiple devices are turned on at the same time, which means that more than one device is now able to transmit at the same time.
 If two or more devices transmit at the same time, i.e. a jam, then none of the receiving devices will be able to receive any payloads, this is also mentioned in \myref[name]{subsubsec:RadioHead}, this needs to be modelled in UPPAAL. 
-%When this happens, it has been mentioned in \myref[name]{subsubsec:RadioHead}, that nothing is detected by the receivers, therefore a mechanism making sure that when two devices are trying to transmit at the same time, nothing will be received by anyone are needed in UPPAAL. 
 
 \paragraph{Multiple Start-up.}
-In the previous model presented in \myref[name]{sec:themodel} only one device was able to start at a time, as there was nothing to handle multiple starting at the same time.
+In the previous model presented in \myref[name]{sec:verifyingTheModel} only one device was able to start at a time, as there was nothing to handle multiple devices starting at the same time.
 
 \begin{wrapfigure}{r}{0.5\textwidth}
     \centering
