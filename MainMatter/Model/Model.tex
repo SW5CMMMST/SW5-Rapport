@@ -88,6 +88,7 @@ typedef int[1,N] id_t;
 \end{lstlisting}
 \end{minipage}
 
+\noindent
 Finally to instantiate the system a system declaration is needed, which can be seen on \myref{UPPAAL_System_Dcl}.
 This creates $N$ devices each with a unique ID from $1 - N$ because of the code seen on \myref{uppaal_Global}, at the comment Device Creation.
 
@@ -97,7 +98,7 @@ system Device;
 \end{lstlisting}
 
 \begin{figure}
-  \includegraphics[width=1\textwidth]{Figures/Model/Device_Connecting_MultiStart.pdf} 
+  \includegraphics[width=1.2\textwidth]{Figures/Model/Device_Connecting_MultiStart.pdf} 
 \caption{UPPAAL Model showing how the devices initialize.}
 \label{fig:UPPAAL_Intitialization}
 \end{figure}
