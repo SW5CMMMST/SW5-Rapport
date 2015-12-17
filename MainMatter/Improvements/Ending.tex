@@ -1,25 +1,26 @@
 \section{Additional Performance Improvements}
 The following section will briefly explain other thoughts on how to improve the performance of the protocol.
-\subsection{Timer Interrupt Based Library}
+\vspace{-8pt}
+\subsubsection{Timer Interrupt Based Library} 
+\vspace{-6pt}
 The Arduino platform includes support for timer interrupt based programming.
-This means that once for every time-slot an interrupt in the user program could occur.
-Such an interrupt could handle protocol specific details, such as transmitting, receiving and maintenance.
+This means that once for every time-slot an interrupt in the user program could occur, which could handle protocol specific details, such as transmitting, receiving or maintenance.
 
-The main advantage of this would be that the interrupt provides a simplified way of ensuring that user code does not exceed the time partitioned for it to run.
+The main advantage of this would be that the interrupt provides a simplified way of ensuring that user code does not exceed the assigned time limit.
 The disadvantage of this would be that the interface from the usercode to the protocol would become less obvious, and it would make the code vulnerable to race conditions.
-Moreover the user code would need to be preempt-able and context switching would have to be implemented correctly.
+Moreover context switching would have to be implemented on the Arduinos.
 
 Another thing to note is that on the Arduino Nano and Uno there are three timer interrupts.
 One is used by the delay function another is used by the RadioHead library leaving exactly one left for the protocol.
 This would limit every other library or usercode which uses timers to be incompatible.
 A solution could be to alter RadioHead and the protocol to share interrupts, which is anticipated to require a lot of changes to both RadioHead and the protocol.
-
-\subsection{Improving the Protocol's Operating Speed}
+\vspace{-8pt}
+\subsubsection{Improving the Protocol's Operating Speed}
+\vspace{-6pt} 
 The protocol uses approximately $66 + (6 \times s)$ milliseconds to transmit a package of size $s$, as discovered in  \myref[name]{sub:radiohead_time_sent_test}. 
 This means that a payload of 16 bytes would take 162 milliseconds to transmit.
 If a quarter of the time slot is left for the usercode the length must be approximately 200 milliseconds.
 In a network with $k$ devices, this means that the frame length must be equal to $200 \times (k + 1)$ milliseconds.
-Due to which a network of four devices would have a frame length of one second.
 There is a wide range of ways to improve the speed at which the protocol operates, but this section will focus on the following possible improvements:
 
 \begin{description}[labelindent=\parindent]

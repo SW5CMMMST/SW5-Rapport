@@ -1,3 +1,4 @@
+\newpage
 \section{Model Checking the CCUC-protocol}\label{sec:uppaalccuc}
 This section will explore to what degree issues caused by unreliability affects the UPPAAL model developed previously in \myref[name]{subsec:changestoModel}.
 
@@ -46,12 +47,14 @@ Therefore the message redundancy technique is implemented in the model, which me
 This also means that the time-slots' length will have to be increased to make up for the increased transmission time.
 One of these loops can be seen on \myref{LoopTransmitUPPAAL}.
 
-\begin{wrapfigure}{r}{0.55\textwidth}
-\vspace{12pt}
+\begin{wrapfigure}{r}{0.5\textwidth}
+\vspace{-10pt}
 \centering
-  \includegraphics[width=0.55\textwidth]{Figures/Model/Transmit_Loop.PNG} 
-\caption{Model in UPPAAL showing the loop, where it transmits for the amount of times specified minus one. The last transmission in a time-slot will occur when it finally leaves the location.}
+\includegraphics[width=0.5\textwidth]{Figures/Model/Transmit_Loop.PNG}
+\vspace{-24pt} 
+\caption{Model in UPPAAL showing the loop, where it transmits for the amount of times specified minus one. The last transmission in a time-slot will occur when it leaves the location.}
 \label{LoopTransmitUPPAAL}
+\vspace{-12pt}
 \end{wrapfigure}
 
 This also requires changes to the code in UPPAAL, which can be found in \myref{UPPAAL-CCUC-Code}.
@@ -65,7 +68,8 @@ The results of this test can be seen on \myref{CCUC-Graph-UPPAAL}; they show tha
 A further test has been made to see the changes when the chance of receiving are drastically worse than in the first test.
 The result can be seen on \myref{fig:crazy_graph}, where it can be seen just how much it helps transmitting more than once in each time-slot, but it does cost a lot in regards of the speed of the network.
 
-\paragraph{Package Loss in the Main Loop}\hfill \\
+\subsubsection{Package Loss in the Main Loop}
+\vspace{-7pt}
 The most significant problems regarding the stability of the network occurs when package loss happens during the start-up phase of the network.
 However the problems with unreliability lie in the creation of the network, as the model in UPPAAL will work correctly in the main loop.
 This was tested by instantiating a network of 4 devices which all started as part of the same network, and had been given different $k$ values, equal to their $id$s
@@ -95,7 +99,8 @@ Pr[<=300000] ( <> forall(i : id_t) forall(j : id_t)  (time > 3000)
 \caption{Block-diagrams of the query on \myref{stable-network-query}, with the model that has varying miss chances, using message redundancy.}
 \end{figure} 
 
-\paragraph{Conclusion}
+\subsubsection{Conclusion}
+\vspace{-7pt}
 Using message redundancy, which is simply transmitting the same message more than once in each time-slot, the probability of a device not receiving a transmission reduces.
 Multimessage Echo and the other techniques mentioned in this chapter has not been implemented due to time constraints, and therefore a comparison between the techniques has not been made.
 Transmitting more than once in each time-slot will as mentioned reduce the probability of a message not being received, but it does not seem to be a good solution, and also increases the length of the time-slot drastically.
