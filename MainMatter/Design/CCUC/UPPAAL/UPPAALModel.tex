@@ -1,8 +1,9 @@
 \section{Model Checking the CCUC-protocol}\label{sec:uppaalccuc}
-This section will explore to what degree issues caused by unreliability affects the UPPAAL model developed previously in \myref[name]{cha:validationAndImplementation}.
+This section will explore to what degree issues caused by unreliability affects the UPPAAL model developed previously in \myref[name]{subsec:changestoModel}.
 
 To do this, every edge which is fired when receiving a message should be changed to have a chance of not receiving anything. 
 This can be modeled in UPPAAL SMC using the branch points previously mentioned in \myref[name]{subsec:uppaalsmc}.
+This has been done as can be seen on \myref{fig:missTransmission}.
 
 \begin{figure*}[h]
 \vspace{-5pt} 
@@ -41,7 +42,7 @@ With a confidence of 99~\% the probability range lies in the range [0.933723, 0.
 This means that the impact of this reliability is actually quite large, and something should be done.
 As stated earlier in \myref[name]{sub:avoidance}, one could make the devices transmit more than once in order to reduce the chance of a transmission being completely missed.
 To implement this further changes to the model is required.
-Whenever a transmission is sent, it should be able to loop in the same location, transmitting each time, for the number of times it should transmit, before finishing its time-slot. 
+Therefore the message redundancy technique is implemented in the model, which means that whenever a transmission is sent, it should be able to loop in the same location, transmitting each time, for the number of times it should transmit, before finishing its time-slot. 
 This also means that the time-slots' length will have to be increased to make up for the increased transmission time.
 One of these loops can be seen on \myref{LoopTransmitUPPAAL}.
 
@@ -53,21 +54,21 @@ One of these loops can be seen on \myref{LoopTransmitUPPAAL}.
 \label{LoopTransmitUPPAAL}
 \end{wrapfigure}
 
-This also requires changes to the code in UPPAAL, which can be found in \myref{UPPAAL-CCUC-Code}, and also on the attached CD.
-The complete model for the CCUC-protocol can also be found printed on a A3-paper in the back of the report.
+This also requires changes to the code in UPPAAL, which can be found in \myref{UPPAAL-CCUC-Code}.
+The complete model for the CCUC-protocol can also be found printed on a piece of A3-paper in the back of the paper.
 
-The model has then been tested with the query seen in \myref{query-SuccesfulCreate}, with varying miss chance, and with varying number of transmissions in a time-slot.
+The model has been tested with the query seen in \myref{query-SuccesfulCreate} with varying miss chance, and with varying number of transmissions in a time-slot.
 This should show how the change of transmitting more than once would affect the model.
 
-The results of this test can be seen on \myref{CCUC-Graph-UPPAAL}; and they show that transmitting more than once is actually a viable option, as it drastically increases the probability of a network containing all devices will be made, which is close to 99~\% probable whenever transmitting more than once.
+The results of this test can be seen on \myref{CCUC-Graph-UPPAAL}; they show that transmitting more than once is actually a viable option, as it drastically increases the probability of a network containing all devices will be made, which is close to 99~\% probable whenever transmitting more than once.
 
 A further test has been made to see the changes when the chance of receiving are drastically worse than in the first test.
 The result can be seen on \myref{fig:crazy_graph}, where it can be seen just how much it helps transmitting more than once in each time-slot, but it does cost a lot in regards of the speed of the network.
 
 \paragraph{Package Loss in the Main Loop}\hfill \\
-The most significant problems regarding the stability of the network, occurs when package loss happens during the start-up phase of the network
-The problems with unreliability do however lie in the creation of the network, as the model in UPPAAL will work correctly in the main loop.
-This was tested by instantiating a network of 4 devices which were when the system started all connected to the same network, and had been given different $k$ values. 
+The most significant problems regarding the stability of the network occurs when package loss happens during the start-up phase of the network.
+However the problems with unreliability lie in the creation of the network, as the model in UPPAAL will work correctly in the main loop.
+This was tested by instantiating a network of 4 devices which all started as part of the same network, and had been given different $k$ values, equal to their $id$s
 This means that a network is successfully created.
 A query was asked to this system, which can be seen on \myref{stable-network-query}.
 The results of the query will be a probability in the range [0.980056, 1] with a confidence of 99~\%, which means that the problem truly does lie in connecting to the network, with unreliable transmission. 
@@ -97,6 +98,6 @@ Pr[<=300000] ( <> forall(i : id_t) forall(j : id_t)  (time > 3000)
 \paragraph{Conclusion}
 Using message redundancy, which is simply transmitting the same message more than once in each time-slot, the probability of a device not receiving a transmission reduces.
 Multimessage Echo and the other techniques mentioned in this chapter has not been implemented due to time constraints, and therefore a comparison between the techniques has not been made.
-Transmitting more than once in each time-slot will as mentioned reduce the probability of a message not being received, but it does not seem to be a good solution, and also increase the length of the time-slot drastically.
-If physical obstacles suddenly stand between two devices it might almost be impossible for two devices to transmit to eachother, and message echoing might have solved this problem.
+Transmitting more than once in each time-slot will as mentioned reduce the probability of a message not being received, but it does not seem to be a good solution, and also increases the length of the time-slot drastically.
+If physical obstacles suddenly stand between two devices it might almost be impossible for the two devices to transmit to each other, and message echoing might have solved this problem.
 But this causes the problem to start branching into the category of strongly connected networks, which was not the focus of this chapter.

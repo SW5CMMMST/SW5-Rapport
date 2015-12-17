@@ -1,8 +1,8 @@
 \section{Package Loss}
 As we are now working with a realistic scenario of unreliable communication one must also realise that this is an impossible problem to solve completely.
-As one can never guarantee that a packet will be received, the best one can do is reduce the odds of it happening.
-If adjustments are made to the UPPAAL model in, \myref[name]{sec:uppaalccuc}, so that it models a 2~\% packet loss for each transmission, which is more than the results in \myref{tbl:packageloss} show, the network still works approximately 96~\% of the time, without doing anything to make the network better.
-As mentioned one cannot reach 100~\% when considering unreliable communication, however this does not mean that nothing can be done.
+One can never guarantee that a packet will be received, the best one can do is increase the odds of it happening.
+%If adjustments are made to the UPPAAL model in, \myref[name]{sec:uppaalccuc}, so that it models a 2~\% packet loss for each transmission, which is more than the results in \myref{tbl:packageloss} show, the network still works approximately 96~\% of the time, without doing anything to make the network better.
+%As mentioned one cannot reach 100~\% when considering unreliable communication, however this does not mean that nothing can be done.
 By employing different methods to increase the odds of packets being received one can attempt to approximate a reliability of \textasciitilde100~\%.
 
 Another aspect of unreliable communication is the effect of packet loss.
@@ -20,7 +20,7 @@ While the increase in probability the time-slot length will be increased, and th
 Therefore this is a trade-off between time and reliability. 
 
 \subsubsection*{Multimessage Echo}
-It could be useful to repeat the last $x$ received messages a device have received in its own time-slot, such that if other devices had not received a messages, they could be received from this.
+It could be useful to repeat the last $x$ received messages a device have received in its own time-slot, such that if other devices had not received a messages they could be received from this.
 This would echo messages from devices several times over, but from different devices which in the case that the problem is between two devices could help where Message Redundancy might not.  
 Furthermore this would implicitly allow for devices to hear whether or not another device heard them, given their time-slots are within the amounts of messages echoed.
 Moreover echoing can increase the message length greatly, and thus will also reduce the speed of the network as message redundancy would.
