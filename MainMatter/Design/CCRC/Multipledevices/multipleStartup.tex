@@ -53,23 +53,21 @@ In other words at some point an isolated network should exist to which other dev
 
 One could also implement exponential backoff as described in \myref{sec:exponential_backoff}.
 Instead of just waiting for the backoff period, the devices could use the backoff period to listen for networks, for an exponentially increasing amount of time. 
-This could worsen the time it takes to set-up at network exponentially.
+This could worsen the time it takes to set-up a network exponentially.
 
 \subsection{Modifications to the Upstart Phase}                 
-Based on the aforementioned possibilities a new upstart phase has been designed which minimises the probabilities of devices creating several networks.
+Based on some of the aforementioned possibilities a new upstart phase has been designed which minimises the probabilities of devices creating several networks.
 The changes are explained in the following text, as well as in the flowchart in \myref{fig:pseudo_flowMultiStart} representing the new design.
 
 \begin{description}[labelindent=\parindent]
     \item[Search for network]\hfill\\
     The initial action after starting a device states to search for a network.
     This is done for $\text{\textit{initial wait time}} + \delta \times b$ where $b$ denotes a random number chosen using the method of exponential backoff from \myref[name]{sec:exponential_backoff}, i.e. $b \in [0, 2^c-1]$, where $c$ is the number of attempts of creating a network.
-    This expression ensures that devices will eventually not listen for the same amount of time when they are reinitialised, and this difference will increase with each attempt, ensuring the existence scenarios in which only one device will create a network while others are still listening, also in the case where they died at the same time.
-    \item[Chance of creating a network]\hfill\\
-    This method will not be used in order to keep the method of handling multiple start-up deterministic.
+    This expression ensures that devices will eventually not listen for the same amount of time when they are reinitialised, and this difference will increase with each attempt. This ensures the existence of scenarios in which only one device will create a network while others are still listening, also in the case where they killed their network at the same time.
     \item[Alone in network?]\hfill\\
     For this decision the device checks whether or not it is alone in the network; if it is an altered version of \textsc{MainLoop()} is run, making use of the kill network method depending on the result of \textbf{Time to Die?}, as two or more networks could be jamming each other.
     \item[Time to Die?]\hfill\\
-    This decision is completely random based on a given chance of killing the device.
+    This decision is completely random, based on a given chance of killing the device.
 \end{description}
 
 \begin{figure}[p]
@@ -77,7 +75,7 @@ The changes are explained in the following text, as well as in the flowchart in 
 \footnotesize
 \input{Figures/TikZ/PseudoFlowDiagramMultiStart.tex}
 \vspace{-15pt}
-\caption{Revised flow diagram showing how a device acts during the Initialization phase if no networks are detected.}
+\caption{Revised flow diagram showing how a device acts during the Initialisation phase if no networks are detected.}
 \label{fig:pseudo_flowMultiStart}
 \vspace{-10pt}    
 \end{figure}

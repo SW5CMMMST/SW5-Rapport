@@ -1,8 +1,8 @@
 \noindent
-The ability to have a user application have also been implemented, but as it hasn't been described in detail, and it is not the main focus this has been omitted from this chapter.
-In the code examples some code used for debugging or testing have been removed as it is irrelevant for the working protocol, however the full code is available in \myref{app:CCRC_CODE}. 
+The ability to have a user application have also been implemented, but as it has not been described in detail, and it is not the main focus this has been omitted from this chapter.
+In the listings some code used for debugging or testing have been removed as it is irrelevant for the working protocol however the full code is available in \myref{app:CCRC_CODE}. 
 
-This chapter will explain how we implemented the main points of the protocol; this is the timing on the Arduino, how an Arduino can create and join a network, and lastly how the main loop works. 
+This chapter will explain how main points of the protocol was implemented; this is the timing on the Arduino, how an Arduino can create and join a network, and lastly how the main loop works. 
 
 \subsection{Timing on the Arduino}
 To acquire relative time on Arduino the following constructs are used: A global unsigned variable, a reset function and a get function.
@@ -22,10 +22,9 @@ Consider the following two calculations in unsigned 8-bit arithmetic:
 This is true because incrementing an 8-bit number 5 times starting from 252 will yield the sequence: $253, 254, 255, 0, 1$. 
 
 For the implementation the same thing happens when using \texttt{millis()} in the case of the implementation the same thing will happen, where the difference will be correctly calculated.
-
 Additionally when joining a network the device needs to wait for the next time-slot before entering the mainloop. 
-This is done with the function \texttt{waitForNextTimeslot} which takes the size of the payload received as an argument, then calculates how much time is left of the time-slot, and waits for that period. 
-It is possible to accurately calculate how long it took to send the payload, the formulae for this is found in the test, see \myref[name]{sub:radiohead_time_sent_test}.
+This is done with the function \texttt{waitForNextTimeslot} which takes the size of the payload received as an argument, calculates how much time is left of the time-slot, and waits for that period. 
+It is possible to accurately calculate how long it took to send the payload, the formula for this is found in the test, see \myref[name]{sub:radiohead_time_sent_test}.
 This function is also used every time a payload is received to ensure that the devices in the network remains synchronised. 
 
 \begin{figure}[ht]
