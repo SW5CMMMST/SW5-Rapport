@@ -91,7 +91,12 @@ Pr[<=300000] ( <> forall(i : id_t) forall(j : id_t)  (time > 3000)
 \caption{Higher miss chance}
 \label{fig:crazy_graph}
 \end{subfigure}
-\caption{Block-diagrams of the query that requires a successful network creating, with varying miss chance, and varying number of transmissions.}
+\caption{Block-diagrams of the query on \myref{stable-network-query}, with the model that has varying miss chances, using message redundancy.}
 \end{figure} 
 
-
+\paragraph{Conclusion}
+Using message redundancy, which is simply transmitting the same message more than once in each time-slot, the probability of a device not receiving a transmission reduces.
+Multimessage Echo and the other techniques mentioned in this chapter has not been implemented due to time constraints, and therefore a comparison between the techniques has not been made.
+Transmitting more than once in each time-slot will as mentioned reduce the probability of a message not being received, but it does not seem to be a good solution, and also increase the length of the time-slot drastically.
+If physical obstacles suddenly stand between two devices it might almost be impossible for two devices to transmit to eachother, and message echoing might have solved this problem.
+But this causes the problem to start branching into the category of strongly connected networks, which was not the focus of this chapter.

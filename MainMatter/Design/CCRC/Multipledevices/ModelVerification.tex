@@ -77,19 +77,20 @@ All the queries have been run with five devices in the system, and a confidence 
 All queries' cumulative probability is shown on \myref{fig:ConnectQueryTime}.
 The first query is the only query which was also used on the earlier model, and it will still give a result indicating the query holds.
 
-\begin{lstlisting}[style=UPPAAL, title={This query requires that eventually if all devices are connected, then no pair of devices have the same \texttt{k}, unless the pair consists of the same two devices. This is true.}]
-1. A<> forall(i : id_t) forall(j : id_t) Device(i).Connected and
-         Device(j).Connected and Device(i).k == Device(j).k imply i == j
+\begin{lstlisting}[style=UPPAAL, title={This query asks for the probability that it is false that two devices which are connected have the same k, only because they are the same device. When run with a confidence of 99.9\% this query will within 3797 runs result in [0, 0.00199982], the query takes 799 seconds on the same laptop used in \myref{sec:verifyingTheModel}.}]
+1. Pr[<=300000] ( <> forall(i : id_t) forall(j : id_t) (time > 3000)
+  and !(Device(i).Connected and Device(j).Connected
+  imply (Device(i).k == Device(j).k imply i ==j)))
 \end{lstlisting}
 
-\begin{lstlisting}[style=UPPAAL, title={This query asks after 3000 UPPAAL time units has passed, what then is the probability that if two devices \texttt{i}, and \texttt{j} are connected to a network that their local values of \texttt{n} are the same, and that they are both connected to the same network. This means that the devices are connected to the same network. UPPAAL runs this query and within 3451 runs [0.998,1] with confidence 99.9 \% this is true. }]
+\begin{lstlisting}[style=UPPAAL, title={This query asks after 3000 UPPAAL time units has passed, what then is the probability that if two devices \texttt{i}, and \texttt{j} are connected to a network that their local values of \texttt{n} are the same, and that they are both connected to the same network. This means that the devices are connected to the same network. UPPAAL runs this query and within 3451 runs [0.998,1] with confidence 99.9 \% this is true. The query had a run-time of 46 seconds. }]
 2. Pr[<=300000] ( <> forall(i : id_t) forall(j : id_t) (time > 3000) 
     and (Device(i).Connected and Device(j).Connected 
     imply ((Device(i).local_n == Device(j).local_n)
         and Device(i).local_network_id == Device(j).local_network_id)))     
 \end{lstlisting}
 
-\begin{lstlisting}[style=UPPAAL, title={This query asks after 3000 UPPAAL time units has passed, what then is the probability that if a device \texttt{i} and a device \texttt{j} is both connected that then \texttt{i}'s values of \texttt{k} will be larger than zero and smaller than any \texttt{n}, and that they are connected to the same network. This query insures that all the \texttt{k}-values are within the wanted range after a network is made. UPPAAL runs this query and within 3451 runs [0.998,1] with confidence 99.9 \% this is true.}.]
+\begin{lstlisting}[style=UPPAAL, title={This query asks after 3000 UPPAAL time units has passed, what then is the probability that if a device \texttt{i} and a device \texttt{j} is both connected that then \texttt{i}'s values of \texttt{k} will be larger than zero and smaller than any \texttt{n}, and that they are connected to the same network. This query insures that all the \texttt{k}-values are within the wanted range after a network is made. UPPAAL runs this query and within 3451 runs [0.998,1] with confidence 99.9 \% this is true. This query had a run-time of 45 seconds.}]
 3. Pr[<=300000] ( <> forall(i : id_t) forall(j : id_t) (time > 3000) 
     and (Device(i).Connected and Device(j).Connected 
     imply (Device(i).k < Device(j).local_n and Device(i).k > 0) 
@@ -97,12 +98,12 @@ The first query is the only query which was also used on the earlier model, and 
 
 \end{lstlisting}
 
-\begin{lstlisting}[style=UPPAAL, title={This query asks after 3000 UPPAAL time units has passed, what then is the probability that a device \texttt{i} has a local value of \texttt{n} to be equal to the number of devices plus the the empty slot, which is \texttt{N} + 1, which means that all devices are in the same network. UPPAAL runs this query and within 3451 runs [0.998,1] with confidence 99.9 \% this is true.}]
-4. Pr[<=300000] Pr[<=300000] ( <>  forall(i : id_t) (time >3000) 
+\begin{lstlisting}[style=UPPAAL, title={This query asks after 3000 UPPAAL time units has passed, what then is the probability that a device \texttt{i} has a local value of \texttt{n} to be equal to the number of devices plus the the empty slot, which is \texttt{N} + 1, which means that all devices are in the same network. UPPAAL runs this query and within 3451 runs [0.998,1] with confidence 99.9 \% this is true. This query has a run-time of 38 seconds.}]
+4. Pr[<=300000] ( <>  forall(i : id_t) (time >3000) 
     and Device(i).local_n == N + 1)
 \end{lstlisting}
 
-\begin{lstlisting}[style=UPPAAL, title={This query is a generalisation of the previous which includes a check of whether when one device finish transmitting then the rest are just finished receiving. UPPAAL runs this query and within 3451 runs [0.998,1] with confidence 99.9 \% this is true.}]
+\begin{lstlisting}[style=UPPAAL, title={This query is a generalisation of the previous which includes a check of whether when one device finish transmitting then the rest are just finished receiving. UPPAAL runs this query and within 3451 runs [0.998,1] with confidence 99.9 \% this is true. The run-time of this query is 131 seconds.}]
 5. Pr[<=300000] ( <>  forall(i : id_t) forall(j : id_t) (time >3000) 
     and (Device(i).local_n == N+1) 
     and (Device(i).Done_Transmitting 

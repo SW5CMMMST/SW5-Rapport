@@ -82,3 +82,10 @@ This could be reduced by allowing the network to transmit that device $k$ is dea
 However it will not defragment a network which decrease in size. 
 The last method: Jumping Defragmentation is fast, it will only take $m_{max} \times 2$ frames to defragment any single device leaving the network, and defragments the network in all cases. 
 By comparison the Jumping Defragmentation-method is seen as the best of the above solutions to add to the existing protocol. 
+
+\bigskip \noindent
+An issue that has not yet been touched upon in regards to defragmentation is the reduction of $n$ in an unreliable network.
+For it to work flawlessly every single device would have to reduce $n$ in the same frame.
+As the communication is unreliable, a device may not receive the payload calling for the reduction of $n$ and thus have a different $n$.
+The chance of this can be reduced by transmitting that in e.g. 10 time frames $n$ will be reduced however there will still be a chance for one device not receiving that payload for 10 frames.
+As such for defragmentation to work in a \gls{ccuc}-network one must also develop a method which guarantees that a network broken by an inconsistent $n$ will fix itself.

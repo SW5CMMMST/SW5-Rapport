@@ -9,7 +9,7 @@ For this reason the idea of a consensus between devices is presented, to explain
 After having been validated, the device will in the empty slot join the network with a different $n$ and a different $k$ relative to the devices in the network.
 In the earlier CCRC solution one would simply overwrite local variables with the new values as one was sure all had received the payload.
 In the case where one device did not hear the addition, it would be transmitting the old variables and in doing so cause the change to revert back again, which by extension causes a conflict in the network.
-It is worth mentioning this is only a problem if it possible for n to be reduced, i.e. the removal of devices is possible.
+It is worth mentioning this is only a problem if it possible for $n$ to be reduced, i.e. the removal of devices is possible.
 If the removal of a device from a time-slot is not enabled, anytime an $n$ larger than the local $n$ is being transmitted, this should just overwrite the local value. 
 However as soon as removal is also an option, a device cannot just trust any n-value as variables can both increase and decrease, and a device transmitting a lower value, might just do to because it does not know about the new device yet.
 

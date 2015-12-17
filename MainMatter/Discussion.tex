@@ -1,39 +1,39 @@
 \section{Discussion}\label{sec:discussion}
-This chapter will reflect on the choices made throughout this paper in respect to the problem statement in \myref[name]{sec:problemStatement}.
+This section will reflect on the choices made throughout this paper in respect to the problem statement in \myref[name]{sec:problemStatement}.
 
 % General Design methodology + Model driven software development
 \subsubsection{Model-Driven Software Development}
-By using a method resembling model-driven software development, we ensured that when a design was finished and had been modelled, implementation seemed trivial.
+By using a method resembling model-driven software development, we ensured that when a design was finished and had been modelled implementation was relatively trivial.
 Ensuring, as long as the code fit the model, the code would work every time for the \gls{ccrc}-problem and within a certain probability for the \gls{ccuc}-problem.
-This proved to be successful, as the work-flow seemed natural, and it helped bring up discussions of the design significantly earlier, than a more hands on approach would have done.
-Even though, using the tools for modelling embedded systems proved difficult at first, because of a lack of experience, which slowed down the development process; however, the pros outweighs the cons, especially due to the advantage of discovering changes to the design early.
+This proved to be successful as the work-flow seemed natural, and it helped bring up discussions of the design significantly earlier than a more hands on approach would have done.
+Even though using the tools for modelling embedded systems proved difficult at first, because of a lack of experience, which slowed down the development process; however the pros outweighs the cons, especially due to the advantage of discovering changes to the design early.
 
 The alternative method of development for a solution would be developing through coding then proceeding to model check the code already created.
-The work flow of doing this however would quite possibly increase the work done, as finding an error, edge case or other potential issues are significantly more difficult to do in 500 lines of code, rather than using a model checker on already designed model.
-One could combine the code with the model checker, but creating a model to check, is significantly more problematic to do from many lines of code rather than from a model design.
+The work flow of doing this however would quite possibly increase the work required as finding an error, edge case or other potential issues are significantly more difficult to do in 500 lines of code; rather than using a model checker on an already designed model.
+One could combine the code with the model checker but creating a model is significantly more problematic to do from many lines of code than design schematic.
 
 \subsubsection{Unreliability}
-The \gls{ccrc}-problem being an implausible scenario, simply proves that the theoretical problem was solved, however for the \gls{ccuc}-solution the model checking provides proof that the protocol works in most of the thousands of possible scenarios, something one could not prove through a practical test.
+The \gls{ccrc}-problem being an implausible scenario simply proves that the theoretical problem was solved however for the \gls{ccuc}-solution the model checking provides proof that the protocol works in most of the thousands of possible scenarios, something one could not prove through a practical test.
 
 In expanding to the \gls{ccuc}-problem several ideas on handling this were presented, both in regard to avoidance and damage control.
 While only one of the avoidance ideas, redundant messaging, has been applied it is not a reason to disregard the rest as possible techniques.
-The idea of redundant messaging will not help if a device cannot receive from another device because of physical obstacles, merely retransmitting the same message, would not prove to help much, and one of the other techniques presented would perhaps be preferred.
-In choosing an idea to use one must also consider the cost, for both of the ideas mentioned in \myref[name]{sub:avoidance} it becomes a strain on the time-slot length, thus for an application one might not want to use these particular ideas.
-This is particularly worth considering if the network is already running with a high reliability, in that case it may be better to perform some sort of damage control on devices that become desynchronised, whether this is by restarting or using one of the designed damage control ideas. 
+The idea of redundant messaging will not help if a device cannot receive from another device because of physical obstacles; merely retransmitting the same message would not help much, and one of the other techniques presented would perhaps be preferred.
+In choosing an idea to use one must also consider the cost; for both of the ideas mentioned in \myref[name]{sub:avoidance} it becomes a strain on the time-slot length, thus for an application one might not want to use these particular ideas.
+This is particularly worth considering if the network is already running with a high reliability, in that case it may be better to perform some sort of damage control on devices that become desynchronised, whether this is by restarting, or using one of the designed damage control ideas. 
 
-If the reliability is low, but reducing the time-slot length is of importance, it further becomes important to consider the impact of losing a package for a given application in order to decide whether increasing reliability by increasing time-slot length is worth it.
+If the reliability is low, but reducing the time-slot length is of importance it becomes more important to consider the impact of losing a package for a given application in order to decide whether increasing reliability by increasing time-slot length is worth it.
 For the opposite scenario where reliability is of extreme importance it may also be worth increasing the time-slot length even further by sending the message more than twice while also implementing a damage control idea which is not to simply reset the device.
 
 \subsubsection{Requirements}
-The protocols should uphold the requirements made in \myref[name]{requirements}, if the requirements are inspected with regards to the final model created, only the requirements \ref{funcreq:ismissing} and \ref{funcreq:repeat} are not upheld, where a solution for requirement \ref{funcreq:ismissing} has been designed, but not implemented nor tested.
-Requirement \ref{funcreq:repeat}, which is about repeating other devices messages, is a functionality which could help both in strongly connected networks and also for unreliable but completely connected networks.
+The protocols should uphold the requirements made in \myref[name]{requirements}, if the requirements are inspected with regards to the final model created only the requirements \ref{funcreq:ismissing} and \ref{funcreq:repeat} are not upheld. 
+A solution for requirement \ref{funcreq:ismissing} has been designed, but not implemented nor tested.
+Requirement \ref{funcreq:repeat}, which refer to repeating other devices messages, is a functionality which could help both in strongly connected networks and also for unreliable but completely connected networks.
 If a device is unable to receive transmissions from another device because of sudden physical obstacles, another device repeating the transmissions will help the other device receive transmissions.
 This could have been a better solution rather than transmitting the same transmission more than once.
-With regards to the speed of the network, repeating should also make the network faster than solely retransmitting transmissions one after the other, as the overhead created by transmitting many more times in a time-slot would be removed.
+With regards to the speed of the network repeating should also make the network faster than solely retransmitting transmissions one after the other, as the overhead created by transmitting several times in a time-slot is greater than extending the length of a message.
 
 \bigskip\noindent%m
-Overall communicating using a single frequency in a reliable way is definitely possible, using \gls{tdma} methods and design, however, the speed of these networks can be very slow if many devices are connected to the network.
+Overall communicating using a single frequency in a reliable way is definitely possible using \gls{tdma} methods and design; however the speed of these networks can be very slow, if many devices are connected to the network.
 
-More research should be done in regards to the subject.
-Especially, as strongly connected networks, i.e. \gls{scrc} and \gls{scuc}, were barely touched upon in this paper.
+More research should be done in regards to the subject as strongly connected networks, i.e. \gls{scrc} and \gls{scuc}, were barely touched upon in this paper.
 Some of the ideas for designing a solution for strongly connected networks can be seen in the following chapter.

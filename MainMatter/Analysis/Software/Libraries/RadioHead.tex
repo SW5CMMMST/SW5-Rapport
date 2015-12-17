@@ -24,8 +24,9 @@ Then a checksum is appended to the message to validate the integrity of the mess
 
 \begin{table}[ht]
 	\centering
+	\footnotesize
 	\rowcolors{3}{GoogleBlueGrey!50}{white}
-	\begin{tabularx}{\textwidth}{l X l r}
+	\begin{tabular}{l l l r}
 	Name & Purpose & Content & Size [bit] \\\midrule
 	Preamble pt. 1 & Synchronisation & \enquote{1010} * 6 & 24 \\
 	Preamble pt. 2 & Syncronization & \enquote{111000} & 6 \\
@@ -34,7 +35,7 @@ Then a checksum is appended to the message to validate the integrity of the mess
 	Message length & Indicate the length of the message & 4to6(\enquote{01101000}) & 12 \\
 	Message & The payload & 4to6(\enquote{Hello}) & 60 \\
 	Checksum & To verify the integrity & 4to6(\enquote{???}) & 12 \\
-	\end{tabularx}
+	\end{tabular}
 	\caption{A table view of the content of transmitting \enquote{Hello} with RadioHead.}
 	\label{table:RH}
 \end{table}

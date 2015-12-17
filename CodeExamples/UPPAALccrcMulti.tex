@@ -1,0 +1,116 @@
+// Place local declarations here.
+clock x;
+clock transmit_time;
+int k = -1;                     //Timeslot
+bool Connected = false;
+int join_Count = 0;      
+int Min_Units_For_Join = 0;
+int WaitLoopCount = 0;
+int backoff = 0;
+int FailCount = 0;
+int StartLoopCount = 0;
+int StartAttempts = 0;
+int FrameCount = 0;
+int randomBackoff;
+
+//Chance of Killing the network when alone
+const int StayAliveChance = 90;
+const int KillChance = 100 - StayAliveChance;
+
+
+// Local copies of globals
+int local_n = 0;                // Number of devices connected
+int local_i = 0;               // Current time slot in the frame
+int local_network_id = 0;
+
+void increment_Slot(){
+    local_i = (local_i % local_n)+1;
+}
+
+void receive()
+{
+    local_i = i;
+    local_n = n;
+    local_network_id = Network_id;
+}
+void attempt_Join_Network(){
+    i = local_i;
+    joining_ID = id;
+}
+
+void join_Network(){
+    k=n;
+    n = n+1;
+    i = local_i;
+    local_n = local_n+1;
+    Connected = true;
+    joining_ID = -1;
+    Connected_Counter++;
+}
+
+void calc_Min_Validate(){
+    if(local_n == 2) {
+        Min_Units_For_Join = 1;
+    } else {
+        Min_Units_For_Join = (local_n-1)/2;
+    }
+}
+
+void create_Network(){
+    k = 1;
+    i = 0;
+    local_i = 0;
+    local_n = 2;
+    Connected = true;
+    x:=0;
+    Transmitters++;
+    Connected_Counter++;
+    local_network_id = id;
+}
+
+void make_Payload(){
+    i = local_i;
+    n = local_n;
+    Network_id = local_network_id;
+}
+
+\end{lstlisting}
+
+\begin{lstlisting}[style=UPPAAL,
+caption={Code for the global declarations in CCUC}]
+// Place global declarations here.
+int n = 0;                             // Number of Timeslots connected
+int i = 0;                             // Current time slot in the frame
+int joining_ID = -1;                   // The ID of the device joining       
+int Connected_Counter = 0;             //Global Counter for Connected Devices
+int Network_id = 0;                    //Id of the network being transmitted from
+
+//Time values
+const int Delta = 250;                 //Timeslot Length
+const int Delta_Proc = Delta/5;
+const int Real_Tx_Time = Delta/2;
+const int Tx_Time = Delta_Proc + Real_Tx_Time;
+const int Initial_Wait_Time = Delta*3;
+int Start-up_Time = Initial_Wait_Time*2;
+clock start-up;
+clock time;
+clock LastTransmission;
+
+//Number of current transmitters transmitting
+int Transmitters = 0;
+
+//Random Backoff
+typedef int[0,1]  firstBackoff;
+typedef int[0,3]  SecondBackoff;
+typedef int[0,7]  thirdBackoff;
+typedef int[0,15] fourthBackoff;
+typedef int[0,31] fifthBackoff;
+
+
+//Channel
+broadcast chan transmit;
+broadcast chan join;
+
+//Device Creation
+const int N = 6;
+typedef int[1,N] id_t;

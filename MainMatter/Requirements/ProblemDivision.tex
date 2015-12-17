@@ -1,13 +1,13 @@
 \chapter{Defining the problem}
 This chapter will determine how the further work on the protocol will be handled, by defining how to describe the problem using mathematics. 
-By expanding on the definition and the problem statement, a number of system requirements will be defined which must be at least partially satisfied to solve the overall problem.
+By expanding on the definition and the problem statement, some system requirements will be defined which must be at least partially satisfied to solve the problem.
 
 \section{Development Plan \& Problem Exploration}\label{chp:Problems}
 Networks can be described as graphs using graph theory. 
 In the case of the protocol the edges are essential for the problem as these represent the available communication in the network.
 As the tests in \myref[name]{sec:hardware_tests} have shown, not all sent packages are guaranteed to arrive; hence a weight is given to each edge with a value between 0 and 1.
 These weights represent the probability of a given package being received.
-This yields a weighted directed graph $G = (V, E, w)$, where $V$ is the set of devices as vertices $v$, $E \subseteq V \times V$ is the set of communication paths as edges, and $w$ is the weight function representing the reliability of any communication path written as $w : e \rightarrow (0,1]$. 
+This yields a weighted directed graph $G = (V, E, w)$, where $V$ is the set of devices as vertices $v$, $E \subseteq V \times V$ is the set of communication paths as edges, and $w$ is the weight function representing the reliability of any communication path written as $w : E \rightarrow (0,1]$. 
 An example of this can be seen on \myref{fig:network}.
 
 In \myref{fig:examplenetworkgraphs} the two different network types are modelled as graphs; 
@@ -34,13 +34,13 @@ In \myref{fig:examplenetworkgraphs} the two different network types are modelled
 \end{figure}
 
 \noindent
-Creating a protocol for networks as shown in \myref{fig:network} is a complex problem to solve and many issues will become apparent throughout analysis of the problem.
-In order to simplify the problem some assumptions are made about the network.
+Creating a protocol for networks as shown in \myref{fig:network} is a complex problem to solve and many issues will become clear throughout analysis of the problem.
+To simplify the problem, some assumptions are made about the network.
 
-During development of the system, the system could be set up to give \textasciitilde100~\% probability of successfully receiving the message, by wiring the Arduinos together instead of using radio communication; this gives more room to work on the baseline communication issues without having to consider the unreliability of the radio frequency modules.
+During development of the system, the system could be set up to give \textasciitilde100~\% probability of receiving the message, by wiring the Arduinos together instead of using radio communication; this gives more room to work on the baseline communication issues without having to consider the unreliability of the radio frequency modules.
 
 For this project only networks which can be depicted as completely (as in \myref{fig:ccrcnetworkgraph}) or strongly connected graphs (as in \myref{fig:network}) will be considered, to ensure that all devices will have the possibility to exchange information with every other device.
-As a consequence of this, four sub problems will be considered and modelled as graphs.
+As a consequence of this, four sub-problems will be considered and modelled as graphs.
 
 \bigskip
 
@@ -51,27 +51,27 @@ All the weights of the edges in this graph are 1, which means that all transmiss
 	The \acrshort{ccrc}-problem:
 	\begin{align*}
 		\text{for all } v_i, v_j \in V \text{ where } v_i \neq v_j \text{ there exists an edge } (v_i, v_j) \in E\\
-		\text{where } w(v_i, v_j) = 1
+		\text{where } w(v_i, v_j) = 1.
 	\end{align*}
 \end{definition}
 
-\noindent The \gls{ccuc}-problem describes a completely connected graph however in this scenario there is not a guarrentee that the transmission will be received; all vertices are still in range of each-other.
+\noindent The \gls{ccuc}-problem describes a completely connected graph but in this scenario there is not a guarantee that the transmission will be received; all devices are still in the range of each other.
 
 \begin{definition}
 	The \acrshort{ccuc}-problem:
 	\begin{align*}
-		\text{for all } v_i, v_j \in V \text{ where } v_i \neq v_j \text{ there exists an edge } (v_i, v_j) \in E		%\text{where } w(v_i, v_j) \in\ ]0, 1]
+		\text{for all } v_i, v_j \in V \text{ where } v_i \neq v_j \text{ there exists an edge } (v_i, v_j) \in E.		%\text{where } w(v_i, v_j) \in\ ]0, 1]
 	\end{align*}
 \end{definition} 
 
-\noindent The \gls{scrc}-problem describes a \\*strongly connected network meaning at least one vertex does not have direct connections to all other verticies, i.e. there exists a path from every vertex to every other vertex but at least one pair of vertices requires one or more mediating vertices. 
+\noindent The \gls{scrc}-problem describes a \\*strongly connected network meaning, at least, one vertex does not have direct connections to all other vertices, i.e. there exists a path from every vertex to every other vertex. 
 In this example communication is once again reliable such that all transmissions will be received. 
 
 \begin{definition}
 	The \acrshort{scrc}-problem:
 	\begin{align*}
 		\text{for all } v_i, v_j \in V \text{ where } v_i \neq v_j \text{ there is a directed path from } v_i \text{ to } v_j\\
-		\text{ and for all edges } e \text{ on the path we have } w(e) = 1
+		\text{ and for all edges } e \text{ on the path we have } w(e) = 1.
 	\end{align*}
 \end{definition}
 
@@ -80,23 +80,23 @@ In this example communication is once again reliable such that all transmissions
 \begin{definition}\label{SCUC}
 	The \acrshort{scuc}-problem:
 	\begin{align*}
-		\text{for all } v_i, v_j \in V \text{ where } v_i \neq v_j \text{ there is a directed path from } v_i \text{ to } v_j%		\text{ and for all edges } e(v_{q}, v_{r}) \text{ in E } w(v_{q}, v_{r}) \in\ ]0,1]
+		\text{for all } v_i, v_j \in V \text{ where } v_i \neq v_j \text{ there is a directed path from } v_i \text{ to } v_j.%		\text{ and for all edges } e(v_{q}, v_{r}) \text{ in E } w(v_{q}, v_{r}) \in\ ]0,1]
 	\end{align*}
 \end{definition}
 
 \bigskip 
 \noindent
-The \gls{ccrc}-problem is is the obvious choice for the first iteration, since this is the simplest problem, which requires the least amount of design choices to be fulfilled.
-The decision of which problem should follow \gls{ccrc}-solution, is however a more complex discussion.
-One could argue for expanding into a still reliable but now only \acrlong{scrc}, as well as arguing for expanding into a unreliably but still \acrlong{ccuc}.
-Therefor the chosen order will simply reflect our estimation of which problems will require the least amount of modification.
+The \gls{ccrc}-problem is the obvious choice for the first iteration since this is the simplest problem, which requires the least amount of design choices to be fulfilled.
+The decision of which problem should follow \gls{ccrc}-solution is a more complex discussion.
+One could argue for expanding into a still reliable but now only \acrlong{scrc}, as well as arguing for expanding into an unreliable but still \acrlong{ccuc}.
+SO, the chosen order will reflect our estimation of which problems will need the least amount of modification.
 
-Another possibility would be to only split the sub problems into three, e.g. \gls{ccrc} $\rightarrow$ \gls{ccuc} $\rightarrow$ \gls{scuc}.
-However we deem that a better solution can be derived by working with the strongly connected problem followed by the unreliable problem and then combine the solutions to solve the \gls{scuc}-problem.
+Another possibility would be to only split the sub-problems into three, e.g. \gls{ccrc} $\rightarrow$ \gls{ccuc} $\rightarrow$ \gls{scuc}.
+But, we deem that a better solution can be derived by working with the strongly connected problem followed by the unreliable problem and then combine the solutions to solve the \gls{scuc}-problem.
 
-In addition to these four sub problems, some more practical problems will be abstracted away for in the first iteration.
-An example of such a abstraction could be starting multiple devices at the same time.
-Solutions to these practical problems will be implemented continually during the development. 
+Besides these four sub-problems, some more practical problems will be abstracted away for in the first iteration.
+An example of such an abstraction could be starting many devices at the same time.
+Solutions to these practical problems will be implemented during the development. 
 This approach increases the probability of having a working solution at the end of this project without over- or underestimating the workload. 
 As this is a student project with a set deadline, we do not expect that all the problems will be solved.
 
