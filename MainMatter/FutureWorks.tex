@@ -3,7 +3,7 @@ This chapter describes problems yet to be solved, the solutions for which could 
 Some of these problems were also described in \myref{chp:Problems}, yet not solved due to their complexity.
 
 During the analysis phase of the project, an issue of strongly connected networks arose.
-A protocol for strongly connected networks would need to work different form how the protocol developed for completely connected networks work.
+A protocol for strongly connected networks would need to work different from how the protocol developed for completely connected networks work.
 
 This is due to the structure of a strongly connected networks, in which a protocol would need a method of delivering information between devices which are not directly connected.
 An example of a simple strongly connected network can be seen on \myref{fig:linearNetwork}, here data can only travel directly between devices in three instances  (A-B, B-C and C-D) and would need a forwarding function in three other cases (A-C, A-D and B-D). 
@@ -16,15 +16,15 @@ The worst case for the network illustrated in \myref{fig:linearNetwork} is when 
 The simple solution to solving the forwarding problem is to repeat all known information.
 This solution would increase the payload size and by extension also the frame length, hence communication between devices would take longer.
 A solution for strongly connected networks could also consider which devices in a network needs what information.
-The use case of the protocol should be greatly considered when designed the protocol for such a network, since this i.e determines whether every devices needs to be fully informed or whether speed is an important part of the protocol.
+The use case of the protocol should be greatly considered when designing the protocol for such a network, since this could determine whether every device needs to be fully informed or whether speed is an important part of the protocol.
 
-A possible improvement to the protocol which assume a strongly connected network in which at least two nodes cannot hear each other nor their respective neighbours, is the following.
+A possible improvement to the protocol which assume a strongly connected network in which at least two devices cannot receive messages from each other nor their respective neighbours, is the following.
 If a network adheres to this assumption there would be no reason not to have them share a time-slot.
 This would require a way for a device to know which time-slot its neighbours and its neighbours-neighbours occupy.
-One way of implementing this would be with a rearrange phase.
+One way of implementing this would be with a rearranging phase.
 This frame could be designed as a three step phase. 
 First the devices would gather information describing the structure of the network.
 Secondly the network would design the new time-slot layout and third could be a frame where every device rearrange the newly assigned time-slots.
-When a new device connects to the network, the network could enters this phase.
+When a new device connects to the network, the network could enter this phase.
 The problem with this is that the communication is paused during this phase in the entire network and it is a complex problem.
-In this solution it would be obvious to build in a garbage collector for dead devices.
+In this solution it would be a good idea to build in a garbage collector for dead devices.
