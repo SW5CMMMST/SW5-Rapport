@@ -6,13 +6,13 @@
 \tikzstyle{cloud} = [draw, ellipse,fill=red!20,
     minimum height=2em, align=center]
 \tikzstyle{preproc} = [draw,rectangle split, rectangle split horizontal,rectangle split parts=3, fill=green!40, minimum height=4em] 
-\resizebox{1\textwidth}{!}{
+%\resizebox{1\textwidth}{!}{
 \begin{tikzpicture}[node distance = 2.8cm, auto]
     % Place nodes
     \node [cloud] (start) {Start};
     \node [block, right of=start] (search) {Search for network};
     \node [decision, below of=search] (found) {Found network?};
-    \node [preproc, right of=found, node distance=3.5cm] (init) {\nodepart{two} Init network};
+    \node [preproc, right of=found, node distance=4.5cm] (init) {\nodepart{two} Initialize network};
     \node [block, below of=found] (listen) {Listen while waiting for empty slot};
     \node [block, right of=listen] (choosesubs) {Choose which sub slot to take};
     \node [block, right of=choosesubs] (listensubs) {Listen in the prior sub empty slots};
@@ -41,8 +41,12 @@
     \path [line] (heardinsub) -- node {yes} (waitempty);
     \path [line] (heardinsub) -- node {no} (announce); 
     \path [line] (expbackoffcalc) -- (backoff);
-    \path [line] (backoff) -- (listen);
+    
+    \node [draw=none, below of=search, node distance=0.60cm] (seap){};
+    \node [draw=none, left of=seap, node distance=1.05cm] (seapp){};
+    \path [line] (backoff) |- (seapp);
+
     \path [line] (join) -- (mainloop); 
     \path [line] (waitempty) -- (listen); 
 \end{tikzpicture}                                
-}
+%}
