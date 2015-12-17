@@ -54,28 +54,26 @@ When this happens the exponential backoff method is used, which means for each t
 This are the changes needed for the model, in order for the devices to start trying to connect to the same network instead of multiple networks.
 \myref{fig:Screenshot_Of_Kill} shows the split node leaving the location after not receiving a transmission.
 
-
 \paragraph{Multile Devices Connecting.}
 The other problem is for when devices try to connect to the same network at the same time.
 A verification loop has been created for the model, where all devices which transmitted that they wanted to join the network will listen for the number of devices acknowledging their request of joining the network.
-If the amount of acknowledgments are lower than half of the devices in the network, they will also use the exponential backoff method, where they will wait for a random number of frames, in an increasingly larger range, with a cap of 31 frames (It only require one acknowledgment in the CCRC, but this solutions is chosen, to easier expand to CCUC).
+If the amount of acknowledgements are lower than half of the devices in the network, they will also use the exponential backoff method, where they will wait for a random number of frames, in an increasingly larger range, with a cap of 31 frames (It only requires one acknowledgement in the CCRC, but this solutions is chosen, to easier expand to CCUC).
 This is the only change needed for handling multiple devices connecting to the network, the specifics of the implementation of this on the model will not be presented in this section, but for the curious reader the specifics can be seen in the back as previously mentioned.
 
 %New Queries using SMC
 
 \subsection*{Verifying using SMC}
 
-Some of the queries presented in the previous UPPAAL section, \myref[name]{sec:verifyingTheModel}, make no sense for the new model, as now multiple networks should be running at the same time when the devices firststart-up, and therefore checking if the value of \texttt{i} is the same for all devices in a certain state makes no sense.
-When verifying using SMC then the querys will yield a probability of being true within a given confidence interval, rather than true or false as in the normal UPPAAL.
-Therefore the queries will all except for one be checking for the probability of them being true over time, when at least 3000 UPPAAL time units has passed.
-The choice of 3000 time units is because this gives enough time for all devices tostart-up, and at least as some of them should have started a network. 
+Some of the queries presented in the previous UPPAAL section, \myref[name]{sec:verifyingTheModel}, make no sense for the new model, as now multiple networks should be running at the same time when the devices first start-up, and therefore checking if the value of \texttt{i} is the same for all devices in a certain state makes no sense.
+When verifying using SMC then the queries will yield a probability of being true within a given confidence interval, rather than true or false as in the normal UPPAAL.
+Therefore the queries will all be checking for the probability of them being true over time, when at least 3000 UPPAAL time units has passed.
+The choice of 3000 time units is because this gives enough time for all devices to start-up, and at least as some of them should have started a network. 
 It should be noted that the model uses time estimates which roughly translate to the time being used in each phase for the hardware used in this project, where a time-slot length is $\delta = 250$.
 
 All the queries have been run with five devices in the system, and a confidence of 0.999.
 All queries' cumulative probability is shown on \myref{fig:ConnectQueryTime}.
-The first query is the only query which was also used on the earlier model, and it will still give a result indicating the query holds.
 
-\begin{lstlisting}[style=UPPAAL, title={This query asks for the probability that it is false that two devices which are connected have the same k, only because they are the same device. When run with a confidence of 99.9\% this query will within 3797 runs result in [0, 0.00199982], the query takes 799 seconds on the same laptop used in \myref{sec:verifyingTheModel}.}]
+\begin{lstlisting}[style=UPPAAL, title={This query asks for the probability that it is false that two devices which are connected have the same k, only if they are the same device. When run with a confidence of 99.9\% this query will within 3797 runs result in [0, 0.00199982], the query takes 799 seconds on the same laptop used in \myref{sec:verifyingTheModel}.}]
 1. Pr[<=300000] ( <> forall(i : id_t) forall(j : id_t) (time > 3000)
   and !(Device(i).Connected and Device(j).Connected
   imply (Device(i).k == Device(j).k imply i ==j)))
@@ -88,7 +86,7 @@ The first query is the only query which was also used on the earlier model, and 
         and Device(i).local_network_id == Device(j).local_network_id)))     
 \end{lstlisting}
 
-\begin{lstlisting}[style=UPPAAL, title={This query asks after 3000 UPPAAL time units has passed, what then is the probability that if a device \texttt{i} and a device \texttt{j} is both connected that then \texttt{i}'s values of \texttt{k} will be larger than zero and smaller than any \texttt{n}, and that they are connected to the same network. This query insures that all the \texttt{k}-values are within the wanted range after a network is made. UPPAAL runs this query and within 3451 runs [0.998,1] with confidence 99.9 \% this is true. This query had a run-time of 45 seconds.}]
+\begin{lstlisting}[style=UPPAAL, title={This query asks after 3000 UPPAAL time units has passed, what then is the probability that if a device \texttt{i} and a device \texttt{j} is both connected that then \texttt{i}'s values of \texttt{k} will be larger than zero and smaller than any \texttt{n}, and that they are connected to the same network. This query ensures that all the \texttt{k}-values are within the wanted range after a network is made. UPPAAL runs this query and within 3451 runs [0.998,1] with confidence 99.9 \% this is true. This query had a run-time of 45 seconds.}]
 3. Pr[<=300000] ( <> forall(i : id_t) forall(j : id_t) (time > 3000) 
     and (Device(i).Connected and Device(j).Connected 
     imply (Device(i).k < Device(j).local_n and Device(i).k > 0) 
@@ -125,10 +123,10 @@ It it important to note that the longer the devices are running the greater the 
 \noindent
 A comparison has been made for this model with the previous model in \myref{sec:themodel}, while allowing the devices to start at the same time.
 Query 4 can be run on both models, but on the older simpler model it will, when run with five devices, yield the result [0.0, 0.019], which means that it will probably never succeed.
-So a change to the models allow the devices to leave the initial location at any moment between 0 and 30000 UPPAAL time units, and different results occur; the devices will now sometimes have enough interval between activation so that a stable network will be created. 
-30 000 has been chosen as it leaves a big time period for devices tostart-up in, which means that a successful network will be created.
+So a change to the models allow the devices to leave the initial location at any moment between 0 and 30000 UPPAAL time units, and different results occur; the devices will now sometimes have enough interval between activation so that a stable network will be created in the older model. 
+30 000 has been chosen as it leaves a big time period for devices to start-up in, which means that a successful network will be created.
 The probability result is [0.75,0.77], if the start-up time was greater it would result in a higher probability.
-Therefore this shows that if the devices are started with an interval in the old model, there still is a reasonable success rate, but as soon as they start at the same time, it doesn't work. 
+Therefore this shows that if the devices are started with an interval in the old model, there still is a reasonable success rate, but as soon as they start at the same time, it does not work. 
 The changes are the same for both models and can be seen on \myref{lst:startuptimeChanceListing}. 
 
 \begin{lstlisting}[style=UPPAAL, caption={Change in thestart-up time for devices.}, label={lst:startuptimeChanceListing}, float=h]
