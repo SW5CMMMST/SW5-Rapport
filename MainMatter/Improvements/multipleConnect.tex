@@ -7,10 +7,11 @@ To improve the likelihood of a device connecting in the first frame the idea of 
 
 \subsection{Introduction of Sub Slots} % (fold)
 \label{sub:introduction_of_sub_slots}
-To ensure a faster solving of conflicts if multiple devices try to connect simultaneously, a two-step process is designed.
-These two steps consist of choosing a random offset of sub slots to wait in the empty slot, along with a strategy of exponential backoff if jamming occurs, as used in the design in \myref[name]{sec:MSI-CCRC}.
-The first step is explained further in \nameref{roff} \vpageref{roff} and \nameref{ssub:sub_slots} \vpageref{ssub:sub_slots}.
-On \myref{fig:pseudo_flowMultiConnectimp} it can be seen how said two-steps is merged into the existing flowchart, note the version from \myref{sub:setupCCRC} is used to better express the idea of the changes.% flow chart (\myref{fig:psuedo_flowCCRC}).
+To ensure faster solving of conflicts if multiple devices try to connect simultaneously a random offset of sub slots to wait in the empty slot is used.
+The empty-slot is split into 3 parts, which can be done since all a device needs to transmit to announce itself is the address of itself.
+A device randomly choose a sub-slot to announce in, and if it is not the device's sub-slot it will receive any transmissions. 
+If a transmission is received while in a sub-slot the device will go back and listen for the empty-slot.
+This can be seen on \myref{fig:pseudo_flowMultiConnectimp} which is the flowdiagram from \myref[name]{sec:simultaneous_connect} expanded with the idea of sub-slots.
 
 \begin{figure}[p]
     \centering \footnotesize
@@ -19,13 +20,10 @@ On \myref{fig:pseudo_flowMultiConnectimp} it can be seen how said two-steps is m
     \label{fig:pseudo_flowMultiConnectimp}
 \end{figure}
 
-The flowchart in \myref{fig:pseudo_flowMultiConnectimp} shows that the random offset of sub slots is the first method of prevention for the issue of simultaneous connection of multiple devices.
-If a device hears another announcement before it has sent its own in the chosen sub slot, it will abort the announce-phase and wait for the next empty slot before trying immediately again.
-However if a device announces it self and does not get validated by the network it will use exponential backoff to prevent further collisions as the most likely reason would be jamming.
-The following paragraphs will address the aforementioned concepts of random offset and sub slots as well as an altered payload which aims to decrease the length of the empty slot.
+The following paragraphs will address the aforementioned concepts of random offset and sub slots more thoroughly as well as an altered payload which aims to decrease the length of the empty slot.
 
 \subsubsection{Random Offset}\label{roff}
-When a device is announcing itself in the empty slot, it randomly chooses an offset for when to send the announcement payload.
+When a device is announcing itself in the empty slot, it randomly chooses an offset for when to transmit the announcement payload.
 The random offset is not defined by time but sub slots. 
 In the rest of the empty slot it listens for other possible devices announcing themselves.
 If such a message is heard it does not attempt to announce itself in a later sub slot of the empty slot.
@@ -35,7 +33,7 @@ This method implies that the length of empty slot is a multiple of the time it t
 \label{ssub:announcements}
 To minimise the time it takes to announce oneself to a network, a special announcement payload is introduced.
 This payload only needs one field namely the unique identifier or address of the device which is sending it.
-By shortening the payload significantly from the regular size of at least five fields, the header fields, the time it takes to transmit the payload is decreased.
+By shortening the payload significantly from the regular size down to 1 byte, the time it takes to transmit the payload is decreased.
 % subsubsection announcements (end)
 
 \subsubsection{Sub Slots} % (fold)

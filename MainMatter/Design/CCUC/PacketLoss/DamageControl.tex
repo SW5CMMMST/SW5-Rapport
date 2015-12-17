@@ -3,7 +3,7 @@ As it is impossible to reach complete reliability one must consider the effect o
 While the ramification of package loss is different depending on what data is being transferred for the protocol, in this paper corrupt data will render the transmission useless.
 On the off-chance that a device completely misses a package regardless of any avoidance methods used, it should be able to recover and continue in the network without issues; furthermore in the case that the data was of importance to the device which missed it, this information should somehow be relayed back to the device that transmitted the message.
 In this way the previous data can be retransmitted if it was of any importance to the device which missed it.
-Another problem is that syncing is handled through received transmissions, as such missing a transmission could cause desynchronisation in the long run, however this would only occur with either a significant clock drift, or a significant amount of continuous transmissions missed as the time-slots are fixed.
+Another problem is that syncing is handled through received transmissions, as such missing a transmission could cause desynchronisation in the long run however this would only occur with either a significant clock drift, or a significant amount of continuous transmissions missed as the time-slots are fixed.
 The following two methods could help in the case of package loss.
 
 \subsubsection*{Continuous listening}\label{contListen}
@@ -11,15 +11,14 @@ This idea is presented in order to resolve the larger part of the issue, potenti
 Should a package be missed, a device will simply begin listening until either it receives a new transmission, or the device should transmit.
 As a transmission is not received the procedure \textsc{ProtocolMaintenance}, \myref{lst:maintaniance}, is not run and as such it is possible that the device may be slightly out of sync.
 Listening until a new transmission is received allows the device to sync up with the rest of the network and as no transmission was received, there is no reason to run user code.
-In the case where no transmission is received prior to a devices time-slot, it will still transmit.
+In the case where no transmission is received prior to a devices time-slot it will still transmit.
 This is necessary as otherwise a dead device would effectively put the network in an eternal state of listening.
-As mentioned the device might be slightly out of sync, for this reason it makes sense to add guard time before transmitting; which would ensure that devices start listening prior to a given device transmitting even if they are completely synced.
-Effectively this is already part of the protocol as the first part of $\delta_{comm}$ is to make a payload which as it happens provides enough guard time to resolve the desynchronisation due to it being so slight.
+As mentioned the device might be slightly out of sync, for this reason it makes sense to add guard time before transmitting; guard time would ensure that devices start listening prior to a given device transmitting even if they are completely synced.
 
 \subsubsection*{Bitfield Time-Slot ID Index}
-The idea presented in this paragraph allows devices to know whether or not they have been heard.
+%The idea presented in this paragraph allows devices to know whether or not they have been heard.
 As part of any device's payload one could add a bitfield where each bit denotes a device in the network.
-As all time-slots have their own ID and each device know the active time-slot, they can transmit a bitfield representing whether or not they heard anything in time-slot one to n.
+As all time-slots have their own ID and each device know the active time-slot, they can transmit a bitfield representing whether or not they heard anything in time-slot one to $n$.
 This would allow devices a memory and time efficient way of delayed acknowledgements, and to a degree resolve the issue of a device not having received a payload which was of importance to said device.
-The reason why this is not completely solved is that the original device which sent the first payload, could in theory miss the payload from the device for which the payload was intended, as such the first device would not know the intended device had not received the payload.
+The reason why this is not a complete solution is that the original device, which sent the first payload, could in theory miss the payload from the device for which the payload was intended as such the first device would not know the intended device had not received the payload.
 This however is part of the reason why one cannot achieve 100~\% reliability.
