@@ -14,24 +14,27 @@ The design in this chapter inherits the assumptions of the \gls{ccuc}-problem, h
 
 \subsection{Methods of defragmenting a network}
 
-The value $m_{max}$ is the number of times no device received anything from a given device, after which it is considered inactive. 
+The variable $m_{max}$ is the number of times no device received anything from a given device, after which it is considered inactive. 
 In \gls{ccrc} $m_{max} = 1$ should be a possibility if one assumes that the only cause of not receiving transmissions is that a device is offline, and no jamming will occur since a network of more than one device is established.
 In \gls{ccuc} and in practice however, it would be risky using this assumption.
-This leads to a design where a device should have consensus from a majority of the network as is mentioned in \myref{consensus}.
+Thus $m_{max}$ should be selected sufficiently high, to reduce the chance of false positives. 
+In a strongly connected scenario, i.e. \gls{scrc} and \gls{scuc}, a device cannot rely on its own information, therefore it should only make decisions based on a consensus from the network. 
 
 \subsubsection{Decremental Gradual Defragmentation}
 This design moves devices to the previous slot if it is empty. 
 Thereby gradually reducing the fragmentation of the frame.
 The proposed design has a special case for the first device in the frame, and a general case for the rest of the devices.
 
-\paragraph{The General case}applies to any device which is part of a network and not the first device in the frame, i.e. $k \neq 1$.
-If the device does not receive any payload from the device before it, i.e. device $k - 1$, a given number of times in a row, called $m_{max}$, then the device should ask other devices for consensus on the potentially faulty device.
-If a consensus can be established that the device is not transmitting all devices should be notified that the current device will transmit in the time-slot of the faulty device from which no one received any transmission, instead of its own time-slot in the next frame and onward. 
+\paragraph{The General case}\hfill\\
+Applies to any device which is part of a network and not the first device in the frame, i.e. $k \neq 1$.
+If the device does not receive any payload from the device before it, i.e. device $k - 1$, a given number of times in a row, called $m_{max}$.
+If $m_{max}$ has been reached then all devices should be notified that the current device will transmit in the time-slot of the faulty device from which no one received any transmission, instead of its own time-slot in the next frame and onward. 
 This will create another missing slot to be handled by another device, however a problem arises when the unused time-slot is $n - 1$, i.e. the last time-slot of the frame, which device should take this time-slot?
 This will will be explained in the following paragraph.
 
-\paragraph{The Special case}applies to the first device of the frame, i.e. $k = 1$. 
-Since there is no device in the same frame before the first device, which time-slot it can move to, it should instead reduce the number of time-slots in the frame by one, if it does not receive any payload from the last device of the frame, i.e. $k = n - 1$, a given number of times, $m_{max}$, and gets consensus from the network. 
+\paragraph{The Special case}\hfill\\
+Applies to the first device of the frame, i.e. $k = 1$. 
+Since there is no device in the same frame before the first device, which time-slot it can move to, it should instead reduce the number of time-slots in the frame by one, if it does not receive any payload from the last device of the frame, i.e. $k = n - 1$, a given number of times, $m_{max}$. 
 
 \tikzfigure{dgd.tikz}{Decremental Gradual Defragmentation, removal of device in slot 2.}{dgd} 
 
@@ -43,11 +46,13 @@ The device reducing the time-slots in the frame by one will not cause new device
 \subsubsection{Jumping Defragmentation}
 Jumping defragmentation reduces fragmentation by moving the last device of a frame to an unused time-slot. Further if the last time-slot is unused then the first device should reduce the size of the frame.
 
-\paragraph{The last device} of the frame should monitor which time-slots are unused for $m_{max}$ time-slots and then get consensus from the network. 
+\paragraph{The last device}\hfill\\
+The last defice of the frame should monitor which time-slots are unused for $m_{max}$ time-slots. 
 If such a time-slot is found, then the last device should take that time-slot and reduce the size of the frame by one. 
 It is preferred to be the first available time-slot, but is not a strict necessity.   
 
-\paragraph{The first device} of the frame should monitor if the last time-slot of the frame is unused for $m_{max}$ time-slots.
+\paragraph{The first device}\hfill\\
+The first device of the frame should monitor if the last time-slot of the frame is unused for $m_{max}$ time-slots.
 If that is the case then it should reduce the size of the frame by one.
 This happens if the last device of the frame is suddenly missing.
 
