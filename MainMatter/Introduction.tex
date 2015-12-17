@@ -8,7 +8,7 @@ Wireless communication allows for a wider field of use cases, this is a trade-of
 
 Devices which use wireless communication have influenced the world in the last couple of years, with smartphones becoming more and more common to most people in the western world, according to \citet{2013-SmartPhoneUse}.
 However there exists plenty of uses for wireless technology other than just being used in mobile phones, tablets, and laptops, it can also be implemented in smaller embedded systems\footnote{In this project \enquote{embedded systems} is used to describe a category of computational units, which have limited resources and are relatively small in size. } in everyday use.
-These system are often referred to as smart-systems.
+These system are often referred to as smart systems.
 
 An example of these smaller embedded systems could be modern fire alarms for larger buildings, where the signal of a fire in one wing of a building would be transmitted throughout the entire building.
 If this system was developed with a wired network, it would require a lot of setup to begin with 
@@ -29,8 +29,15 @@ This can be described as the following problem which will be explored throughout
 \medskip
 {\addtolength{\leftskip}{10mm}\addtolength{\rightskip}{10mm}\noindent\hrulefill\it
 
-\noindent How can a network of devices with radio transceivers of a single frequency communicate, such that any devices can send messages to other devices in the network, in a reliable and time-critical way?
+\noindent How can a network of devices with radio transceivers of a single frequency communicate, such that any devices can send messages to other devices in the network, in a reliable while timely way?
 
 \noindent\hrulefill
 
 }
+
+\bigskip \noindent
+The following part of the paper will describe and analyse the problem defined above, which concerns the difficulties of having many embedded systems communicate on the same radio frequency.
+Furthermore some possible aspects which could be used to solve the problem including hardware, software, and techniques will be introduced and discussed.
+It could make sense to use more frequencies to communicate with so communication could be done on many channels at the same time.
+But, this is not a solution as it postpones the problem since at some point we will run out of frequencies. 
+So, the problem of solving how many devices communicate on the same frequency is seen as an important issue to explore.

@@ -4,16 +4,28 @@ In tests using the \gls{rf}-modules the difference in build quality and performa
 A test must be performed which investigates these differences, so that the other test results can be validated.
 
 \subsubsection*{Test setup}
-To test all \gls{rf}-modules available to the group two Arduinos are used; one as the receiver and the other as the transmitter.
-The RF modules are then switched in and out of breadboards connected to said Arduinos so that both receiver and transmitter modules can be tested.
+To test all \gls{rf}-modules available to the group two Arduinos are used; one as the receiver where they are configured as seen on \myref{fig:Receiver} and the other as the transmitter as seen on \myref{fig:Transmitter}.
+The \gls{rf}-modules are then switched in and out of breadboards connected to said Arduinos so that both receiver and transmitter modules can be tested.
 Furthermore, a third Arduino is used to verify the results of each module.
 The software on the Arduinos is the same as in the test in \myref[name]{cha:radio_frequency_module_reception_test}, i.e. a transmitting part which sends 100 unique packages and a receiving part which register any package loss. 
-Modules are tested to find a transmitter that shows little to no package loss, thereafter every receiver is tested using the \enquote*{good} transmitter; with \enquote*{good} meaning a package loss close to 0 \%, at most 2 \%.
-The same thing is done to test the transmitters, i.e. a \enquote*{good} receiver is used.\todo{Burde vi flytte fritzing diagrammerne herop istedet? -SF}
+Modules are tested to find a transmitter that shows little to no package loss, thereafter every receiver is tested using the \enquote*{good} transmitter; with good meaning a package loss close to 0 \%, at most 2 \%.
+The same thing is done to test the transmitters, i.e. a good receiver is used.
 
-This approach is then repeated many times with different \enquote*{good} receivers and transmitters, to ensure a more fair test environment, with different combinations of modules.\todo{Vi har "good" en gang, behøver vi skriver citationstegn om hver gang efter det så ? - SF}
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{Figures/Fritzing/Transmitter.pdf} 
+\caption{Graphical circuit diagram of an Arduino with a transmitter.}
+\label{fig:Transmitter}   
+\end{figure}
 
-\subsubsection*{Results}
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{Figures/Fritzing/Receiver.pdf} 
+\caption{Graphical circuit diagram of an Arduino with a receiver.}
+\label{fig:Receiver}   
+\end{figure}
+
+This approach is then repeated with different good receivers and transmitters, to ensure a more fair test environment, with different combinations of modules.
 The results have been plotted in one bar chart, with the results of the different transmitters in the leftmost half, and the results of the different receivers in the rightmost half.
 
 \begin{figure}[H]
@@ -23,11 +35,10 @@ The results have been plotted in one bar chart, with the results of the differen
 \caption{The average package loss inflicted by the radio frequency modules.\\ \textsf{T}\textsubscript{\textit{device}} denotes transmitters and \textsf{R}\textsubscript{\textit{device}} denotes receivers.}    
 \label{fig:trans_diff}       
 \end{figure} 
-\todo{Den her figure er ikke glad for sin placering i min pdf -SF}
 
 \subsubsection*{Conclusion}
 When looking at the results of this test, it is clear that some of the modules were worse at transmitting or receiving data.
-Transmitter \textsf{T\textsubscript{F}} inflicted an average package loss over 20 \%, and receiver \textsf{R\textsubscript{H}} failed to receive more than 2 \% of the packages on average.
+Transmitter \textsf{T\textsubscript{F}} inflicted an average package loss over 20 \%, and receiver \textsf{R\textsubscript{H}} failed to receive more than 98 \% of the packages on average.
 Moreover, receiver \textsf{R\textsubscript{F}} had an average package loss just below 20 \%.
-To ensure the validity of other tests using the RF Modules, the group will exclude the three faulty modules (transmitter \textsf{T\textsubscript{F}}, receiver \textsf{R\textsubscript{H}}, and receiver \textsf{R\textsubscript{F}}) from these tests.\todo{Her skriver vi jo egentlig lidt at transmitterne har en effekt på package loss, det bliver lidt forvirrende i det næste afsnit så - SF}
+To ensure the validity of other tests using the RF Modules, the group will exclude the three faulty modules (transmitter \textsf{T\textsubscript{F}}, receiver \textsf{R\textsubscript{H}}, and receiver \textsf{R\textsubscript{F}}) from these tests.
 % chapter radio_frequency_module_difference_test (end) 

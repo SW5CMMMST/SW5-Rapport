@@ -2,7 +2,7 @@
 %1st review:    Sass
 \section{Radio Frequency Module} \label{rfmodule}
 To achieve wireless communication between the devices an \gls{rf} module is used.
-The module used in this project communicates at 433 MHz; its datasheet\todo{skal vi finde en ref her? der er ikke mange gode datasheets for dem iirc - Troels.} specifies the range is 20 to 200 meters, depending on the input voltage, which ranges from 3.5 to 12 volts. 
+The module used in this project communicates at 433 MHz; its datasheet \cite{RFRX, RFTX} specifies the range is 20 to 200 meters, depending on the input voltage, which ranges from 3.5 to 12 volts. 
 The Arduino provides 3.3 volts and 5 volts output, and the 5 volts output will be used.
 The largest bandwidth is 4 kilobytes/second. 
 The signal is sent using \gls{ask} which will be further explained in \myref[name]{subsub:ask}.
@@ -46,8 +46,8 @@ l = \frac{c}{f \times 2}
 \end{equation}
 
 \noindent
-Using the frequency, 433 MHz, the quarter- and half-monopole antenna lengths are 17.3 cm and 34.6 cm, see \cite{AntennaLength} for more information.\todo{Vi bruger ikke 34.6 cm, skal vi ændre det her eller?? SF}
-The efficiency of using such antennas will be tested in \myref[name]{cha:radio_frequency_module_reception_test}.
+Using the frequency, 433 MHz, the quarter- and half-monopole antenna lengths are 17.3 cm and 34.6 cm, see \cite{AntennaLength} for more information.
+The efficiency of using 17.3 cm antennas will be tested in \myref[name]{cha:radio_frequency_module_reception_test}.
 
 \subsection{Amplitude Shift Keying}\label{subsub:ask}
 As mentioned the \gls{rf} module sends its signal using \gls{ask}.

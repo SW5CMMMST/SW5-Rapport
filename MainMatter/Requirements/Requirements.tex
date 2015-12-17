@@ -1,15 +1,12 @@
 \section{System Requirements}\label{requirements}
 Requirements for a system are the descriptions of what a system should be able to do, and also the constraints the system faces.
-In general there exists two kinds of software requirements, functional requirements and non-functional requirements. \todo{hvem har skrevet software requirements xD? vedkommende forstår ikke hvad non-functional er i såfald. Der skal stå system. - SF}
+In general there exists two kinds of system requirements, functional requirements and non-functional requirements. 
 
 Functional requirements can be simplified to how a system should react when given certain input, or how it should react in certain situations.
 Non-functional requirements can be simplified to being the constraints on the system, e.g. timing constraints or constraints created because of hardware.
 This definition is based on the work by \citet[see][chapter 4]{SEBook} in his book \textit{Software Engineering}.
 For this system, there are a few non-functional requirements. All which causes more functional requirements.
-%For more information about these type of requirements  \citet{SEBook}.
 
-%For this project the functional requirements will then be the requirements which deal with how the system reacts to the messages being sent from device to device, and other functions like this.
-%The non-functional requirements are the requirements which deal with hardware constraints, eg. packet losses, and reliability.
 \bigskip \noindent
 Non-functional requirements according to the information gathered can be expressed as:
 \begin{enumberate}
@@ -24,19 +21,20 @@ Non-functional requirements according to the information gathered can be express
 \noindent
 Functional requirements according to the information gathered in the analysis in the previous chapters and by the non-functional requirements can be expressed as the following: 
 
-\begin{enumerate}[label=\itshape \alph*\upshape)]
-    \item Being the first device in the network, this device should create the network so new devices can connect to the network in a time slot available to new devices. \todo{wat the fak, det giver hat mening :D - SF}
+\begin{eletterate}
+    \item If a device can not detect a network the device should create a network with an empty slot for new devices to seize.
     \item A device should be able to join the network, and announce that is is now part of the network, such that other devices know it is connected.
     \item A device should be able to transmit messages in its specific time slot.
     \item A device should be able to receive messages when it is not the device's turn to transmit messages.
     \item A device should be able to execute user code so that it can use its actuators to perform certain tasks.
-    \item Devices should be able to tell when a device has been removed from the network. Pertains to non-functional requirement \textit{1}
-    \item The devices should be able to repeat messages from other devices. Pertains to non-functional requirement \textit{2}
-    \item The devices should be able to reliably communicate despite a packet loss up to 5\%. Pertains to non-functional requirement \textit{3} \todo{Måske vi så kun skulle simulere 0-5 \% senere så, eller lave det om her? - Troels}
+    \item \label{funcreq:ismissing} Devices should be able to tell when a device has been removed from the network. Pertains to non-functional requirement \textit{1}
+    \item \label{funcreq:repeat} The devices should be able to repeat messages from other devices. Pertains to non-functional requirement \textit{2}
+    \item The devices should be able to reliably communicate despite a packet loss up to 2\%. Pertains to non-functional requirement \textit{3} 
     \item A device should not transmit when the current time slot is not that device's dedicated time slot in order to avoid jamming. Pertains to non-functional requirement \textit{4}
     \item The network should be able to sync relatively often in an effort to avoid desynchronization. Pertains to non functional requirements \textit{5} and \textit{6}.
-\end{enumerate}
+\end{eletterate}
 \noindent
 These requirements can all be tested when the project has reached its end, to see whether what was desired has been achieved, and if so how. 
 In the next section the development plan for the project is specified.
+
 \todo{Vi glemte helt at diskutere og konkludere disse krav i refleksion tror jeg : / - SF}
